@@ -18,7 +18,7 @@ def get_changelist_url(app, model):
 
 @register.filter
 def nl2br(string):
-    return strings.snl2br(string)
+    return strings.nl2br(string)
 
 
 @register.filter
