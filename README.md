@@ -1,12 +1,12 @@
 # django-bootleg
 Django additions, tools and ...stuff...
 
-# Installation
+## Installation
 ```sh
 $ pip install git+https://theflowgithub:zma3HEsGswspp2er@github.com/saturnus-ringar/django-fandango.git
 ```
 
-# Configure
+## Configure
 
 ```python
 # settings.py
@@ -59,7 +59,7 @@ urlpatterns = [
 from fandango.setup import *
 ```
 
-# Settings
+## Settings
 
 ### Required settings
 SITE_DOMAIN = default (just the domain, without http/https) **None**
