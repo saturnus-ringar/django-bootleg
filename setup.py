@@ -24,7 +24,7 @@ setup(
     author='Saturnus Ringar',
     author_email='internet@internet-e-mail.com',
     url='https://github.com/saturnus-ringar/django-bootleg',
-    download_url='https://github.com/saturnus-ringar/django-bootleg/tarball/%s' % version,
+    download_url='https://github.com/saturnus-ringar/django-bootleg/tarball/%s' % VERSION,
     keywords=[],
     license='BSD',
     packages=find_packages(),

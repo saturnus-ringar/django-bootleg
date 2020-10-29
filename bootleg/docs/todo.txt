@@ -2,7 +2,7 @@
  errors
 ***************************************
 
-    - fixa så man fångar exception i manage-kommandon också (har ändrat i manage.py för gigguide för  det)
+- fixa så man fångar exception i manage-kommandon också (har ändrat i manage.py för gigguide för  det)
 
 *********************************
  modelrevisioner
