@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
+VERSION = "0.0.2o"
+
 install_requires = [
     'automodinit >= =0.16',
     'colorama >= 0.4.4',
@@ -14,11 +16,9 @@ install_requires = [
     'psutil >= 5.7.3',
 ]
 
-version = __import__('bootleg').__version__
-
 setup(
     name='django-bootleg',
-    version=version,
+    version=VERSION,
     description='Django additions and ...thingies...',
     long_description=(),
     author='Saturnus Ringar',
