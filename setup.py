@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.4o"
+VERSION = "0.0.5o"
 
 install_requires = [
     'automodinit >= =0.16',
