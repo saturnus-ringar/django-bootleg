@@ -2,6 +2,8 @@
  errors
 ***************************************
 
+- lista ohanterade javascriptfel i menyn
+
 - fixa så man fångar exception i manage-kommandon också (har ändrat i manage.py för gigguide för  det)
 
 *********************************

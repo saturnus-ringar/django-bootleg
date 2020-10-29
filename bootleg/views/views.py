@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django_tables2 import tables
 
@@ -11,12 +12,10 @@ def get_default_table(model):
 
 
 class DevNullView(BaseTemplateView):
+    template_name = "bootleg/dev_null.html"
     title = _("dev/null")
     heading = _("dev/null")
-    extra_text = "In some operating systems, the null device is a device file that discards all data written to it but " \
-                 "reports that the write operation succeeded. This device is called /dev/null on Unix and Unix-like systems, " \
-                 "NUL: or NUL on CP/M and DOS (internally \\DEV\\NUL), nul on newer Windows systems[1] " \
-                 "(internally \\Device\\Null on Windows NT), NIL: on Amiga operating systems,[2] and NL: on OpenVMS.[3] In " \
-                 "Windows Powershell, the equivalent is $null.[4] It provides no data to any process that reads from it, " \
-                 "yielding EOF immediately.[5] In IBM DOS/360, OS/360 (MFT, MVT), OS/390 and z/OS operating systems, " \
-                 "such files would be assigned in JCL to DD DUMMY."
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(request, _("Since you can read this - it probably means the site is up and running?!?!?!?!"))
+        return super().dispatch(request, args, kwargs)
