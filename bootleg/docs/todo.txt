@@ -2,6 +2,15 @@
  errors
 ***************************************
 
+- göra en test-sida för error-sidorna:
+    /obscurity-by-test/error/<status_code>/
+    ... kräv is_staff
+
+- en ping-url
+
+- en krasch-url
+    ... kräv is_staff
+
 - lista ohanterade javascriptfel i menyn
 
 - fixa så man fångar exception i manage-kommandon också (har ändrat i manage.py för gigguide för  det)
