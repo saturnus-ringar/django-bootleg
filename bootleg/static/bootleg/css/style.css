@@ -87,3 +87,7 @@ ul.errorlist li {
 .navbar-nav li:hover>.dropdown-menu {
     display: block;
 }
+
+.word-wrap {
+    word-break: break-all;
+}
