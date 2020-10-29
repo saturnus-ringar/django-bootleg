@@ -15,6 +15,13 @@ def is_apache_context():
     return False
 
 
+def is_gunicorn_context():
+    if "gunicorn" in os.environ.get("SERVER_SOFTWARE", ""):
+        return True
+
+    return False
+
+
 # https://stackoverflow.com/a/58045927/7903576
 def get_full_class_name(obj):
     module = obj.__class__.__module__
