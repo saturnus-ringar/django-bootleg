@@ -1,0 +1,27 @@
+{% extends bootleg_settings.base_template %}
+{% load i18n crispy_forms_tags humanize %}
+{% load render_table from django_tables2 %}
+{% block title %}{{ heading }}{% endblock title %}
+
+{% block h1 %}{{ model.meta.verbose_name_plural }}{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <a href="{{ model.create_url }}">
+        <button class="btn btn-primary mb-3">{% trans "Create" %} {{ model.meta.verbose_name }}</button>
+    </a>
+
+{% if request.GET.q %}
+    <div class="mt-4 mb-4">
+        <strong>{{ paginator.count|intcomma }}</strong> {% trans "results found" %}
+    </div>
+{% endif %}
+
+{% if object_list %}
+    {% render_table table %}
+{% else %}
+    {% if not request.GET.q %}
+        <p>{% trans "No results found" %}</p>
+    {% endif %}
+{% endif %}
+{% endblock content %}

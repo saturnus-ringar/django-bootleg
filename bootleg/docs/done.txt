@@ -1,0 +1,99 @@
+***************************************
+ lösenordsreset/login/byta lösenord
+***************************************
+
+    - kunna lägga till URLar till EXEMPT_URLS i LoginMiddleWare
+
+- fixa en default-index-sida?
+
+- next på login
+
+- ha en POST_LOGIN_URL i konfen
+    ... som inte tar med next isf.
+
+- lägga in lösenordsresetgrejen
+
+- fixa dango meddelanden
+    ... tag?
+    ... det är ju vajsing med klasser på dom som inte matchar bootstraps
+
+- skapa default-site från settings
+
+- reverse-url till django-admin
+
+- setting för USE_GENERIC_MODELS, default True
+    ... behövs inte
+
+- en tag för bootleg-delen av menyn
+    ... loggade saker
+    ... dropdown med profil + django-admin etc.
+    ... editable models
+
+- "DJANGO LOG ENTRIES" har ingen siffra
+
+- funkar loggningen med hanterade loggade saker?
+    ... ja
+
+***************************************
+ templates
+***************************************
+
+    - göra någon URL för favicon.ico
+
+    - konfig för bootstrap-css
+
+    - ta två första bokstäverna från LANGUAGE_CODE
+
+    - man bör kunna använda: BASE_TEMPLATE
+
+    - messages funkar icke tror jag
+
+    - göra en bas-template, som man kan skita i helt att ha med:
+        en boostrap-bas, med:
+            - djangos-meddelanden
+            - valbar content-container-klass
+            - google-analytics, om konto är angett
+            - default-css som kan overridas
+
+            - block för:
+                extra_css
+                extra_js
+                title
+                meta_description
+
+- få in javascriptfelgrejerna
+
+- race conditions i logging.py då det skapas loggers
+
+***************************************
+ formulär
+***************************************
+
+    - tag för att rendera formulär
+
+    - auto-fokus
+
+    - loader
+
+
+- får inte med menyn här:
+    http://localhost:8000/list/kebab/
+
+- fixa in django admin på /django/admin
+
+- ska ha level på django-loggningen:
+    'level': 'DEBUG',
+
+- fixa:
+    def get_formatter():
+        return logging.Formatter(settings.LOGGING["formatters"]["verbose"]["format"],
+                                 settings.LOGGING["formatters"]["verbose"]["datefmt"])
+
+- logga alla failade formulär
+
+- verkar inte som 500-templaten funkar
+
+- varna om DJANGO_LOG_LEVEL är under INFO
+
+använd settings.base_template() osv. osv.
+

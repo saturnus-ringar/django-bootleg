@@ -1,0 +1,39 @@
+from django.db import models
+from django_extensions.db.models import TimeStampedModel
+
+from bootleg.db.models.javascript_error_message import JavascriptErrorMessage
+from django.utils.translation import ugettext as _
+
+
+class JavascriptErrorManager(models.Manager):
+
+    def create(self, ip, message, url, line):
+        javascript_error_message = JavascriptErrorMessage.objects.filter(message=message).first()
+        if not javascript_error_message:
+            # create a new javascript error message then
+            javascript_error_message = JavascriptErrorMessage()
+            javascript_error_message.message = message
+            javascript_error_message.save()
+
+        javascript_error = JavascriptError()
+        javascript_error.message = javascript_error_message
+        javascript_error.ip = ip
+        javascript_error.url = url
+        javascript_error.line = line
+        javascript_error.save()
+
+
+class JavascriptError(TimeStampedModel):
+    ip = models.GenericIPAddressField(null=False, blank=False)
+    url = models.URLField(null=False, blank=False)
+    line = models.IntegerField(null=False, blank=False)
+    message = models.ForeignKey(JavascriptErrorMessage, null=False, blank=False, on_delete=models.CASCADE)
+
+    objects = JavascriptErrorManager()
+
+    def __str__(self):
+        return self.message.message + " " + self.line
+
+    class Meta:
+        verbose_name = _("Javascript-error")
+        verbose_name_plural = _("Javascript-errors")
