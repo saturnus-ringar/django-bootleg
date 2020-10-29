@@ -114,13 +114,13 @@ class ConfigurationError(Exception):
     pass
 
 
-def get_setting(attribute, default=None, optional=True):
+def get_setting(attribute, default=None, required=False):
     if attribute in SETTINGS:
         return SETTINGS[attribute]
 
     SETTINGS[attribute] = getattr(settings, attribute, default)
 
-    if not optional and not SETTINGS[attribute]:
+    if required and not SETTINGS[attribute]:
         raise ConfigurationError("%s must be defined in settings." % attribute)
 
     return SETTINGS[attribute]
@@ -200,7 +200,7 @@ def base_template():
 
 
 def navigation_template():
-    return get_setting("NAVIGATION_TEMPLATE", None, optional=False)
+    return get_setting("NAVIGATION_TEMPLATE", None, required=True)
 
 
 def template_400():
@@ -269,7 +269,7 @@ def google_analytics_account():
 
 
 def home_url():
-    return reverse(get_setting("HOME_URL", None, optional=False))
+    return reverse(get_setting("HOME_URL", None, required=True))
 
 
 def login_redirect_url():
