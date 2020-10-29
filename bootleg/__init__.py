@@ -1,6 +1,6 @@
 default_app_config = 'bootleg.apps.BootlegConfig'
 
-VERSION = (0, 0, 1, 'omega', 0)
+VERSION = (0, 0, 2, 'omega', 0)
 
 
 def get_version(version=None):
