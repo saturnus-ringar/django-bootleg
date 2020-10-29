@@ -14,17 +14,17 @@ install_requires = [
     'psutil >= 5.7.3',
 ]
 
-version = __import__('fandango').__version__
+version = __import__('bootleg').__version__
 
 setup(
-    name='django-fandango',
+    name='django-bootleg',
     version=version,
     description='Django additions and ...thingies...',
     long_description=(),
     author='Saturnus Ringar',
     author_email='stefan@gigguide.se',
-    url='https://github.com/saturnus-ringar/django-fandango',
-    download_url='https://github.com/saturnus-ringar/django-fandango/tarball/%s' % version,
+    url='https://github.com/saturnus-ringar/django-bootleg',
+    download_url='https://github.com/saturnus-ringar/django-bootleg/tarball/%s' % version,
     keywords=[],
     license='BSD',
     packages=find_packages(),

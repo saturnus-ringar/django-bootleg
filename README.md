@@ -3,7 +3,7 @@ Django additions, tools and ...stuff...
 
 ## Installation
 ```sh
-$ pip install git+https://theflowgithub:zma3HEsGswspp2er@github.com/saturnus-ringar/django-fandango.git
+$ pip install git+https://theflowgithub:zma3HEsGswspp2er@github.com/saturnus-ringar/django-bootleg.git
 ```
 
 ## Configure
@@ -19,13 +19,13 @@ INSTALLED_APPS = (
     'django_js_reverse',
     'django_user_agents',
     'django_tables2',
-    'fandango',
+    'bootleg',
 )
 
 MIDDLEWARE = [
     # ...
-    'fandango.middleware.LoggingMiddleware',
-    'fandango.middleware.LoginMiddleware',
+    'bootleg.middleware.LoggingMiddleware',
+    'bootleg.middleware.LoginMiddleware',
 ]
 
 TEMPLATES = [
@@ -33,7 +33,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 # ...
-                'fandango.context_processors.globals',
+                'bootleg.context_processors.globals',
             ],
         },
     },
@@ -41,10 +41,10 @@ TEMPLATES = [
 
 BASE_TEMPLATE = "<template_path/name>.html"
 
-AUTHENTICATION_BACKENDS = ('fandango.backends.EmailOrUsernameModelBackend',)
+AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
 
 # must be the last line in settings.py
-from fandango.settings import *
+from bootleg.settings import *
 ```
 
 ```python
@@ -52,11 +52,11 @@ from fandango.settings import *
 
 urlpatterns = [
     # ...
-    path('', include('fandango.urls')),
+    path('', include('bootleg.urls')),
 ]
 
 # must be the last line in urls.py
-from fandango.setup import *
+from bootleg.setup import *
 ```
 
 ## Settings
@@ -92,19 +92,19 @@ BASE_TEMPLATE - default **None**
 
 CONTAINER_CSS_CLASS - default **"container-fluid bg-dark"**
 
-CSS_FILE = default **"fandango/css/bootstrap.css"**
+CSS_FILE = default **"bootleg/css/bootstrap.css"**
 
-FAVICON_FILE = default **"fandango/img/favicon.ico"**
+FAVICON_FILE = default **"bootleg/img/favicon.ico"**
 
-ERROR_400_TEMPLATE - default **"fandango/errors/400.html"**
+ERROR_400_TEMPLATE - default **"bootleg/errors/400.html"**
 
-ERROR_400_TEMPLATE - default **"fandango/errors/400.html"**
+ERROR_400_TEMPLATE - default **"bootleg/errors/400.html"**
 
-ERROR_403_TEMPLATE - default **"fandango/errors/403.html"**
+ERROR_403_TEMPLATE - default **"bootleg/errors/403.html"**
 
-ERROR_404_TEMPLATE - default **"fandango/errors/404.html"**
+ERROR_404_TEMPLATE - default **"bootleg/errors/404.html"**
 
-ERROR_500_TEMPLATE - default **"fandango/errors/500.html"**
+ERROR_500_TEMPLATE - default **"bootleg/errors/500.html"**
 
 ### Misc-ish
 POST_LOGIN_URL = default **reverse("dev_null")**
