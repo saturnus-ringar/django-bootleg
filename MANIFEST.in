@@ -1,0 +1,6 @@
+include setup.py README.md MANIFEST.in LICENSE
+
+recursive-include bootleg/templates *
+recursive-include bootleg/static *
+
+global-exclude *~
