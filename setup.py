@@ -22,7 +22,7 @@ setup(
     description='Django additions and ...thingies...',
     long_description=(),
     author='Saturnus Ringar',
-    author_email='stefan@gigguide.se',
+    author_email='internet@internet-e-mail.com',
     url='https://github.com/saturnus-ringar/django-bootleg',
     download_url='https://github.com/saturnus-ringar/django-bootleg/tarball/%s' % version,
     keywords=[],
