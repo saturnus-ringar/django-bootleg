@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.8o"
+VERSION = "0.0.9o"
 
 install_requires = [
-    'automodinit >= =0.16',
+    'automodinit >= 0.16',
     'colorama >= 0.4.4',
     'django >= 3.1.2',
     'django_compressor >= 2.4',
