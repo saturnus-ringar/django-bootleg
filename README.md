@@ -3,7 +3,7 @@ Django additions, tools and ...stuff...
 
 ## Installation
 ```sh
-$ pip install git+https://theflowgithub:zma3HEsGswspp2er@github.com/saturnus-ringar/django-bootleg.git
+$ git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/django-bootleg.git
 ```
 
 ## Configure
