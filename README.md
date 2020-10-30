@@ -59,6 +59,12 @@ urlpatterns = [
 from bootleg.setup import *
 ```
 
+## Django settings
+
+MEDIA_ROOT and MEDIA_ROOT
+> If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
+
+
 ## Settings
 
 ### Required settings
