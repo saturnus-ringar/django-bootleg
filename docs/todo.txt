@@ -1,13 +1,3 @@
-kör det här i __init__ setup, typ
-
-# read settings to validate at startup
-bootleg_settings.navigation_template()
-
-if bootleg_settings.add_builtins():
-    logging.add_builtins()
-
-gör bootstrap till en funktion
-
 **************************
  django-log
 **************************

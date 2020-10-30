@@ -1,3 +1,4 @@
+import bootleg
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -15,6 +16,9 @@ from django.conf import settings
 
 from bootleg.views.views import DevNullView
 from bootleg.views.xhr_views import JavascriptErrorView
+
+# setup, indeed
+bootleg.setup()
 
 urlpatterns = [
     #######################################
@@ -72,6 +76,3 @@ if settings.DEBUG:
     # add media ... if it's debug and we have settings
     if media_url and media_root:
         urlpatterns += static(media_url, document_root=media_root)
-
-if bootleg_settings.print_at_startup():
-    from bootleg import bootstrap
