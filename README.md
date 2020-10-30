@@ -1,6 +1,9 @@
 # django-bootleg™©℗®
 Django additions, tools and ...stuff...
 
+It adds:
+https://github.com/jazzband/django-debug-toolbar
+
 ## Installation
 ```sh
 $ git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/django-bootleg.git
