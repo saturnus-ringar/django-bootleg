@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.9o"
+VERSION = "0.0.10o"
 
 install_requires = [
     'automodinit >= 0.16',
-    'colorama >= 0.4.4',
-    'django >= 3.1.2',
+    'colorama >= 0.4.3',
+    'django >= 3.1',
     'django_compressor >= 2.4',
     'django-crispy-forms >= 1.9.2',
     'django-extensions >= 3.0.9',
