@@ -2,7 +2,7 @@ import bootleg
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import RedirectView
 
 from bootleg.conf import settings as bootleg_settings
@@ -71,8 +71,14 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    import debug_toolbar
     media_url = getattr(settings, "MEDIA_URL", None)
     media_root = getattr(settings, "MEDIA_ROOT", None)
     # add media ... if it's debug and we have settings
     if media_url and media_root:
         urlpatterns += static(media_url, document_root=media_root)
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+

@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "0.0.11o"
+VERSION = "0.0.12o"
 
 install_requires = [
     'automodinit >= 0.16',
@@ -8,6 +8,7 @@ install_requires = [
     'django >= 3.1',
     'django_compressor >= 2.4',
     'django-crispy-forms >= 1.9.2',
+    'django-debug-toolbar >= =3.1.1',
     'django-extensions >= 3.0.9',
     'django-ipware >= 3.0.1',
     'django-jsonview >= 2.0.0',

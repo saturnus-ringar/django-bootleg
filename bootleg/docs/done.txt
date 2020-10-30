@@ -1,3 +1,6 @@
+- när importeras settings.py egentligen?
+    ... det är setup.py som gör det
+
 kör det här i __init__ setup, typ
 
     # read settings to validate at startup
