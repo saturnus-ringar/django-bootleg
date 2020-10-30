@@ -114,6 +114,6 @@ SITE_ID = default **1**
 GOOGLE_ANALYTICS_ACCOUNT - default **None**
 
 ADD_BULITINS - default **False**
-> Adds dx and dxv-functions for debug-logging
+> Adds dx, dp and dxv-functions for debug-logging
 
 PRINT_AT_STARTUP - default **True**
