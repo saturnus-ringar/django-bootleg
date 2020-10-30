@@ -3,7 +3,7 @@ import traceback
 
 from django.core.exceptions import AppRegistryNotReady
 
-from bootleg.conf import settings
+from bootleg.conf import settings as bootleg_settings
 from bootleg.logging import logging as bootleg_logging
 from bootleg.utils import utils
 
@@ -29,7 +29,7 @@ class DjangoLogHandler(FileHandler):
     levels = ["WARNING", "ERROR", "CRITICAL"]
 
     def should_log(self, record):
-        if settings.store_django_log_exceptions() and record.levelname in self.levels:
+        if bootleg_settings.store_django_log_exceptions() and record.levelname in self.levels:
             return True
 
         return False

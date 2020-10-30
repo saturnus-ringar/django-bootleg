@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.http import urlencode
 from ipware import get_client_ip
 
-from bootleg.conf import settings
+from bootleg.conf import settings as bootleg_settings
 from bootleg.logging import logging
 from bootleg.utils import humanize
 
@@ -129,7 +129,7 @@ EXEMPT_URLS = [
     compile(str(reverse("login"))),
 ]
 
-exempt_urls_function = settings.get_login_exempt_urls_function()
+exempt_urls_function = bootleg_settings.get_login_exempt_urls_function()
 if exempt_urls_function:
     for url in exempt_urls_function():
         EXEMPT_URLS.append(compile(url))
@@ -141,7 +141,7 @@ class LoginMiddleware(BaseMiddleware):
         path = request.path_info
         # redirect logged in users at the login page to the home url
         if path == reverse("login") and request.user.is_authenticated:
-            return HttpResponseRedirect(settings.home_url())
+            return HttpResponseRedirect(bootleg_settings.home_url())
 
         if not request.user.is_authenticated:
             if not any(m.match(path) for m in EXEMPT_URLS):

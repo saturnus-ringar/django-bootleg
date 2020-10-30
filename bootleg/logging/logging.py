@@ -8,10 +8,10 @@ from pathlib import Path
 from pprint import pformat
 
 from bootleg.utils.file_system import NotWritableWarning
-from django.conf import settings as django_settings
+from django.conf import settings
 from ipware import get_client_ip
 
-from bootleg.conf import settings
+from bootleg.conf import settings as bootleg_settings
 from bootleg.logging.handlers import StreamHandler, FileHandler
 from bootleg.utils import utils, file_system
 
@@ -22,7 +22,7 @@ HANDLED = "HANDLED"
 LOGGERS = {}
 DEBUG_LOGGER = []
 
-LOG_DIR_IS_WRITABLE = file_system.is_writable(settings.log_dir())
+LOG_DIR_IS_WRITABLE = file_system.is_writable(bootleg_settings.log_dir())
 
 
 def test_writing_and_get_filename(filename):
@@ -37,15 +37,15 @@ def test_writing_and_get_filename(filename):
         writable = False
 
     if not writable:
-        warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, settings.fail_log_path()),
+        warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, bootleg_settings.fail_log_path()),
                       NotWritableWarning, stacklevel=3)
-        filename = settings.fail_log_path()
+        filename = bootleg_settings.fail_log_path()
 
     return filename
 
 
 def get_log_level(filename):
-    level = settings.log_level()
+    level = bootleg_settings.log_level()
     if filename == "debug":
         # always debug, in the debug log
         level = "DEBUG"
@@ -73,7 +73,7 @@ def get_logger(filename):
         handler.setLevel(level)
         handler.setFormatter(get_formatter())
         logger.addHandler(handler)
-        if settings.log_to_stdout():
+        if bootleg_settings.log_to_stdout():
             # add stream handler ... indeed
             add_stream_handler(logger)
 
@@ -104,7 +104,7 @@ def fix_log_handlers(handlers):
 def add_stream_handler(logger):
     stream_handler = StreamHandler(sys.stdout)
     stream_handler.setFormatter(get_formatter())
-    stream_handler.setLevel(settings.log_level())
+    stream_handler.setLevel(bootleg_settings.log_level())
     logger.addHandler(stream_handler)
 
 
@@ -112,13 +112,13 @@ def get_file_path(filename):
     if not filename.endswith(".log"):
         filename = filename + ".log"
 
-    return settings.log_dir() + filename
+    return bootleg_settings.log_dir() + filename
 
 
 def get_formatter():
     try:
-        return logging.Formatter(django_settings.LOGGING["formatters"]["verbose"]["format"],
-                                 django_settings.LOGGING["formatters"]["verbose"]["datefmt"])
+        return logging.Formatter(settings.LOGGING["formatters"]["verbose"]["format"],
+                                 settings.LOGGING["formatters"]["verbose"]["datefmt"])
     except KeyError:
         return logging.Formatter()
 
@@ -126,7 +126,7 @@ def get_formatter():
 def log_exception(e):
     logger = get_logger("exception")
     logger.exception(e)
-    if settings.store_logged_exception():
+    if bootleg_settings.store_logged_exception():
         save_logged_exception(e)
 
 

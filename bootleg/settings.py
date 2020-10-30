@@ -1,7 +1,7 @@
-from bootleg.conf import settings
-from bootleg.logging import logging
+from bootleg.conf import settings as bootleg_settings
 from bootleg.utils import file_system
-from django.conf import settings as django_settings
+from django.conf import settings
+
 # somewhat ugly to change the django settings at runtime ...nevertheless...
 
 #####################################################
@@ -32,17 +32,17 @@ COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'co
 # logging
 #####################################################
 
-log_dir = settings.log_dir()
-log_level = settings.log_level()
+log_dir = bootleg_settings.log_dir()
+log_level = bootleg_settings.log_level()
 
 if file_system.is_writable(log_dir):
-    django_settings.LOGGING = {
+    settings.LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
         'formatters': {
             'verbose': {
-                'format': settings.log_format(),
-                'datefmt': settings.log_date_format(),
+                'format': bootleg_settings.log_format(),
+                'datefmt': bootleg_settings.log_date_format(),
             }
         },
         'handlers': {
@@ -67,14 +67,9 @@ if file_system.is_writable(log_dir):
         },
     }
 
-    if settings.log_sql():
-        django_settings.LOGGING["loggers"]["django.db.backends"] = {
+    if bootleg_settings.log_sql():
+        settings.LOGGING["loggers"]["django.db.backends"] = {
             'level': 'DEBUG', # always debug on this one
             'handlers': ['sql']
         }
 
-# read settings to validate at startup
-settings.navigation_template()
-
-if settings.add_builtins():
-    logging.add_builtins()

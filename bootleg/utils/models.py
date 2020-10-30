@@ -4,7 +4,7 @@ from django.db import ProgrammingError
 from django.db.models import Q
 from django.urls import reverse
 
-from bootleg.conf import settings
+from bootleg.conf import settings as bootleg_settings
 
 
 def setup_default_site():
@@ -12,7 +12,7 @@ def setup_default_site():
     from django.contrib.sites.models import Site
     save_site = False
     try:
-        site = Site.objects.get(id=settings.site_id())
+        site = Site.objects.get(id=bootleg_settings.site_id())
     except (ProgrammingError, Site.DoesNotExist):
         # we'll get them ProgrammingErrors when the first migrate is run, and DoesNotExist ...
         return
@@ -26,8 +26,8 @@ def setup_default_site():
         save_site = True
 
     if save_site:
-        site.name = settings.site_name()
-        site.domain = settings.site_domain()
+        site.name = bootleg_settings.site_name()
+        site.domain = bootleg_settings.site_domain()
         site.save()
 
 

@@ -1,0 +1,151 @@
+kör det här i __init__ setup, typ
+
+# read settings to validate at startup
+bootleg_settings.navigation_template()
+
+if bootleg_settings.add_builtins():
+    logging.add_builtins()
+
+gör bootstrap till en funktion
+
+**************************
+ django-log
+**************************
+med debug false får man bara det här i loggen:
+
+    2020-10-30 16:12:29 ERROR Internal Server Error: /ical/199476/event.ical
+
+    logga:
+        django.contrib.gis
+        django.request
+        django.security.SuspiciousSession
+        django.server
+        django.db.backends.schema
+        django.security.csrf
+        django.template
+
+**************************
+ settings
+**************************
+
+- kolla på hur django-toolbar importerar settings.py
+
+**************************
+ setup
+**************************
+
+
+    core/asgi.py:    django.setup(set_prefix=False)
+    core/management/__init__.py:                    autoreload.check_errors(django.setup)()
+    core/management/__init__.py:            # In all other cases, django.setup() is required to succeed.
+    core/management/__init__.py:                django.setup()
+    core/management/templates.py:            django.setup()
+    core/wsgi.py:    django.setup(set_prefix=False)
+
+    django
+        __init__py
+
+    from django.utils.version import get_version
+
+    VERSION = (3, 1, 0, 'final', 0)
+
+    __version__ = get_version(VERSION)
+
+
+    def setup(set_prefix=True):
+        """
+        Configure the settings (this happens as a side effect of accessing the
+        first setting), configure logging and populate the app registry.
+        Set the thread-local urlresolvers script prefix if `set_prefix` is True.
+        """
+        from django.apps import apps
+        from django.conf import settings
+        from django.urls import set_script_prefix
+        from django.utils.log import configure_logging
+
+        configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
+        if set_prefix:
+            set_script_prefix(
+                '/' if settings.FORCE_SCRIPT_NAME is None else settings.FORCE_SCRIPT_NAME
+            )
+        apps.populate(settings.INSTALLED_APPS)
+
+***********************
+ error-sidor
+***********************
+    inte skapa handlers om dom finns?
+
+    kolla att alla error-templates finns
+
+***********************
+ meny
+***********************
+
+- javascriptvarningar i menyn
+
+***********************
+ profile
+***********************
+
+    - en konfigparameter för om man ska använda profile
+
+***********************
+ login middleware
+***********************
+
+    - måste kunna sätta URLar till LoginMiddleWare som kräver login:
+        django-admin/*
+        admin/*
+
+***********************
+ loggning
+***********************
+
+    - kunna skicka med extra_text till log_exception
+
+
+***********************
+ URLar
+***********************
+
+    - namespaca URLar (i alla projekt)
+
+***********************
+ HTML/CSS
+***********************
+
+- kolla på hur django_debug_toolbar får in sin HTML/css
+    HTML: class="djdt-hidden"
+
+    toolbar.css t.ex.
+
+
+***************************************
+ errors
+***************************************
+
+- göra en test-sida för error-sidorna:
+    /obscurity-by-test/error/<status_code>/
+    ... kräv is_staff
+
+- en ping-url
+
+- en krasch-url
+    ... kräv is_staff
+
+- lista ohanterade javascriptfel i menyn
+
+- fixa så man fångar exception i manage-kommandon också (har ändrat i manage.py för gigguide för  det)
+
+*********************************
+ modelrevisioner
+*********************************
+
+- in med revisionsmodellen
+    ... det ska räcka med att extenda den. Ha settings för "save_revision" i save
+
+***************************************
+ content-type
+***************************************
+
+    content type-modell, med cachat objekt
