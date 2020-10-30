@@ -19,7 +19,7 @@ class StaffRequiredView:
         return super().dispatch(*args, **kwargs)
 
 
-class BaseView:
+class BaseTemplateView(TemplateView):
     title = None
     heading = None
     template_name = None
@@ -30,14 +30,11 @@ class BaseView:
         return self.extra_text
 
 
-class BaseTemplateView(BaseView, TemplateView):
-    context_var = None
-
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+class StaffRequiredTemplateView(StaffRequiredView, TemplateView):
+    pass
 
 
-class BaseCreateUpdateView(BaseView):
+class BaseCreateUpdateView(BaseTemplateView):
     success_url = reverse_lazy("index")
 
     def form_valid(self, form):
