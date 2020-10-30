@@ -1,3 +1,5 @@
+import logging
+
 from django.apps import AppConfig
 from django.core.checks import Error, register
 
@@ -85,6 +87,18 @@ def check_django_log_level(errors):
         errors.append(
             Error(
                 'DJANGO_LOG_LEVEL %s is not allowed' % level,
+                hint='Valid levels are: DEBUG, WARNING, ERROR',
+                obj=bootleg_settings,
+                id='bootleg.E001',
+            )
+        )
+
+    try:
+        logging._checkLevel(level)
+    except ValueError:
+        errors.append(
+            Error(
+                'DJANGO_LOG_LEVEL %s is not a valid level' % level,
                 hint='Valid levels are: DEBUG, WARNING, ERROR',
                 obj=bootleg_settings,
                 id='bootleg.E001',
