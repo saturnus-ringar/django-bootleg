@@ -9,7 +9,7 @@ from bootleg.db.models.base import BaseModel
 
 
 class Profile(BaseModel, TimeStampedModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile_user")
 
     def to_log(self):
         return "User: [%s]" % self.user.username
