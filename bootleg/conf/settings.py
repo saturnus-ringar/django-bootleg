@@ -92,7 +92,10 @@ def log_sql():
 
 
 def django_log_level():
-    return get_setting("DJANGO_LOG_LEVEL", "ERROR")
+    default = "ERROR"
+    if settings.DEBUG:
+        default = "INFO"
+    return get_setting("DJANGO_LOG_LEVEL", default)
 
 
 def log_level():

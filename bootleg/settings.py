@@ -33,7 +33,7 @@ COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'co
 #####################################################
 
 log_dir = bootleg_settings.log_dir()
-log_level = bootleg_settings.log_level()
+log_level = bootleg_settings.django_log_level()
 
 if file_system.is_writable(log_dir):
     settings.LOGGING = {
