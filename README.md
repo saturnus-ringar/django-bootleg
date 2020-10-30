@@ -1,8 +1,8 @@
 # django-bootleg™©℗®
 Django additions, tools and ...stuff...
 
-It adds:
-https://github.com/jazzband/django-debug-toolbar
+## Features
+- It adds django debug toolbar - https://github.com/jazzband/django-debug-toolbar
 
 ## Installation
 ```sh
