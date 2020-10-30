@@ -1,19 +1,17 @@
-import bootleg
-from django.contrib import admin
+from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.urls import path, include
+from django.urls import path
+from django.utils.translation import ugettext as _
 from django.views.generic import RedirectView
 
+import bootleg
 from bootleg.conf import settings as bootleg_settings
 from bootleg.forms.auth_forms import LoginForm
 from bootleg.views.auth_views import CustomLoginView, LogoutView, change_password, \
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView
 from bootleg.views.json_views import JSONSuggestView
-from django.utils.translation import ugettext as _
-from django.conf import settings
-
 from bootleg.views.views import DevNullView
 from bootleg.views.xhr_views import JavascriptErrorView
 
@@ -23,11 +21,6 @@ bootleg.setup()
 app_name = 'bootleg'
 
 urlpatterns = [
-    #######################################
-    # django admin
-    #######################################
-    path('django-admin/', admin.site.urls),
-
     #######################################
     # basic URLs
     #######################################
@@ -73,14 +66,9 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    import debug_toolbar
     media_url = getattr(settings, "MEDIA_URL", None)
     media_root = getattr(settings, "MEDIA_ROOT", None)
     # add media ... if it's debug and we have settings
     if media_url and media_root:
         urlpatterns += static(media_url, document_root=media_root)
-
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
 
