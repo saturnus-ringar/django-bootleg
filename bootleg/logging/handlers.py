@@ -1,14 +1,11 @@
 import logging
-import os
 import traceback
-import warnings
-from pathlib import Path
 
 from django.core.exceptions import AppRegistryNotReady
 
 from bootleg.conf import settings
-from bootleg.utils import utils, file_system
-from bootleg.utils.file_system import NotWritableWarning
+from bootleg.logging import logging as bootleg_logging
+from bootleg.utils import utils
 
 
 class StreamHandler(logging.StreamHandler):
@@ -23,23 +20,8 @@ class StreamHandler(logging.StreamHandler):
 class FileHandler(logging.FileHandler):
 
     def __init__(self, filename, mode='a', encoding=None, delay=0):
-        writable = True
+        filename = bootleg_logging.test_writing_and_get_filename(filename)
         encoding = "utf-8"
-
-        try:
-            file_system.mkdir_p(os.path.dirname(filename))
-        except PermissionError:
-            writable = False
-        try:
-            Path(filename).touch()
-        except (FileNotFoundError, PermissionError):
-            writable = False
-
-        if not writable:
-            warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, settings.fail_log_path()),
-                          NotWritableWarning, stacklevel=3)
-            filename = settings.fail_log_path()
-
         logging.FileHandler.__init__(self, filename, mode, encoding, delay)
 
 

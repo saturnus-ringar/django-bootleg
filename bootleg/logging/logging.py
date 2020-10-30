@@ -1,10 +1,13 @@
 import builtins
 import logging
+import os
 import sys
 import traceback
+import warnings
 from pathlib import Path
 from pprint import pformat
 
+from bootleg.utils.file_system import NotWritableWarning
 from django.conf import settings as django_settings
 from ipware import get_client_ip
 
@@ -17,7 +20,28 @@ UPDATED = "UPDATED"
 HANDLED = "HANDLED"
 
 LOGGERS = {}
+DEBUG_LOGGER = []
+
 LOG_DIR_IS_WRITABLE = file_system.is_writable(settings.log_dir())
+
+
+def test_writing_and_get_filename(filename):
+    writable = True
+    try:
+        file_system.mkdir_p(os.path.dirname(filename))
+    except PermissionError:
+        writable = False
+    try:
+        Path(filename).touch()
+    except (FileNotFoundError, PermissionError):
+        writable = False
+
+    if not writable:
+        warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, settings.fail_log_path()),
+                      NotWritableWarning, stacklevel=3)
+        filename = settings.fail_log_path()
+
+    return filename
 
 
 def get_log_level(filename):
@@ -41,13 +65,7 @@ def get_logger(filename):
         # create the logger then
         level = get_log_level(filename)
         file_path = get_file_path(filename)
-
-        try:
-            Path(file_path).touch()
-        except (FileNotFoundError, PermissionError):
-            # not writable, warn and go for dev null
-            file_path = settings.fail_log_path()
-
+        file_path = test_writing_and_get_filename(file_path)
         logger = logging.getLogger(filename)
         logger.setLevel(level)
         # add custom file handler
@@ -106,6 +124,8 @@ def get_formatter():
 
 
 def log_exception(e):
+    logger = get_logger("exception")
+    logger.exception(e)
     if settings.store_logged_exception():
         save_logged_exception(e)
 
@@ -116,8 +136,13 @@ def save_logged_exception(e):
     LoggedException.objects.create(utils.get_full_class_name(e), traceback.format_exc(), str(e.args)[:1024])
 
 
-def debug(msg):
-    get_logger("debug").debug(msg)
+def debug_log(msg):
+    if DEBUG_LOGGER:
+        logger = DEBUG_LOGGER
+    else:
+        logger = get_logger("debug")
+
+    logger.debug(msg)
 
 
 def log_audit(message, request=None):
@@ -141,13 +166,18 @@ def add_builtins():
 
     def dx(obj, verbose=False):
         if verbose:
-            debug("Class: %s Base class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
-            debug("dir: %s" % dir(obj))
+            debug_log("Class: %s Base class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
+            debug_log("dir: %s" % dir(obj))
 
-        debug(pformat(obj))
+        debug_log(pformat(obj))
 
     def dxv(obj):
         dx(obj, True)
 
+    def dp(obj, verbose=False):
+        dx(obj, verbose)
+
+
+    builtins.dp = dp
     builtins.dx = dx
     builtins.dxv = dxv
