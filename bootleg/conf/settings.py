@@ -37,6 +37,18 @@ def get_error_template(status_code):
 
 
 ####################################################
+# project ...stuff...
+####################################################
+
+def root_folder():
+    return os.path.basename(get_setting("BASE_DIR", required=True))
+
+
+def project_name():
+    return root_folder()
+
+
+####################################################
 # db-logging
 ####################################################
 
