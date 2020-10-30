@@ -4,13 +4,7 @@ import os
 from django.conf import settings, global_settings
 from django.urls import reverse
 
-from bootleg.utils import file_system
-
 SETTINGS = {}
-
-# setup settings ... again :|
-# it takes something like "0.09429597854614258 seconds"
-settings._setup()
 
 
 class ConfigurationError(Exception):
