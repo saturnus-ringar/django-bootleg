@@ -53,7 +53,7 @@ def get_model_dict(model):
     if hasattr(model._meta, "create_url"):
         model_dict["create_url"] = model._meta.create_url
     else:
-        model_dict["create_url"] = reverse("create_model", args=[model._meta.model_name])
+        model_dict["create_url"] = reverse("bootleg:create_model", args=[model._meta.model_name])
 
     return model_dict
 

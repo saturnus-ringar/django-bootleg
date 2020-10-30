@@ -34,7 +34,7 @@ class CustomLoginView(BaseTemplateView, LoginView, FormWithRequestMixin):
         return bootleg_settings.login_redirect_url()
 
     def get_extra_text(self):
-        return _('<a href="%s">Forgot password?</a>' % reverse_lazy("password_reset"))
+        return _('<a href="%s">Forgot password?</a>' % reverse_lazy("bootleg:password_reset"))
 
 
 class PasswordResetBaseView(BaseTemplateView):
@@ -54,7 +54,7 @@ class CustomPasswordResetConfirmView(PasswordResetBaseView, PasswordResetConfirm
 class CustomPasswordResetCompleteView(PasswordResetBaseView):
 
     def get_extra_text(self):
-        return _('Your password has been set.<p class="mt-4"><a href="%s">Go to login</a></p>' % reverse("login"))
+        return _('Your password has been set.<p class="mt-4"><a href="%s">Go to login</a></p>' % reverse("bootleg:login"))
 
 
 def change_password(request):

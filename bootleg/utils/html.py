@@ -25,7 +25,7 @@ def get_main_navigation(request):
 
         for model in request.editable_models:
             # "meta" is a dict here - for the templates since they can't access _meta
-            html += '<a class="dropdown-item" href="%s">%s</a>\n' % (reverse("list_view", args=[model["meta"].model_name]),
+            html += '<a class="dropdown-item" href="%s">%s</a>\n' % (reverse("bootleg:list_view", args=[model["meta"].model_name]),
                                                                     model["meta"].verbose_name_plural)
             html += '</div>\n'
         html += '</li>\n'
@@ -52,8 +52,8 @@ def get_right_navigation(request):
         html += '<a class ="nav-link dropdown-toggle" href="#" id="profile_dropdown" data-toggle="dropdown"'
         html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % request.user.username
         html += '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="profile_dropdown">\n'
-        html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("change_password"), _("Change password"))
-        html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("logout"), _("Log out"))
+        html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("bootleg:change_password"), _("Change password"))
+        html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("bootleg:logout"), _("Log out"))
 
     if request.user.is_staff:
         html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("admin:index"), _("Django-admin"))

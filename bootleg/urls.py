@@ -20,6 +20,8 @@ from bootleg.views.xhr_views import JavascriptErrorView
 # setup, indeed
 bootleg.setup()
 
+app_name = 'bootleg'
+
 urlpatterns = [
     #######################################
     # django admin

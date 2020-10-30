@@ -1,3 +1,18 @@
+from django.utils.version import get_version
+
+VERSION = (3, 1, 0, 'final', 0)
+
+__version__ = get_version(VERSION)
+
+
+- funkar t.ex. SITE_ID inställningen?
+
+med debug false får man bara det här i loggen:
+
+    2020-10-30 16:12:29 ERROR Internal Server Error: /ical/199476/event.ical
+
+- lägg in django-debug-toolbar
+
 - när importeras settings.py egentligen?
     ... det är setup.py som gör det
 
@@ -15,7 +30,7 @@ gör bootstrap till en funktion
  lösenordsreset/login/byta lösenord
 ***************************************
 
-    - kunna lägga till URLar till EXEMPT_URLS i LoginMiddleWare
+- kunna lägga till URLar till EXEMPT_URLS i LoginMiddleWare
 
 - fixa en default-index-sida?
 

@@ -187,7 +187,7 @@ def login_redirect_url():
     url = get_setting("LOGIN_REDIRECT_URL")
     if url == global_settings.LOGIN_REDIRECT_URL:
         # override django's default url
-        url = str(reverse("dev_null"))
+        url = str(reverse("bootleg:dev_null"))
     return url
 
 

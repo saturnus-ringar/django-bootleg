@@ -125,8 +125,8 @@ class LoggingMiddleware(BaseMiddleware):
 
 
 EXEMPT_URLS = [
-    compile(str(reverse("change_password") + '.*')),
-    compile(str(reverse("login"))),
+    compile(str(reverse("bootleg:change_password") + '.*')),
+    compile(str(reverse("bootleg:login"))),
 ]
 
 exempt_urls_function = bootleg_settings.get_login_exempt_urls_function()
@@ -140,12 +140,12 @@ class LoginMiddleware(BaseMiddleware):
     def process_request(self, request):
         path = request.path_info
         # redirect logged in users at the login page to the home url
-        if path == reverse("login") and request.user.is_authenticated:
+        if path == reverse("bootleg:login") and request.user.is_authenticated:
             return HttpResponseRedirect(bootleg_settings.home_url())
 
         if not request.user.is_authenticated:
             if not any(m.match(path) for m in EXEMPT_URLS):
                 if request.get_full_path() != "/":
-                    return HttpResponseRedirect(reverse("login") + "?" + urlencode({"next": request.get_full_path()}))
+                    return HttpResponseRedirect(reverse("bootleg:login") + "?" + urlencode({"next": request.get_full_path()}))
                 else:
-                    return HttpResponseRedirect(reverse("login"))
+                    return HttpResponseRedirect(reverse("bootleg:login"))

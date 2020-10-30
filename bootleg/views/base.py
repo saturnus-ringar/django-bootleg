@@ -35,7 +35,7 @@ class StaffRequiredTemplateView(StaffRequiredView, TemplateView):
 
 
 class BaseCreateUpdateView(BaseTemplateView):
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("bootleg:index")
 
     def form_valid(self, form):
         message = _("The %s was added" % self.model._meta.verbose_name)

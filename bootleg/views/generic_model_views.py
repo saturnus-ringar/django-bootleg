@@ -6,6 +6,7 @@ from bootleg.forms.forms import GenericModelSearchForm
 from bootleg.utils import models
 from bootleg.views import views
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView
+from django.utils.translation import ugettext as _
 
 
 class GenericModelView:
@@ -57,7 +58,7 @@ class GenericListView(GenericModelView, SingleTableView):
 class GenericModelCreateUpdateView(GenericModelView, BaseCreateUpdateView):
 
     def get_success_url(self):
-        return reverse("list_view", args=[self.model._meta.model_name])
+        return reverse("bootleg:list_view", args=[self.model._meta.model_name])
 
 
 class GenericModelCreateView(GenericModelCreateUpdateView, BaseCreateView):

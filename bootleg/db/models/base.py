@@ -58,7 +58,7 @@ class BaseModel(models.Model):
     @classmethod
     def get_autocomplete_url(self):
         if hasattr(self._meta, "autocomplete_field"):
-            return reverse("json_suggest", args=[self._meta.model_name])
+            return reverse("bootleg:json_suggest", args=[self._meta.model_name])
 
         return None
 
@@ -75,7 +75,7 @@ class BaseModel(models.Model):
         return reverse('admin:%s_%s_add' % (self._meta.app_label,  self._meta.model_name))
 
     def get_add_url(self):
-        return reverse("create_model", args=[self._meta.model_name])
+        return reverse("bootleg:create_model", args=[self._meta.model_name])
 
     def get_add_link(self):
         return mark_safe('<a href="%s"><button class ="btn btn-primary btn-sm">%s</button></a>'
