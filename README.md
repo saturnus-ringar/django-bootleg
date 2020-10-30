@@ -39,7 +39,7 @@ TEMPLATES = [
     },
 ]
 
-BASE_TEMPLATE = "<template_path/name>.html"
+BASE_TEMPLATE = "path/name.html"
 
 AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
 
