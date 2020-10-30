@@ -1,3 +1,4 @@
+import inspect
 import os
 import sys
 
@@ -20,6 +21,18 @@ def is_gunicorn_context():
         return True
 
     return False
+
+
+def get_caller():
+    stack = inspect.stack()
+    if "self" in stack[2][0].f_locals:
+        the_class = stack[2][0].f_locals["self"].__class__
+        the_method = stack[2][0].f_code.co_name
+        # returns "dev.Command.method()" from. "core.management.commands.dev.Command"
+        return str(the_class).split(".")[-2] + "." + str(the_class).split(".")[-1][:-2] + "." + str(the_method) + "()"
+    else:
+        # a function is calling
+        return str(stack[2][0].f_code.co_name)
 
 
 # https://stackoverflow.com/a/58045927/7903576
