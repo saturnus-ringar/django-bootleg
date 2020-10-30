@@ -1,6 +1,12 @@
 # django-bootleg™©℗®
 Django additions, tools and ...stuff...
 
+## Features
+- It adds django debug toolbar - https://github.com/jazzband/django-debug-toolbar
+
+...
+
+
 ## Installation
 ```sh
 $ git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/django-bootleg.git
@@ -15,6 +21,7 @@ INSTALLED_APPS = (
     # ...
     'compressor',
     'crispy_forms',
+    'debug_toolbar',
     'django_extensions',
     'django_js_reverse',
     'django_user_agents',
@@ -24,6 +31,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE = [
     # ...
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'bootleg.middleware.LoggingMiddleware',
     'bootleg.middleware.LoginMiddleware',
 ]
