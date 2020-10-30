@@ -47,7 +47,7 @@ AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
 
 ```python
 # urls.py
-from bootleg.setup import *
+from bootleg.init import *
 
 urlpatterns = [
     # ...
