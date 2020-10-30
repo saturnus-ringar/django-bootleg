@@ -67,6 +67,7 @@ def get_logger(filename):
         file_path = get_file_path(filename)
         file_path = test_writing_and_get_filename(file_path)
         logger = logging.getLogger(filename)
+        bootleg_settings.check_log_level(level)
         logger.setLevel(level)
         # add custom file handler
         handler = FileHandler(file_path)

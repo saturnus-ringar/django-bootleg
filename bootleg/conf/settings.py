@@ -23,11 +23,11 @@ def get_setting(attribute, default=None, required=False):
     return SETTINGS[attribute]
 
 
-def check_log_level(attribute, default):
+def check_log_level(attribute, default=None):
     level = get_setting(attribute, default)
     try:
         logging._checkLevel(level)
-    except ValueError:
+    except (ValueError, TypeError):
         raise ConfigurationError("%s: (%s) is not a valid log level. Valid levels are: %s"
                                  % (attribute, level, logging._levelToName))
 

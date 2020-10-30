@@ -1,6 +1,3 @@
-- när importeras settings.py egentligen?
-    ... det är setup.py som gör det
-
 **************************
  django-log
 **************************
