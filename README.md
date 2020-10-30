@@ -85,7 +85,7 @@ HOME_URL = default **None**
 > Just a string. The string will be URL-reverse():ed
 
 ### Logging
-DJANGO_LOG_LEVEL - default **'ERROR'**
+DJANGO_LOG_LEVEL - default **'ERROR'** if DEBUG is False - **'INFO'** if DEBUG is True
 > Valid levels: 'DEBUG', 'INFO', 'ERROR'
 
 LOG_DIR - default **'/dev/null'**
