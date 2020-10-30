@@ -72,4 +72,3 @@ if file_system.is_writable(log_dir):
             'level': 'DEBUG', # always debug on this one
             'handlers': ['sql']
         }
-
