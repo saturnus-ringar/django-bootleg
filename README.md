@@ -43,12 +43,11 @@ BASE_TEMPLATE = "<template_path/name>.html"
 
 AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
 
-# must be the last line in settings.py
-from bootleg.settings import *
 ```
 
 ```python
 # urls.py
+from bootleg.setup import *
 
 urlpatterns = [
     # ...
