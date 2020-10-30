@@ -6,6 +6,9 @@ from bootleg.conf import settings
 
 
 def check_home_url(errors):
+    # currently this will raise a ConfigurationError:
+    # "bootleg.conf.settings.ConfigurationError: HOME_URL must be defined in settings."
+    # ... but I'm keeping this check. For now.
     if not settings.home_url():
         errors.append(
             Error(

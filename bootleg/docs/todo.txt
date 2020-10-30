@@ -1,3 +1,9 @@
+- inte två taggar för att rendera menyn
+
+- eventuellt lägga på menyn med javascript
+
+- javascriptvarningar i menyn
+
 ***************************************
  errors
 ***************************************

@@ -1,9 +1,19 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 from django.forms import Form, ModelForm
 
-from bootleg.forms import forms
 from bootleg.logging import logging
 
 METHOD_GET = "GET"
+
+
+def get_default_form_helper(submit_text, inline=False, method="POST"):
+    helper = FormHelper()
+    helper.add_input(Submit('submit', submit_text, css_class="loading-button"))
+    helper.form_method = method
+    if inline:
+        helper.form_class = 'form-inline'
+    return helper
 
 
 class BaseForm(Form):
@@ -15,7 +25,7 @@ class BaseForm(Form):
         super().__init__(*args, **kwargs)
         if not self.submit_text:
             raise ValueError("Please specify self.submit_text for the form")
-        self.helper = forms.get_default_form_helper(self.submit_text, self.inline, self.method)
+        self.helper = get_default_form_helper(self.submit_text, self.inline, self.method)
         self.set_focus()
 
     # seems like the best method to override for logging errors?!

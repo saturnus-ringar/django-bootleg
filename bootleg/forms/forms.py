@@ -1,18 +1,6 @@
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
-from django.forms import CharField
+from bootleg.forms.base import METHOD_GET
+from django.forms import CharField, BaseForm
 from django.utils.translation import ugettext as _
-
-from bootleg.forms.base import BaseForm, METHOD_GET
-
-
-def get_default_form_helper(submit_text, inline=False, method="POST"):
-    helper = FormHelper()
-    helper.add_input(Submit('submit', submit_text, css_class="loading-button"))
-    helper.form_method = method
-    if inline:
-        helper.form_class = 'form-inline'
-    return helper
 
 
 class GenericModelSearchForm(BaseForm):
