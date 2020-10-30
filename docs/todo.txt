@@ -1,3 +1,5 @@
+- lägg in django-debug-toolbar
+
 **************************
  django-log
 **************************
@@ -5,20 +7,11 @@ med debug false får man bara det här i loggen:
 
     2020-10-30 16:12:29 ERROR Internal Server Error: /ical/199476/event.ical
 
-    logga:
-        django.contrib.gis
-        django.request
-        django.security.SuspiciousSession
-        django.server
-        django.db.backends.schema
-        django.security.csrf
-        django.template
-
 **************************
  settings
 **************************
 
-- kolla på hur django-toolbar importerar settings.py
+- funkar t.ex. SITE_ID inställningen?
 
 **************************
  setup
