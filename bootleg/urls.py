@@ -67,8 +67,11 @@ urlpatterns = [
 ]
 
 if django_settings.DEBUG:
-    # add media ... if it's debug
-    urlpatterns += static(getattr(django_settings, "MEDIA_URL", None), document_root=getattr(settings, "MEDIA_ROOT", None))
+    media_url = getattr(django_settings, "MEDIA_URL", None)
+    media_root = getattr(django_settings, "MEDIA_ROOT", None)
+    # add media ... if it's debug and we have settings
+    if media_url and media_root:
+        urlpatterns += static(media_url, document_root=media_root)
 
 if settings.print_at_startup():
     from bootleg import bootstrap
