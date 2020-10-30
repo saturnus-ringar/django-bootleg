@@ -54,9 +54,6 @@ urlpatterns = [
     # ...
     path('', include('bootleg.urls')),
 ]
-
-# must be the last line in urls.py
-from bootleg.setup import *
 ```
 
 ## Django settings
