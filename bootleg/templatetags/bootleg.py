@@ -1,12 +1,10 @@
-from bootleg.utils import html as bootleg_html
 from django import template
 from django.apps import apps
-from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+from bootleg.utils import html as bootleg_html
 from bootleg.utils import strings
 from bootleg.utils.humanize import humanize_bytes as hb
-from django.utils.translation import ugettext as _
 
 register = template.Library()
 
