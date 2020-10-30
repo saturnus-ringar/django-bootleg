@@ -13,8 +13,8 @@ def setup_default_site():
     save_site = False
     try:
         site = Site.objects.get(id=settings.site_id())
-    except ProgrammingError:
-        # we'll get them ProgrammingErrors when the first migrate is run
+    except (ProgrammingError, Site.DoesNotExist):
+        # we'll get them ProgrammingErrors when the first migrate is run, and DoesNotExist ...
         return
 
     # the example.com site might exist
