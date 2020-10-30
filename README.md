@@ -23,7 +23,6 @@ INSTALLED_APPS = (
     'crispy_forms',
     'debug_toolbar',
     'django_extensions',
-    'django_js_reverse',
     'django_user_agents',
     'django_tables2',
     'bootleg',
