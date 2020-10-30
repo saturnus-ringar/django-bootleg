@@ -8,25 +8,27 @@ from django.conf import settings
 # django settings
 #####################################################
 
-SITE_ID = 1
+if not settings.is_overridden("SITE_ID"):
+    settings.SITE_ID = 1
 
 #####################################################
 # django tables 2
 #####################################################
 
-DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap-responsive.html"
+settings.DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap-responsive.html"
 
 #####################################################
 # crispy forms
 #####################################################
 
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+settings.CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 #####################################################
 # django compress
 #####################################################
 
-COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
+if not settings.is_overridden("COMPRESS_CSS_FILTERS"):
+    settings.COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
 
 #####################################################
 # logging
