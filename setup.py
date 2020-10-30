@@ -1,6 +1,6 @@
+import bootleg
 from setuptools import setup, find_packages
 
-VERSION = "0.0.12o"
 
 install_requires = [
     'automodinit >= 0.16',
@@ -25,7 +25,7 @@ setup(
     author='Saturnus Ringar',
     author_email='internets@internet-e-mail.com',
     url='https://github.com/saturnus-ringar/django-bootleg',
-    download_url='https://github.com/saturnus-ringar/django-bootleg/tarball/%s' % VERSION,
+    download_url='https://github.com/saturnus-ringar/django-bootleg/tarball/%s' % bootleg.__version__,
     keywords=[],
     license='BSD',
     packages=find_packages(),

@@ -1,12 +1,15 @@
+import bootleg
 from colorama import Fore, Style
 from django.conf import settings
 from django.db import connection
+
 from bootleg.conf import settings as bootleg_settings
 from bootleg.utils import models
 
 
 def startup_print():
     print(Fore.LIGHTBLUE_EX + "*********************************************************************")
+    print("Running django bootleg version: %s" % bootleg.__version__)
     if getattr(settings, "DEBUG"):
         print(Fore.LIGHTYELLOW_EX + "We're running in " + Fore.MAGENTA + "debug")
     else:
