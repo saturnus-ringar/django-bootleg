@@ -123,6 +123,7 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 </p>
 {% render_system_information %}
 {% endblock %}
+```
 
 DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 > Example: 'website/system/deploymebt.html'
@@ -136,7 +137,7 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 </p>
 {% render_deploy_info %}
 {% endblock %}
-
+```
 
 
 CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
