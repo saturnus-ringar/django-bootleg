@@ -111,6 +111,9 @@ STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else 
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
 
+SYSTEM_TEMPLATE - default **'"bootleg/system_info.html'**
+
+
 CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
 > Example: 'container'
 
@@ -152,3 +155,11 @@ ADD_BULITINS - default **False**
 PRINT_AT_STARTUP - default **True**
 > booean True/False
 > Prints settings etc. at startup if True
+
+### Getting URLs
+Get the URL to the System info page
+
+```python
+{% url "bootleg:system_info" %}
+
+```
