@@ -79,9 +79,6 @@ SITE_DOMAIN = default **None**
 SITE_NAME = default **None**
 > Just a name. It's not used in URLs.
 
-NAVIGATION_TEMPLATE - default **None** 
-> Example: 'website/includes/navigation.html'
-
 HOME_URL = default **None**
 > Just a string. The string will be URL-reverse():ed
 
@@ -107,7 +104,51 @@ STORE_LOGGED_EXCEPTIONS - default **True**
 STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else **False** 
 > booean True/False
 
-### Templates/HTML/CSS
+### CSS
+
+CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
+> Example: 'container'
+
+CSS_FILE = default **'bootleg/css/bootstrap.css'**
+> Example: 'website/css/style.css'
+
+FAVICON_FILE = default **'bootleg/img/favicon.ico'**
+> Example: 'website/img/favicon.png'
+
+### Misc-ish
+POST_LOGIN_URL = default **reverse('dev_null')**
+> Just a string. The string will be URL-reverse():ed
+
+SITE_ID = default **1**
+> An integer for the site ID
+
+GOOGLE_ANALYTICS_ACCOUNT - default **None**
+> Example: 'UA-10876-1'
+
+ADD_BULITINS - default **False**
+> booean True/False
+> Adds dx, dp and dxv-functions for debug-logging
+
+PRINT_AT_STARTUP - default **True**
+> booean True/False
+> Prints settings etc. at startup if True
+
+### Reversing URLs
+Get the URL to the System info page
+
+```python
+{% url "bootleg:system_info" %}
+
+```
+Get the URL to the Deployment page
+
+```python
+{% url "bootleg:deploy_info" %}
+
+```
+
+### Templates
+
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
 
@@ -141,14 +182,38 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 {% endblock %}
 ```
 
-CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
-> Example: 'container'
+NAVIGATION_TEMPLATE - default **None** 
+> Example: 'website/includes/navigation.html'
 
-CSS_FILE = default **'bootleg/css/bootstrap.css'**
-> Example: 'website/css/style.css'
+```python
+{% load i18n static bootleg %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/"><img src="{% static 'website/img/logo.png' %}" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label={% trans "Toggle navigation" %}>
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-FAVICON_FILE = default **'bootleg/img/favicon.ico'**
-> Example: 'website/img/favicon.png'
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav">
+            {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
+                </li>
+            {% endif %}
+
+            {% if user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bootleg:system' %}">{% trans "System info" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bootleg:deploy_status' %}">{% trans "Deploy status" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+        {% render_navigation request %}
+    </div>
+</nav>
+```
 
 ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
 > Example: 'website/errors/404.html'
@@ -165,34 +230,3 @@ ERROR_404_TEMPLATE - default **'bootleg/errors/404.html'**
 ERROR_500_TEMPLATE - default **'bootleg/errors/500.html'**
 > Example: 'website/errors/500.html'
 
-### Misc-ish
-POST_LOGIN_URL = default **reverse('dev_null')**
-> Just a string. The string will be URL-reverse():ed
-
-SITE_ID = default **1**
-> An integer for the site ID
-
-GOOGLE_ANALYTICS_ACCOUNT - default **None**
-> Example: 'UA-10876-1'
-
-ADD_BULITINS - default **False**
-> booean True/False
-> Adds dx, dp and dxv-functions for debug-logging
-
-PRINT_AT_STARTUP - default **True**
-> booean True/False
-> Prints settings etc. at startup if True
-
-### Reversing URLs
-Get the URL to the System info page
-
-```python
-{% url "bootleg:system_info" %}
-
-```
-Get the URL to the Deployment page
-
-```python
-{% url "bootleg:deploy_info" %}
-
-```
