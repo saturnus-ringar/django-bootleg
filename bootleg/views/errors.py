@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 
 
 def error_handler(request, template, status_code):

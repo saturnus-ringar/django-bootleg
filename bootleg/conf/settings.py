@@ -4,7 +4,6 @@ import os
 from django.conf import settings, global_settings
 from django.urls import reverse, reverse_lazy
 
-SETTINGS = {}
 SETTINGS_OBJ = None
 
 
@@ -13,14 +12,11 @@ class ConfigurationError(Exception):
 
 
 def get_setting(attribute, default=None, required=False):
-    if attribute in SETTINGS:
-        return SETTINGS[attribute]
-
-    SETTINGS[attribute] = getattr(settings, attribute, default)
-    if required and not SETTINGS[attribute]:
+    value = getattr(settings, attribute, default)
+    if required and not value:
         raise ConfigurationError("%s must be defined in settings." % attribute)
 
-    return SETTINGS[attribute]
+    return value
 
 
 def check_log_level(level):
@@ -47,9 +43,9 @@ class Settings:
     __settings__ = {}
 
     def __init__(self):
-        self.add_settings()
+        self.setup()
 
-    def add_settings(self):
+    def setup(self):
         ####################################################
         # project stuff
         ####################################################
@@ -66,7 +62,7 @@ class Settings:
         # logging
         ####################################################
         self.add_setting("FAIL_LOG_PATH", "/dev/null")
-        self.add_setting("LOG_DIR", os.path.join(get_setting("LOG_DIR", self.FAIL_LOG_PATH), ''))
+        self.add_setting("LOG_DIR", os.path.join(get_setting("LOG_DIR", "/dev/null"), ''))
         self.add_setting("ADD_BUILTINS", True)
         self.add_setting("LOG_FORMAT", "%(asctime)s %(levelname)s %(message)s")
         self.add_setting("LOG_DATE_FORMAT",  "%Y-%m-%d %H:%M:%S")
@@ -124,7 +120,7 @@ class Settings:
 
         url = get_setting("LOGIN_REDIRECT_URL")
         #if url == global_settings.LOGIN_REDIRECT_URL:
-            # override django's default url
+        #    #override django's default url
         #    url = str(reverse_lazy("bootleg:dev_null"))
         self.add_setting("LOGIN_REDIRECT_URL", url, required=True)
 
@@ -138,6 +134,3 @@ class Settings:
         value = get_setting(attribute, default, required=required)
         if attribute not in self.__settings__:
             setattr(self, attribute, value)
-
-
-bootleg_settings = Settings()

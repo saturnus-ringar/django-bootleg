@@ -8,7 +8,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, TemplateView
 
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from bootleg.forms import forms
 
 

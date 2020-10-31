@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 
 from bootleg.system.git import GitData
 from bootleg.views.base import StaffRequiredTemplateView
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 
 
 class DeployInfoView(StaffRequiredTemplateView):

@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext as _
 
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from bootleg.forms.auth_forms import CustomPasswordResetForm, CustomResetPasswordForm, CustomSetPasswordForm, LoginForm
 from bootleg.views.base import BaseTemplateView, FormWithRequestMixin
 

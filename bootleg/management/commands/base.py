@@ -1,6 +1,6 @@
 
 from django.core.management import BaseCommand
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from bootleg.system import nix
 
 

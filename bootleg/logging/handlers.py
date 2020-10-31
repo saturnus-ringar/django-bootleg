@@ -3,7 +3,7 @@ import traceback
 
 from django.core.exceptions import AppRegistryNotReady
 
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from bootleg.logging import logging as bootleg_logging
 from bootleg.utils import utils
 

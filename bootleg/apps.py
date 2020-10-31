@@ -10,7 +10,7 @@ from django.core.checks import Error, register
 from giturlparse import validate
 
 from bootleg.utils import models
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from django.conf import settings
 
 

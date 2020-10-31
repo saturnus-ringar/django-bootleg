@@ -14,7 +14,7 @@ from bootleg.system import file_system
 from django.conf import settings
 from ipware import get_client_ip
 
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from bootleg.logging.handlers import StreamHandler, FileHandler
 from bootleg.utils import utils
 
@@ -41,9 +41,9 @@ def test_writing_and_get_filename(filename):
         writable = False
 
     if not writable:
-        warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, bootleg_settings.fail_log_path()),
+        warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, bootleg_settings.FAIL_LOG_PATH),
                       NotWritableWarning, stacklevel=3)
-        filename = bootleg_settings.fail_log_path()
+        filename = bootleg_settings.FAIL_LOG_PATH
 
     return filename
 

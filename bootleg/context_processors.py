@@ -1,5 +1,5 @@
 from django.conf import settings
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from bootleg.db.models.django_log_entry import DjangoLogEntry
 from bootleg.db.models.logged_exception import LoggedException
 from bootleg.utils import models

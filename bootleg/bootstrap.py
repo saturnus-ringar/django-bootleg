@@ -3,7 +3,7 @@ from colorama import Fore, Style
 from django.conf import settings
 from django.db import connection
 
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 from bootleg.utils import models
 
 

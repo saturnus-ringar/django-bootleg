@@ -4,7 +4,7 @@ from django.utils.http import urlencode
 
 from bootleg.middleware.base import BaseMiddleware
 from django.urls import reverse
-from bootleg.conf.settings import bootleg_settings
+from bootleg.conf import bootleg_settings
 
 
 EXEMPT_URLS = [
