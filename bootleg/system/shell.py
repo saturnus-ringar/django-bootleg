@@ -1,5 +1,6 @@
 import subprocess
-
+from bootleg.utils.strings import nl2br
+import subprocess
 from bootleg.utils.strings import nl2br
 
 
@@ -33,4 +34,11 @@ def output_to_list(output, lines_to_ignore=None):
 def outout_to_html(output):
     return nl2br(output.decode("utf-8"))
 
-#subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+
+def output_to_list_and_ignore_string(output, string, lines_to_ignore=None):
+    cleaned_data = []
+    for row in output_to_list(output, lines_to_ignore):
+        if row and string not in row:
+            cleaned_data.append(row)
+
+    return cleaned_data

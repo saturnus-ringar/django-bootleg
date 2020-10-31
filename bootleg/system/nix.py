@@ -3,9 +3,18 @@ import grp
 import pwd
 from shutil import which
 
-from bootleg.nix import shell
+from bootleg.system.shell import run_command
+
+from bootleg.system import shell
 
 SAR_COMMAND_EXISTS = which("sar") is not None
+
+
+def get_ubuntu_information():
+    try:
+        return run_command(["lsb_release", "-a"])
+    except:
+        pass
 
 
 def is_current_user(user):

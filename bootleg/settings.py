@@ -1,5 +1,6 @@
+from bootleg.system import file_system
+
 from bootleg.conf import settings as bootleg_settings
-from bootleg.utils import file_system
 from django.conf import settings
 
 # somewhat ugly to change the django settings at runtime ...nevertheless...

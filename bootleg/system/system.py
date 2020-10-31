@@ -3,7 +3,9 @@ import platform
 import sys
 
 import pkg_resources
-from bootleg.utils import humanize, db, file_system
+
+from bootleg.system import shell, file_system
+from bootleg.utils import humanize, db
 from django.conf import settings
 from django.db import connection, OperationalError
 

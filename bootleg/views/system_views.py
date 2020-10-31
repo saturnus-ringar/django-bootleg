@@ -1,5 +1,5 @@
 import giturlparse
-from bootleg.git import git
+from bootleg.system import git
 
 from bootleg.views.base import StaffRequiredTemplateView
 from django.utils.translation import ugettext as _

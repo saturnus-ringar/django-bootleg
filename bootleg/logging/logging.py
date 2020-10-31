@@ -7,13 +7,16 @@ import warnings
 from pathlib import Path
 from pprint import pformat
 
-from bootleg.utils.file_system import NotWritableWarning
+from bootleg.system.file_system import NotWritableWarning
+
+from bootleg.system import file_system
 from django.conf import settings
 from ipware import get_client_ip
 
 from bootleg.conf import settings as bootleg_settings
 from bootleg.logging.handlers import StreamHandler, FileHandler
-from bootleg.utils import utils, file_system
+from bootleg.utils import utils
+
 
 CREATED = "CREATED"
 UPDATED = "UPDATED"

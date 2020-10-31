@@ -1,11 +1,11 @@
 import logging
 
-from bootleg.nix import nix
+from bootleg.system import file_system, nix
 from django.apps import AppConfig
 from django.core.checks import Error, register
 from giturlparse import validate
 
-from bootleg.utils import models, file_system
+from bootleg.utils import models
 from bootleg.conf import settings as bootleg_settings
 from django.conf import settings
 
