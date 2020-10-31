@@ -60,6 +60,7 @@ from bootleg.init import *
 urlpatterns = [
     # ...
     path('', include('bootleg.urls')),
+    path('', include('bootleg.url_apps')),
 ]
 ```
 
