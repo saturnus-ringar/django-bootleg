@@ -62,7 +62,7 @@ class Settings:
         # logging
         ####################################################
         self.add_setting("FAIL_LOG_PATH", "/dev/null")
-        self.add_setting("LOG_DIR", os.path.join(get_setting("LOG_DIR", "/dev/null"), ''))
+        self.add_setting("LOG_DIR", os.path.join(get_setting("LOG_DIR", self.FAIL_LOG_PATH), ''))
         self.add_setting("ADD_BUILTINS", True)
         self.add_setting("LOG_FORMAT", "%(asctime)s %(levelname)s %(message)s")
         self.add_setting("LOG_DATE_FORMAT",  "%Y-%m-%d %H:%M:%S")
