@@ -4,7 +4,7 @@ import sys
 
 import pkg_resources
 
-from bootleg.system import shell, file_system
+from bootleg.system import shell, file_system, commands
 from bootleg.utils import humanize, db
 from django.conf import settings
 from django.db import connection, OperationalError
@@ -36,14 +36,14 @@ class System:
         self.virtual_env_path = self.get_virtual_env_path()
 
         # system stats
-        self.disk_usage = shell.get_disk_usage_h()
-        self.memory_usage = shell.get_memory_usage_h()
-        self.load_average = shell.get_load_average()
-        self.cpu_usage = shell.get_cpu_usage()
-        self.disk_io = shell.get_disk_io()
+        self.disk_usage = commands.get_disk_usage_h()
+        self.memory_usage = commands.get_memory_usage_h()
+        self.load_average = commands.get_load_average()
+        self.cpu_usage = commands.get_cpu_usage()
+        self.disk_io = commands.get_disk_io()
         self.disks = self.get_disks()
-        self.load_average_data = shell.get_load_average_cleaned()
-        self.memory_usage_data = shell.get_memory_usage_cleaned()
+        self.load_average_data = commands.get_load_average_cleaned()
+        self.memory_usage_data = commands.get_memory_usage_cleaned()
 
         # installed packages
         self.installed_packages = self.get_installed_packages()
@@ -60,8 +60,8 @@ class System:
 
         # log dirs
         if os.getenv("APACHE_LOG_DIR"):
-            self.apache_log_dir_info = shell.get_dir_size_h(os.getenv("APACHE_LOG_DIR")).strip()
-        self.log_dir_info = shell.get_dir_size_h(getattr(settings, "LOG_DIR"))
+            self.apache_log_dir_info = commands.get_dir_size_h(os.getenv("APACHE_LOG_DIR")).strip()
+        self.log_dir_info = commands.get_dir_size_h(getattr(settings, "LOG_DIR"))
 
         # mysql-info
         self.mysql_version = self.get_mysql_version()
@@ -93,7 +93,7 @@ class System:
         disks = []
         disks_to_check = getattr(settings, "DISKS_TO_CHECK", None)
         if disks_to_check:
-            for data in shell.output_to_list(shell.get_disk_usage(), lines_to_ignore=[0]):
+            for data in shell.output_to_list(commands.get_disk_usage(), lines_to_ignore=[0]):
                 if data[0] in disks_to_check:
                     disks.append(Disk(data[0], data[1], data[2]))
             return disks
