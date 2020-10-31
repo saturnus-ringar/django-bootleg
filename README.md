@@ -168,7 +168,7 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 ```
 
 DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
-> Example: 'website/system/deploymebt.html'
+> Example: 'website/system/deployment.html'
 
 > And an example on what the template could look lie
 ```python
