@@ -1,27 +1,12 @@
 import hashlib
 from time import time
-from re import compile
+
+from bootleg.logging import logging
 from django.db import connection
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.utils.http import urlencode
 from ipware import get_client_ip
 
-from bootleg.conf import settings as bootleg_settings
-from bootleg.logging import logging
+from bootleg.middleware.base import BaseMiddleware
 from bootleg.utils import humanize
-
-
-class BaseMiddleware:
-
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        response = self.process_request(request)
-        if response:
-            return response
-        return self.get_response(request)
 
 
 class LoggingMiddleware(BaseMiddleware):
@@ -122,30 +107,3 @@ class LoggingMiddleware(BaseMiddleware):
             'db_time': total_time,
             'db_queries': len(connection.queries),
         }
-
-
-EXEMPT_URLS = [
-    compile(str(reverse("bootleg:change_password") + '.*')),
-    compile(str(reverse("bootleg:login"))),
-]
-
-exempt_urls_function = bootleg_settings.get_login_exempt_urls_function()
-if exempt_urls_function:
-    for url in exempt_urls_function():
-        EXEMPT_URLS.append(compile(url))
-
-
-class LoginMiddleware(BaseMiddleware):
-
-    def process_request(self, request):
-        path = request.path_info
-        # redirect logged in users at the login page to the home url
-        if path == reverse("bootleg:login") and request.user.is_authenticated:
-            return HttpResponseRedirect(bootleg_settings.home_url())
-
-        if not request.user.is_authenticated:
-            if not any(m.match(path) for m in EXEMPT_URLS):
-                if request.get_full_path() != "/":
-                    return HttpResponseRedirect(reverse("bootleg:login") + "?" + urlencode({"next": request.get_full_path()}))
-                else:
-                    return HttpResponseRedirect(reverse("bootleg:login"))
