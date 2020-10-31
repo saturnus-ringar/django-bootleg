@@ -6,7 +6,7 @@ from bootleg.views.base import StaffRequiredTemplateView
 
 
 class DeployInfoView(StaffRequiredTemplateView):
-    title = _("Deploy info")
+    title = _("Deployment")
     template_name = "bootleg/deploy_info.html"
 
     def get_context_data(self, **kwargs):
@@ -16,7 +16,7 @@ class DeployInfoView(StaffRequiredTemplateView):
 
 
 class SystemInfoView(StaffRequiredTemplateView):
-    title = _("System info")
+    title = _("System")
     template_name = "bootleg/system_info.html"
 
     def get_context_data(self, **kwargs):
