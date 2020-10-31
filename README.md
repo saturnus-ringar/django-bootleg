@@ -111,7 +111,32 @@ STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else 
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
 
-SYSTEM_TEMPLATE - default **'"bootleg/system_info.html'**
+SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
+> Example: 'website/system/system_info.html'
+> An an example on what the template could look lie
+```python
+{% extends 'website/base.html' %}
+{% block content %}
+<h1>{% trans 'System information' %}</h1>
+<p>
+    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
+</p>
+{% render_system_information %}
+{% endblock %}
+
+DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
+> Example: 'website/system/deploymebt.html'
+> An an example on what the template could look like
+```python
+{% extends 'website/base.html' %}
+{% block content %}
+<h1>{% trans 'Deployment' %}</h1>
+<p>
+    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
+</p>
+{% render_deploy_info %}
+{% endblock %}
+
 
 
 CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
