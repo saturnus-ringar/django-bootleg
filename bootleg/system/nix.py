@@ -4,14 +4,6 @@ import os
 import pwd
 
 from bootleg.system import shell
-from bootleg.system.shell import run_command
-
-
-def get_ubuntu_information():
-    try:
-        return run_command(["lsb_release", "-a"])
-    except:
-        pass
 
 
 def is_current_user(user):

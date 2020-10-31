@@ -4,7 +4,7 @@ import sys
 
 import pkg_resources
 
-from bootleg.system import shell, file_system, commands
+from bootleg.system import shell, file_system, commands, nix
 from bootleg.utils import humanize, db
 from django.conf import settings
 from django.db import connection, OperationalError
@@ -29,7 +29,7 @@ class System:
     def __init__(self):
         # os/platform
         self.platform = self.get_platform()
-        self.ubuntu_information = shell.get_ubuntu_information()
+        self.ubuntu_information = nix.get_ubuntu_information()
         # python ...stuff...
         self.python_version = self.cleanup(sys.version)
         self.executable = sys.executable

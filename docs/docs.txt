@@ -1,0 +1,3 @@
+- lägga till installerade appar osv
+
+- lägga till render_deploy_status och render_sytem ... i docsen: https://github.com/saturnus-ringar/django-bootleg

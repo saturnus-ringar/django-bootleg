@@ -1,4 +1,15 @@
-göra vyer för system och deploy som använder template som man har definerat, eller eget som default
+- göra vyer för system och deploy som använder template som man har definerat, eller eget som default
+
+- rendera deploy och system i menyn
+
+- dubbla slash i github-urlen
+    http://localhost:8000/deploy/info/
+
+- funkar icke:
+    http://localhost:8000/list/kebab/
+
+- funkar icke:
+    http://localhost:8000/create/kebab/
 
 ***********************
  error-sidor
@@ -12,7 +23,6 @@ kolla att alla error-templates finns
 
 - javascriptvarningar i menyn
 
-
 ***********************
  system
 ***********************
@@ -20,7 +30,6 @@ kolla att alla error-templates finns
 - skriva ut i system att det är fejkdata om man använder textfilerna
 
 - varna i olika färger på load osv. - med javascript
-
 
 ***********************
  profile

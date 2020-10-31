@@ -1,4 +1,4 @@
-from bootleg.views.system_views import DeployInfoView
+from bootleg.views.system_views import DeployInfoView, SystemInfoView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -65,9 +65,10 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url(bootleg_settings.favicon_file()))),
 
     #######################################
-    # deploy info
+    # deploy/system info
     #######################################
-    path('deploy/info/', DeployInfoView.as_view(), name="deploy_status"),
+    path('deploy/info/', DeployInfoView.as_view(), name="deploy_info"),
+    path('system/info/', SystemInfoView.as_view(), name="system_info"),
 ]
 
 if settings.DEBUG:
