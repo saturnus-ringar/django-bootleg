@@ -79,9 +79,6 @@ SITE_DOMAIN = default **None**
 SITE_NAME = default **None**
 > Just a name. It's not used in URLs.
 
-NAVIGATION_TEMPLATE - default **None** 
-> Example: 'website/includes/navigation.html'
-
 HOME_URL = default **None**
 > Just a string. The string will be URL-reverse():ed
 
@@ -107,39 +104,7 @@ STORE_LOGGED_EXCEPTIONS - default **True**
 STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else **False** 
 > booean True/False
 
-### Templates/HTML/CSS
-BASE_TEMPLATE - default **None**
-> Example: 'website/base.html'
-
-SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
-> Example: 'website/system/system_info.html'
-
-> And an example on what the template could look lie
-```python
-{% extends 'website/base.html' %}
-{% block content %}
-<h1>{% trans 'System information' %}</h1>
-<p>
-    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
-</p>
-{% render_system_information %}
-{% endblock %}
-```
-
-DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
-> Example: 'website/system/deploymebt.html'
-
-> And an example on what the template could look lie
-```python
-{% extends 'website/base.html' %}
-{% block content %}
-<h1>{% trans 'Deployment' %}</h1>
-<p>
-    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
-</p>
-{% render_deploy_info %}
-{% endblock %}
-```
+### CSS
 
 CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
 > Example: 'container'
@@ -149,21 +114,6 @@ CSS_FILE = default **'bootleg/css/bootstrap.css'**
 
 FAVICON_FILE = default **'bootleg/img/favicon.ico'**
 > Example: 'website/img/favicon.png'
-
-ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
-> Example: 'website/errors/404.html'
-
-ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
-> Example: 'website/errors/400.html'
-
-ERROR_403_TEMPLATE - default **'bootleg/errors/403.html'**
-> Example: 'website/errors/403.html'
-
-ERROR_404_TEMPLATE - default **'bootleg/errors/404.html'**
-> Example: 'website/errors/404.html'
-
-ERROR_500_TEMPLATE - default **'bootleg/errors/500.html'**
-> Example: 'website/errors/500.html'
 
 ### Misc-ish
 POST_LOGIN_URL = default **reverse('dev_null')**
@@ -196,3 +146,87 @@ Get the URL to the Deployment page
 {% url "bootleg:deploy_info" %}
 
 ```
+
+### Templates
+
+BASE_TEMPLATE - default **None**
+> Example: 'website/base.html'
+
+SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
+> Example: 'website/system/system_info.html'
+
+> And an example on what the template could look lie
+```python
+{% extends 'website/base.html' %}
+{% block content %}
+<h1>{% trans 'System information' %}</h1>
+<p>
+    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
+</p>
+{% render_system_information %}
+{% endblock %}
+```
+
+DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
+> Example: 'website/system/deployment.html'
+
+> And an example on what the template could look lie
+```python
+{% extends 'website/base.html' %}
+{% block content %}
+<h1>{% trans 'Deployment' %}</h1>
+<p>
+    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
+</p>
+{% render_deploy_info %}
+{% endblock %}
+```
+
+NAVIGATION_TEMPLATE - default **None** 
+> Example: 'website/includes/navigation.html'
+
+```python
+{% load i18n static bootleg %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/"><img src="{% static 'website/img/logo.png' %}" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label={% trans "Toggle navigation" %}>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav">
+            {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">{% trans "Login" %}</a>
+                </li>
+            {% endif %}
+
+            {% if user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bootleg:system' %}">{% trans "System info" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'bootleg:deploy_status' %}">{% trans "Deploy status" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+        {% render_navigation request %}
+    </div>
+</nav>
+```
+
+ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
+> Example: 'website/errors/404.html'
+
+ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
+> Example: 'website/errors/400.html'
+
+ERROR_403_TEMPLATE - default **'bootleg/errors/403.html'**
+> Example: 'website/errors/403.html'
+
+ERROR_404_TEMPLATE - default **'bootleg/errors/404.html'**
+> Example: 'website/errors/404.html'
+
+ERROR_500_TEMPLATE - default **'bootleg/errors/500.html'**
+> Example: 'website/errors/500.html'
+
