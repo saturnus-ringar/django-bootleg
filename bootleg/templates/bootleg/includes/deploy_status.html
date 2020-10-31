@@ -1,0 +1,63 @@
+{% extends "bootleg/base.html" %}
+{% load static i18n bootleg bootstrap_tags %}
+{% block content %}
+
+<h3>{{ parsed_url.repo }} - {% trans "git/repo" %}</h3>
+
+<p class="mb-4"><a href="{{ github_url }}">{{ github_url }}</a>
+
+<table class="{% get_default_table_classes %}">
+<tbody>
+    <tr>
+        <td>{% trans "Description" %}</td>
+        <td>{{ repo.description }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Active branch" %}</td>
+        <td>{{ repo.active_branch }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Branches" %}</td>
+        <td>
+            {% for branch in repo.branches %}
+                {{ branch }} {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+   <tr>
+        <td>{% trans "git dir" %}</td>
+        <td>{{ repo.git_dir }}</td>
+    </tr>
+</tbody>
+</table>
+
+<h3>{% trans "Latest commits" %}</h3>
+<table class="{% get_default_table_classes %}">
+<tbody>
+    <tr>
+        <th>{% trans "Date" %}</th>
+        <th>{% trans "Author" %}</th>
+        <th>{% trans "Message" %}</th>
+        <th>{% trans "Type" %}</th>
+        <th></th>
+    </tr>
+    {% for commit in repo.iter_commits %}
+        {% if repo.head.object == commit %}
+            <tr class="table-success">
+        {% else %}
+            <tr>
+        {% endif %}
+            <td>{{ commit.committed_datetime }}</td>
+            <td>{{ commit.author }}</td>
+            <td>{{ commit.message }}</td>
+            {% if repo.head.object == commit %}
+                    <td>{% trans "Current commit" %}</td>
+            {% else %}
+                    <td>{{ commit.type }}</td>
+            {% endif %}
+        <td><a href="{{ github_url }}/commit/{{ commit }}">{% trans "github" %}</a></td>
+            </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}

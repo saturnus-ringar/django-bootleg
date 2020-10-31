@@ -146,6 +146,30 @@ def site_id():
     return get_setting("SITE_ID")
 
 
+def main_user():
+    return get_setting("MAIN_USER", root_folder())
+
+
+####################################################
+# users/groups
+####################################################
+
+def webserver_user():
+    return get_setting("WEBSERVER_USER", "www-data", required=True)
+
+
+def main_user_group():
+    return get_setting("MAIN_USER_GROUP", root_folder())
+
+
+def webserver_user_group():
+    return get_setting("WEBSERVER_USER_GROUP", "www-data")
+
+
+def git_url():
+    return get_setting("GIT_URL", None)
+
+
 ####################################################
 # misc-ish
 ####################################################

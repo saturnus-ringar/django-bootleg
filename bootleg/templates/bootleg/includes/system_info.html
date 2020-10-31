@@ -1,0 +1,177 @@
+{% load i18n humanize bootstrap_tags bootleg %}
+<h1>{% trans "System information" %}</h1>
+
+<h3 class="mt-4">{% trans "Platform/distribution" %}</h3>
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+                <tr>
+                        <td>{% trans "Platform " %}</td>
+                        <td>{{ system.platform }}</td>
+                </tr>
+                {% if system.ubuntu_information %}
+                        <tr>
+                                <td>{% trans "Ubuntu " %}</td>
+                                <td>{{ system.ubuntu_information|nl2br }}</td>
+                        </tr>
+                {% endif %}
+        </tbody>
+</table>
+
+<h3 class="mt-4">{% trans "Python" %}</h3>
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+                <tr>
+                        <td>{% trans "Version " %}</td>
+                        <td colspan="4">{{ system.python_version }}</td>
+                </tr>
+                <tr>
+                        <td>{% trans "Executable " %}</td>
+                        <td colspan="4">{{ system.executable }}</td>
+                </tr>
+                <tr>
+                        <td>{% trans "Virtual env" %}</td>
+                        <td>{{ system.virtual_env_path }}</td>
+                        <td>{% trans "Last modified" %}</td>
+                        <td>{{ system.env_dir_last_modified_file.date }}</td>
+                </tr>
+        </tbody>
+</table>
+
+<h3 class="mt-4">{% trans "Disk usage" %}</h3>
+{% get_card_top %}
+<pre>
+{{ system.disk_usage }}
+</pre>
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "Files and directories" %}</h3>
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+                <tr>
+                        <td>{% trans "Project path" %}</td>
+                        <td>{{ system.project_path }}</td>
+                        <td>{% trans "Last modified" %}</td>
+                        <td>{{ system.project_dir_last_modified_file.date }}</td>
+                </tr>
+                <tr>
+                        <td>{% trans "MEDIA_ROOT" %}</td>
+                        <td>{{ system.media_root }}</td>
+                        <td>{% trans "Last modified" %}</td>
+                        <td>{{ system.media_dir_last_modified_file.date }}</td>
+                </tr>
+                <tr>
+                        <td>{% trans "STATIC_ROOT" %}</td>
+                        <td>{{ system.static_root }}</td>
+                        <td>{% trans "Last modified" %}</td>
+                        <td>{{ system.static_dir_last_modified_file.date }}</td>
+                </tr>
+        </tbody>
+</table>
+
+<h3 class="mt-4">{% trans "Log file dirs" %}</h3>
+{% get_card_top %}
+{% if system.apache_log_dir_info %}
+        <strong>{% trans "Apache" %}</strong>
+        <pre>
+            {{ system.apache_log_dir_info }}
+        </pre>
+{% endif %}
+<strong>{% trans "Log dir" %}</strong>
+        <pre>
+            {{ system.log_dir_info }}
+        </pre>
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "Installed packages" %}</h3>
+{% get_card_top %}
+{% for package in system.installed_packages %}
+        {{ package }}
+        <br />
+{% endfor %}
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "Load average" %}</h3>
+{% get_card_top %}
+<pre>
+{{ system.load_average }}
+</pre>
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "Memory usage" %}</h3>
+{% get_card_top %}
+<pre>
+{{ system.memory_usage }}
+</pre>
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "CPU usage" %}</h3>
+{% get_card_top %}
+<pre>
+{{ system.cpu_usage }}
+</pre>
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "Disk IO" %}</h3>
+{% get_card_top %}
+<pre>
+{{ system.disk_io }}
+</pre>
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "MySQL info" %}</h3>
+
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+                <tr>
+                        <td>{% trans "Version" %}</td>
+                        <td>{{ system.mysql_version }}</td>
+                </tr>
+                <tr>
+                        <td>{% trans "DB-size" %}</td>
+                        <td>{{ system.db_size|humanize_bytes }}</td>
+                </tr>
+        </tbody>
+</table>
+
+<h4 class="mt-4">{% trans "Tables" %}</h4>
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+        <tr>
+                {% for status in system.mysql_table_status|slice:":1" %}
+                        {% for key, value in status.items %}
+                                <th>{{ key }}</th>
+                        {% endfor %}
+                {% endfor %}
+        </tr>
+        {% for status in system.mysql_table_status %}
+                <tr>
+                        {% for key, value in status.items %}
+                                <td>
+                                        {% if key != "Rows" %}
+                                                {{ value|humanize_bytes }}
+                                        {% elif key == "Rows" %}
+                                                {{ value|intcomma }}
+                                        {% else %}
+                                                {{ value }}
+                                        {% endif %}
+                                </td>
+                        {% endfor %}
+                </tr>
+        {% endfor %}
+        </tbody>
+</table>
+
+<h3 class="mt-4">{% trans "Environment" %}</h3>
+
+<h4 class="mt-4">{% trans "Environment variables" %}</h4>
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+        {% for env in system.env %}
+                <tr>
+                        <td>{{ env.key }}</td>
+                        <td class="word-wrap">{{ env.value }}</td>
+                </tr>
+        {% endfor %}
+</tbody>
+</table>
+{% get_card_bottom %}

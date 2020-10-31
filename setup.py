@@ -14,12 +14,14 @@ install_requires = [
     'django-jsonview >= 2.0.0',
     'django-tables2 >= 2.3.2',
     'django-user-agents >= 0.4.0',
+    'GitPython >= 3.1.11',
+    'giturlparse >= 0.9.2',
     'psutil >= 5.7.3',
 ]
 
 setup(
     name='django-bootleg',
-    version=VERSION,
+    version=bootleg.__version__,
     description='Django additions and ...thingies...',
     long_description=(),
     author='Saturnus Ringar',

@@ -1,5 +1,7 @@
+from bootleg.system.system import System
 from django import template
 from django.apps import apps
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from bootleg.utils import html as bootleg_html
@@ -41,3 +43,8 @@ def get_first_with_value(*args):
             return arg
 
     return ""
+
+
+@register.simple_tag
+def render_system_info():
+    return render_to_string("bootleg/includes/system_info.html", {"system": System()})

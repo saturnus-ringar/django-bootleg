@@ -1,4 +1,4 @@
-- namespaca URLar (i alla projekt)
+- skapa en system-info-vy
 
 ***********************
  error-sidor
@@ -11,6 +11,16 @@ kolla att alla error-templates finns
 ***********************
 
 - javascriptvarningar i menyn
+
+
+***********************
+ system
+***********************
+
+- skriva ut i system att det är fejkdata om man använder textfilerna
+
+- varna i olika färger på load osv. - med javascript
+
 
 ***********************
  profile
@@ -40,6 +50,50 @@ kolla att alla error-templates finns
     HTML: class="djdt-hidden"
 
     toolbar.css t.ex.
+
+***************************************
+ deploy
+***************************************
+
+- tag för att rendera deploy-status osv.
+
+- visa när servern startats om + senaste filerna i foldrar
+
+- git-historik (lär behöva ta via github-api)
+
+- kontroller av ägare/rättigheter på:
+    virtual-env-diret
+    projekt-diret
+    log-dir
+
+- ta URL vid git pull från GIT_URL i settings om den finns
+
+- hantera Requirements already... i pip install så det inte spammar
+
+- hantera failat:
+    git pull
+    pip install
+    management.call_command("migrate")
+    management.call_command("collectstatic", interactive=False)
+    server restart
+
+    ***************************
+     dela upp
+    ***************************
+
+    - dela upp mantis, ett paket som bara har nix-tools
+        ... problem med ett nytt repo?!?!?!
+
+    ***************************
+     spara deploy data?
+    ***************************
+
+        - spara ner lite data kring deployen, om det gick bra
+            - datum/tid
+            - användare som deployade
+            - git commit
+
+        - spara failade deployer (med ett exception?)
 
 ***************************************
  errors
