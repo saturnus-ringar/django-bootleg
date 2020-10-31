@@ -1,3 +1,5 @@
+from bootleg.system.git import GitData
+
 from bootleg.system.system import System
 from django import template
 from django.apps import apps
@@ -48,3 +50,8 @@ def get_first_with_value(*args):
 @register.simple_tag
 def render_system_info():
     return render_to_string("bootleg/includes/system_info.html", {"system": System()})
+
+
+@register.simple_tag
+def render_deploy_info():
+    return render_to_string("bootleg/includes/deploy_info.html", {"git_data": GitData()})

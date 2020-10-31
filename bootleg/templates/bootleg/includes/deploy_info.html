@@ -2,9 +2,9 @@
 {% load static i18n bootleg bootstrap_tags %}
 {% block content %}
 
-<h3>{{ parsed_url.repo }} - {% trans "git/repo" %}</h3>
+<h3>{{ git_data.parsed_git_url.repo }} - {% trans "git/repo" %}</h3>
 
-<p class="mb-4"><a href="{{ github_url }}">{{ github_url }}</a>
+<p class="mb-4"><a href="{{ git_data.github_url }}">{{ git_data.github_url }}</a>
 
 <table class="{% get_default_table_classes %}">
 <tbody>
@@ -14,19 +14,19 @@
     </tr>
     <tr>
         <td>{% trans "Active branch" %}</td>
-        <td>{{ repo.active_branch }}</td>
+        <td>{{ git_data.repo.active_branch }}</td>
     </tr>
     <tr>
         <td>{% trans "Branches" %}</td>
         <td>
-            {% for branch in repo.branches %}
+            {% for branch in git_data.repo.branches %}
                 {{ branch }} {% if not forloop.last %}, {% endif %}
             {% endfor %}
         </td>
     </tr>
    <tr>
         <td>{% trans "git dir" %}</td>
-        <td>{{ repo.git_dir }}</td>
+        <td>{{ git_data.repo.git_dir }}</td>
     </tr>
 </tbody>
 </table>
@@ -41,8 +41,8 @@
         <th>{% trans "Type" %}</th>
         <th></th>
     </tr>
-    {% for commit in repo.iter_commits %}
-        {% if repo.head.object == commit %}
+    {% for commit in git_data.repo.iter_commits %}
+        {% if git_data.repo.head.object == commit %}
             <tr class="table-success">
         {% else %}
             <tr>
