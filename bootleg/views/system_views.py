@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 class DeployStatusView(StaffRequiredTemplateView):
     title = _("Deploy status")
-    template_name = "mantis/deploy_status.html"
+    template_name = "bootleg/includes/deploy_status.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

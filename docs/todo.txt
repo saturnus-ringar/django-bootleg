@@ -1,4 +1,4 @@
-- skapa en system-info-vy
+göra vyer för system och deploy som använder template som man har definerat, eller eget som default
 
 ***********************
  error-sidor
