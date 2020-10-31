@@ -177,15 +177,17 @@ def check_settings(app_configs, **kwargs):
     errors = check_site_domain(errors)
     errors = check_site_name(errors)
     errors = check_home_url(errors)
-    errors = check_user(errors, bootleg_settings.main_user(), "MAIN_USER", 7)
-    errors = check_user(errors, bootleg_settings.webserver_user(), "WEBSERVER_USER", 8)
-    errors = check_group(errors, bootleg_settings.main_user_group(), "MAIN_USER_GROUP", 9)
-    errors = check_group(errors, bootleg_settings.webserver_user_group(), "WEBSERVER_USER_GROUP", 10)
-    errors = check_user_is_in_group(errors, bootleg_settings.main_user(), bootleg_settings.main_user_group(), 11)
-    errors = check_user_is_in_group(errors, bootleg_settings.webserver_user(), bootleg_settings.webserver_user_group(), 12)
-    errors = check_user_is_in_group(errors, bootleg_settings.main_user(), bootleg_settings.webserver_user_group(), 13)
-    errors = check_user_is_in_group(errors, bootleg_settings.webserver_user(), bootleg_settings.main_user_group(), 14)
-    errors = check_git_url(errors)
+    if not settings.DEBUG:
+        # only check users and groups if we're live
+        errors = check_user(errors, bootleg_settings.main_user(), "MAIN_USER", 7)
+        errors = check_user(errors, bootleg_settings.webserver_user(), "WEBSERVER_USER", 8)
+        errors = check_group(errors, bootleg_settings.main_user_group(), "MAIN_USER_GROUP", 9)
+        errors = check_group(errors, bootleg_settings.webserver_user_group(), "WEBSERVER_USER_GROUP", 10)
+        errors = check_user_is_in_group(errors, bootleg_settings.main_user(), bootleg_settings.main_user_group(), 11)
+        errors = check_user_is_in_group(errors, bootleg_settings.webserver_user(), bootleg_settings.webserver_user_group(), 12)
+        errors = check_user_is_in_group(errors, bootleg_settings.main_user(), bootleg_settings.webserver_user_group(), 13)
+        errors = check_user_is_in_group(errors, bootleg_settings.webserver_user(), bootleg_settings.main_user_group(), 14)
+        errors = check_git_url(errors)
     return errors
 
 
