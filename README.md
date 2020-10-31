@@ -113,7 +113,8 @@ BASE_TEMPLATE - default **None**
 
 SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 > Example: 'website/system/system_info.html'
-> An an example on what the template could look lie
+
+> And an example on what the template could look lie
 ```python
 {% extends 'website/base.html' %}
 {% block content %}
@@ -127,7 +128,8 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 
 DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 > Example: 'website/system/deploymebt.html'
-> An an example on what the template could look like
+
+> And an example on what the template could look lie
 ```python
 {% extends 'website/base.html' %}
 {% block content %}
@@ -138,7 +140,6 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 {% render_deploy_info %}
 {% endblock %}
 ```
-
 
 CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
 > Example: 'container'
@@ -182,10 +183,16 @@ PRINT_AT_STARTUP - default **True**
 > booean True/False
 > Prints settings etc. at startup if True
 
-### Getting URLs
+### Reversing URLs
 Get the URL to the System info page
 
 ```python
 {% url "bootleg:system_info" %}
+
+```
+Get the URL to the Deployment page
+
+```python
+{% url "bootleg:deploy_info" %}
 
 ```
