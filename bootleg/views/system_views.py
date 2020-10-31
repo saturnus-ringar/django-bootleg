@@ -3,11 +3,12 @@ from django.utils.translation import ugettext as _
 
 from bootleg.system.git import GitData
 from bootleg.views.base import StaffRequiredTemplateView
+from bootleg.conf import settings as bootleg_settings
 
 
 class DeployInfoView(StaffRequiredTemplateView):
     title = _("Deployment")
-    template_name = "bootleg/deploy_info.html"
+    template_name = bootleg_settings.system_template()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -17,7 +18,7 @@ class DeployInfoView(StaffRequiredTemplateView):
 
 class SystemInfoView(StaffRequiredTemplateView):
     title = _("System")
-    template_name = "bootleg/system_info.html"
+    template_name = bootleg_settings.system_template()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

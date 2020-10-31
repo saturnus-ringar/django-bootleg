@@ -114,6 +114,14 @@ def navigation_template():
     return get_setting("NAVIGATION_TEMPLATE", None, required=True)
 
 
+def system_template():
+    return get_setting("SYSTEM_TEMPLATE", "bootleg/system_info.html")
+
+
+def deployment_template():
+    return get_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
+
+
 def template_400():
     return get_setting("ERROR_400_TEMPLATE", get_error_template(400))
 
