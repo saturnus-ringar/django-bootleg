@@ -1,11 +1,10 @@
-from bootleg.management.commands.base import BaseCommand
-
-from bootleg import logging
-from bootleg.git import git
 from django.core import management
 
-from bootleg.utils import utils as bootleg_utils, system
-from bootleg.conf import settings as bootleg_settings
+from bootleg import logging
+from bootleg.conf.settings import bootleg_settings
+from bootleg.management.commands.base import BaseCommand
+from bootleg.system import utils, git
+from bootleg.utils import utils as bootleg_utils
 
 
 class Command(BaseCommand):
@@ -19,11 +18,11 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        self.logger.info("Deploying %s" % bootleg_settings.project_name())
+        self.logger.info("Deploying %s" % bootleg_settings.PROJECT_NAME)
         self.logger.info("Running git pull")
         self.logger.info(git.git_pull())
         self.logger.info("Installing packages")
-        system.pip_install()
+        utils.pip_install()
         self.logger.info("Migrating")
         management.call_command("migrate")
         self.logger.info("Collecting static")

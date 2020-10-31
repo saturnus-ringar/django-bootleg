@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext as _
 
-from bootleg.conf import settings as bootleg_settings
+from bootleg.conf.settings import bootleg_settings
 from bootleg.forms.auth_forms import CustomPasswordResetForm, CustomResetPasswordForm, CustomSetPasswordForm, LoginForm
 from bootleg.views.base import BaseTemplateView, FormWithRequestMixin
 
@@ -31,7 +31,7 @@ class CustomLoginView(BaseTemplateView, LoginView, FormWithRequestMixin):
         next_url = self.request.POST.get("next", "")
         if next_url:
             return next_url
-        return bootleg_settings.login_redirect_url()
+        return bootleg_settings.LOGIN_REDIRECT_URL
 
     def get_extra_text(self):
         return _('<a href="%s">Forgot password?</a>' % reverse_lazy("bootleg:password_reset"))

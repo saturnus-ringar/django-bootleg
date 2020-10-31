@@ -1,6 +1,7 @@
-from bootleg.nix import nix
+
 from django.core.management import BaseCommand
-from bootleg.settings import settings as bootleg_settings
+from bootleg.conf.settings import bootleg_settings
+from bootleg.system import nix
 
 
 class UserError(Exception):

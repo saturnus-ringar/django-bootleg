@@ -1,10 +1,15 @@
 import errno
 import os
 from datetime import datetime
+from django.conf import settings
 
 
 class NotWritableWarning(RuntimeWarning):
     pass
+
+
+def get_full_path(filename):
+    return os.path.join(settings.BASE_DIR, filename)
 
 
 def is_writable(directory):

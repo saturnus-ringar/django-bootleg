@@ -1,6 +1,5 @@
 from bootleg.system import file_system
-
-from bootleg.conf import settings as bootleg_settings
+from bootleg.conf.settings import bootleg_settings
 from django.conf import settings
 
 # somewhat ugly to change the django settings at runtime ...nevertheless...
@@ -35,42 +34,40 @@ if not settings.is_overridden("COMPRESS_CSS_FILTERS"):
 # logging
 #####################################################
 
-log_dir = bootleg_settings.log_dir()
-log_level = bootleg_settings.django_log_level()
 
-if file_system.is_writable(log_dir):
+if file_system.is_writable(bootleg_settings.LOG_DIR):
     settings.LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
         'formatters': {
             'verbose': {
-                'format': bootleg_settings.log_format(),
-                'datefmt': bootleg_settings.log_date_format(),
+                'format': bootleg_settings.LOG_FORMAT,
+                'datefmt': bootleg_settings.LOG_DATE_FORMAT,
             }
         },
         'handlers': {
             'django': {
-                'level': log_level,
+                'level': bootleg_settings.DJANGO_LOG_LEVEL,
                 'class': 'bootleg.logging.handlers.DjangoLogHandler',
-                'filename': log_dir + 'django.log',
+                'filename':  bootleg_settings.LOG_DIR + 'django.log',
                 'formatter': 'verbose'
             },
             'sql': {
                 'level': 'DEBUG', # static DEBUG level on this one
                 'class': 'bootleg.logging.handlers.FileHandler',
-                'filename': log_dir + 'sql.log',
+                'filename':  bootleg_settings.LOG_DIR + 'sql.log',
                 'formatter': 'verbose'
             },
         },
         'loggers': {
             'django': {
                 'handlers': ['django'],
-                'level': log_level
+                'level': bootleg_settings.DJANGO_LOG_LEVEL
             },
         },
     }
 
-    if bootleg_settings.log_sql():
+    if bootleg_settings.LOG_SQL:
         settings.LOGGING["loggers"]["django.db.backends"] = {
             'level': 'DEBUG', # always debug on this one
             'handlers': ['sql']

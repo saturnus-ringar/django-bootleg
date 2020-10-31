@@ -4,7 +4,7 @@ from django.utils.http import urlencode
 
 from bootleg.middleware.base import BaseMiddleware
 from django.urls import reverse
-from bootleg.conf import settings as bootleg_settings
+from bootleg.conf.settings import bootleg_settings
 
 
 EXEMPT_URLS = [
@@ -12,7 +12,8 @@ EXEMPT_URLS = [
     compile(str(reverse("bootleg:login"))),
 ]
 
-exempt_urls_function = bootleg_settings.get_login_exempt_urls_function()
+# add custom exempt URLs from a function, if it exists
+exempt_urls_function = bootleg_settings.LOGIN_EXEMPT_URLS_FUNCTION
 
 if exempt_urls_function:
     for url in exempt_urls_function():

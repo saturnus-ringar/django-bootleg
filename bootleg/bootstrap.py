@@ -3,7 +3,7 @@ from colorama import Fore, Style
 from django.conf import settings
 from django.db import connection
 
-from bootleg.conf import settings as bootleg_settings
+from bootleg.conf.settings import bootleg_settings
 from bootleg.utils import models
 
 
@@ -17,9 +17,9 @@ def startup_print():
 
     print(Fore.LIGHTYELLOW_EX + "Database backend:\t" + connection.vendor)
     print("Using database:\t\t" + connection.settings_dict['NAME'])
-    print("Log-dir:\t\t" + bootleg_settings.log_dir())
-    print("Log level:\t\t" + bootleg_settings.log_level())
-    print("Django log level:\t" + bootleg_settings.django_log_level())
+    print("Log-dir:\t\t" + bootleg_settings.LOG_DIR)
+    print("Log level:\t\t" + bootleg_settings.LOG_LEVEL)
+    print("Django log level:\t" + bootleg_settings.DJANGO_LOG_LEVEL)
     print("Static root:\t\t" + getattr(settings, "STATIC_ROOT"))
     print("Static url:\t\t" + getattr(settings, "STATIC_URL"))
     print("Media root:\t\t" + getattr(settings, "MEDIA_ROOT"))
@@ -29,13 +29,13 @@ def startup_print():
     if editable_models:
         print("Editable models:\t" + str(models.get_editable_models()))
 
-    if bootleg_settings.log_sql():
+    if bootleg_settings.LOG_SQL:
         print(Fore.GREEN + "* Logging SQL")
 
-    if bootleg_settings.store_logged_exception():
+    if bootleg_settings.STORE_LOGGED_EXCEPTIONS:
         print(Fore.GREEN + "* Storing internal log exceptions")
 
-    if bootleg_settings.store_django_log_exceptions():
+    if bootleg_settings.STORE_DJANGO_LOG_EXCEPTIONS:
         print(Fore.GREEN + "* Storing Django log exceptions")
 
     print(Fore.LIGHTBLUE_EX + "*********************************************************************")

@@ -2,9 +2,10 @@ import logging
 import os
 
 from django.conf import settings, global_settings
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 SETTINGS = {}
+SETTINGS_OBJ = None
 
 
 class ConfigurationError(Exception):
@@ -16,7 +17,6 @@ def get_setting(attribute, default=None, required=False):
         return SETTINGS[attribute]
 
     SETTINGS[attribute] = getattr(settings, attribute, default)
-
     if required and not SETTINGS[attribute]:
         raise ConfigurationError("%s must be defined in settings." % attribute)
 
@@ -35,193 +35,109 @@ def get_error_template(status_code):
     return "bootleg/errors/%s.html" % status_code
 
 
-####################################################
-# project ...stuff...
-####################################################
-
-def root_folder():
-    return os.path.basename(get_setting("BASE_DIR", required=True))
-
-
-def project_name():
-    return root_folder()
-
-
-####################################################
-# db-logging
-####################################################
-
-def store_django_log_exceptions():
-    default = False
+def get_debug_settings_value(default, if_debug_value):
     if not settings.DEBUG:
-        default = True
-    return get_setting("STORE_DJANGO_LOG_EXCEPTIONS", default)
+        return if_debug_value
+    else:
+        return default
+
+
+class Settings:
+
+    __settings__ = {}
+
+    def __init__(self):
+        self.add_settings()
+
+    def add_settings(self):
+        ####################################################
+        # project stuff
+        ####################################################
+        self.add_setting("ROOT_FOLDER", get_setting("BASE_DIR", required=True))
+        self.add_setting("PROJECT_NAME", get_setting("BASE_DIR", required=True))
+
+        ####################################################
+        # db-logging
+        ####################################################
+        self.add_setting("STORE_DJANGO_LOG_EXCEPTIONS", True, False)
+        self.add_setting("STORE_LOGGED_EXCEPTIONS", True)
+
+        ####################################################
+        # logging
+        ####################################################
+        self.add_setting("FAIL_LOG_PATH", "/dev/null")
+        self.add_setting("LOG_DIR", os.path.join(get_setting("LOG_DIR", self.FAIL_LOG_PATH), ''))
+        self.add_setting("ADD_BUILTINS", True)
+        self.add_setting("LOG_FORMAT", "%(asctime)s %(levelname)s %(message)s")
+        self.add_setting("LOG_DATE_FORMAT",  "%Y-%m-%d %H:%M:%S")
+        self.add_setting("LOG_TO_STDOUT", True)
+        self.add_setting("LOG_SQL", False)
+        self.add_setting("LOG_SQL", False)
+        self.add_setting("LOG_LEVEL", "INFO")
+        self.add_setting("DJANGO_LOG_LEVEL", get_debug_settings_value("ERROR", "INFO"))
+        self.add_setting("BASE_TEMPLATE", "bootleg/base.html")
+        self.add_setting("NAVIGATION_TEMPLATE", None)
+        self.add_setting("SYSTEM_TEMPLATE", "bootleg/system_info.html")
+        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
+        self.add_setting("ERROR_400_TEMPLATE", get_error_template(400))
+        self.add_setting("ERROR_403_TEMPLATE", get_error_template(403))
+        self.add_setting("ERROR_404_TEMPLATE", get_error_template(404))
+        self.add_setting("ERROR_500_TEMPLATE", get_error_template(500))
+        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
+        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
+        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
+
+        ####################################################
+        # site
+        ####################################################
+        self.add_setting("SITE_NAME", None)
+        self.add_setting("SITE_DOMAIN", None)
+        self.add_setting("SITE_ID")
+
+        ####################################################
+        # users/groups
+        ####################################################
+        self.add_setting("MAIN_USER", self.ROOT_FOLDER)
+        self.add_setting("WEBSERVER_USER", "www-data")
+        self.add_setting("MAIN_USER_GROUP", self.ROOT_FOLDER)
+        self.add_setting("WEBSERVER_USER_GROUP", "www-data")
+
+        ####################################################
+        # git
+        ####################################################
+        self.add_setting("GIT_URL", None)
+
+        ####################################################
+        # css/html/images
+        ####################################################
+        self.add_setting("HTML_LANGUAGE_CODE", get_setting("LANGUAGE_CODE", "en")[:2])
+        self.add_setting("CSS_FILE", "bootleg/css/vendor/bootstrap.css")
+        self.add_setting("CONTAINER_CSS_CLASS", "container bg-dark")
+        self.add_setting("FAVICON_FILE", "bootleg/img/favicon.png")
+        self.add_setting("CONTAINER_CSS_CLASS", "container bg-dark")
+
+        ####################################################
+        # URLs
+        ####################################################
+        self.add_setting("LOGIN_EXEMPT_URLS_FUNCTION", None)
+        self.add_setting("HOME_URL", None, required=True)
+
+        url = get_setting("LOGIN_REDIRECT_URL")
+        #if url == global_settings.LOGIN_REDIRECT_URL:
+            # override django's default url
+        #    url = str(reverse_lazy("bootleg:dev_null"))
+        self.add_setting("LOGIN_REDIRECT_URL", url, required=True)
+
+        ####################################################
+        # misch-ish
+        ####################################################
+        self.add_setting("PRINT_AT_STARTUP", True)
+        self.add_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
+
+    def add_setting(self, attribute, default=None, required=False):
+        value = get_setting(attribute, default, required=required)
+        if attribute not in self.__settings__:
+            setattr(self, attribute, value)
 
 
-def store_logged_exception():
-    return get_setting("STORE_LOGGED_EXCEPTIONS", True)
-
-####################################################
-# logging
-####################################################
-
-
-def add_builtins():
-    return get_setting("ADD_BUILTINS", True)
-
-
-def log_dir():
-    dir = get_setting("LOG_DIR", fail_log_path())
-    return os.path.join(dir, '')
-
-
-def log_format():
-    return get_setting("LOG_FORMAT", "%(asctime)s %(levelname)s %(message)s")
-
-
-def log_date_format():
-    return get_setting("LOG_DATE_FORMAT", "%Y-%m-%d %H:%M:%S")
-
-
-def log_to_stdout():
-    return get_setting("LOG_TO_STDOUT", True)
-
-
-def log_sql():
-    return get_setting("LOG_SQL", False)
-
-
-def django_log_level():
-    default = "ERROR"
-    if settings.DEBUG:
-        default = "INFO"
-    return get_setting("DJANGO_LOG_LEVEL", default)
-
-
-def log_level():
-    return get_setting("LOG_LEVEL", "INFO")
-
-
-####################################################
-# templates
-####################################################
-
-def base_template():
-    return get_setting("BASE_TEMPLATE", "bootleg/base.html")
-
-
-def navigation_template():
-    return get_setting("NAVIGATION_TEMPLATE", None, required=True)
-
-
-def system_template():
-    return get_setting("SYSTEM_TEMPLATE", "bootleg/system_info.html")
-
-
-def deployment_template():
-    return get_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
-
-
-def template_400():
-    return get_setting("ERROR_400_TEMPLATE", get_error_template(400))
-
-
-def template_403():
-    return get_setting("ERROR_403_TEMPLATE", get_error_template(403))
-
-
-def template_404():
-    return get_setting("ERROR_404_TEMPLATE", get_error_template(404))
-
-
-def template_500():
-    return get_setting("ERROR_500_TEMPLATE", get_error_template(500))
-
-
-####################################################
-# site
-####################################################
-
-def site_name():
-    return get_setting("SITE_NAME", None)
-
-
-def site_domain():
-    return get_setting("SITE_DOMAIN", None)
-
-
-def site_id():
-    return get_setting("SITE_ID")
-
-
-def main_user():
-    return get_setting("MAIN_USER", root_folder())
-
-
-####################################################
-# users/groups
-####################################################
-
-def webserver_user():
-    return get_setting("WEBSERVER_USER", "www-data", required=True)
-
-
-def main_user_group():
-    return get_setting("MAIN_USER_GROUP", root_folder())
-
-
-def webserver_user_group():
-    return get_setting("WEBSERVER_USER_GROUP", "www-data")
-
-
-def git_url():
-    return get_setting("GIT_URL", None)
-
-
-####################################################
-# misc-ish
-####################################################
-
-
-def print_at_startup():
-    return get_setting("PRINT_AT_STARTUP", True)
-
-
-def fail_log_path():
-    return "/dev/null"
-
-
-def html_language_code():
-    return get_setting("LANGUAGE_CODE", "en")[:2]
-
-
-def css_file():
-    return get_setting("CSS_FILE", "bootleg/css/vendor/bootstrap.css")
-
-
-def container_css_class():
-    return get_setting("CONTAINER_CSS_CLASS", "container bg-dark")
-
-
-def favicon_file():
-    return get_setting("FAVICON_FILE", "bootleg/img/favicon.png")
-
-
-def google_analytics_account():
-    return get_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
-
-
-def home_url():
-    return reverse(get_setting("HOME_URL", None, required=True))
-
-
-def login_redirect_url():
-    url = get_setting("LOGIN_REDIRECT_URL")
-    if url == global_settings.LOGIN_REDIRECT_URL:
-        # override django's default url
-        url = str(reverse("bootleg:dev_null"))
-    return url
-
-
-def get_login_exempt_urls_function():
-    return get_setting("LOGIN_EXEMPT_URLS_FUNCTION", None)
+bootleg_settings = Settings()

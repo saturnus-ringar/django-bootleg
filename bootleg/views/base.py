@@ -8,7 +8,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, TemplateView
 
-from bootleg.conf import settings as bootleg_settings
+from bootleg.conf.settings import bootleg_settings
 from bootleg.forms import forms
 
 
@@ -24,7 +24,7 @@ class BaseTemplateView(TemplateView):
     heading = None
     template_name = None
     extra_text = None
-    template_name = bootleg_settings.base_template()
+    template_name = bootleg_settings.BASE_TEMPLATE
 
     def get_extra_text(self):
         return self.extra_text

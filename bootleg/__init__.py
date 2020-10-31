@@ -8,11 +8,12 @@ default_app_config = "bootleg.apps.BootlegConfig"
 
 
 def setup():
-    from bootleg.conf import settings as bootleg_settings
+    print("SETUP!")
+    from bootleg.conf.settings import bootleg_settings
     from bootleg.logging import logging
 
-    if bootleg_settings.add_builtins():
+    if bootleg_settings.ADD_BUILTINS:
         logging.add_builtins()
 
-    if bootleg_settings.print_at_startup():
+    if bootleg_settings.PRINT_AT_STARTUP:
         bootstrap.startup_print()

@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import RedirectView
 
 import bootleg
-from bootleg.conf import settings as bootleg_settings
+from bootleg.conf.settings import bootleg_settings
 from bootleg.forms.auth_forms import LoginForm
 from bootleg.views.auth_views import CustomLoginView, LogoutView, change_password, \
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
@@ -62,7 +62,7 @@ urlpatterns = [
     #######################################
     # misc-ish
     #######################################
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url(bootleg_settings.favicon_file()))),
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url(bootleg_settings.FAVICON_FILE))),
 
     #######################################
     # deploy/system info
