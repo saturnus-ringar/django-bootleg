@@ -1,74 +1,102 @@
+- error-sidor osv. funkar nog inte riktigt
+    ... alla 500 hamnar nog inte i django-loggen
+
+får cirkulär import om jag kör det här:
+        url = get_setting("LOGIN_REDIRECT_URL")
+        #if url == global_settings.LOGIN_REDIRECT_URL:
+            # override django's default url
+        #    url = str(reverse_lazy("bootleg:dev_null"))
+
+- i Settings:
+    spar om det är setup eller inte, om man försöker hämta ett attribut och setup är False, kör setup
+        ... testa hur tidigt man kan hämta konf
+        
+- tror inte att error-sidorna varken inkluderas eller funkar
+
+**********************
+ settings
+**********************
+
+    - göra så man kan använda settings som django, a la:
+        bootleg_settings.TEMPLATE_404
+
+        ... kolla hur django debug toolbar gör med settings
+
+- kontrollera URLar
+
+- länk för att uppdatera:
+    http://localhost:8000/list/kebab/
+
+- update verkar inte funka:
+    http://localhost:8000/update/kebab/12
+
 - göra vyer för system och deploy som använder template som man har definerat, eller eget som default
 
-- rendera deploy och system i menyn
+- humaniza datumet (också?) här:
+    http://localhost:8000/deploy/info/
+    ... ta bort sekunder också
+
+- ingen favicon syns
 
 - dubbla slash i github-urlen
     http://localhost:8000/deploy/info/
-
-- funkar icke:
-    http://localhost:8000/list/kebab/
-
-- funkar icke:
-    http://localhost:8000/create/kebab/
 
 ***********************
  error-sidor
 ***********************
 
-kolla att alla error-templates finns
+    kolla att alla error-templates finns
 
 ***********************
  meny
 ***********************
 
-- javascriptvarningar i menyn
+    - javascriptvarningar i menyn
 
 ***********************
  system
 ***********************
 
-- skriva ut i system att det är fejkdata om man använder textfilerna
+    - skriva ut i system att det är fejkdata om man använder textfilerna
 
-- varna i olika färger på load osv. - med javascript
+    - varna i olika färger på load osv. - med javascript
 
 ***********************
  profile
 ***********************
 
-- en konfigparameter för om man ska använda profile
+    - en konfigparameter för om man ska använda profile
 
 ***********************
  login middleware
 ***********************
 
-- måste kunna sätta URLar till LoginMiddleWare som kräver login:
-    django-admin/*
-    admin/*
+    - måste kunna sätta URLar till LoginMiddleWare som kräver login:
+        django-admin/*
+        admin/*
 
 ***********************
  loggning
 ***********************
 
-- kunna skicka med extra_text till log_exception
+    - kunna skicka med extra_text till log_exception
 
 ***********************
  HTML/CSS
 ***********************
 
-- kolla på hur django_debug_toolbar får in sin HTML/css
-    HTML: class="djdt-hidden"
+    - kolla på hur django_debug_toolbar får in sin HTML/css
+        HTML: class="djdt-hidden"
 
-    toolbar.css t.ex.
+        toolbar.css t.ex.
+
+        ... det fanns något render i middleware som var intressant
 
 ***************************************
  deploy
 ***************************************
 
-- tag för att rendera deploy-status osv.
-
 - visa när servern startats om + senaste filerna i foldrar
-
-- git-historik (lär behöva ta via github-api)
 
 - kontroller av ägare/rättigheter på:
     virtual-env-diret
@@ -85,13 +113,6 @@ kolla att alla error-templates finns
     management.call_command("migrate")
     management.call_command("collectstatic", interactive=False)
     server restart
-
-    ***************************
-     dela upp
-    ***************************
-
-    - dela upp mantis, ett paket som bara har nix-tools
-        ... problem med ett nytt repo?!?!?!
 
     ***************************
      spara deploy data?

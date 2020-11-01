@@ -1,5 +1,34 @@
+problem med settings:
+
+django_tango importerar från bootleg:
+    from bootleg.utils.utils import is_testing
+
+    då kommer inte django_tangos settings efter det läsas in. Flödet:
+
+    django: _setup
+    django_tango: settings.py
+    django_tango: settings_apps.py
+    django: _setup
+    bootleg: Settings.__init__
+    django_tango: settings_custom.py
+    django_tango: settings_local.py
+    bootleg: apps.py setup()
+
+- funkar icke:
+    http://localhost:8000/create/kebab/
+
+- funkar icke:
+    http://localhost:8000/list/kebab/
+
+- sätta APPEND_SLASH?!
+
+- kontroller av ägare/rättigheter på:
+
+- tag för att rendera deploy-status osv.
+
 - namespaca URLar (i alla projekt)
 
+- visa deploy och system i menyn
 
 from django.utils.version import get_version
 
