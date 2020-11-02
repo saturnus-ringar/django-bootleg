@@ -10,7 +10,6 @@ def setup():
     # setup settings (again - they are run on initial imports) to read django settings
     bootleg_settings.setup()
     # set django settings
-    print("setting django settings")
     set_django_settings()
 
     if bootleg_settings.ADD_BUILTINS:
