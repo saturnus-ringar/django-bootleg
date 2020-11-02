@@ -66,9 +66,6 @@
 {% compress js %}
     <script src="{% static 'bootleg/js/vendor/jquery.easy-autocomplete.js' %}"></script>
     <script src="{% static 'bootleg/js/vendor/jquery.highlight-5.patched.js' %}"></script>
-    {% if editable_models %}
-        <script src="{% static 'bootleg/js/generic-models.js' %}"></script>
-    {% endif %}
     <script src="{% static 'bootleg/js/main.js' %}"></script>
 {% endcompress %}
 {% block extra_js %}

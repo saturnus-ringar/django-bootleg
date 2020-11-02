@@ -38,6 +38,8 @@ def get_debug_settings_value(default, if_debug_value):
         return default
 
 
+DEFAULT_TEMPLATE = "bootleg/base.html"
+
 class Settings:
 
     __settings__ = {}
@@ -71,7 +73,8 @@ class Settings:
         self.add_setting("LOG_SQL", False)
         self.add_setting("LOG_LEVEL", "INFO")
         self.add_setting("DJANGO_LOG_LEVEL", get_debug_settings_value("ERROR", "INFO"))
-        self.add_setting("BASE_TEMPLATE", "bootleg/base.html")
+        self.add_setting("BASE_TEMPLATE", DEFAULT_TEMPLATE)
+        self.add_setting("ADMIN_TEMPLATE", self.BASE_TEMPLATE)
         self.add_setting("NAVIGATION_TEMPLATE", None)
         self.add_setting("SYSTEM_TEMPLATE", "bootleg/system_info.html")
         self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")

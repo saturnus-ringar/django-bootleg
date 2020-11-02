@@ -1,3 +1,9 @@
+window.onload = function() {
+    if (!window.jQuery) {
+        alert("jquery is required for the bootleg-javascript to run.");
+    }
+}
+
 $(document).ready(function() {
     initSelect2s();
     highlightSearchResults();
