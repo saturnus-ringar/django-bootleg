@@ -4,7 +4,7 @@ Django additions, tools and ...stuff...
 ## Features
 - It adds django debug toolbar - https://github.com/jazzband/django-debug-toolbar
 
-...
+... todo ...
 
 
 ## Installation
@@ -230,3 +230,14 @@ ERROR_404_TEMPLATE - default **'bootleg/errors/404.html'**
 ERROR_500_TEMPLATE - default **'bootleg/errors/500.html'**
 > Example: 'website/errors/500.html'
 
+
+## Add custom settings that will be printed at startup
+
+```python
+# settings.py
+
+SETTINGS_TO_PRINT = {
+    "CUSTOM_SETTING": CUSTOM_SETTING,
+    "CUSTOM_SETTING_ONCE_AGAIN": "This will be printed"
+}
+```
