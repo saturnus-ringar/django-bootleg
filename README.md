@@ -159,6 +159,15 @@ Get the URL to the Deployment page
 
 ### Templates
 
+The templates need a content block to be able to render to bootleg-HTML. 
+So add this block to your templates:
+
+```python
+{% block content %}
+{# bootleg content will be rendered here #}
+{% endblock %}
+```
+
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
 
