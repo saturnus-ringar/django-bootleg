@@ -37,6 +37,8 @@ class Settings:
     __settings__ = {}
 
     def __init__(self):
+        # init django settings here - to read new value
+        settings._setup()
         self.setup()
 
     def setup(self):
