@@ -74,8 +74,6 @@ LOG_DIR = '/var/log/project-name?/'
 ```python
 # urls.py
 
-from bootleg.init import *
-
 urlpatterns = [
     # ...
     path('', include('bootleg.urls')),
