@@ -37,6 +37,9 @@ def set_django_settings():
     # logging
     #####################################################
 
+    print("bootleg_settings.LOG_DIR: %s" % bootleg_settings.LOG_DIR)
+    print("file_system.is_writable(bootleg_settings.LOG_DIR): %s" % file_system.is_writable(bootleg_settings.LOG_DIR))
+
     if file_system.is_writable(bootleg_settings.LOG_DIR):
         settings.LOGGING = {
             'version': 1,

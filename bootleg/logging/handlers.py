@@ -23,7 +23,6 @@ class FileHandler(logging.FileHandler):
         filename = bootleg_logging.test_writing_and_get_filename(filename)
         encoding = "utf-8"
         logging.FileHandler.__init__(self, filename, mode, encoding, delay)
-        print("adding file handler. Filename: %s" % filename)
 
 
 class DjangoLogHandler(FileHandler):
@@ -36,8 +35,6 @@ class DjangoLogHandler(FileHandler):
         return False
 
     def emit(self, record):
-        print("emit in django log handler?")
-        print("self.should_log(record): %s" % self.should_log(record))
         if self.should_log(record):
             self.create_entry(record)
         super().emit(record)
