@@ -64,9 +64,19 @@ urlpatterns = [
 ]
 ```
 
+### Include javascript (if you're not extending bootleg/base.html) - jquery is required
+```python
+{% compress js %}
+# ...
+<script src="{% static 'bootleg/js/main.js' %}"></script>
+{% endcompress %}
+```
+
 ## Django settings
 
-MEDIA_ROOT and MEDIA_ROOT
+MEDIA_ROOT
+
+MEDIA_ROOT
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
 
 
@@ -151,6 +161,9 @@ Get the URL to the Deployment page
 
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
+
+ADMIN_TEMPLATE - default **BASE_TEMPLATE**
+> Example: 'webiste_admin/base.html' - if this isn't set the VALUE from BASE_TEMPLATE will be used
 
 SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 > Example: 'website/system/system_info.html'
