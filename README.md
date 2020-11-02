@@ -66,7 +66,7 @@ urlpatterns = [
 
 ### Include javascript (if you're not extending bootleg/base.html)
 ```python
-    <script src="{% static 'bootleg/js/main.js' %}"></script>
+<script src="{% static 'bootleg/js/main.js' %}"></script>
 ```
 
 ## Django settings
