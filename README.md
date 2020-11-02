@@ -64,6 +64,11 @@ urlpatterns = [
 ]
 ```
 
+### Include javascript (if you're not extending bootleg/base.html)
+```python
+    <script src="{% static 'bootleg/js/main.js' %}"></script>
+```
+
 ## Django settings
 
 MEDIA_ROOT and MEDIA_ROOT
