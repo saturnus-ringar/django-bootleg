@@ -179,7 +179,7 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 
 > Link to deployment: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
 
-> And an example on what the template could look lie
+> ...and an example on what the template could look like:
 ```python
 {% extends 'website/base.html' %}
 {% block content %}
@@ -196,7 +196,7 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 
 > Link to deployment: <a href="{% url "bootleg:deploy_info" %}">{% trans "Deployment" %}</a>
 
-> And an example on what the template could look lie
+> ...and an example on what the template could look like:
 ```python
 {% extends 'website/base.html' %}
 {% block content %}
@@ -210,6 +210,8 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 
 NAVIGATION_TEMPLATE - default **None** 
 > Example: 'website/includes/navigation.html'
+
+> ...and an example on what the template could look like:
 
 ```python
 {% load i18n static bootleg %}
