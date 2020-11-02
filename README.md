@@ -69,6 +69,8 @@ ERROR_500_TEMPLATE - 'path/404.html'
 # log dir - indeed
 LOG_DIR = '/var/log/project-name?/'
 
+# should be the last line i settings.py
+from bootleg.settings import *
 ```
 
 ```python
