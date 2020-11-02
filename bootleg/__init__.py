@@ -1,4 +1,4 @@
-from bootleg import bootstrap
+#from bootleg import bootstrap
 #from django.utils.version import get_version
 
 VERSION = (0, 0, 13, 'beta', 0)
