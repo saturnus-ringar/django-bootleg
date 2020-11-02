@@ -65,7 +65,7 @@ ERROR_403_TEMPLATE - 'path/403.html'
 ERROR_404_TEMPLATE - 'path/404.html'
 ERROR_500_TEMPLATE - 'path/404.html'
 
-# log dir!
+# log dir - indeed
 LOG_DIR = '/var/log/project-name?/'
 
 ```
