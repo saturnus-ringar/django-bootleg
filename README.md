@@ -48,10 +48,19 @@ TEMPLATES = [
     },
 ]
 
-BASE_TEMPLATE = 'path/name.html'
+# just the domain, without http/https
+SITE_DOMAIN = "sitedomain.com"
+# The home/index URL of the site. Just a string. The string will be URL-reverse():ed
+HOME_URL = "<index_page>"
+
+# templates
+BASE_TEMPLATE = 'path/template.html'
+ERROR_400_TEMPLATE - 'path/400.html'
+ERROR_403_TEMPLATE - 'path/403.html'
+ERROR_404_TEMPLATE - 'path/404.html'
+ERROR_500_TEMPLATE - 'path/404.html'
 
 AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
-
 ```
 
 ```python
@@ -82,16 +91,6 @@ MEDIA_ROOT
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
 
 ## Basic settings
-
-### Required settings
-SITE_DOMAIN = default **None**
-> just the domain, without http/https
-
-SITE_NAME = default **None**
-> Just a name. It's not used in URLs.
-
-HOME_URL = default **None**
-> The home/index URL of the site. Just a string. The string will be URL-reverse():ed
 
 ### Logging
 LOG_DIR - default **'/dev/null'**
@@ -205,22 +204,6 @@ NAVIGATION_TEMPLATE - default **None**
 </div>
 </nav>
 ```
-
-ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
-> Example: 'website/errors/404.html'
-
-ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
-> Example: 'website/errors/400.html'
-
-ERROR_403_TEMPLATE - default **'bootleg/errors/403.html'**
-> Example: 'website/errors/403.html'
-
-ERROR_404_TEMPLATE - default **'bootleg/errors/404.html'**
-> Example: 'website/errors/404.html'
-
-ERROR_500_TEMPLATE - default **'bootleg/errors/500.html'**
-> Example: 'website/errors/500.html'
-
 
 ## More settings
 
