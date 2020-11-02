@@ -1,3 +1,9 @@
+- man ska inte använda:
+    if not settings.is_overridden("SITE_ID"):
+    ... bara getattr(setttings
+
+- kunna lägga till custom settings som printas i bootstrap
+
 - error-sidor osv. funkar nog inte riktigt
     ... alla 500 hamnar nog inte i django-loggen
 
