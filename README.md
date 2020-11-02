@@ -209,12 +209,6 @@ NAVIGATION_TEMPLATE - default **None**
 
 ## More settings
 
-### Logging
-DJANGO_LOG_LEVEL - default **'ERROR'** if DEBUG is False - **'INFO'** if DEBUG is True
-> Valid levels: 'DEBUG', 'INFO', 'ERROR'
-
-LOG_DATE_FORMAT - default **'%Y-%m-%d %H:%M:%S'**
-
 LOG_SQL - default **False**
 > booean True/False
 
