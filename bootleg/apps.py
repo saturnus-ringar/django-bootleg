@@ -192,7 +192,6 @@ def check_template(errors, attribute, template, number, required=False):
 
 @register()
 def check_settings(app_configs, **kwargs):
-    '''
     errors = check_django_log_level([])
     errors = check_sql_logging(errors)
     errors = check_log_dir(errors)
@@ -214,15 +213,12 @@ def check_settings(app_configs, **kwargs):
     # check templates
     errors = check_template(errors, "BASE_TEMPLATE", bootleg_settings.BASE_TEMPLATE, 16, required=True)
     errors = check_template(errors, "NAVIGATION_TEMPLATE", bootleg_settings.NAVIGATION_TEMPLATE, 17)
-    errors = check_template(errors, "SYSTEM_TEMPLATE", bootleg_settings.SYSTEM_TEMPLATE), 18)
+    errors = check_template(errors, "SYSTEM_TEMPLATE", bootleg_settings.SYSTEM_TEMPLATE, 18)
     errors = check_template(errors, "DEPLOYMENT_TEMPLATE", bootleg_settings.DEPLOYMENT_TEMPLATE, 19)
     errors = check_template(errors, "ERROR_400_TEMPLATE", bootleg_settings.ERROR_400_TEMPLATE, 20)
     errors = check_template(errors, "ERROR_403_TEMPLATE", bootleg_settings.ERROR_403_TEMPLATE, 21)
     errors = check_template(errors, "ERROR_404_TEMPLATE", bootleg_settings.ERROR_404_TEMPLATE, 22)
     errors = check_template(errors, "ERROR_500_TEMPLATE", bootleg_settings.ERROR_500_TEMPLATE, 22)
-    '''
-    # check files
-    errors = []
     return errors
 
 
