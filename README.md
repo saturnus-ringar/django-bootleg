@@ -162,6 +162,9 @@ Get the URL to the Deployment page
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
 
+ADMIN_TEMPLATE - default **BASE_TEMPLATE**
+> Example: 'webiste_admin/base.html' - if this isn't set the VALUE from BASE_TEMPLATE will be used
+
 SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 > Example: 'website/system/system_info.html'
 
