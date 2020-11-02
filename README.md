@@ -129,7 +129,7 @@ So add this block to your templates:**
 {% endblock %}
 ```
 
-SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
+SYSTEM_TEMPLATE - default **'bootleg/system/system.html'**
 > Example: 'website/system/system_info.html'
 
 > Link to system info: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
