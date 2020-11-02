@@ -31,7 +31,9 @@ INSTALLED_APPS = (
 MIDDLEWARE = [
     # ...
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # optional - if you want access-logging
     'bootleg.middleware.LoggingMiddleware',
+    # optional - if you want to use the login-restriction bits
     'bootleg.middleware.LoginMiddleware',
 ]
 
@@ -46,9 +48,26 @@ TEMPLATES = [
     },
 ]
 
-BASE_TEMPLATE = 'path/name.html'
-
 AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
+
+# just the domain, without http/https
+SITE_DOMAIN = 'sitedomain.com'
+# just a name for the site
+SITE_NAME = 'site name'
+
+# The home/index URL of the site. Just a string. The string will be URL-reverse():ed
+HOME_URL = "<index_page>"
+
+# templates
+BASE_TEMPLATE = 'path/template.html'
+NAVIGATION_TEMPLATE = 'path/navigation.html'
+ERROR_400_TEMPLATE - 'path/400.html'
+ERROR_403_TEMPLATE - 'path/403.html'
+ERROR_404_TEMPLATE - 'path/404.html'
+ERROR_500_TEMPLATE - 'path/404.html'
+
+# log dir - indeed
+LOG_DIR = '/var/log/project-name?/'
 
 ```
 
@@ -64,7 +83,7 @@ urlpatterns = [
 ]
 ```
 
-### Include javascript (if you're not extending bootleg/base.html) - jquery is required
+### Include javascript in your template (if you're not extending bootleg/base.html) - jquery is required
 ```python
 {% compress js %}
 # ...
@@ -78,70 +97,6 @@ MEDIA_ROOT
 
 MEDIA_ROOT
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
-
-
-## Settings
-
-### Required settings
-SITE_DOMAIN = default **None**
-> just the domain, without http/https
-
-SITE_NAME = default **None**
-> Just a name. It's not used in URLs.
-
-HOME_URL = default **None**
-> Just a string. The string will be URL-reverse():ed
-
-### Logging
-DJANGO_LOG_LEVEL - default **'ERROR'** if DEBUG is False - **'INFO'** if DEBUG is True
-> Valid levels: 'DEBUG', 'INFO', 'ERROR'
-
-LOG_DIR - default **'/dev/null'**
-> Example: '/var/log/django-bootleg/'
-
-LOG_DATE_FORMAT - default **'%Y-%m-%d %H:%M:%S'**
-
-LOG_SQL - default **False**
-> booean True/False
-
-LOG_TO_STDOUT - default **True**
-> booean True/False
-
-### Errors/exceptions
-STORE_LOGGED_EXCEPTIONS - default **True**
-> booean True/False
-
-STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else **False** 
-> booean True/False
-
-### CSS
-
-CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
-> Example: 'container'
-
-CSS_FILE = default **'bootleg/css/bootstrap.css'**
-> Example: 'website/css/style.css'
-
-FAVICON_FILE = default **'bootleg/img/favicon.ico'**
-> Example: 'website/img/favicon.png'
-
-### Misc-ish
-POST_LOGIN_URL = default **reverse('dev_null')**
-> Just a string. The string will be URL-reverse():ed
-
-SITE_ID = default **1**
-> An integer for the site ID
-
-GOOGLE_ANALYTICS_ACCOUNT - default **None**
-> Example: 'UA-10876-1'
-
-ADD_BULITINS - default **False**
-> booean True/False
-> Adds dx, dp and dxv-functions for debug-logging
-
-PRINT_AT_STARTUP - default **True**
-> booean True/False
-> Prints settings etc. at startup if True
 
 ## Reversing URLs
 Get the URL to the System info page
@@ -165,8 +120,8 @@ BASE_TEMPLATE - default **None**
 ADMIN_TEMPLATE - default **BASE_TEMPLATE**
 > Example: 'webiste_admin/base.html' - if this isn't set the VALUE from BASE_TEMPLATE will be used
 
-The templates need a content block to be able to render to bootleg-HTML. 
-So add this block to your templates:
+**The templates need a content block to be able to render to bootleg-HTML. 
+So add this block to your templates:**
 
 ```python
 {% block content %}
@@ -177,7 +132,7 @@ So add this block to your templates:
 SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 > Example: 'website/system/system_info.html'
 
-> Link to deployment: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
+> Link to system info: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
 
 > ...and an example on what the template could look like:
 ```python
@@ -197,7 +152,7 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 > Example: 'website/system/deployment.html'
 
-> Link to deployment: <a href="{% url "bootleg:deploy_info" %}">{% trans "Deployment" %}</a>
+> Link to deployment info: <a href="{% url "bootleg:deploy_info" %}">{% trans "Deployment" %}</a>
 
 > ...and an example on what the template could look like:
 ```python
@@ -252,20 +207,57 @@ NAVIGATION_TEMPLATE - default **None**
 </nav>
 ```
 
-ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
-> Example: 'website/errors/404.html'
+## More settings
 
-ERROR_400_TEMPLATE - default **'bootleg/errors/400.html'**
-> Example: 'website/errors/400.html'
+### Logging
+DJANGO_LOG_LEVEL - default **'ERROR'** if DEBUG is False - **'INFO'** if DEBUG is True
+> Valid levels: 'DEBUG', 'INFO', 'ERROR'
 
-ERROR_403_TEMPLATE - default **'bootleg/errors/403.html'**
-> Example: 'website/errors/403.html'
+LOG_DATE_FORMAT - default **'%Y-%m-%d %H:%M:%S'**
 
-ERROR_404_TEMPLATE - default **'bootleg/errors/404.html'**
-> Example: 'website/errors/404.html'
+LOG_SQL - default **False**
+> booean True/False
 
-ERROR_500_TEMPLATE - default **'bootleg/errors/500.html'**
-> Example: 'website/errors/500.html'
+LOG_TO_STDOUT - default **True**
+> booean True/False
+
+### CSS
+
+CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
+> Example: 'container'
+
+CSS_FILE = default **'bootleg/css/bootstrap.css'**
+> Example: 'website/css/style.css'
+
+FAVICON_FILE = default **'bootleg/img/favicon.ico'**
+> Example: 'website/img/favicon.png'
+
+### Errors/exceptions
+STORE_LOGGED_EXCEPTIONS - default **True**
+> booean True/False
+
+STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else **False** 
+> booean True/False
+
+
+### Misc-ish
+POST_LOGIN_URL = default **reverse('dev_null')**
+> Just a string. The string will be URL-reverse():ed
+
+SITE_ID = default **1**
+> An integer for the site ID
+
+GOOGLE_ANALYTICS_ACCOUNT - default **None**
+> Example: 'UA-10876-1'
+
+ADD_BULITINS - default **False**
+> booean True/False
+> Adds dx, dp and dxv-functions for debug-logging
+
+PRINT_AT_STARTUP - default **True**
+> booean True/False
+> Prints settings etc. at startup if True
+
 
 
 ## Add custom settings that will be printed at startup
