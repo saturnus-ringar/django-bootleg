@@ -24,7 +24,7 @@ def set_django_settings():
     # crispy forms
     #####################################################
 
-    settings.CRISPY_TEMPLATE_PACK = "bootstrap4"
+    settings.CRISPY_TEMPLATE_PACK = "bootstrapkuekn"
 
     #####################################################
     # django compress
@@ -37,11 +37,7 @@ def set_django_settings():
     # logging
     #####################################################
 
-    print("bootleg_settings.LOG_SQL: %s" % bootleg_settings.LOG_SQL)
-    print("bootleg_settings.LOG_DIR: %s" % bootleg_settings.LOG_DIR)
-    
     if file_system.is_writable(bootleg_settings.LOG_DIR):
-        print("ADDING LOGGING?!?!?!?!?!?!?!?")
         settings.LOGGING = {
             'version': 1,
             'disable_existing_loggers': False,
