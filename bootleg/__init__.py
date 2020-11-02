@@ -1,8 +1,6 @@
 from bootleg import bootstrap
-from django.utils.version import get_version
 
-VERSION = (0, 0, 13, 'beta', 0)
-__version__ = get_version(VERSION)
+__version__ = "0.1.1o"
 
 default_app_config = "bootleg.apps.BootlegConfig"
 
