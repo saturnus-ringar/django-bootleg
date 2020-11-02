@@ -187,7 +187,10 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 <p>
     {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
 </p>
+
+{# render system information #}
 {% render_system_information %}
+
 {% endblock %}
 ```
 
@@ -204,7 +207,10 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 <p>
     {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
 </p>
+
+{# render deploy information #}
 {% render_deploy_info %}
+
 {% endblock %}
 ```
 
@@ -238,8 +244,11 @@ NAVIGATION_TEMPLATE - default **None**
                 </li>
             {% endif %}
         </ul>
+        
+        {# bootleg navigation #}
         {% render_navigation request %}
-    </div>
+
+</div>
 </nav>
 ```
 
