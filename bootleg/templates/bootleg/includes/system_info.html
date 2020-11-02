@@ -1,4 +1,6 @@
 {% load i18n humanize bootstrap_tags bootleg %}
+<h3 class="mt-4">{% trans "Loggers" %}</h3>
+
 <h3 class="mt-4">{% trans "Platform/distribution" %}</h3>
 <table class="{% get_default_table_classes %} overflow-auto">
         <tbody>
@@ -172,4 +174,18 @@
         {% endfor %}
 </tbody>
 </table>
-{% get_card_bottom %}
+
+<table class="{% get_default_table_classes %} overflow-auto">
+<tbody>
+        {% for logger in system.loggers %}
+                <tr>
+                        <td>{{ logger }} </td>
+                        <td>
+                                {% for handler in logger.handlers %}
+                                        {{ handler }}
+                                {% endfor %}
+                        </td>
+                </tr>
+        {% endfor %}
+</tbody>
+</table>

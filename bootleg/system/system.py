@@ -3,11 +3,12 @@ import platform
 import sys
 
 import pkg_resources
-
-from bootleg.system import shell, file_system, commands, nix
-from bootleg.utils import humanize, db
 from django.conf import settings
 from django.db import connection, OperationalError
+
+from bootleg.logging import logging
+from bootleg.system import shell, file_system, commands, nix
+from bootleg.utils import humanize, db
 
 
 class Disk:
@@ -67,6 +68,8 @@ class System:
         self.mysql_version = self.get_mysql_version()
         self.mysql_table_status = self.get_mysql_table_status_filtered()
         self.db_size = self.get_db_size()
+        self.loggers = logging.get_all_loggers()
+
 
     def get_env(self):
         cleaned_env = []

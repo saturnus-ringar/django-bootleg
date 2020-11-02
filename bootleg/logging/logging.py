@@ -4,20 +4,16 @@ import os
 import sys
 import traceback
 import warnings
-from pathlib import Path
 from pprint import pformat
 
-from bootleg.conf.settings import check_log_level
-from bootleg.system.file_system import NotWritableWarning
-
-from bootleg.system import file_system
-from django.conf import settings
 from ipware import get_client_ip
 
 from bootleg.conf import bootleg_settings
+from bootleg.conf.settings import check_log_level
 from bootleg.logging.handlers import StreamHandler, FileHandler
+from bootleg.system import file_system
+from bootleg.system.file_system import NotWritableWarning
 from bootleg.utils import utils
-
 
 CREATED = "CREATED"
 UPDATED = "UPDATED"
@@ -27,6 +23,15 @@ LOGGERS = {}
 DEBUG_LOGGER = []
 
 LOG_DIR_IS_WRITABLE = file_system.is_writable(bootleg_settings.LOG_DIR)
+
+
+def get_all_loggers():
+
+    loggers = []
+    for logger_name in sorted(logging.root.manager.loggerDict):
+        loggers.append(logging.getLogger(logger_name))
+
+    return loggers
 
 
 def test_writing_and_get_filename(filename):
