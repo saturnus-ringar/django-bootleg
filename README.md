@@ -31,7 +31,9 @@ INSTALLED_APPS = (
 MIDDLEWARE = [
     # ...
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # optional - if you want access-logging
     'bootleg.middleware.LoggingMiddleware',
+    # optional - if you want to use the login-restriction bits
     'bootleg.middleware.LoginMiddleware',
 ]
 
