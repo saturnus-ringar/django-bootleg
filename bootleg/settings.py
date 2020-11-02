@@ -10,7 +10,7 @@ def set_django_settings():
     # django settings
     #####################################################
 
-    if not settings.is_overridden("SITE_ID"):
+    if not getattr(settings, "SITE_ID", None):
         settings.SITE_ID = 1
 
     #####################################################
@@ -29,7 +29,7 @@ def set_django_settings():
     # django compress
     #####################################################
 
-    if not settings.is_overridden("COMPRESS_CSS_FILTERS"):
+    if getattr(settings, "COMPRESS_CSS_FILTERS", None):
         settings.COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
 
     #####################################################
