@@ -1,3 +1,12 @@
+window.onerror = function(msg, url, line) {
+    var params = "msg=" + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url) + "&line=" + line;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "/xhr/javascript-error/", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(params);
+    alert("JAVASCRIPT ERROR!")
+};
+
 window.onload = function() {
     if (!window.jQuery) {
         alert("jquery is required for the bootleg-javascript to run.");
@@ -9,14 +18,6 @@ $(document).ready(function() {
     highlightSearchResults();
     autoFocus();
 });
-
-window.onerror = function(msg, url, line) {
-    var params = "msg=" + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url) + "&line=" + line;
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', URLs.javascriptError, true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(params);
-};
 
 // create loading-spinners on buttons when forms are submitted
 $("form").submit(function() {
