@@ -159,6 +159,12 @@ Get the URL to the Deployment page
 
 ## Templates/Template settings
 
+BASE_TEMPLATE - default **None**
+> Example: 'website/base.html'
+
+ADMIN_TEMPLATE - default **BASE_TEMPLATE**
+> Example: 'webiste_admin/base.html' - if this isn't set the VALUE from BASE_TEMPLATE will be used
+
 The templates need a content block to be able to render to bootleg-HTML. 
 So add this block to your templates:
 
@@ -167,12 +173,6 @@ So add this block to your templates:
 {# bootleg content will be rendered here #}
 {% endblock %}
 ```
-
-BASE_TEMPLATE - default **None**
-> Example: 'website/base.html'
-
-ADMIN_TEMPLATE - default **BASE_TEMPLATE**
-> Example: 'webiste_admin/base.html' - if this isn't set the VALUE from BASE_TEMPLATE will be used
 
 SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 > Example: 'website/system/system_info.html'
