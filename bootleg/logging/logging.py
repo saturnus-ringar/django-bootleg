@@ -35,10 +35,6 @@ def test_writing_and_get_filename(filename):
         file_system.mkdir_p(os.path.dirname(filename))
     except PermissionError:
         writable = False
-    try:
-        Path(filename).touch()
-    except (FileNotFoundError, PermissionError):
-        writable = False
 
     if not writable:
         warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, bootleg_settings.FAIL_LOG_PATH),
