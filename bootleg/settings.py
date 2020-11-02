@@ -1,8 +1,7 @@
-import os
-
-from bootleg.system import file_system
-from bootleg.conf import bootleg_settings
 from django.conf import settings
+
+from bootleg.conf import bootleg_settings
+from bootleg.system import file_system
 
 
 def set_django_settings():
@@ -34,7 +33,6 @@ def set_django_settings():
     if getattr(settings, "COMPRESS_CSS_FILTERS", None):
         settings.COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
 
-    print("settings.py")
     #####################################################
     # logging
     #####################################################

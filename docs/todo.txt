@@ -1,3 +1,12 @@
+- det spars inga DjangoLogEntries
+
+- bootleg_settings.ADMIN_TEMPLATE
+    ... verkar inte funka
+
+- kan inte använda djangos-settings-grej
+
+- fixa print_at_startup
+
 - göra så man måste ange LOG_DIR
     ... skit i /dev/null-grejer
     ... kolla att det funkar i django_tango
