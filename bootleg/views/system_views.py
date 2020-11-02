@@ -8,7 +8,7 @@ from bootleg.conf import bootleg_settings
 
 class DeployInfoView(StaffRequiredTemplateView):
     title = _("Deployment")
-    template_name = bootleg_settings.SYSTEM_TEMPLATE
+    template_name = bootleg_settings.DEPLOYMENT_TEMPLATE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
