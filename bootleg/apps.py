@@ -12,33 +12,6 @@ from bootleg.system import file_system, nix
 from bootleg.utils import models, env
 
 
-def check_django_log_level(errors):
-    level = bootleg_settings.DJANGO_LOG_LEVEL
-    if level in ["CRITICAL", "FATAL", "NOTSET"]:
-        errors.append(
-            Error(
-                'DJANGO_LOG_LEVEL %s is not allowed' % level,
-                hint='Valid levels are: DEBUG, WARNING, ERROR',
-                obj=bootleg_settings,
-                id='bootleg.E001',
-            )
-        )
-
-    try:
-        logging._checkLevel(level)
-    except ValueError:
-        errors.append(
-            Error(
-                'DJANGO_LOG_LEVEL %s is not a valid level' % level,
-                hint='Valid levels are: DEBUG, WARNING, ERROR',
-                obj=bootleg_settings,
-                id='bootleg.E001',
-            )
-        )
-
-    return errors
-
-
 def check_sql_logging(errors):
     if bootleg_settings.LOG_SQL and not bootleg_settings.DEBUG:
         errors.append(
@@ -47,21 +20,6 @@ def check_sql_logging(errors):
                 hint='Set DEBUG to True and LOG_SQL to True',
                 obj=bootleg_settings,
                 id='bootleg.E002',
-            )
-        )
-
-    return errors
-
-
-def check_log_dir(errors):
-    dir = bootleg_settings.LOG_DIR
-    if not file_system.is_writable(dir):
-        errors.append(
-            Error(
-                "LOG_DIR %s is not writable" % dir,
-                hint='chmod and or create %s' % dir,
-                obj=bootleg_settings,
-                id='bootleg.E003',
             )
         )
 
@@ -201,9 +159,8 @@ def check_template(errors, attribute, template, number, required=False):
 
 @register()
 def check_settings(app_configs, **kwargs):
-    errors = check_django_log_level([])
+    errors = []
     errors = check_sql_logging(errors)
-    errors = check_log_dir(errors)
     errors = check_site_domain(errors)
     errors = check_site_name(errors)
     errors = check_home_url(errors)
