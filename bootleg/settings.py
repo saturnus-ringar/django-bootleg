@@ -1,3 +1,5 @@
+import os
+
 from bootleg.system import file_system
 from bootleg.conf import bootleg_settings
 from django.conf import settings

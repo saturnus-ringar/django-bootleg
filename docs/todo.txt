@@ -1,7 +1,12 @@
 - göra så man måste ange LOG_DIR
     ... skit i /dev/null-grejer
-    
+    ... kolla att det funkar i django_tango
+
+- inkludera NAVIGATION_TEMPLATE
+
 - göra så man bara har ett middleware?
+
+- måste gruppera felen på hash och count
 
 får cirkulär import om jag kör det här:
         url = get_setting("LOGIN_REDIRECT_URL")
