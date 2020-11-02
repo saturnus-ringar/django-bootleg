@@ -13,7 +13,7 @@ from bootleg.views.auth_views import CustomLoginView, LogoutView, change_passwor
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView
 from bootleg.views.json_views import JSONSuggestView
-from bootleg.views.views import DevNullView
+from bootleg.views.views import DevNullView, CrashView
 from bootleg.views.xhr_views import JavascriptErrorView
 from bootleg.init import *
 
@@ -27,6 +27,11 @@ urlpatterns = [
     # basic URLs
     #######################################
     path('dev-null/', DevNullView.as_view(), name="dev_null"),
+
+    #######################################
+    # crash-url - to test errors
+    #######################################
+    path('crash/', CrashView.as_view(), name="crash"),
 
     #######################################
     # auth/login
