@@ -4,7 +4,7 @@ from bootleg import logging
 from bootleg.conf import bootleg_settings
 from bootleg.management.commands.base import BaseCommand
 from bootleg.system import utils, git
-from bootleg.utils import utils as bootleg_utils
+from bootleg.utils import env
 
 
 class Command(BaseCommand):
@@ -28,9 +28,9 @@ class Command(BaseCommand):
         self.logger.info("Collecting static")
         management.call_command("collectstatic", interactive=False)
         if not options['soft_deploy']:
-            if bootleg_utils.is_apache_context():
+            if env.is_apache_env():
                 self.logger.info("Restarting Apache")
-            elif bootleg_utils.is_gunicorn_context():
+            elif env.is_gunicorn_env():
                 self.logger.info("Restarting Gunicorn")
             else:
                 raise ValueError("Could not determine which server type this is running on. Can't restart.")

@@ -5,13 +5,13 @@ from django.core.exceptions import AppRegistryNotReady
 
 from bootleg.conf import bootleg_settings
 from bootleg.logging import logging as bootleg_logging
-from bootleg.utils import utils
+from bootleg.utils import env
 
 
 class StreamHandler(logging.StreamHandler):
 
     def emit(self, record):
-        if utils.is_apache_context():
+        if env.is_apache_env():
             # don't log in apache context
             return
         super().emit(record)

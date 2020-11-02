@@ -1,26 +1,7 @@
 import inspect
 import os
 import sys
-
-
-def is_testing():
-    if sys.argv[1:2] == ['test']:
-        return True
-
-    return False
-
-
-def is_apache_context():
-    if "APACHE_PID_FILE" in os.environ:
-        return True
-    return False
-
-
-def is_gunicorn_context():
-    if "gunicorn" in os.environ.get("SERVER_SOFTWARE", ""):
-        return True
-
-    return False
+from django.conf import settings
 
 
 def get_caller():

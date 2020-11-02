@@ -1,17 +1,15 @@
 import logging
-import os
 
+from django.apps import AppConfig
+from django.conf import settings
+from django.core.checks import Error, register
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
-
-from bootleg.system import file_system, nix
-from django.apps import AppConfig
-from django.core.checks import Error, register
 from giturlparse import validate
 
-from bootleg.utils import models
 from bootleg.conf import bootleg_settings
-from django.conf import settings
+from bootleg.system import file_system, nix
+from bootleg.utils import models, env
 
 
 def check_django_log_level(errors):
@@ -198,8 +196,8 @@ def check_settings(app_configs, **kwargs):
     errors = check_site_domain(errors)
     errors = check_site_name(errors)
     errors = check_home_url(errors)
-    if not settings.DEBUG:
-        # only check users and groups if we're live
+    if env.is_production():
+        # only check users and groups if it's in production
         errors = check_user(errors, bootleg_settings.MAIN_USER, "MAIN_USER", 7)
         errors = check_user(errors, bootleg_settings.WEBSERVER_USER, "WEBSERVER_USER", 8)
         errors = check_group(errors, bootleg_settings.MAIN_USER_GROUP, "MAIN_USER_GROUP", 9)
