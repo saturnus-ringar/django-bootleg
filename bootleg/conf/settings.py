@@ -1,8 +1,6 @@
 import logging
-import os
 
-from django.conf import settings, global_settings
-from django.urls import reverse, reverse_lazy
+from django.conf import settings
 
 SETTINGS_OBJ = None
 
@@ -34,13 +32,17 @@ def get_debug_settings_value(default, if_debug_value):
         return default
 
 
-
 class Settings:
 
     __settings__ = {}
 
     def __init__(self):
+        # setup django settings to get the local settings value
+        settings._setup()
         self.setup()
+        self.set_django_settings()
+        # do another setup of the django settings to add these new values
+        settings._setup()
 
     def setup(self):
         ####################################################
@@ -128,8 +130,78 @@ class Settings:
         self.add_setting("ADD_BUILTINS", True)
         self.add_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
 
-
     def add_setting(self, attribute, default=None, required=False):
         value = get_setting(attribute, default, required=required)
         if attribute not in self.__settings__:
             setattr(self, attribute, value)
+
+    def set_django_settings(self):
+        # somewhat ugly to set this at runtime ...nevertheless..
+
+        #####################################################
+        # django settings
+        #####################################################
+
+        if not getattr(settings, "SITE_ID", None):
+            settings.SITE_ID = 1
+
+        #####################################################
+        # django tables 2
+        #####################################################
+
+        settings.DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap-responsive.html"
+
+        #####################################################
+        # crispy forms
+        #####################################################
+
+        settings.CRISPY_TEMPLATE_PACK = "bootstrapkuekn"
+
+        #####################################################
+        # django compress
+        #####################################################
+
+        if getattr(settings, "COMPRESS_CSS_FILTERS", None):
+            settings.COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',
+                                             'compressor.filters.cssmin.CSSMinFilter']
+
+        #####################################################
+        # logging
+        #####################################################
+
+            settings.LOGGING = {
+                'version': 1,
+                'disable_existing_loggers': False,
+                'formatters': {
+                    'verbose': {
+                        'format': self.LOG_FORMAT,
+                        'datefmt': self.LOG_DATE_FORMAT,
+                    }
+                },
+                'handlers': {
+                    'django': {
+                        'level': self.DJANGO_LOG_LEVEL,
+                        'class': 'bootleg.logging.handlers.DjangoLogHandler',
+                        'filename':  self.LOG_DIR + 'django.log',
+                        'formatter': 'verbose'
+                    },
+                    'sql': {
+                        'level': 'DEBUG', # static DEBUG level on this one
+                        'class': 'bootleg.logging.handlers.FileHandler',
+                        'filename':  self.LOG_DIR + 'sql.log',
+                        'formatter': 'verbose'
+                    },
+                },
+                'loggers': {
+                    'django': {
+                        'handlers': ['django'],
+                        'level': self.DJANGO_LOG_LEVEL
+                    },
+                },
+            }
+
+            if self.LOG_SQL:
+                settings.LOGGING["loggers"]["django.db.backends"] = {
+                    'level': 'DEBUG', # always debug on this one
+                    'handlers': ['sql']
+                }

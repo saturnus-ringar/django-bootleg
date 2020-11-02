@@ -50,5 +50,3 @@ def startup_print():
 
     print(Fore.LIGHTBLUE_EX + "*********************************************************************")
     print(Style.RESET_ALL)
-    print(getattr(settings, "LOGGING"))
-
