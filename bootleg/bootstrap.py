@@ -42,7 +42,7 @@ def startup_print():
     if bootleg_settings.STORE_DJANGO_LOG_EXCEPTIONS:
         print(Fore.GREEN + "* Storing Django log exceptions")
 
-    custom_settings_to_print = getattr(settings, "SETTINGS_TO_PRINT")
+    custom_settings_to_print = getattr(settings, "SETTINGS_TO_PRINT", None)
     if custom_settings_to_print:
         print(Fore.LIGHTBLUE_EX + "Custom settings")
         for setting, value in custom_settings_to_print.items():
