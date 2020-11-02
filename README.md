@@ -88,7 +88,7 @@ urlpatterns = [
 ```python
 {% compress js %}
 # ...
-<script src="{% static 'bootleg/js/bootleg.js' %}"></script>
+<script type="text/javascript" src="{% static 'bootleg/js/bootleg.js' %}"></script>
 {% endcompress %}
 ```
 
