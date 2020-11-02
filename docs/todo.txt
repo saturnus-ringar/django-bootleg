@@ -1,11 +1,8 @@
-- man ska inte använda:
-    if not settings.is_overridden("SITE_ID"):
-    ... bara getattr(setttings
-
-- kunna lägga till custom settings som printas i bootstrap
+- tror inte att error-sidorna varken inkluderas eller funkar
 
 - error-sidor osv. funkar nog inte riktigt
     ... alla 500 hamnar nog inte i django-loggen
+
 
 får cirkulär import om jag kör det här:
         url = get_setting("LOGIN_REDIRECT_URL")
@@ -13,11 +10,6 @@ får cirkulär import om jag kör det här:
             # override django's default url
         #    url = str(reverse_lazy("bootleg:dev_null"))
 
-- i Settings:
-    spar om det är setup eller inte, om man försöker hämta ett attribut och setup är False, kör setup
-        ... testa hur tidigt man kan hämta konf
-        
-- tror inte att error-sidorna varken inkluderas eller funkar
 
 **********************
  settings
@@ -130,6 +122,16 @@ får cirkulär import om jag kör det här:
             - git commit
 
         - spara failade deployer (med ett exception?)
+
+***************************************
+ förbättringar
+***************************************
+
+- försöka fixa så man inte behöver url_apps.py
+    (det pajar namespacet för djdt och django-admin med app_name i urls.py)
+
+- göra så man inte behöver inkludera init i urls.py
+    ... sätter error handlers
 
 ***************************************
  errors

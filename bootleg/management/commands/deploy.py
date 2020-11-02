@@ -28,9 +28,9 @@ class Command(BaseCommand):
         self.logger.info("Collecting static")
         management.call_command("collectstatic", interactive=False)
         if not options['soft_deploy']:
-            if env.is_apache_env():
+            if env.is_apache():
                 self.logger.info("Restarting Apache")
-            elif env.is_gunicorn_env():
+            elif env.is_gunicorn():
                 self.logger.info("Restarting Gunicorn")
             else:
                 raise ValueError("Could not determine which server type this is running on. Can't restart.")

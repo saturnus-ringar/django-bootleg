@@ -1,3 +1,7 @@
+- man ska inte använda:
+    if not settings.is_overridden("SITE_ID"):
+    ... bara getattr(setttings
+
 problem med settings:
 
 django_tango importerar från bootleg:

@@ -11,7 +11,7 @@ from bootleg.utils import env
 class StreamHandler(logging.StreamHandler):
 
     def emit(self, record):
-        if env.is_apache_env():
+        if env.is_apache():
             # don't log in apache context
             return
         super().emit(record)
