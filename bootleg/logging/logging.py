@@ -7,7 +7,7 @@ import warnings
 from pprint import pformat
 
 from ipware import get_client_ip
-
+from django.conf import settings
 from bootleg.conf import bootleg_settings
 from bootleg.conf.settings import check_log_level
 from bootleg.logging.handlers import StreamHandler, FileHandler
@@ -126,8 +126,8 @@ def get_file_path(filename):
 
 
 def get_formatter():
-    return logging.Formatter(bootleg_settings.LOG_FORMAT,
-                             bootleg_settings.LOG_DATE_FORMAT)
+    return logging.Formatter(settings.LOGGING["formatters"]["verbose"]["format"],
+                             settings.LOGGING["formatters"]["verbose"]["datefmt"])
 
 
 def log_exception(e):

@@ -3,8 +3,6 @@ import traceback
 
 from django.core.exceptions import AppRegistryNotReady
 
-from bootleg.conf import bootleg_settings
-from bootleg.logging import logging as bootleg_logging
 from bootleg.utils import env
 
 
@@ -20,7 +18,6 @@ class StreamHandler(logging.StreamHandler):
 class FileHandler(logging.FileHandler):
 
     def __init__(self, filename, mode='a', encoding=None, delay=0):
-        filename = bootleg_logging.test_writing_and_get_filename(filename)
         encoding = "utf-8"
         logging.FileHandler.__init__(self, filename, mode, encoding, delay)
 
@@ -29,6 +26,9 @@ class DjangoLogHandler(FileHandler):
     levels = ["WARNING", "ERROR", "CRITICAL"]
 
     def should_log(self, record):
+        # local import since the logger is added very early on in settings.py and it will lead to
+        # some circular import mayhem
+        from bootleg.conf import bootleg_settings
         if bootleg_settings.STORE_DJANGO_LOG_EXCEPTIONS and record.levelname in self.levels:
             return True
 
