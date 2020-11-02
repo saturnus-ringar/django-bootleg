@@ -1,3 +1,14 @@
+- kolla att alla error-templates finns
+
+- göra så man kan använda settings som django, a la:
+    bootleg_settings.TEMPLATE_404
+
+- tror inte att error-sidorna varken inkluderas eller funkar
+
+- error-sidor osv. funkar nog inte riktigt
+    ... alla 500 hamnar nog inte i django-loggen
+
+
 - man ska inte använda:
     if not settings.is_overridden("SITE_ID"):
     ... bara getattr(setttings

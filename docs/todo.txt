@@ -1,8 +1,4 @@
-- tror inte att error-sidorna varken inkluderas eller funkar
-
-- error-sidor osv. funkar nog inte riktigt
-    ... alla 500 hamnar nog inte i django-loggen
-
+- göra så man bara har ett middleware?
 
 får cirkulär import om jag kör det här:
         url = get_setting("LOGIN_REDIRECT_URL")
@@ -15,12 +11,8 @@ får cirkulär import om jag kör det här:
  settings
 **********************
 
-    - göra så man kan använda settings som django, a la:
-        bootleg_settings.TEMPLATE_404
-
-        ... kolla hur django debug toolbar gör med settings
-
 - kontrollera URLar
+    ... vilka URLar?
 
 - länk för att uppdatera:
     http://localhost:8000/list/kebab/
@@ -38,12 +30,6 @@ får cirkulär import om jag kör det här:
 
 - dubbla slash i github-urlen
     http://localhost:8000/deploy/info/
-
-***********************
- error-sidor
-***********************
-
-    kolla att alla error-templates finns
 
 ***********************
  meny
