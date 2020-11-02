@@ -26,12 +26,17 @@ LOG_DIR_IS_WRITABLE = file_system.is_writable(bootleg_settings.LOG_DIR)
 
 
 def get_all_loggers():
+    loggers_with_handlers = []
+    loggers_without_handlers = []
 
-    loggers = []
     for logger_name in sorted(logging.root.manager.loggerDict):
-        loggers.append(logging.getLogger(logger_name))
+        logger = logging.getLogger(logger_name)
+        if logger.handlers:
+            loggers_with_handlers.append(logger)
+        else:
+            loggers_without_handlers.append(logger)
 
-    return loggers
+    return loggers_with_handlers + loggers_without_handlers
 
 
 def test_writing_and_get_filename(filename):
