@@ -75,6 +75,7 @@ from bootleg.settings import *
 
 ```python
 # urls.py
+from bootleg.add_error_handlers import *
 
 urlpatterns = [
     # ...
