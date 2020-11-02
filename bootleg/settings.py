@@ -32,6 +32,7 @@ def set_django_settings():
     if getattr(settings, "COMPRESS_CSS_FILTERS", None):
         settings.COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
 
+    print("settings.py")
     #####################################################
     # logging
     #####################################################

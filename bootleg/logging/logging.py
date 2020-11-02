@@ -117,11 +117,8 @@ def get_file_path(filename):
 
 
 def get_formatter():
-    try:
-        return logging.Formatter(settings.LOGGING["formatters"]["verbose"]["format"],
-                                 settings.LOGGING["formatters"]["verbose"]["datefmt"])
-    except KeyError:
-        return logging.Formatter()
+    return logging.Formatter(bootleg_settings.LOG_FORMAT,
+                             bootleg_settings.LOG_DATE_FORMAT)
 
 
 def log_exception(e):
