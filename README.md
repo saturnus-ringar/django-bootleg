@@ -66,7 +66,7 @@ urlpatterns = [
 ]
 ```
 
-### Include javascript (if you're not extending bootleg/base.html) - jquery is required
+### Include javascript in your template (if you're not extending bootleg/base.html) - jquery is required
 ```python
 {% compress js %}
 # ...
