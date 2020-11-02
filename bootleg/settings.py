@@ -1,6 +1,8 @@
 import os
 
-from django.conf import settings
+LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
+LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+
 
 class NotWritableError(Exception):
     pass
@@ -9,7 +11,7 @@ class NotWritableError(Exception):
 #####################################################
 # django settings
 #####################################################
-from bootleg.conf.settings import get_setting
+from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level
 
 SITE_ID = 1
 
@@ -32,11 +34,11 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter', 'compressor.filters.cssmin.CSSMinFilter']
 
 log_dir = get_setting("LOG_DIR")
-django_log_level = get_setting("DJANGO_LOG_LEVEL", "INFO")
-
 if not os.access(log_dir, os.W_OK):
     raise NotWritableError("LOG_DIR: %s is not writable" % log_dir)
 
+DJANGO_LOG_LEVEL = get_setting("DJANGO_LOG_LEVEL", get_debug_settings_value("ERROR", "INFO"))
+check_log_level(DJANGO_LOG_LEVEL)
 
 LOGGING = {
     'version': 1,
@@ -49,7 +51,7 @@ LOGGING = {
     },
     'handlers': {
         'django': {
-            'level': django_log_level,
+            'level': DJANGO_LOG_LEVEL,
             'class': 'bootleg.logging.handlers.DjangoLogHandler',
             'filename': log_dir + 'django.log',
             'formatter': 'verbose'
@@ -64,7 +66,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['django'],
-            'level': django_log_level
+            'level': DJANGO_LOG_LEVEL
         },
     },
 }

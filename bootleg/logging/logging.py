@@ -11,6 +11,7 @@ from django.conf import settings
 from bootleg.conf import bootleg_settings
 from bootleg.conf.settings import check_log_level
 from bootleg.logging.handlers import StreamHandler, FileHandler
+from bootleg.settings import LOG_FORMAT, LOG_DATE_FORMAT
 from bootleg.system import file_system
 from bootleg.system.file_system import NotWritableWarning
 from bootleg.utils import utils
@@ -126,8 +127,7 @@ def get_file_path(filename):
 
 
 def get_formatter():
-    return logging.Formatter(settings.LOGGING["formatters"]["verbose"]["format"],
-                             settings.LOGGING["formatters"]["verbose"]["datefmt"])
+    return logging.Formatter(LOG_FORMAT, LOG_DATE_FORMAT)
 
 
 def log_exception(e):
