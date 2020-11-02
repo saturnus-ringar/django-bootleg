@@ -143,7 +143,7 @@ PRINT_AT_STARTUP - default **True**
 > booean True/False
 > Prints settings etc. at startup if True
 
-### Reversing URLs
+## Reversing URLs
 Get the URL to the System info page
 
 ```python
@@ -157,7 +157,7 @@ Get the URL to the Deployment page
 
 ```
 
-### Templates
+## Templates/Template settings
 
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
@@ -165,12 +165,21 @@ BASE_TEMPLATE - default **None**
 ADMIN_TEMPLATE - default **BASE_TEMPLATE**
 > Example: 'webiste_admin/base.html' - if this isn't set the VALUE from BASE_TEMPLATE will be used
 
+The templates need a content block to be able to render to bootleg-HTML. 
+So add this block to your templates:
+
+```python
+{% block content %}
+{# bootleg content will be rendered here #}
+{% endblock %}
+```
+
 SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 > Example: 'website/system/system_info.html'
 
 > Link to deployment: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
 
-> And an example on what the template could look lie
+> ...and an example on what the template could look like:
 ```python
 {% extends 'website/base.html' %}
 {% block content %}
@@ -178,7 +187,10 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 <p>
     {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
 </p>
+
+{# render system information #}
 {% render_system_information %}
+
 {% endblock %}
 ```
 
@@ -187,7 +199,7 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 
 > Link to deployment: <a href="{% url "bootleg:deploy_info" %}">{% trans "Deployment" %}</a>
 
-> And an example on what the template could look lie
+> ...and an example on what the template could look like:
 ```python
 {% extends 'website/base.html' %}
 {% block content %}
@@ -195,12 +207,17 @@ DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 <p>
     {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
 </p>
+
+{# render deploy information #}
 {% render_deploy_info %}
+
 {% endblock %}
 ```
 
 NAVIGATION_TEMPLATE - default **None** 
 > Example: 'website/includes/navigation.html'
+
+> ...and an example on what the template could look like:
 
 ```python
 {% load i18n static bootleg %}
@@ -227,8 +244,11 @@ NAVIGATION_TEMPLATE - default **None**
                 </li>
             {% endif %}
         </ul>
+        
+        {# bootleg navigation #}
         {% render_navigation request %}
-    </div>
+
+</div>
 </nav>
 ```
 
