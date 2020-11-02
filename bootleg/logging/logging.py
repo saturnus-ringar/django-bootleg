@@ -124,7 +124,7 @@ def get_formatter():
 def log_exception(e):
     logger = get_logger("exception")
     logger.exception(e)
-    if bootleg_settings.store_logged_exception():
+    if bootleg_settings.STORE_LOGGED_EXCEPTIONS:
         save_logged_exception(e)
 
 
