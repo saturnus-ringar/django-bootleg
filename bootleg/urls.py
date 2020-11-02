@@ -15,7 +15,6 @@ from bootleg.views.generic_model_views import GenericListView, GenericModelCreat
 from bootleg.views.json_views import JSONSuggestView
 from bootleg.views.views import DevNullView, CrashView
 from bootleg.views.xhr_views import JavascriptErrorView
-from bootleg.init import *
 
 # setup, indeed
 bootleg.setup()
