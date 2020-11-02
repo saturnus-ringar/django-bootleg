@@ -51,7 +51,10 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
 
 # just the domain, without http/https
-SITE_DOMAIN = "sitedomain.com"
+SITE_DOMAIN = 'sitedomain.com'
+# just a name for the site
+SITE_NAME = 'site name'
+
 # The home/index URL of the site. Just a string. The string will be URL-reverse():ed
 HOME_URL = "<index_page>"
 
