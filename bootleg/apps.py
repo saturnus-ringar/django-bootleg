@@ -172,6 +172,17 @@ def check_git_url(errors):
 
 
 def check_template(errors, attribute, template, number, required=False):
+    if required and not template:
+        errors.append(
+            Error(
+                "Template %s must be set in the settings" % attribute,
+                hint="Add %s to the settings." % attribute,
+                obj=settings,
+                id='bootleg.%s' % number
+            )
+        )
+        return errors
+
     if template or required:
         try:
             get_template(template)
@@ -213,10 +224,10 @@ def check_settings(app_configs, **kwargs):
     errors = check_template(errors, "NAVIGATION_TEMPLATE", bootleg_settings.NAVIGATION_TEMPLATE, 17, required=True)
     errors = check_template(errors, "SYSTEM_TEMPLATE", bootleg_settings.SYSTEM_TEMPLATE, 18)
     errors = check_template(errors, "DEPLOYMENT_TEMPLATE", bootleg_settings.DEPLOYMENT_TEMPLATE, 19)
-    errors = check_template(errors, "ERROR_400_TEMPLATE", bootleg_settings.ERROR_400_TEMPLATE, 20)
-    errors = check_template(errors, "ERROR_403_TEMPLATE", bootleg_settings.ERROR_403_TEMPLATE, 21)
-    errors = check_template(errors, "ERROR_404_TEMPLATE", bootleg_settings.ERROR_404_TEMPLATE, 22)
-    errors = check_template(errors, "ERROR_500_TEMPLATE", bootleg_settings.ERROR_500_TEMPLATE, 22)
+    errors = check_template(errors, "ERROR_400_TEMPLATE", bootleg_settings.ERROR_400_TEMPLATE, 20, required=True)
+    errors = check_template(errors, "ERROR_403_TEMPLATE", bootleg_settings.ERROR_403_TEMPLATE, 21, required=True)
+    errors = check_template(errors, "ERROR_404_TEMPLATE", bootleg_settings.ERROR_404_TEMPLATE, 22, required=True)
+    errors = check_template(errors, "ERROR_500_TEMPLATE", bootleg_settings.ERROR_500_TEMPLATE, 22, required=True)
     return errors
 
 

@@ -27,10 +27,6 @@ def check_log_level(level):
                                  % (level, logging._levelToName))
 
 
-def get_error_template(status_code):
-    return "bootleg/errors/%s.html" % status_code
-
-
 def get_debug_settings_value(default, if_debug_value):
     if not settings.DEBUG:
         return if_debug_value
@@ -38,7 +34,6 @@ def get_debug_settings_value(default, if_debug_value):
         return default
 
 
-DEFAULT_TEMPLATE = "bootleg/base.html"
 
 class Settings:
 
@@ -64,7 +59,6 @@ class Settings:
         # logging
         ####################################################
         self.add_setting("LOG_DIR", None)
-        self.add_setting("ADD_BUILTINS", True)
         self.add_setting("LOG_FORMAT", "%(asctime)s %(levelname)s %(message)s")
         self.add_setting("LOG_DATE_FORMAT",  "%Y-%m-%d %H:%M:%S")
         self.add_setting("LOG_TO_STDOUT", True)
@@ -72,18 +66,19 @@ class Settings:
         self.add_setting("LOG_SQL", False)
         self.add_setting("LOG_LEVEL", "INFO")
         self.add_setting("DJANGO_LOG_LEVEL", get_debug_settings_value("ERROR", "INFO"))
-        self.add_setting("BASE_TEMPLATE", DEFAULT_TEMPLATE)
+
+        ####################################################
+        # templates
+        ####################################################
+        self.add_setting("BASE_TEMPLATE", "bootleg/base.html")
         self.add_setting("ADMIN_TEMPLATE", self.BASE_TEMPLATE)
         self.add_setting("NAVIGATION_TEMPLATE", None)
-        self.add_setting("SYSTEM_TEMPLATE", "bootleg/system_info.html")
-        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
-        self.add_setting("ERROR_400_TEMPLATE", get_error_template(400))
-        self.add_setting("ERROR_403_TEMPLATE", get_error_template(403))
-        self.add_setting("ERROR_404_TEMPLATE", get_error_template(404))
-        self.add_setting("ERROR_500_TEMPLATE", get_error_template(500))
-        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
-        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
-        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system_info.html")
+        self.add_setting("SYSTEM_TEMPLATE", "bootleg/system/system.html")
+        self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system/deployment.html")
+        self.add_setting("ERROR_400_TEMPLATE", None)
+        self.add_setting("ERROR_403_TEMPLATE", None)
+        self.add_setting("ERROR_404_TEMPLATE", None)
+        self.add_setting("ERROR_500_TEMPLATE", None)
 
         ####################################################
         # site
@@ -130,7 +125,9 @@ class Settings:
         # misch-ish
         ####################################################
         self.add_setting("PRINT_AT_STARTUP", True)
+        self.add_setting("ADD_BUILTINS", True)
         self.add_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
+
 
     def add_setting(self, attribute, default=None, required=False):
         value = get_setting(attribute, default, required=required)
