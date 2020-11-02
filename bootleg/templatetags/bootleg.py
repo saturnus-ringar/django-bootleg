@@ -38,6 +38,16 @@ def render_navigation(request):
     return mark_safe(html)
 
 
+@register.simple_tag()
+def render_main_navigation(request):
+    return mark_safe(bootleg_html.get_main_navigation(request))
+
+
+@register.simple_tag
+def render_right_navigation(request):
+    return mark_safe(bootleg_html.get_right_navigation(request))
+
+
 @register.simple_tag
 def get_first_with_value(*args):
     for arg in args:

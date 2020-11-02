@@ -9,7 +9,7 @@ def get_default_table_class_string():
 
 
 def get_nav_item(url, text):
-    html = '<li class ="nav-item dropdown">\n'
+    html = '<li class="nav-item dropdown">\n'
     html += '<li class="nav-item">\n'
     html += '<a class="nav-link" href="%s"></a>' % (url, text)
     html += '</li>\n'
@@ -19,7 +19,7 @@ def get_nav_item(url, text):
 def get_main_navigation(request):
     # circular imports ... :|
     from bootleg.templatetags.bootleg import get_changelist_url
-    html = '<ul class="navbar-nav mr-auto float-left">'
+    html = '<ul class="nav navbar-nav mr-auto float-left">'
     if request.user.is_staff:
         html += get_nav_item(reverse("bootleg:system_info"), _("System"))
         html += get_nav_item(reverse("bootleg:deploy_info"), _("Deployment"))
