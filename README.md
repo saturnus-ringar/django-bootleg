@@ -131,7 +131,7 @@ So add this block to your templates:**
 SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 > Example: 'website/system/system_info.html'
 
-> Link to deployment: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
+> Link to system info: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
 
 > ...and an example on what the template could look like:
 ```python
@@ -151,7 +151,7 @@ SYSTEM_TEMPLATE - default **'bootleg/system_info.html'**
 DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
 > Example: 'website/system/deployment.html'
 
-> Link to deployment: <a href="{% url "bootleg:deploy_info" %}">{% trans "Deployment" %}</a>
+> Link to deployment info: <a href="{% url "bootleg:deploy_info" %}">{% trans "Deployment" %}</a>
 
 > ...and an example on what the template could look like:
 ```python
