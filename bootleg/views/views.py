@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from django_tables2 import tables
 
-from bootleg.views.base import BaseTemplateView
+from bootleg.views.base import BaseTemplateView, StaffRequiredTemplateView
 
 
 def get_default_table(model):
@@ -19,3 +19,9 @@ class DevNullView(BaseTemplateView):
     def dispatch(self, request, *args, **kwargs):
         messages.info(request, _("Since you can read this - it probably means the site is up and running?!?!?!?!"))
         return super().dispatch(request, args, kwargs)
+
+
+class CrashView(StaffRequiredTemplateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        0 / 0
