@@ -38,6 +38,7 @@ def set_django_settings():
     #####################################################
 
     if file_system.is_writable(bootleg_settings.LOG_DIR):
+        print("ADDING LOGGING?!?!?!?!?!?!?!?")
         settings.LOGGING = {
             'version': 1,
             'disable_existing_loggers': False,

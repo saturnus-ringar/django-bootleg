@@ -1,5 +1,8 @@
 - det spars inga DjangoLogEntries
 
+- måste krascha här om det inte funkar:
+        if file_system.is_writable(bootleg_settings.LOG_DIR):
+
 - bootleg_settings.ADMIN_TEMPLATE
     ... verkar inte funka
 
