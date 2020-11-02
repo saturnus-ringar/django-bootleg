@@ -37,9 +37,8 @@ def test_writing_and_get_filename(filename):
         writable = False
 
     if not writable:
-        warnings.warn('File path %s is not writable. Logging to: %s instead.' % (filename, bootleg_settings.FAIL_LOG_PATH),
+        warnings.warn('File path %s is not writable.' % filename,
                       NotWritableWarning, stacklevel=3)
-        filename = bootleg_settings.FAIL_LOG_PATH
 
     return filename
 

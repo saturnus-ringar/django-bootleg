@@ -210,7 +210,7 @@ def check_settings(app_configs, **kwargs):
 
     # check templates
     errors = check_template(errors, "BASE_TEMPLATE", bootleg_settings.BASE_TEMPLATE, 16, required=True)
-    errors = check_template(errors, "NAVIGATION_TEMPLATE", bootleg_settings.NAVIGATION_TEMPLATE, 17)
+    errors = check_template(errors, "NAVIGATION_TEMPLATE", bootleg_settings.NAVIGATION_TEMPLATE, 17, required=True)
     errors = check_template(errors, "SYSTEM_TEMPLATE", bootleg_settings.SYSTEM_TEMPLATE, 18)
     errors = check_template(errors, "DEPLOYMENT_TEMPLATE", bootleg_settings.DEPLOYMENT_TEMPLATE, 19)
     errors = check_template(errors, "ERROR_400_TEMPLATE", bootleg_settings.ERROR_400_TEMPLATE, 20)
