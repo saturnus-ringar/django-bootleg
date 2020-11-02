@@ -64,9 +64,12 @@ urlpatterns = [
 ]
 ```
 
-### Include javascript (if you're not extending bootleg/base.html)
+### Include javascript (if you're not extending bootleg/base.html) - jquery is required
 ```python
+{% compress js %}
+# ...
 <script src="{% static 'bootleg/js/main.js' %}"></script>
+{% endcompress %}
 ```
 
 ## Django settings
