@@ -177,8 +177,14 @@
 
 <table class="{% get_default_table_classes %} overflow-auto">
 <tbody>
+        <tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Logger" %}</th>
+                <th>{% trans "Handlers" %}</th>
+        </tr>
         {% for logger in system.loggers %}
                 <tr>
+                        <td>{{ logger.name }} </td>
                         <td>{{ logger }} </td>
                         <td>
                                 {% for handler in logger.handlers %}
