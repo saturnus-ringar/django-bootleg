@@ -75,6 +75,7 @@ urlpatterns = [
 ## Django settings
 
 MEDIA_ROOT
+
 MEDIA_ROOT
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
 
