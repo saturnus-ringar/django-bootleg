@@ -143,7 +143,7 @@ PRINT_AT_STARTUP - default **True**
 > booean True/False
 > Prints settings etc. at startup if True
 
-### Reversing URLs
+## Reversing URLs
 Get the URL to the System info page
 
 ```python
@@ -157,7 +157,7 @@ Get the URL to the Deployment page
 
 ```
 
-### Templates
+## Templates/Template settings
 
 The templates need a content block to be able to render to bootleg-HTML. 
 So add this block to your templates:
