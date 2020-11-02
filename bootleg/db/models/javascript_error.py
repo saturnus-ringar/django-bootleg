@@ -1,3 +1,4 @@
+from bootleg.db.models.base import HandledStatusModel
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 
@@ -23,7 +24,7 @@ class JavascriptErrorManager(models.Manager):
         javascript_error.save()
 
 
-class JavascriptError(TimeStampedModel):
+class JavascriptError(HandledStatusModel):
     ip = models.GenericIPAddressField(null=False, blank=False)
     url = models.URLField(null=False, blank=False)
     line = models.IntegerField(null=False, blank=False)

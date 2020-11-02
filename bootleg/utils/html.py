@@ -27,6 +27,8 @@ def get_main_navigation(request):
             _("Logged exceptions"), request.unhandled_logged_exceptions_count, True)
         html += get_nav_item(get_changelist_url('bootleg', 'DjangoLogEntry') + "?handled__exact=0",
             _("Django log entries"), request.unhandled_django_log_entry_count, True)
+        html += get_nav_item(get_changelist_url('bootleg', 'JavascriptError') + "?handled__exact=0",
+            _("Javascript errors"), request.unhandled_javascript_error_count, True)
 
         if request.editable_models:
             html += '<li class ="nav-item dropdown">\n'

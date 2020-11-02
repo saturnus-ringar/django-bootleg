@@ -25,7 +25,7 @@ class NameAndDescriptionManager(models.Manager):
         return self.model.objects.filter(name__icontains=query)
 
 
-class UnhandledExceptionManager(models.Manager):
+class UnhandledStatusModelManager(models.Manager):
 
     def get_queryset(self):
         return super().get_queryset().filter(handled=False)
@@ -129,13 +129,20 @@ class EditableNameAndDescriptionModel(NameAndDescriptionModel, TimeStampedModel)
         admin_class = "SHISH"
 
 
-class ExceptionModel(BaseModel, TimeStampedModel):
+class HandledStatusModel(BaseModel, TimeStampedModel):
+    handled = models.BooleanField(default=False, null=False, blank=False)
+
+    unhandled = UnhandledStatusModelManager()
+
+    class Meta:
+        abstract = True
+
+
+class ExceptionModel(HandledStatusModel):
     stack_trace = models.TextField(null=True, blank=False)
     args = models.CharField(max_length=1024, null=False, blank=False)
     clazz = models.ForeignKey("bootleg.Class", on_delete=models.CASCADE)
-    handled = models.BooleanField(default=False, null=False, blank=False)
 
-    unhandled = UnhandledExceptionManager()
     objects = LoggedExceptionManager()
 
     def handle(self, request):

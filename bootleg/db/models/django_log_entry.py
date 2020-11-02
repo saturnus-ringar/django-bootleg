@@ -2,7 +2,7 @@ from django.db import models
 
 from django.utils.translation import ugettext as _
 
-from bootleg.db.models.base import ExceptionModel, UnhandledExceptionManager
+from bootleg.db.models.base import ExceptionModel
 from bootleg.db.models.klass import Class
 from bootleg.db.models.log_level import LogLevel
 
@@ -25,7 +25,6 @@ class DjangoLogEntry(ExceptionModel):
     filename = models.CharField(max_length=1024, null=False, blank=False)
     log_level = models.ForeignKey(LogLevel, on_delete=models.CASCADE)
 
-    unhandled = UnhandledExceptionManager()
     objects = DjangoLogEntryManager()
 
     def __str__(self):
