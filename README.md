@@ -91,7 +91,7 @@ SITE_NAME = default **None**
 > Just a name. It's not used in URLs.
 
 HOME_URL = default **None**
-> Just a string. The string will be URL-reverse():ed
+> The home/index URL of the site. Just a string. The string will be URL-reverse():ed
 
 ### Logging
 LOG_DIR - default **'/dev/null'**
