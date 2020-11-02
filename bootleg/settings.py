@@ -11,7 +11,7 @@ class NotWritableError(Exception):
 #####################################################
 # django settings
 #####################################################
-from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level
+from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level, ConfigurationError
 
 SITE_ID = 1
 
@@ -34,6 +34,10 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter', 'compressor.filters.cssmin.CSSMinFilter']
 
 log_dir = get_setting("LOG_DIR")
+
+if not log_dir:
+    raise ConfigurationError("LOG_DIR must be defined in the settings.")
+
 if not os.access(log_dir, os.W_OK):
     raise NotWritableError("LOG_DIR: %s is not writable" % log_dir)
 
