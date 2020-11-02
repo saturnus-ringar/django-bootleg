@@ -10,16 +10,16 @@ def error_handler(request, template, status_code):
 
 
 def handler400(request, exception):
-    return error_handler(request, bootleg_settings.TEMPLATE_404, 400)
+    return error_handler(request, bootleg_settings.ERROR_400_TEMPLATE, 400)
 
 
 def handler403(request, exception):
-    return error_handler(request, bootleg_settings.TEMPLATE_404, 403)
+    return error_handler(request, bootleg_settings.ERROR_403_TEMPLATE, 403)
 
 
 def handler404(request, exception):
-    return error_handler(request, bootleg_settings.TEMPLATE_404, 404)
+    return error_handler(request, bootleg_settings.ERROR_404_TEMPLATE, 404)
 
 
 def handler500(request):
-    return error_handler(request, bootleg_settings.TEMPLATE_500, 500)
+    return error_handler(request, bootleg_settings.ERROR_500_TEMPLATE, 500)
