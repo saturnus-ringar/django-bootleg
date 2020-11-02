@@ -48,6 +48,8 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
+
 # just the domain, without http/https
 SITE_DOMAIN = "sitedomain.com"
 # The home/index URL of the site. Just a string. The string will be URL-reverse():ed
@@ -60,7 +62,9 @@ ERROR_403_TEMPLATE - 'path/403.html'
 ERROR_404_TEMPLATE - 'path/404.html'
 ERROR_500_TEMPLATE - 'path/404.html'
 
-AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
+# log dir!
+LOG_DIR = '/var/log/project-name?/'
+
 ```
 
 ```python
@@ -89,12 +93,6 @@ MEDIA_ROOT
 
 MEDIA_ROOT
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
-
-## Basic settings
-
-### Logging
-LOG_DIR - default **'/dev/null'**
-> Example: '/var/log/django-bootleg/'
 
 ## Reversing URLs
 Get the URL to the System info page
