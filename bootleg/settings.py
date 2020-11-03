@@ -1,4 +1,5 @@
 import os
+from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level, ConfigurationError
 
 LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
 LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -11,7 +12,6 @@ class NotWritableError(Exception):
 #####################################################
 # django settings
 #####################################################
-from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level, ConfigurationError
 
 SITE_ID = 1
 
