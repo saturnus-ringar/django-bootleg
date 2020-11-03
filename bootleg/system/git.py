@@ -12,7 +12,9 @@ class GitData:
 
 
 def get_github_url(repo):
-    return giturlparse.parse(repo.remotes.origin.url).urls["https"].replace(".git", "")
+    parsed = giturlparse.parse(repo.remotes.origin.url)
+    split = parsed.urls["https"].split("@")
+    return "https://" + split[1].replace(".git", "")
 
 
 def get_git_repo():

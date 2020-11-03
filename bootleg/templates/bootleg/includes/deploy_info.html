@@ -1,4 +1,4 @@
-{% load static i18n bootleg bootstrap_tags %}
+{% load i18n humanize bootleg bootstrap_tags %}
 {% block content %}
 
 <h3>{{ git_data.parsed_git_url.repo }} - {% trans "git/repo" %}</h3>
@@ -46,7 +46,7 @@
         {% else %}
             <tr>
         {% endif %}
-            <td>{{ commit.committed_datetime }}</td>
+        <td>{{ commit.committed_datetime }} <span class="text-muted">({{ commit.committed_datetime|naturaltime }})</span></td>
             <td>{{ commit.author }}</td>
             <td>{{ commit.message }}</td>
             {% if repo.head.object == commit %}
