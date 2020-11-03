@@ -9,7 +9,7 @@ from bootleg.utils import env
 
 class Command(BaseCommand):
     help = 'Deployment...'
-    logger = logging.get_logger("deploy")
+    logger = logging.get_logger("bootleg.deploy")
 
     def add_arguments(self, parser):
         parser.add_argument(

@@ -131,7 +131,7 @@ def get_formatter():
 
 
 def log_exception(e):
-    logger = get_logger("exception")
+    logger = get_logger("gigguide.exception")
     logger.exception(e)
     if bootleg_settings.STORE_LOGGED_EXCEPTIONS:
         save_logged_exception(e)
@@ -147,16 +147,16 @@ def debug_log(msg):
     if DEBUG_LOGGER:
         logger = DEBUG_LOGGER
     else:
-        logger = get_logger("debug")
+        logger = get_logger("gigguide.debug")
 
     logger.debug(msg)
 
 
 def log_audit(message, request=None):
     if request:
-        get_logger("audit").info(get_ip_to_log(request) + get_user_to_log(request.user) + message)
+        get_logger("gigguide.audit").info(get_ip_to_log(request) + get_user_to_log(request.user) + message)
     else:
-        get_logger("audit").info(message)
+        get_logger("gigguide.audit").info(message)
 
 
 def get_ip_to_log(request):

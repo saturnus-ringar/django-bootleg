@@ -19,7 +19,7 @@ def get_default_form_helper(submit_text, inline=False, method="POST"):
 class BaseForm(Form):
     inline = False
     method = "POST"
-    logger = logging.get_logger("forms")
+    logger = logging.get_logger("bootleg.forms")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
