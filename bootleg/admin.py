@@ -124,7 +124,7 @@ class DjangoLogEntryAdmin(ExceptionModelAdmin):
 @admin.register(JavascriptError)
 class JavascriptErrorAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
     list_display = ("created", "ip", "url", "line", "message")
-    search_fields = ["ip", "url", "line", "message"]
+    search_fields = ["ip", "url", "line", "message__message"]
     list_filter = ("message",)
 
 
