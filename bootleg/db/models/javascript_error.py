@@ -33,7 +33,7 @@ class JavascriptError(HandledStatusModel):
     objects = JavascriptErrorManager()
 
     def __str__(self):
-        return self.message.message + " " + self.line
+        return self.message.message + " " + str(self.line)
 
     class Meta:
         verbose_name = _("Javascript-error")
