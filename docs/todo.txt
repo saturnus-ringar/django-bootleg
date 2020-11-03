@@ -1,37 +1,19 @@
-- det spars inga DjangoLogEntries
-
-- måste krascha här om det inte funkar:
-        if file_system.is_writable(bootleg_settings.LOG_DIR):
-
-- bootleg_settings.ADMIN_TEMPLATE
-    ... verkar inte funka
-
-- kan inte använda djangos-settings-grej
-
-- fixa print_at_startup
-
-- göra så man måste ange LOG_DIR
-    ... skit i /dev/null-grejer
-    ... kolla att det funkar i django_tango
-
-- inkludera NAVIGATION_TEMPLATE
-
-- göra så man bara har ett middleware?
-
-- måste gruppera felen på hash och count
-
 får cirkulär import om jag kör det här:
         url = get_setting("LOGIN_REDIRECT_URL")
         #if url == global_settings.LOGIN_REDIRECT_URL:
             # override django's default url
         #    url = str(reverse_lazy("bootleg:dev_null"))
 
-**********************
- settings
-**********************
+- ingen favicon syns
+    ... i django_tango va?
 
-- kontrollera URLar
-    ... vilka URLar?
+- måste gruppera felen på hash och count
+
+- inte hårdkodad URL för javascripten i bootleg.js
+
+**********************
+ NBC
+**********************
 
 - länk för att uppdatera:
     http://localhost:8000/list/kebab/
@@ -39,30 +21,11 @@ får cirkulär import om jag kör det här:
 - update verkar inte funka:
     http://localhost:8000/update/kebab/12
 
-- göra vyer för system och deploy som använder template som man har definerat, eller eget som default
-
-- humaniza datumet (också?) här:
-    http://localhost:8000/deploy/info/
-    ... ta bort sekunder också
-
-- ingen favicon syns
-
-- dubbla slash i github-urlen
-    http://localhost:8000/deploy/info/
-
-***********************
- meny
-***********************
-
-    - javascriptvarningar i menyn
-
 ***********************
  system
 ***********************
 
     - skriva ut i system att det är fejkdata om man använder textfilerna
-
-    - varna i olika färger på load osv. - med javascript
 
 ***********************
  profile
@@ -78,59 +41,40 @@ får cirkulär import om jag kör det här:
         django-admin/*
         admin/*
 
-***********************
- loggning
-***********************
-
-    - kunna skicka med extra_text till log_exception
-
-***********************
- HTML/CSS
-***********************
-
-    - kolla på hur django_debug_toolbar får in sin HTML/css
-        HTML: class="djdt-hidden"
-
-        toolbar.css t.ex.
-
-        ... det fanns något render i middleware som var intressant
-
 ***************************************
  deploy
 ***************************************
 
-- visa när servern startats om + senaste filerna i foldrar
+    - visa när servern startats om + senaste filerna i foldrar
 
-- kontroller av ägare/rättigheter på:
-    virtual-env-diret
-    projekt-diret
-    log-dir
+    - kontroller av ägare/rättigheter på:
+        virtual-env-diret
+        projekt-diret
+        log-dir
 
-- ta URL vid git pull från GIT_URL i settings om den finns
+    - ta URL vid git pull från GIT_URL i settings om den finns
 
-- hantera Requirements already... i pip install så det inte spammar
+    - hantera Requirements already... i pip install så det inte spammar
 
-- hantera failat:
-    git pull
-    pip install
-    management.call_command("migrate")
-    management.call_command("collectstatic", interactive=False)
-    server restart
-
-    ***************************
-     spara deploy data?
-    ***************************
-
-        - spara ner lite data kring deployen, om det gick bra
-            - datum/tid
-            - användare som deployade
-            - git commit
-
-        - spara failade deployer (med ett exception?)
+    - hantera failat:
+        git pull
+        pip install
+        management.call_command("migrate")
+        management.call_command("collectstatic", interactive=False)
+        server restart
 
 ***************************************
- förbättringar
+ nice to kebab
 ***************************************
+
+- varna i olika färger på load osv. - med javascript
+
+
+***************************************
+ kluriga saker
+***************************************
+
+- kontrollera att det finns handler404, handler 500 etc.
 
 - försöka fixa så man inte behöver url_apps.py
     (det pajar namespacet för djdt och django-admin med app_name i urls.py)

@@ -1,3 +1,47 @@
+- sökning i javascriptfel och exceptions
+
+- lösenordet skrivs ut i URLen här:
+    http://localhost:8000/deploy/info/
+
+- dubbla slash i github-urlen
+    http://localhost:8000/deploy/info/
+
+- humaniza datumet (också?) här:
+    http://localhost:8000/deploy/info/
+    ... ta bort sekunder också - äh det tar från datuminställningar
+
+- krasch:
+    http://localhost:8000/django-admin/bootleg/javascripterror/5/change/?_changelist_filters=handled__exact%3D0
+
+- javascriptvarningar i menyn
+
+- länk för att uppdatera:
+    http://localhost:8000/list/kebab/
+
+- update verkar inte funka:
+    http://localhost:8000/update/kebab/12
+
+- inkludera NAVIGATION_TEMPLATE
+
+- fixa print_at_startup
+
+- göra så man måste ange LOG_DIR
+    ... skit i /dev/null-grejer
+    ... kolla att det funkar i django_tango
+
+- måste krascha här om det inte funkar:
+        if file_system.is_writable(bootleg_settings.LOG_DIR):
+
+- bootleg_settings.ADMIN_TEMPLATE
+    ... verkar inte funka
+
+
+- fixa så det här hanteras bra i settings.py:
+    log_dir = getattr(settings, "LOG_DIR")
+    django_log_level = getattr(settings, "DJANGO_LOG_LEVEL", "INFO")
+
+- det spars inga DjangoLogEntries
+
 - kolla att alla error-templates finns
 
 - göra så man kan använda settings som django, a la:
