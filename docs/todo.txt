@@ -4,10 +4,19 @@ får cirkulär import om jag kör det här:
             # override django's default url
         #    url = str(reverse_lazy("bootleg:dev_null"))
 
+- göra så man hämtar loggers med namn och filnamn:
+    get_logger(filename=None, name=None)
+    ... django slås t.ex. inte upp på filename
+
+- måste gruppera felen på hash och count
+
+- kunna muta loggade exceptions + django log exceptions
+
+- sidor för att hantera loggade exceptions och django log exceptions
+
 - ingen favicon syns
     ... i django_tango va?
 
-- måste gruppera felen på hash och count
 
 - inte hårdkodad URL för javascripten i bootleg.js
 
