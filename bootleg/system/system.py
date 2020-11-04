@@ -53,8 +53,6 @@ class System:
         self.project_path = self.get_project_path()
         self.media_root = getattr(settings, "MEDIA_ROOT")
         self.static_root = getattr(settings, "STATIC_ROOT")
-        dx("self.get_project_path(): %s" % self.get_project_path())
-        dx("self.project_path: %s" % self.project_path)
         self.project_dir_last_modified_file = file_system.get_last_modification_date(self.project_path)
         self.env_dir_last_modified_file = file_system.get_last_modification_date(self.virtual_env_path)
         self.media_dir_last_modified_file = file_system.get_last_modification_date(getattr(settings, "MEDIA_ROOT"))
