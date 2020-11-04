@@ -1,3 +1,11 @@
+- om det kraschar i system.py på t.ex.:
+
+    def get_env(self):
+        print(asdf)
+
+    ... så hamnar inte det i django.log live, men gör det lokalt om DEBUG är False
+    ... men det hamnar i DjangoLogEntry för båda
+
 får cirkulär import om jag kör det här:
         url = get_setting("LOGIN_REDIRECT_URL")
         #if url == global_settings.LOGIN_REDIRECT_URL:

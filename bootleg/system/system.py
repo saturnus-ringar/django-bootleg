@@ -71,7 +71,7 @@ class System:
         self.loggers = logging.get_all_loggers()
 
     def get_env(self):
-        print(asdf)
+        print(asdf123)
         cleaned_env = []
         non_allowed_patterns = ["password", "key"]
         for key, value in sorted(os.environ.items()):
