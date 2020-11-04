@@ -9,6 +9,7 @@ class GitData:
         self.repo = get_git_repo()
         self.github_url = get_github_url(self.repo)
         self.parsed_git_url = giturlparse.parse(self.repo.remotes.origin.url)
+        print(asdf)
 
 
 def get_github_url(repo):
