@@ -32,3 +32,10 @@ def is_production():
             return True
 
     return False
+
+
+def is_github():
+    if "GITHUB_ACTIONS" in os.environ:
+        return True
+
+    return False
