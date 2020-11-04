@@ -58,7 +58,6 @@ class System:
         self.media_dir_last_modified_file = file_system.get_last_modification_date(getattr(settings, "MEDIA_ROOT"))
         self.static_dir_last_modified_file = file_system.get_last_modification_date(getattr(settings, "STATIC_ROOT"))
         self.env = self.get_env()
-        print asdf
 
         # log dirs
         if os.getenv("APACHE_LOG_DIR"):
