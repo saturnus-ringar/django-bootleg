@@ -1,3 +1,4 @@
+import collections
 import logging
 
 from django.conf import settings
@@ -25,11 +26,11 @@ def check_log_level(level):
                                  % (level, logging._levelToName))
 
 
-def get_debug_settings_value(default, if_debug_value):
-    if not settings.DEBUG:
-        return if_debug_value
-    else:
-        return default
+def get_debug_settings_value(default, debug_value):
+    if settings.DEBUG:
+        return debug_value
+
+    return default
 
 
 class Settings:
@@ -41,6 +42,9 @@ class Settings:
         settings._setup()
         self.setup()
 
+    def get_settings(self):
+        return collections.OrderedDict(sorted(self.__settings__.items()))
+
     def setup(self):
         ####################################################
         # project stuff
@@ -51,7 +55,7 @@ class Settings:
         ####################################################
         # db-logging
         ####################################################
-        self.add_setting("STORE_DJANGO_LOG_EXCEPTIONS", True, False)
+        self.add_setting("STORE_DJANGO_LOG_EXCEPTIONS", get_debug_settings_value(True, False))
         self.add_setting("STORE_LOGGED_EXCEPTIONS", True)
 
         ####################################################
@@ -131,3 +135,4 @@ class Settings:
         value = get_setting(attribute, default, required=required)
         if attribute not in self.__settings__:
             setattr(self, attribute, value)
+            self.__settings__[attribute] = value

@@ -1,5 +1,7 @@
 {% load i18n humanize bootstrap_tags bootleg %}
 
+<h3 class="mt-4">{% trans "Bootleg settings" %}</h3>
+
 <h3 class="mt-4">{% trans "Platform/distribution" %}</h3>
 <table class="{% get_default_table_classes %} overflow-auto">
         <tbody>
@@ -158,6 +160,17 @@
                 </tr>
         {% endfor %}
         </tbody>
+</table>
+
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+        {% for attribute, value in bootleg_settings.get_settings.items %}
+                <tr>
+                        <td>{{ attribute }}</td>
+                        <td class="word-wrap">{{ value }}</td>
+                </tr>
+        {% endfor %}
+</tbody>
 </table>
 
 <h3 class="mt-4">{% trans "Environment" %}</h3>
