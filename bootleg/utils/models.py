@@ -1,8 +1,6 @@
-from sqlite3 import OperationalError
-
 import django
 from django.apps import apps
-from django.db import ProgrammingError
+from django.db import ProgrammingError, OperationalError
 from django.db.models import Q
 from django.urls import reverse
 
