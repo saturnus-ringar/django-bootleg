@@ -1,3 +1,5 @@
+from sqlite3 import OperationalError
+
 import django
 from django.apps import apps
 from django.db import ProgrammingError
@@ -13,8 +15,8 @@ def setup_default_site():
     save_site = False
     try:
         site = Site.objects.get(id=bootleg_settings.SITE_ID)
-    except (ProgrammingError, Site.DoesNotExist):
-        # we'll get them ProgrammingErrors when the first migrate is run, and DoesNotExist ...
+    except (OperationalError, ProgrammingError, Site.DoesNotExist):
+        # we'll get them OperationalError, ProgrammingErrors when the first migrate is run, and DoesNotExist ...
         return
 
     # the example.com site might exist
