@@ -134,7 +134,7 @@ def check_template(errors, attribute, template, number, required=False):
         errors.append(
             Error(
                 "Template %s must be set in the settings" % attribute,
-                hint="Add %s to the settings." % attribute,
+                hint="Add %s to the settings" % attribute,
                 obj=settings,
                 id='bootleg.%s' % number
             )
@@ -148,11 +148,26 @@ def check_template(errors, attribute, template, number, required=False):
             errors.append(
                 Error(
                     "Could not find template: %s" % template,
-                    hint="Set %s to a valid file." % attribute,
+                    hint="Set %s to a valid file" % attribute,
                     obj=settings,
                     id='bootleg.%s' % number
                 )
             )
+
+    return errors
+
+
+def check_boolean(errors, attribute, number, required=False):
+    value = getattr(settings, attribute, None)
+    if value and not isinstance(value, bool):
+        errors.append(
+            Error(
+                "%s must be a boolean value" % attribute,
+                hint="Set %s to a boolean value file." % attribute,
+                obj=settings,
+                id='bootleg.%s' % number
+            )
+        )
 
     return errors
 
@@ -185,6 +200,13 @@ def check_settings(app_configs, **kwargs):
     errors = check_template(errors, "ERROR_403_TEMPLATE", bootleg_settings.ERROR_403_TEMPLATE, 21, required=True)
     errors = check_template(errors, "ERROR_404_TEMPLATE", bootleg_settings.ERROR_404_TEMPLATE, 22, required=True)
     errors = check_template(errors, "ERROR_500_TEMPLATE", bootleg_settings.ERROR_500_TEMPLATE, 22, required=True)
+    errors = check_boolean(errors, "ADD_BUILTINS", 23)
+    errors = check_boolean(errors, "LOG_SQL", 24)
+    errors = check_boolean(errors, "LOG_TO_STDOUT", 23)
+    errors = check_boolean(errors, "PRINT_AT_STARTUP", 23)
+    errors = check_boolean(errors, "STORE_DJANGO_LOG_EXCEPTIONS", 23)
+    errors = check_boolean(errors, "STORE_LOGGED_EXCEPTIONS", 23)
+
     return errors
 
 
