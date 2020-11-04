@@ -51,6 +51,9 @@ class System:
 
         # directories
         self.project_path = self.get_project_path()
+        dx("self.project_path: %s" % self.project_path)
+        dx("self.get_project_path(): %s" % self.get_project_path())
+        dx('getattr(settings, "BASE_DIR") %s' % getattr(settings, "BASE_DIR"))
         self.media_root = getattr(settings, "MEDIA_ROOT")
         self.static_root = getattr(settings, "STATIC_ROOT")
         self.project_dir_last_modified_file = file_system.get_last_modification_date(self.project_path)
