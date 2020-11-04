@@ -35,12 +35,8 @@ class DjangoLogHandler(FileHandler):
         return False
 
     def emit(self, record):
-        dx("emit: %s" % record)
-        print("emit: %s" % record)
         if self.should_log(record):
-            print("creating entry")
             self.create_entry(record)
-        print(self)
         super().emit(record)
 
     def create_entry(self, record):
