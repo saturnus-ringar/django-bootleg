@@ -6,7 +6,7 @@ from bootleg.views.base import BaseTemplateView, StaffRequiredTemplateView
 
 
 def get_default_table(model):
-    table_class = tables.table_factory(model, fields=model._meta.visible_fields + ["get_add_link"])
+    table_class = tables.table_factory(model, fields=model._meta.visible_fields + ["get_update_link"])
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
     return table_class
 

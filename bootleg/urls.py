@@ -56,7 +56,7 @@ urlpatterns = [
     # generic model create/update views
     #######################################
     path('create/<model_name>/', GenericModelCreateView.as_view(), name="create_model"),
-    path('update/<model_name>/<int:id>', GenericModelUpdateView.as_view(), name="update_model"),
+    path('update/<model_name>/<int:pk>', GenericModelUpdateView.as_view(), name="update_model"),
 
     #######################################
     # hxr-views

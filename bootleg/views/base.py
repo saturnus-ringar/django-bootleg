@@ -3,13 +3,11 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
-
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, UpdateView, TemplateView
 
 from bootleg.conf import bootleg_settings
-from bootleg.forms import forms
 from bootleg.forms.base import get_default_form_helper
 
 
@@ -20,11 +18,15 @@ class StaffRequiredView:
         return super().dispatch(*args, **kwargs)
 
 
-class BaseTemplateView(TemplateView):
+class BaseView:
+    template_name = bootleg_settings.BASE_TEMPLATE
     title = None
     heading = None
     template_name = None
     extra_text = None
+
+
+class BaseTemplateView(BaseView, TemplateView):
     template_name = bootleg_settings.BASE_TEMPLATE
 
     def get_extra_text(self):
@@ -35,7 +37,8 @@ class StaffRequiredTemplateView(StaffRequiredView, TemplateView):
     pass
 
 
-class BaseCreateUpdateView(BaseTemplateView):
+class BaseCreateUpdateView(BaseView):
+    template_name = bootleg_settings.BASE_TEMPLATE
     success_url = reverse_lazy("bootleg:index")
 
     def form_valid(self, form):

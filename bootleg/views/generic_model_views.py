@@ -73,7 +73,10 @@ class GenericModelCreateView(GenericModelCreateUpdateView, BaseCreateView):
 
 class GenericModelUpdateView(GenericModelCreateUpdateView, BaseUpdateView):
 
+    def get_object(self, queryset=None):
+        return self.model.objects.get(id=self.kwargs.get(self.pk_url_kwarg))
+
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
-        self.heading = _("Create") + " " + self.model._meta.verbose_name
+        self.heading = _("Update") + " " + self.model._meta.verbose_name
         return response
