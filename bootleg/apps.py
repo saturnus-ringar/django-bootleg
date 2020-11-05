@@ -4,6 +4,7 @@ from django.contrib.staticfiles import finders
 from django.core.checks import Error, Warning, register
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
+from django.urls import reverse, NoReverseMatch
 from giturlparse import validate
 
 from bootleg.conf import bootleg_settings
@@ -177,6 +178,19 @@ def check_login_redirect_url(errors):
                 id="bootleg.E028"
             )
         )
+    else:
+        # not the default URL
+        try:
+            reverse(settings.LOGIN_REDIRECT_URL)
+        except NoReverseMatch:
+            errors.append(
+                Error(
+                    "LOGIN_REDIRECT_URL %s could not be reversed" % settings.LOGIN_REDIRECT_URL,
+                    hint="Set LOGIN_REDIRECT_URL to a valid url name",
+                    obj=settings,
+                    id="bootleg.E029"
+                )
+            )
 
     return errors
 

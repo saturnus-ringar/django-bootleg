@@ -1,3 +1,36 @@
+- ingen favicon syns
+    ... i django_tango va?
+
+- att sätta
+    LOGIN_REDIRECT_URL
+    ... funkar inte med nbcab , AppRegistryNotReady
+
+    får cirkulär import om jag kör det här:
+            url = get_setting("LOGIN_REDIRECT_URL")
+            #if url == global_settings.LOGIN_REDIRECT_URL:
+                # override django's default url
+            #    url = str(reverse_lazy("bootleg:dev_null"))
+
+# TODO: fix dynamic URL
+LOGIN_REDIRECT_URL = "index"
+
+CSS_FILES = []
+... validera att det är en lista
+... och att filerna finns
+
+MAIN_USER	/Users/stefan/Dev/projects/nbcab
+MAIN_USER_GROUP	/Users/stefan/Dev/projects/nbcab
+PROJECT_NAME	/Users/stefan/Dev/projects/nbcab
+ROOT_FOLDER	/Users/stefan/Dev/projects/nbcab
+
+- om det kraschar i system.py på t.ex.:
+
+    def get_env(self):
+        print(asdf)
+
+    ... så hamnar inte det i django.log live, men gör det lokalt om DEBUG är False
+    ... men det hamnar i DjangoLogEntry för båda
+
 - sökning i javascriptfel och exceptions
 
 - lösenordet skrivs ut i URLen här:

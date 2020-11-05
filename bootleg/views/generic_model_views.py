@@ -24,6 +24,8 @@ class GenericModelView:
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        # needed to make django not crash... :|
+        self.object = None
         context = super().get_context_data(**kwargs)
         # can't access _meta in them templates...
         context["model"] = models.get_model_dict(self.model)

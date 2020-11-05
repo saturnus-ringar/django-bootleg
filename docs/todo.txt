@@ -1,30 +1,7 @@
-- om det kraschar i system.py på t.ex.:
+- Last Modified är tomt här:
+    http://localhost:8000/system/info/
 
-    def get_env(self):
-        print(asdf)
-
-    ... så hamnar inte det i django.log live, men gör det lokalt om DEBUG är False
-    ... men det hamnar i DjangoLogEntry för båda
-
-får cirkulär import om jag kör det här:
-        url = get_setting("LOGIN_REDIRECT_URL")
-        #if url == global_settings.LOGIN_REDIRECT_URL:
-            # override django's default url
-        #    url = str(reverse_lazy("bootleg:dev_null"))
-
-- göra så man hämtar loggers med namn och filnamn:
-    get_logger(filename=None, name=None)
-    ... django slås t.ex. inte upp på filename
-
-- måste gruppera felen på hash och count
-
-- kunna muta loggade exceptions + django log exceptions
-
-- sidor för att hantera loggade exceptions och django log exceptions
-
-- ingen favicon syns
-    ... i django_tango va?
-
+- rendera login i menyn
 
 - inte hårdkodad URL för javascripten i bootleg.js
 
@@ -32,11 +9,30 @@ får cirkulär import om jag kör det här:
  NBC
 **********************
 
-- länk för att uppdatera:
-    http://localhost:8000/list/kebab/
+    - länk för att uppdatera:
+        http://localhost:8000/list/kebab/
 
-- update verkar inte funka:
-    http://localhost:8000/update/kebab/12
+    - update verkar inte funka:
+        http://localhost:8000/update/kebab/12
+
+
+**********************
+ LOGGNING
+**********************
+
+- göra så man hämtar loggers med namn och filnamn:
+    get_logger(filename=None, name=None)
+    ... django slås t.ex. inte upp på filename
+
+**********************
+ ERRORS
+**********************
+
+    - måste gruppera felen på hash och count
+
+    - kunna muta loggade exceptions + django log exceptions
+
+    - sidor för att hantera loggade exceptions och django log exceptions
 
 ***********************
  system
