@@ -9,6 +9,8 @@ class NotWritableError(Exception):
     pass
 
 
+BOOTLEG_SETTINGS_IMPORTED = True
+print("importing settings")
 #####################################################
 # django settings
 #####################################################

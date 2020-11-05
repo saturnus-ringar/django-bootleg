@@ -6,6 +6,7 @@ from django.template.loader import get_template
 from giturlparse import validate
 
 from bootleg.conf import bootleg_settings
+from bootleg.conf.settings import ConfigurationError
 from bootleg.system import nix
 from bootleg.utils import models, env
 
@@ -24,45 +25,14 @@ def check_sql_logging(errors):
     return errors
 
 
-def check_site_domain(errors):
-    if not bootleg_settings.SITE_DOMAIN:
+def check_required_setting(errors, attribute, number):
+    if not getattr(bootleg_settings, attribute, None):
         errors.append(
             Error(
-                "SITE_DOMAIN is not in the settings",
-                hint="Set SITE_DOMAIN to the site's domain name",
+                "%s is not in the settings" % attribute,
+                hint="Add %s to the settings" % attribute,
                 obj=bootleg_settings,
-                id='bootleg.E004',
-            )
-        )
-
-    return errors
-
-
-def check_site_name(errors):
-    if not bootleg_settings.SITE_NAME:
-        errors.append(
-            Error(
-                "SITE_NAME is not in the settings",
-                hint="Set SITE_NAME to the site's name",
-                obj=bootleg_settings,
-                id='bootleg.E005',
-            )
-        )
-
-    return errors
-
-
-def check_home_url(errors):
-    # currently this will raise a ConfigurationError:
-    # "bootleg.conf.settings.ConfigurationError: HOME_URL must be defined in settings."
-    # ... but I'm keeping this check. For now.
-    if not bootleg_settings.HOME_URL:
-        errors.append(
-            Error(
-                "HOME_URL is not in the settings",
-                hint="Set HOME_URL to a valid URL",
-                obj=bootleg_settings,
-                id='bootleg.E006',
+                id='bootleg.E00%' % number
             )
         )
 
@@ -155,7 +125,7 @@ def check_template(errors, attribute, template, number, required=False):
     return errors
 
 
-def check_boolean(errors, attribute, number, required=False):
+def check_boolean(errors, attribute, number):
     value = getattr(settings, attribute, None)
     if value and not isinstance(value, bool):
         errors.append(
@@ -173,10 +143,12 @@ def check_boolean(errors, attribute, number, required=False):
 @register()
 def check_settings(app_configs, **kwargs):
     errors = []
-    errors = check_sql_logging(errors)
-    errors = check_site_domain(errors)
-    errors = check_site_name(errors)
-    errors = check_home_url(errors)
+    errors = check_required_setting(errors, "SITE_DOMAIN", 4)
+    errors = check_required_setting(errors, "SITE_DOMAIN", 4)
+    errors = check_required_setting(errors, "SITE_NAME", 4)
+    errors = check_required_setting(errors, "HOME_URL", 4)
+    errors = check_required_setting(errors, "HOME_URL", 4)
+
     if env.is_production():
         # only check users and groups if it's in production
         errors = check_user(errors, bootleg_settings.MAIN_USER, "MAIN_USER", 7)
@@ -212,4 +184,7 @@ class BootlegConfig(AppConfig):
     name = 'bootleg'
 
     def ready(self):
+        if not getattr(settings, "BOOTLEG_SETTINGS_IMPORTED", None):
+            raise ConfigurationError("The bootleg settings have not been imported. Add this (as the last line) "
+                                     "to settings.py: from bootleg.settings import *")
         models.setup_default_site()
