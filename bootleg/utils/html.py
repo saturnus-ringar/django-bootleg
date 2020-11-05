@@ -20,6 +20,29 @@ def get_main_navigation(request):
     # circular imports ... :|
     from bootleg.templatetags.bootleg import get_changelist_url
     html = '<ul class="nav navbar-nav mr-auto float-left">'
+    if request.user.is_staff and request.editable_models:
+        html += '<li class="nav-item dropdown">\n'
+        html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
+        html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
+        html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
+        for model in request.editable_models:
+            # dicts here - for the templates since they can't access _meta
+            html += '<a class="dropdown-item" href="%s">%s</a>\n' % (
+            reverse("bootleg:list_view", args=[model["meta"].model_name]),
+            model["meta"].verbose_name_plural)
+        html += '</div>'
+        html += '</li>'
+
+        html += '<li class="nav-item dropdown">\n'
+        html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_create" data-toggle="dropdown"'
+        html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("Create")
+        html += '<div class="dropdown-menu" aria-labelledby="editable_models_create">\n'
+        for model in request.editable_models:
+            # dicts here - for the templates since they can't access _meta
+            html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
+        html += '</div>'
+        html += '</li>'
+
     if request.user.is_staff:
         html += get_nav_item(reverse("bootleg:system_info"), _("System"))
         html += get_nav_item(reverse("bootleg:deploy_info"), _("Deployment"))
@@ -29,28 +52,6 @@ def get_main_navigation(request):
             _("Django log entries"), request.unhandled_django_log_entry_count, True)
         html += get_nav_item(get_changelist_url('bootleg', 'JavascriptError') + "?handled__exact=0",
             _("Javascript errors"), request.unhandled_javascript_error_count, True)
-
-        if request.editable_models:
-            html += '<li class="nav-item dropdown">\n'
-            html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
-            html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
-            html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
-            for model in request.editable_models:
-                # dicts here - for the templates since they can't access _meta
-                html += '<a class="dropdown-item" href="%s">%s</a>\n' % (reverse("bootleg:list_view", args=[model["meta"].model_name]),
-                                                                        model["meta"].verbose_name_plural)
-            html += '</div>'
-            html += '</li>'
-
-            html += '<li class="nav-item dropdown">\n'
-            html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_create" data-toggle="dropdown"'
-            html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("Create")
-            html += '<div class="dropdown-menu" aria-labelledby="editable_models_create">\n'
-            for model in request.editable_models:
-                # dicts here - for the templates since they can't access _meta
-                html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
-            html += '</div>'
-            html += '</li>'
 
     html += "</ul>"
     return mark_safe(html)
