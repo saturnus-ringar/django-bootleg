@@ -232,26 +232,27 @@ def check_favicon(errors):
 
 
 def check_profile_model(errors):
-    try:
-        models.get_profile_model()
-        if not models.is_valid_profile_model():
+    if getattr(settings, "PROFILE_MODEL", None):
+        try:
+            models.get_profile_model()
+            if not models.is_valid_profile_model():
+                errors.append(
+                    Error(
+                        "The PROFILE_MODEL: %s is not a valid profile model" % settings.PROFILE_MODEL,
+                        hint="Extend bootleg.Profile in your profile model",
+                        obj=settings,
+                        id="bootleg.E030"
+                    )
+                )
+        except Exception:
             errors.append(
                 Error(
-                    "The PROFILE_MODEL: %s is not a valid profile model" % settings.PROFILE_MODEL,
-                    hint="Extend bootleg.Profile in your profile model",
+                    "Could not find the PROFILE_MODEL: %s" % settings.PROFILE_MODEL,
+                    hint="Set PROFILE_MODEL to an existing model: app_name.ModelName",
                     obj=settings,
-                    id="bootleg.E030"
+                    id="bootleg.E031"
                 )
             )
-    except Exception:
-        errors.append(
-            Error(
-                "Could not find the PROFILE_MODEL: %s" % settings.PROFILE_MODEL,
-                hint="Set PROFILE_MODEL to an existing model: app_name.ModelName",
-                obj=settings,
-                id="bootleg.E031"
-            )
-        )
 
     return errors
 
