@@ -7,6 +7,26 @@ from django.conf import settings
 from bootleg.conf import bootleg_settings
 
 
+def is_valid_profile_model():
+    try:
+        model = get_profile_model()
+        for base in model.__bases__:
+            if "bootleg.db.models.profile.Profile" in str(base):
+                return True
+    except:
+        return False
+
+
+def get_profile_model():
+    # local import to avoid AppRegistryNotReady
+    from bootleg.db.models.profile import Profile
+
+    if getattr(settings, "PROFILE_MODEL", None):
+        return apps.get_model(settings.PROFILE_MODEL)
+    else:
+        return Profile
+
+
 def setup_default_site():
     # getting AppRegistryNotReady("Apps aren't loaded yet.") without this local import :|
     from django.contrib.sites.models import Site

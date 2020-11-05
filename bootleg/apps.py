@@ -1,4 +1,4 @@
-from django.apps import AppConfig
+from django.apps import AppConfig, apps
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.checks import Error, Warning, register
@@ -231,6 +231,31 @@ def check_favicon(errors):
     return errors
 
 
+def check_profile_model(errors):
+    try:
+        models.get_profile_model()
+        if not models.is_valid_profile_model():
+            errors.append(
+                Error(
+                    "The PROFILE_MODEL: %s is not a valid profile model" % settings.PROFILE_MODEL,
+                    hint="Extend bootleg.Profile in your profile model",
+                    obj=settings,
+                    id="bootleg.E030"
+                )
+            )
+    except Exception:
+        errors.append(
+            Error(
+                "Could not find the PROFILE_MODEL: %s" % settings.PROFILE_MODEL,
+                hint="Set PROFILE_MODEL to an existing model: app_name.ModelName",
+                obj=settings,
+                id="bootleg.E031"
+            )
+        )
+
+    return errors
+
+
 @register()
 def check_settings(app_configs, **kwargs):
     errors = []
@@ -270,6 +295,7 @@ def check_settings(app_configs, **kwargs):
     errors = check_css_files(errors)
     errors = check_login_redirect_url(errors)
     errors = check_favicon(errors)
+    errors = check_profile_model(errors)
 
     return errors
 

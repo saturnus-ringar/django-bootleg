@@ -6,6 +6,7 @@ from django.utils.translation import ugettext as _
 from django_extensions.db.models import TimeStampedModel
 
 from bootleg.db.models.base import BaseModel
+from django.conf import settings
 
 
 class Profile(BaseModel, TimeStampedModel):
@@ -18,6 +19,10 @@ class Profile(BaseModel, TimeStampedModel):
         return self.user.username
 
     class Meta:
+        if getattr(settings, "PROFILE_MODEL", None):
+            abstract = True
+        else:
+            abstract = False
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
 
