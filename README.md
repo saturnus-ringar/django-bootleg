@@ -263,7 +263,10 @@ PRINT_AT_STARTUP - default **True**
 > booean True/False
 > Prints settings etc. at startup if True
 
+## Custom Profile Model
 
+PROFILE_MODEL = "core.UserProfile"
+> extend the Profile model if you're using this
 
 ## Add custom settings that will be printed at startup
 
