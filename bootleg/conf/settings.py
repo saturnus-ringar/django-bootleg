@@ -107,7 +107,7 @@ class Settings:
         # css/html/images
         ####################################################
         self.add_setting("HTML_LANGUAGE_CODE", get_setting("LANGUAGE_CODE", "en")[:2])
-        self.add_setting("CSS_FILE", "bootleg/css/vendor/bootstrap.css")
+        self.add_setting("CSS_FILES", ["bootleg/css/vendor/bootstrap.css"])
         self.add_setting("CONTAINER_CSS_CLASS", "container bg-dark")
         self.add_setting("FAVICON_FILE", "bootleg/img/favicon.png")
         self.add_setting("CONTAINER_CSS_CLASS", "container bg-dark")
