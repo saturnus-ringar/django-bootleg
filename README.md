@@ -227,7 +227,7 @@ CSS_FILES = default **['bootleg/css/vendor/bootstrap.css']**
 > Example, a list
 > CSS_FILES = [
     'website/css/bootstrap.min.css',
-    'website/css/style.css',
+    'website/css/style.css'
 ]
 
 FAVICON_FILE = default **'bootleg/img/favicon.ico'**
