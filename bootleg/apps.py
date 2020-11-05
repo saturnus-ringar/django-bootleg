@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.core.checks import Error, register
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
@@ -131,11 +132,37 @@ def check_boolean(errors, attribute, number):
         errors.append(
             Error(
                 "%s must be a boolean value" % attribute,
-                hint="Set %s to a boolean value file." % attribute,
+                hint="Set %s to a boolean value file" % attribute,
                 obj=settings,
-                id='bootleg.%s' % number
+                id='bootleg.EO%s' % number
             )
         )
+
+    return errors
+
+
+def check_css_files(errors):
+    if not isinstance(bootleg_settings.CSS_FILES, list):
+        errors.append(
+            Error(
+                "CSS_FILES must be a list",
+                hint="Set CSS_FILES to a list",
+                obj=settings,
+                id="bootleg.EO28"
+            )
+        )
+    else:
+        # it's a list, verify that the files exist
+        for css_file in bootleg_settings.CSS_FILES:
+            if not finders.find(css_file):
+                errors.append(
+                    Error(
+                        "Could not find the css file: %s" % css_file,
+                        hint="Add an existing file",
+                        obj=settings,
+                        id="bootleg.EO29"
+                    )
+                )
 
     return errors
 
@@ -172,10 +199,11 @@ def check_settings(app_configs, **kwargs):
     errors = check_template(errors, "ERROR_500_TEMPLATE", bootleg_settings.ERROR_500_TEMPLATE, 22, required=True)
     errors = check_boolean(errors, "ADD_BUILTINS", 23)
     errors = check_boolean(errors, "LOG_SQL", 24)
-    errors = check_boolean(errors, "LOG_TO_STDOUT", 23)
-    errors = check_boolean(errors, "PRINT_AT_STARTUP", 23)
-    errors = check_boolean(errors, "STORE_DJANGO_LOG_EXCEPTIONS", 23)
-    errors = check_boolean(errors, "STORE_LOGGED_EXCEPTIONS", 23)
+    errors = check_boolean(errors, "LOG_TO_STDOUT", 25)
+    errors = check_boolean(errors, "PRINT_AT_STARTUP", 26)
+    errors = check_boolean(errors, "STORE_DJANGO_LOG_EXCEPTIONS", 27)
+    errors = check_boolean(errors, "STORE_LOGGED_EXCEPTIONS", 28)
+    errors = check_css_files(errors)
 
     return errors
 
