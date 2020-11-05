@@ -119,12 +119,7 @@ class Settings:
         ####################################################
         self.add_setting("LOGIN_EXEMPT_URLS_FUNCTION", None)
         self.add_setting("HOME_URL", None, required=True)
-        #self.add_setting("LOGIN_REDIRECT_URL", "index")
-        #url = get_setting("LOGIN_REDIRECT_URL")
-        #if url == global_settings.LOGIN_REDIRECT_URL:
-        #    #override django's default url
-        #    url = str(reverse_lazy("bootleg:dev_null"))
-        #self.add_setting("LOGIN_REDIRECT_URL", url, required=True)
+        self.add_setting("LOGIN_REDIRECT_URL", get_setting("LOGIN_REDIRECT_URL"), required=True)
 
         ####################################################
         # misch-ish

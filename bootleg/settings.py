@@ -1,4 +1,5 @@
 import os
+
 from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level, ConfigurationError
 
 LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
@@ -16,8 +17,6 @@ BOOTLEG_SETTINGS_IMPORTED = True
 #####################################################
 
 SITE_ID = 1
-# TODO: fix dynamic URL
-LOGIN_REDIRECT_URL = "index"
 
 #####################################################
 # django tables 2

@@ -160,9 +160,23 @@ def check_css_files(errors):
                         "Could not find the css file: %s" % css_file,
                         hint="Add an existing file",
                         obj=settings,
-                        id="bootleg.EO29"
+                        id="bootleg.E029"
                     )
                 )
+
+    return errors
+
+
+def check_login_redirect_url(errors):
+    if settings.LOGIN_REDIRECT_URL == '/accounts/profile/':
+        errors.append(
+            Error(
+                "LOGIN_REDIRECT_URL has Django's default value",
+                hint="Set LOGIN_REDIRECT_URL to an URL (as a string) that will be reversed",
+                obj=settings,
+                id="bootleg.E028"
+            )
+        )
 
     return errors
 
@@ -204,6 +218,7 @@ def check_settings(app_configs, **kwargs):
     errors = check_boolean(errors, "STORE_DJANGO_LOG_EXCEPTIONS", 27)
     errors = check_boolean(errors, "STORE_LOGGED_EXCEPTIONS", 28)
     errors = check_css_files(errors)
+    errors = check_login_redirect_url(errors)
 
     return errors
 
