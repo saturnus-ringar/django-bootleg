@@ -223,8 +223,12 @@ LOG_TO_STDOUT - default **True**
 CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
 > Example: 'container'
 
-CSS_FILE = default **'bootleg/css/bootstrap.css'**
-> Example: 'website/css/style.css'
+CSS_FILES = default **['bootleg/css/vendor/bootstrap.css']**
+> Example, a list
+> CSS_FILES = [
+    'website/css/bootstrap.min.css',
+    'website/css/style.css'
+]
 
 FAVICON_FILE = default **'bootleg/img/favicon.ico'**
 > Example: 'website/img/favicon.png'
