@@ -31,17 +31,16 @@ def get_main_navigation(request):
             _("Javascript errors"), request.unhandled_javascript_error_count, True)
 
         if request.editable_models:
-            html += '<li class ="nav-item dropdown">\n'
-            html += '<a class ="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
+            html += '<li class="nav-item dropdown">\n'
+            html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
             html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
             html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
-
             for model in request.editable_models:
-                # "meta" is a dict here - for the templates since they can't access _meta
+                # dicts here - for the templates since they can't access _meta
                 html += '<a class="dropdown-item" href="%s">%s</a>\n' % (reverse("bootleg:list_view", args=[model["meta"].model_name]),
                                                                         model["meta"].verbose_name_plural)
-                html += '</div>\n'
-            html += '</li>\n'
+            html += '</div>'
+            html += '</li>'
 
             html += '<li class="nav-item dropdown">\n'
             html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_create" data-toggle="dropdown"'

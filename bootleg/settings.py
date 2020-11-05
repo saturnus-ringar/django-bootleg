@@ -16,6 +16,8 @@ BOOTLEG_SETTINGS_IMPORTED = True
 #####################################################
 
 SITE_ID = 1
+# TODO: fix dynamic URL
+LOGIN_REDIRECT_URL = "index"
 
 #####################################################
 # django tables 2
