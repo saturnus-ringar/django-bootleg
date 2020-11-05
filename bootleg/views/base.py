@@ -10,6 +10,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView
 
 from bootleg.conf import bootleg_settings
 from bootleg.forms import forms
+from bootleg.forms.base import get_default_form_helper
 
 
 class StaffRequiredView:
@@ -44,7 +45,7 @@ class BaseCreateUpdateView(BaseTemplateView):
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
-        form.helper = forms.get_default_form_helper(self.submit_button_text)
+        form.helper = get_default_form_helper(self.submit_button_text)
         return form
 
 

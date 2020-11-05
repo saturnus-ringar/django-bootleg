@@ -1,5 +1,5 @@
-from bootleg.forms.base import METHOD_GET
-from django.forms import CharField, BaseForm
+from bootleg.forms.base import METHOD_GET, BaseForm
+from django.forms import CharField
 from django.utils.translation import ugettext as _
 
 

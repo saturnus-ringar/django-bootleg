@@ -54,4 +54,4 @@ class BaseModelForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = forms.get_default_form_helper()
+        self.helper = get_default_form_helper()
