@@ -5,7 +5,7 @@ from django.conf import settings
 
 from bootleg.system import file_system
 
-SETTINGS_OBJ = None
+DEFAULT_FAVICON = "bootleg/img/favicon.png"
 
 
 class ConfigurationError(Exception):
@@ -111,7 +111,7 @@ class Settings:
         self.add_setting("HTML_LANGUAGE_CODE", get_setting("LANGUAGE_CODE", "en")[:2])
         self.add_setting("CSS_FILES", ["bootleg/css/vendor/bootstrap.css"])
         self.add_setting("CONTAINER_CSS_CLASS", "container bg-dark")
-        self.add_setting("FAVICON_FILE", "bootleg/img/favicon.png")
+        self.add_setting("FAVICON_FILE", DEFAULT_FAVICON)
         self.add_setting("CONTAINER_CSS_CLASS", "container bg-dark")
 
         ####################################################

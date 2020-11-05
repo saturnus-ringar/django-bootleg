@@ -1,13 +1,13 @@
 from django.apps import AppConfig
 from django.conf import settings
 from django.contrib.staticfiles import finders
-from django.core.checks import Error, register
+from django.core.checks import Error, Warning, register
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from giturlparse import validate
 
 from bootleg.conf import bootleg_settings
-from bootleg.conf.settings import ConfigurationError
+from bootleg.conf.settings import ConfigurationError, DEFAULT_FAVICON
 from bootleg.system import nix
 from bootleg.utils import models, env
 
@@ -181,6 +181,31 @@ def check_login_redirect_url(errors):
     return errors
 
 
+def check_favicon(errors):
+    if bootleg_settings.FAVICON_FILE == DEFAULT_FAVICON:
+        errors.append(
+            Warning(
+                "FAVICON_FILE has not been set. Bootleg's default favicon is used",
+                hint="Set FAVICON_FILE in settings to a file",
+                obj=settings,
+                id="bootleg.E029"
+            )
+        )
+    else:
+        # not the default favicon
+        if not finders.find(bootleg_settings.FAVICON_FILE):
+            errors.append(
+                Error(
+                    "Could not find the favicon file: %s" % bootleg_settings.FAVICON_FILE,
+                    hint="Set FAVICON_FILE to an existing file",
+                    obj=settings,
+                    id="bootleg.E029"
+                )
+            )
+
+    return errors
+
+
 @register()
 def check_settings(app_configs, **kwargs):
     errors = []
@@ -219,6 +244,7 @@ def check_settings(app_configs, **kwargs):
     errors = check_boolean(errors, "STORE_LOGGED_EXCEPTIONS", 28)
     errors = check_css_files(errors)
     errors = check_login_redirect_url(errors)
+    errors = check_favicon(errors)
 
     return errors
 
