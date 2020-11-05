@@ -32,7 +32,7 @@ MIDDLEWARE = [
     # ...
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # optional - if you want access-logging
-    'bootleg.middleware.LoggingMiddleware',
+    'bootleg.middleware.logging.LoggingMiddleware',
     # optional - if you want to use the login-restriction bits
     'bootleg.middleware.LoginMiddleware',
 ]
