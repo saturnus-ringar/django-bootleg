@@ -7,10 +7,12 @@
 
 <table class="{% get_default_table_classes %}">
 <tbody>
-    <tr>
-        <td>{% trans "Description" %}</td>
-        <td>{{ repo.description }}</td>
-    </tr>
+    {% if repo.description %}
+        <tr>
+            <td>{% trans "Description" %}</td>
+            <td>{{ repo.description }}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td>{% trans "Active branch" %}</td>
         <td>{{ git_data.repo.active_branch }}</td>
@@ -46,7 +48,7 @@
         {% else %}
             <tr>
         {% endif %}
-        <td>{{ commit.committed_datetime }} <span class="text-muted">({{ commit.committed_datetime|naturaltime }})</span></td>
+        <td>{{ commit.committed_datetime }} <small>({{ commit.committed_datetime|naturaltime }})</small></td>
             <td>{{ commit.author }}</td>
             <td>{{ commit.message }}</td>
             {% if repo.head.object == commit %}
