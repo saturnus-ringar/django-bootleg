@@ -8,7 +8,7 @@ from django_extensions.db.models import TimeStampedModel
 from bootleg.db.models.base import BaseModel
 
 
-class Profile(BaseModel, TimeStampedModel):
+class AbstractProfile(BaseModel, TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def to_log(self):
@@ -18,6 +18,7 @@ class Profile(BaseModel, TimeStampedModel):
         return self.user.username
 
     class Meta:
+        abstract = True
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
 
