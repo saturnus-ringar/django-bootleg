@@ -3,6 +3,7 @@ from crispy_forms.layout import Submit
 from django.forms import Form, ModelForm
 
 from bootleg.logging import logging
+from django.utils.translation import ugettext as _
 
 METHOD_GET = "GET"
 
@@ -54,4 +55,4 @@ class BaseModelForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = get_default_form_helper()
+        self.helper = get_default_form_helper(_("Save"))

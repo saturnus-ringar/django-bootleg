@@ -58,9 +58,12 @@ def get_main_navigation(request):
 
 
 def get_right_navigation(request):
-    html = ''
+    html = '<ul class="nav navbar-nav navbar-right">\n'
+
+    if not request.user.is_authenticated:
+        html += get_nav_item(reverse("bootleg:login"), _("Login"))
+
     if request.user.is_authenticated:
-        html += '<ul class="nav navbar-nav navbar-right">\n'
         html += '<li class="nav-item dropdown float-right">\n'
         html += '<a class ="nav-link dropdown-toggle" href="#" id="profile_dropdown" data-toggle="dropdown"'
         html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % request.user.username
