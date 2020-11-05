@@ -3,22 +3,24 @@ from django.apps import apps
 from django.db import ProgrammingError, OperationalError
 from django.db.models import Q
 from django.urls import reverse
-
-from bootleg.conf import bootleg_settings
+from django.conf import settings
 
 
 def setup_default_site():
     # getting AppRegistryNotReady("Apps aren't loaded yet.") without this local import :|
     from django.contrib.sites.models import Site
     save_site = False
+    site = None
     try:
-        site = Site.objects.get(id=bootleg_settings.SITE_ID)
-    except (OperationalError, ProgrammingError, Site.DoesNotExist):
+        site = Site.objects.get(id=settings.SITE_ID)
+    except Site.DoesNotExist as e:
+        save_site = True
+    except (OperationalError, ProgrammingError) as e:
         # we'll get them OperationalError, ProgrammingErrors when the first migrate is run, and DoesNotExist ...
         return
 
     # the example.com site might exist
-    if site.domain == "example.com":
+    if site and site.domain == "example.com":
         save_site = True
 
     if not site:

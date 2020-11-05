@@ -1,5 +1,3 @@
-import logging
-
 from django.apps import AppConfig
 from django.conf import settings
 from django.core.checks import Error, register
@@ -8,12 +6,12 @@ from django.template.loader import get_template
 from giturlparse import validate
 
 from bootleg.conf import bootleg_settings
-from bootleg.system import file_system, nix
+from bootleg.system import nix
 from bootleg.utils import models, env
 
 
 def check_sql_logging(errors):
-    if bootleg_settings.LOG_SQL and not bootleg_settings.DEBUG:
+    if bootleg_settings.LOG_SQL and not settings.DEBUG:
         errors.append(
             Error(
                 "LOG_SQL is set to True but DEBUG is False; the SQL won't be logged if DEBUG is False",
