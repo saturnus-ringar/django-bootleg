@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
@@ -6,7 +7,7 @@ from django.utils.translation import ugettext as _
 from django_extensions.db.models import TimeStampedModel
 
 from bootleg.db.models.base import BaseModel
-from django.conf import settings
+from bootleg.utils import models as bootleg_models
 
 
 class Profile(BaseModel, TimeStampedModel):
@@ -30,10 +31,9 @@ class Profile(BaseModel, TimeStampedModel):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        bootleg_models.get_profile_model().objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    if hasattr(instance, "profile"):
-        instance.profile.save()
+    instance.profile.save()
