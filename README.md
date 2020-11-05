@@ -61,12 +61,13 @@ HOME_URL = "<index_page>"
 # templates
 BASE_TEMPLATE = 'path/template.html'
 NAVIGATION_TEMPLATE = 'path/navigation.html'
-ERROR_400_TEMPLATE - 'path/400.html'
-ERROR_403_TEMPLATE - 'path/403.html'
-ERROR_404_TEMPLATE - 'path/404.html'
-ERROR_500_TEMPLATE - 'path/404.html'
+ERROR_400_TEMPLATE = 'path/400.html'
+ERROR_403_TEMPLATE = 'path/403.html'
+ERROR_404_TEMPLATE = 'path/404.html'
+ERROR_500_TEMPLATE = 'path/500.html'
 
-# log dir - indeed
+
+# log dir
 LOG_DIR = '/var/log/project-name?/'
 
 # should be the last line i settings.py
