@@ -8,6 +8,10 @@ class NotWritableWarning(RuntimeWarning):
     pass
 
 
+def get_last_dir(path):
+    return os.path.basename(os.path.normpath(path))
+
+
 def get_full_path(filename):
     return os.path.join(settings.BASE_DIR, filename)
 

@@ -3,6 +3,8 @@ import logging
 
 from django.conf import settings
 
+from bootleg.system import file_system
+
 SETTINGS_OBJ = None
 
 
@@ -50,7 +52,8 @@ class Settings:
         # project stuff
         ####################################################
         self.add_setting("ROOT_FOLDER", get_setting("BASE_DIR", required=True))
-        self.add_setting("PROJECT_NAME", get_setting("BASE_DIR", required=True))
+        last_dir = file_system.get_last_dir(self.ROOT_FOLDER)
+        self.add_setting("PROJECT_NAME", last_dir)
 
         ####################################################
         # db-logging
@@ -92,9 +95,9 @@ class Settings:
         ####################################################
         # users/groups
         ####################################################
-        self.add_setting("MAIN_USER", self.ROOT_FOLDER)
+        self.add_setting("MAIN_USER", last_dir)
         self.add_setting("WEBSERVER_USER", "www-data")
-        self.add_setting("MAIN_USER_GROUP", self.ROOT_FOLDER)
+        self.add_setting("MAIN_USER_GROUP", last_dir)
         self.add_setting("WEBSERVER_USER_GROUP", "www-data")
 
         ####################################################
