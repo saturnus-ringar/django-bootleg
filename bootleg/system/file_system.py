@@ -37,25 +37,23 @@ def mkdir_p(path):
                 raise
 
 
-def get_last_modification_date(dir):
-    last_modified_file = get_last_modified_file(dir)
-    if last_modified_file:
-        last_modified_file["date"] = datetime.fromtimestamp(last_modified_file["mtime"])
-
-    return None
-
-
-def get_last_modified_file(dir):
+def get_last_modified_file(dir, exclude_pycache=True):
     last_modified = 0
     last_modified_file = None
     for subdir, dirs, files in os.walk(dir):
         for file in files:
-            path = os.path.join(subdir, file)
-            mtime = os.path.getmtime(path)
-            if mtime > last_modified or not last_modified_file:
-                last_modified_file = {}
-                last_modified_file["path"] = path
-                last_modified_file["mtime"] = mtime
-                last_modified = mtime
+            skip = False
+            if exclude_pycache and file.endswith(".pyc"):
+                skip = True
+
+            if not skip:
+                path = os.path.join(subdir, file)
+                mtime = os.path.getmtime(path)
+                if mtime > last_modified or not last_modified_file:
+                    last_modified_file = {}
+                    last_modified_file["path"] = path
+                    last_modified_file["mtime"] = mtime
+                    last_modified_file["date"] = datetime.fromtimestamp(mtime)
+                    last_modified = mtime
 
     return last_modified_file

@@ -30,8 +30,7 @@
                 <tr>
                         <td>{% trans "Virtual env" %}</td>
                         <td>{{ system.virtual_env_path }}</td>
-                        <td>{% trans "Last modified" %}</td>
-                        <td>{{ system.env_dir_last_modified_file.date }}</td>
+                        {% render_last_modified_file system.env_dir_last_modified_file %}
                 </tr>
         </tbody>
 </table>
@@ -49,20 +48,17 @@
                 <tr>
                         <td>{% trans "Project path" %}</td>
                         <td>{{ system.project_path }}</td>
-                        <td>{% trans "Last modified" %}</td>
-                        <td>{{ system.project_dir_last_modified_file.date }}</td>
+                        {% render_last_modified_file system.project_dir_last_modified_file %}
                 </tr>
                 <tr>
                         <td>{% trans "MEDIA_ROOT" %}</td>
                         <td>{{ system.media_root }}</td>
-                        <td>{% trans "Last modified" %}</td>
-                        <td>{{ system.media_dir_last_modified_file.date }}</td>
+                        {% render_last_modified_file system.media_dir_last_modified_file %}
                 </tr>
                 <tr>
                         <td>{% trans "STATIC_ROOT" %}</td>
                         <td>{{ system.static_root }}</td>
-                        <td>{% trans "Last modified" %}</td>
-                        <td>{{ system.static_dir_last_modified_file.date }}</td>
+                        {% render_last_modified_file system.static_dir_last_modified_file %}
                 </tr>
         </tbody>
 </table>

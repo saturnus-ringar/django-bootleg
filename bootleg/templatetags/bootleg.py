@@ -1,3 +1,5 @@
+from django.utils import formats
+
 from bootleg.system.git import GitData
 
 from bootleg.system.system import System
@@ -9,6 +11,7 @@ from django.utils.safestring import mark_safe
 from bootleg.utils import html as bootleg_html
 from bootleg.utils import strings
 from bootleg.utils.humanize import humanize_bytes as hb
+from django.utils.translation import ugettext as _
 
 register = template.Library()
 
@@ -55,6 +58,17 @@ def get_first_with_value(*args):
             return arg
 
     return ""
+
+
+@register.simple_tag
+def render_last_modified_file(file):
+    html = '<td colspan="3"></td>'
+    if file:
+        html = '<td>%s</td>\n' % _("Last modified")
+        html += '<td>%s</td>\n' % formats.date_format(file["date"], "DATETIME_FORMAT")
+        html += '<td><span class="text-muted">%s</td>' % file["path"]
+
+    return mark_safe(html)
 
 
 @register.simple_tag
