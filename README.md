@@ -31,6 +31,7 @@ INSTALLED_APPS = (
 MIDDLEWARE = [
     # ...
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
     # optional - if you want access-logging
     'bootleg.middleware.logging.LoggingMiddleware',
     # optional - if you want to use the login-restriction bits
