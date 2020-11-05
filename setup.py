@@ -4,19 +4,19 @@ from setuptools import setup, find_packages
 
 install_requires = [
     'automodinit >= 0.16',
-    'colorama >= 0.4.3',
-    'django >= 3.1',
+    'colorama >= 0.4',
+    'django >= 3.0',
     'django_compressor >= 2.4',
-    'django-crispy-forms >= 1.9.2',
-    'django-debug-toolbar >= =3.1.1',
-    'django-extensions >= 3.0.9',
-    'django-ipware >= 3.0.1',
+    'django-crispy-forms >= 1.9',
+    'django-debug-toolbar >= =3.1',
+    'django-extensions >= 3.0',
+    'django-ipware >= 3.0',
     'django-jsonview >= 2.0.0',
-    'django-tables2 >= 2.3.2',
+    'django-tables2 >= 2.2',
     'django-user-agents >= 0.4.0',
-    'GitPython >= 3.1.11',
-    'giturlparse >= 0.9.2',
-    'psutil >= 5.7.3',
+    'GitPython >= 3.1',
+    'giturlparse >= 0.9',
+    'psutil >= 5.7',
 ]
 
 setup(
