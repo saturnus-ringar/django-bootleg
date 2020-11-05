@@ -4,6 +4,7 @@ from django.db import ProgrammingError, OperationalError
 from django.db.models import Q
 from django.urls import reverse
 from django.conf import settings
+from bootleg.conf import bootleg_settings
 
 
 def setup_default_site():
