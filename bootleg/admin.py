@@ -7,7 +7,7 @@ from bootleg.db.models.django_log_entry import DjangoLogEntry
 from bootleg.db.models.javascript_error import JavascriptError
 from bootleg.db.models.javascript_error_message import JavascriptErrorMessage
 from bootleg.db.models.logged_exception import LoggedException
-from bootleg.db.models.profile import UserProfile
+from bootleg.db.models.profile import Profile
 from bootleg.utils import strings
 
 
