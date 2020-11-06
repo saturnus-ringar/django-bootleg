@@ -35,12 +35,7 @@ def is_production():
 
 
 def is_github():
-    print("***************************************************************************")
-    print("is_github")
-    print(os.environ)
     if "GITHUB_ACTIONS" in os.environ:
-        dx("True")
         return True
 
-    print("False")
     return False
