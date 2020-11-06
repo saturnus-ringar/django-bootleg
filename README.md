@@ -263,10 +263,23 @@ PRINT_AT_STARTUP - default **True**
 > booean True/False
 > Prints settings etc. at startup if True
 
-## Custom Profile Model
+## User Profiles
 
+To add properties to users, more or less, create a Profile-model that extends Profile. An example:
+
+```python
+from bootleg.db.models.profile import Profile
+
+class Profile(Profile):
+    customer = ForeignKey("Customer", blank=True, null=True, on_delete=models.CASCADE, verbose_name=_("Customer"))
+```
+
+And add the model to the PROFILE_MODEL-setting:
+
+```python
+# settings.py
 PROFILE_MODEL = "core.UserProfile"
-> extend the Profile model if you're using this
+```
 
 ## Add custom settings that will be printed at startup
 
