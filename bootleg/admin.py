@@ -89,12 +89,6 @@ def handle_exceptions(modeladmin, request, queryset):
 handle_exceptions.short_description = _("Handle the exceptions")
 
 
-@admin.register(Profile)
-class ProfileAdmin(TimeStampedModelAdmin):
-    list_display = TimeStampedModelAdmin.list_display + ["user"]
-    search_fields = ["user__username"]
-
-
 class ExceptionModelAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
     list_display = ["created", "clazz", "args", "formatted_stack_trace"]
     search_fields = ["clazz__name", "args", "stack_trace"]

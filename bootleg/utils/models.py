@@ -18,13 +18,8 @@ def is_valid_profile_model():
 
 
 def get_profile_model():
-    # local import to avoid AppRegistryNotReady
-    from bootleg.db.models.profile import Profile
-
     if getattr(settings, "PROFILE_MODEL", None):
         return apps.get_model(settings.PROFILE_MODEL)
-    else:
-        return Profile
 
 
 def setup_default_site():

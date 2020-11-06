@@ -19,6 +19,7 @@ class Profile(BaseModel, TimeStampedModel):
         return self.user.username
 
     class Meta:
+        abstract = True
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
 
@@ -27,8 +28,3 @@ class Profile(BaseModel, TimeStampedModel):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         bootleg_models.get_profile_model().objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
