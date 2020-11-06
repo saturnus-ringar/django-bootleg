@@ -20,10 +20,6 @@ class Profile(BaseModel, TimeStampedModel):
         return self.user.username
 
     class Meta:
-        if getattr(settings, "PROFILE_MODEL", None):
-            abstract = True
-        else:
-            abstract = False
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
 
