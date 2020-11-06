@@ -89,7 +89,7 @@ def handle_exceptions(modeladmin, request, queryset):
 handle_exceptions.short_description = _("Handle the exceptions")
 
 
-@admin.register(UserProfile)
+@admin.register(Profile)
 class ProfileAdmin(TimeStampedModelAdmin):
     list_display = TimeStampedModelAdmin.list_display + ["user"]
     search_fields = ["user__username"]
