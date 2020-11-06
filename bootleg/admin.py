@@ -7,7 +7,7 @@ from bootleg.db.models.django_log_entry import DjangoLogEntry
 from bootleg.db.models.javascript_error import JavascriptError
 from bootleg.db.models.javascript_error_message import JavascriptErrorMessage
 from bootleg.db.models.logged_exception import LoggedException
-from bootleg.db.models.profile import Profile
+from bootleg.db.models.profile import UserProfile
 from bootleg.utils import strings
 
 
@@ -89,11 +89,10 @@ def handle_exceptions(modeladmin, request, queryset):
 handle_exceptions.short_description = _("Handle the exceptions")
 
 
-if not Profile._meta.abstract:
-    @admin.register(Profile)
-    class ProfileAdmin(TimeStampedModelAdmin):
-        list_display = TimeStampedModelAdmin.list_display + ["user"]
-        search_fields = ["user__username"]
+@admin.register(UserProfile)
+class ProfileAdmin(TimeStampedModelAdmin):
+    list_display = TimeStampedModelAdmin.list_display + ["user"]
+    search_fields = ["user__username"]
 
 
 class ExceptionModelAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
