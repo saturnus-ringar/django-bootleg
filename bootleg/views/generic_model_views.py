@@ -73,8 +73,12 @@ class GenericModelCreateView(GenericModelCreateUpdateView, BaseCreateView):
 
 class GenericModelUpdateView(GenericModelCreateUpdateView, BaseUpdateView):
 
-    def get_object(self, queryset=None):
-        return self.model.objects.get(id=self.kwargs.get(self.pk_url_kwarg))
+    def get_form_kwargs(self):
+        # don't know why, but for some reason self.object is None in get_form_kwargs in
+        # ModelFormMixin, set the instance here then...
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'instance': self.get_object()})
+        return kwargs
 
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
