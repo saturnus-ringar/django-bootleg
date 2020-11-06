@@ -27,4 +27,6 @@ class Profile(BaseModel, TimeStampedModel):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        bootleg_models.get_profile_model().objects.create(user=instance)
+        profile_model = bootleg_models.get_profile_model()
+        if profile_model:
+            profile_model.objects.create(user=instance)
