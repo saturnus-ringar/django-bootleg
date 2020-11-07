@@ -4,7 +4,6 @@ window.onerror = function(msg, url, line) {
     xhr.open('POST', "/xhr/javascript-error/", true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(params);
-    alert("JAVASCRIPT ERROR!")
 };
 
 window.onload = function() {
@@ -46,7 +45,6 @@ function initSelect2s() {
     $('.select').select2();
 }
 
-// http://jsfiddle.net/FutureWebDev/HfS7e
 function highlightSearchResults() {
     $(".table-container").highlight(getURLParameter("q"));
 }
