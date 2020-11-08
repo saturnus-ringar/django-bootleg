@@ -87,20 +87,20 @@ class TimeStampedNamedAndDescriptionAdmin(BaseAdmin):
         return media
 
 
-def handle_exceptions(modeladmin, request, queryset):
-    for exception in queryset:
-        exception.handle(request)
-    messages.add_message(request, messages.INFO, _("The selected exceptions have been handled"))
+def handle_entries(modeladmin, request, queryset):
+    for row in queryset:
+        row.handle(request)
+    messages.add_message(request, messages.INFO, _("The selected entries have been handled"))
 
 
-handle_exceptions.short_description = _("Handle the exceptions")
+handle_entries.short_description = _("Handle the entries")
 
 
 class ExceptionModelAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
     list_display = ["created_explicit", "clazz", "args", "formatted_stack_trace"]
     search_fields = ["clazz__name", "args", "stack_trace"]
     list_filter = ["clazz", "handled"]
-    actions = [handle_exceptions]
+    actions = [handle_entries]
 
     def formatted_stack_trace(self, obj):
         if obj.stack_trace:
