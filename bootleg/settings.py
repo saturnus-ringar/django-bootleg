@@ -82,7 +82,9 @@ LOGGING = {
     },
 }
 
-LOGGING["loggers"]["django.db.backends"] = {
-    'level': 'DEBUG',  # always debug on this one
-    'handlers': ['sql']
-}
+log_sql = get_setting(settings, "LOG_SQL")
+if log_sql and log_sql is True:
+    LOGGING["loggers"]["django.db.backends"] = {
+        'level': 'DEBUG',  # always debug on this one
+        'handlers': ['sql']
+    }
