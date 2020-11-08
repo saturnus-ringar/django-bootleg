@@ -1,3 +1,5 @@
+from bootleg.logging import logging
+
 from bootleg.db.models.base import HandledStatusModel
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
@@ -31,6 +33,11 @@ class JavascriptError(HandledStatusModel):
     message = models.ForeignKey(JavascriptErrorMessage, null=False, blank=False, on_delete=models.CASCADE)
 
     objects = JavascriptErrorManager()
+
+    def handle(self, request):
+        self.handled = True
+        self.save()
+        logging.log_audit(logging.HANDLED + " the javascript error with id: [%s]" % self.id, request)
 
     def __str__(self):
         return self.message.message + " " + str(self.line)

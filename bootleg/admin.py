@@ -96,11 +96,14 @@ def handle_entries(modeladmin, request, queryset):
 handle_entries.short_description = _("Handle the entries")
 
 
-class ExceptionModelAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
+class ReadOnlyHandleAdmin(ReadOnlyModelAdmin):
+    actions = [handle_entries]
+
+
+class ExceptionModelAdmin(TimeStampedModelAdmin, ReadOnlyHandleAdmin):
     list_display = ["created_explicit", "clazz", "args", "formatted_stack_trace"]
     search_fields = ["clazz__name", "args", "stack_trace"]
-    list_filter = ["clazz", "handled"]
-    actions = [handle_entries]
+    list_filter = ["handled", "clazz"]
 
     def formatted_stack_trace(self, obj):
         if obj.stack_trace:
@@ -123,10 +126,10 @@ class DjangoLogEntryAdmin(ExceptionModelAdmin):
 
 
 @admin.register(JavascriptError)
-class JavascriptErrorAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
+class JavascriptErrorAdmin(TimeStampedModelAdmin, ReadOnlyHandleAdmin):
     list_display = ("created_explicit", "ip", "url", "line", "message")
     search_fields = ["ip", "url", "line", "message__message"]
-    list_filter = ("message",)
+    list_filter = ("handled", "message")
 
 
 @admin.register(JavascriptErrorMessage)
