@@ -1,6 +1,7 @@
 import os
 
 from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level, ConfigurationError
+from django.conf import settings
 
 LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
 LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -17,6 +18,9 @@ BOOTLEG_SETTINGS_IMPORTED = True
 #####################################################
 
 SITE_ID = 1
+
+if not settings.is_overridden("DATETIME_FORMAT"):
+    DATETIME_FORMAT = 'Y-m-d H:i:s'
 
 #####################################################
 # django tables 2

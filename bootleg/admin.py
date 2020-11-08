@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin import ModelAdmin
+from django.utils.formats import date_format
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 from bootleg.db.models.django_log_entry import DjangoLogEntry
 from bootleg.db.models.javascript_error import JavascriptError
 from bootleg.db.models.javascript_error_message import JavascriptErrorMessage
 from bootleg.db.models.logged_exception import LoggedException
-from bootleg.db.models.profile import Profile
 from bootleg.utils import strings
 
 
@@ -60,9 +61,15 @@ class ReadOnlyModelAdmin(BaseAdmin):
 
 
 class TimeStampedModelAdmin(ModelAdmin):
-    list_display = ["created", "modified"]
+    list_display = ["created_explicit", "modified"]
     date_hierarchy = "created"
     list_filter = ["created", "modified"]
+
+    def created_explicit(self, obj):
+        return date_format(obj.created, getattr(settings, "DATETIME_FORMAT"))
+
+    created_explicit.short_description = _("Created")
+    created_explicit.admin_order_field = "created"
 
 
 class NameAndDescriptionAdmin(BaseAdmin):
@@ -90,7 +97,7 @@ handle_exceptions.short_description = _("Handle the exceptions")
 
 
 class ExceptionModelAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
-    list_display = ["created", "clazz", "args", "formatted_stack_trace"]
+    list_display = ["created_explicit", "clazz", "args", "formatted_stack_trace"]
     search_fields = ["clazz__name", "args", "stack_trace"]
     list_filter = ["clazz", "handled"]
     actions = [handle_exceptions]
@@ -117,7 +124,7 @@ class DjangoLogEntryAdmin(ExceptionModelAdmin):
 
 @admin.register(JavascriptError)
 class JavascriptErrorAdmin(TimeStampedModelAdmin, ReadOnlyModelAdmin):
-    list_display = ("created", "ip", "url", "line", "message")
+    list_display = ("created_explicit", "ip", "url", "line", "message")
     search_fields = ["ip", "url", "line", "message__message"]
     list_filter = ("message",)
 
