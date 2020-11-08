@@ -67,7 +67,7 @@
 {% compress js %}
     <script src="{% static 'bootleg/js/vendor/jquery.easy-autocomplete.js' %}"></script>
     <script src="{% static 'bootleg/js/vendor/jquery.highlight-5.patched.js' %}"></script>
-    <script type="text/javascript" data-jsErrorURL="{% url 'bootleg:javascript_error' %}" src="{% static 'bootleg/js/bootleg.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootleg/js/bootleg.js' %}"></script>
 {% endcompress %}
 {% block extra_js %}
 {% endblock %}
