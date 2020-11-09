@@ -20,7 +20,6 @@ class LoggingMiddleware(BaseMiddleware):
 
     def process_response(self, request, response):
         db_stats = self.get_db_stats(response)
-        dx("db_stats: %s" % db_stats)
         total_time = self.get_total_time()
         ip, routable = get_client_ip(request)
 
@@ -93,6 +92,7 @@ class LoggingMiddleware(BaseMiddleware):
         else:
             return "no-hash"
 
+    # this only works when DEBUG is True
     def get_db_stats(self, response):
         total_time = 0
         if response.status_code == 200:
