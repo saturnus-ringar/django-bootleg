@@ -27,9 +27,7 @@ class CountAndTime:
         self.print_tac_message(percent_done, expected_time_left, elapsed_time)
 
     def print_tac_message(self, percent_done, expected_time_left, elapsed_time):
-        dx("elapsed_time: %s" % elapsed_time)
         delta_running_time = datetime.timedelta(seconds=elapsed_time)
-        dx("delta_running_time: %s" % delta_running_time)
         msg = _("Done: ")
         msg += str(self.cat_number_run) + "/" + str(self.cat_total_count)
         msg += " (" + str(percent_done) + "%)"
