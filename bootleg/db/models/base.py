@@ -62,6 +62,19 @@ class BaseModel(models.Model):
 
         return None
 
+    def get_fields_except_id(self):
+        fields = []
+        for field in self._meta.fields:
+            if field.name != "id":
+                fields.append(field)
+        return fields
+
+    def get_fields(self):
+        return self._meta.fields
+
+    def get_many_to_many_fields(self):
+        return self._meta.many_to_many
+
     def get_admin_link(self, target_blank=True):
         if not target_blank:
             return mark_safe("<a href='%s'>%s</a>" % (self.get_admin_url(), self.get_admin_url()))

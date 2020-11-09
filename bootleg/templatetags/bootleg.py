@@ -1,7 +1,10 @@
+import datetime
+
 from django.utils import formats
+from django.utils.formats import date_format
 
 from bootleg.system.git import GitData
-
+from django.conf import settings
 from bootleg.system.system import System
 from django import template
 from django.apps import apps
@@ -79,3 +82,17 @@ def render_system_info():
 @register.simple_tag
 def render_deploy_info():
     return render_to_string("bootleg/includes/deploy_info.html", {"git_data": GitData()})
+
+
+@register.simple_tag()
+def get_attribute(obj, attribute):
+    value = getattr(obj, attribute)
+    if isinstance(value, datetime.date):
+        # format dates
+        return date_format(value, getattr(settings, "DATETIME_FORMAT"))
+    return value
+
+
+@register.simple_tag()
+def get_many_to_many_fields_values(obj, attribute):
+    return getattr(obj, attribute).all()

@@ -41,11 +41,6 @@ class BaseCreateUpdateView(BaseView):
     template_name = bootleg_settings.BASE_TEMPLATE
     success_url = reverse_lazy("bootleg:index")
 
-    def form_valid(self, form):
-        message = _("The %s was added" % self.model._meta.verbose_name)
-        messages.add_message(self.request, messages.INFO, message)
-        return super().form_valid(form)
-
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
         form.helper = get_default_form_helper(self.submit_button_text)
@@ -56,10 +51,30 @@ class BaseCreateView(BaseCreateUpdateView, CreateView):
     model = None
     submit_button_text = _("Save")
 
+    def form_valid(self, form):
+        message = _("The %s was added" % self.model._meta.verbose_name)
+        messages.add_message(self.request, messages.INFO, message)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["heading"] = _("Create %s" % self.model._meta.verbose_name)
+        return context
+
 
 class BaseUpdateView(BaseCreateUpdateView, UpdateView):
     model = None
     submit_button_text = _("Update")
+
+    def form_valid(self, form):
+        message = _("The %s was updated" % self.model._meta.verbose_name)
+        messages.add_message(self.request, messages.INFO, message)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["heading"] = _("Update %s" % self.model._meta.verbose_name)
+        return context
 
 
 class CSRFExemptView(View):
