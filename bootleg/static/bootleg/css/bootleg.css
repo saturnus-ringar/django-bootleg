@@ -95,7 +95,3 @@ ul.errorlist li {
 .word-wrap {
     word-break: break-all;
 }
-
-.nav-item a {
-    text-transform: uppercase;
-}
