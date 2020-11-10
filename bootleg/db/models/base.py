@@ -1,15 +1,13 @@
 from abc import abstractmethod
 
 from django.db import models
+from django.db.models.fields.files import ImageField
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-
 from django.utils.translation import ugettext as _
 from django_extensions.db.models import TimeStampedModel
 
 from bootleg.logging import logging
-
-
 ##########################################
 # managers
 ##########################################
@@ -62,12 +60,23 @@ class BaseModel(models.Model):
 
         return None
 
-    def get_fields_except_id(self):
+    def get_simple_fields_except_id(self):
+        excluded_field_types = [ImageField]
         fields = []
         for field in self._meta.fields:
-            if field.name != "id":
+            if field.name != "id" and not type(field) in excluded_field_types:
                 fields.append(field)
         return fields
+
+    def get_image_fields(self):
+        fields = []
+        for field in self._meta.fields:
+            if isinstance(field, ImageField):
+                fields.append(field)
+        return fields
+
+    def get_model_name(self):
+        return self._meta.model_name
 
     def get_fields(self):
         return self._meta.fields

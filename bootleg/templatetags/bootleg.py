@@ -1,5 +1,6 @@
 import datetime
 
+from django.db.models.fields.files import ImageFieldFile
 from django.utils import formats
 from django.utils.formats import date_format
 
@@ -93,6 +94,10 @@ def get_attribute(obj, attribute):
             return date_format(value, getattr(settings, "DATETIME_FORMAT"))
         except TypeError:
             return date_format(value, getattr(settings, "DATE_FORMAT"))
+
+    if isinstance(value, ImageFieldFile):
+        return value.url
+
     return value
 
 
