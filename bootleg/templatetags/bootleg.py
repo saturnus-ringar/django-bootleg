@@ -89,7 +89,10 @@ def get_attribute(obj, attribute):
     value = getattr(obj, attribute)
     if isinstance(value, datetime.date):
         # format dates
-        return date_format(value, getattr(settings, "DATETIME_FORMAT"))
+        try:
+            return date_format(value, getattr(settings, "DATETIME_FORMAT"))
+        except TypeError:
+            return date_format(value, getattr(settings, "DATE_FORMAT"))
     return value
 
 
