@@ -1,8 +1,12 @@
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+import re
 
 from django.utils.translation import ugettext as _
 
+
+def strip_tags(html):
+    return re.sub('<[^<]+?>', '', html)
 
 def get_default_table_class_string():
     return "table table-striped table-responsive table-hover w-100 d-block d-md-table"
