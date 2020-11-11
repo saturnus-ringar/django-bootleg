@@ -8,7 +8,13 @@ from bootleg.utils import models
 
 
 def print_setting(text, value):
-    print(Fore.LIGHTYELLOW_EX + text.ljust(40) + "\t" + str(value))
+    if isinstance(value, bool):
+        if value:
+            print(Fore.LIGHTYELLOW_EX + text.ljust(40) + "\t" + Fore.GREEN + str(value))
+        else:
+            print(Fore.LIGHTYELLOW_EX + text.ljust(40) + "\t" + Fore.RED + str(value))
+    else:
+        print(Fore.LIGHTYELLOW_EX + text.ljust(40) + "\t" + str(value))
 
 
 def startup_print():

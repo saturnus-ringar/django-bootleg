@@ -2,6 +2,7 @@ import collections
 import logging
 
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 from bootleg.system import file_system
 
@@ -41,7 +42,12 @@ class Settings:
 
     def __init__(self):
         # init django settings here - to read new value
-        settings._setup()
+        try:
+            settings._setup()
+        except ImproperlyConfigured:
+            # django settings may not have been initialized here
+            return
+
         self.setup()
 
     def get_settings(self):
