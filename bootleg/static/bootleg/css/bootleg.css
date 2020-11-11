@@ -95,3 +95,11 @@ ul.errorlist li {
 .word-wrap {
     word-break: break-all;
 }
+
+.red {
+    background-color: red;
+}
+
+.green {
+    background-color: green;
+}
