@@ -7,7 +7,7 @@ import warnings
 from pprint import pformat
 
 from ipware import get_client_ip
-from django.conf import settings
+
 from bootleg.conf import bootleg_settings
 from bootleg.conf.settings import check_log_level
 from bootleg.logging.handlers import StreamHandler, FileHandler
