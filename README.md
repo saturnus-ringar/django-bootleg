@@ -101,7 +101,7 @@ urlpatterns = [
 
 import logging
 
-...
+#...
 try:
     execute_from_command_line(sys.argv)
 except Exception as e:
