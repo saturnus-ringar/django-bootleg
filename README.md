@@ -15,6 +15,7 @@ $ git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/dj
 ## Configure
 
 ```python
+
 # settings.py
 
 INSTALLED_APPS = (
@@ -80,7 +81,9 @@ from bootleg.settings import *
 ```
 
 ```python
+
 # urls.py
+
 from bootleg.add_error_handlers import *
 
 urlpatterns = [
@@ -93,7 +96,9 @@ urlpatterns = [
 ## Log errors in manage.py
 
 ```python
+
 # manage.py
+
 import logging
 
 ...
