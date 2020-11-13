@@ -148,6 +148,7 @@ class System:
             return None
 
     def get_project_path(self):
+        dx("BASE_DIR: %s" % getattr(settings, "BASE_DIR"))
         try:
             return getattr(settings, "BASE_DIR")
         except:
