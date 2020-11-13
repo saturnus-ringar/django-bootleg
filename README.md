@@ -4,7 +4,7 @@ Django additions, tools and ...stuff...
 ## Features
 - It adds django debug toolbar - https://github.com/jazzband/django-debug-toolbar
 
-... todo ...
+... #todo ...
 
 
 ## Installation
@@ -15,6 +15,7 @@ $ git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/dj
 ## Configure
 
 ```python
+
 # settings.py
 
 INSTALLED_APPS = (
@@ -80,7 +81,9 @@ from bootleg.settings import *
 ```
 
 ```python
+
 # urls.py
+
 from bootleg.add_error_handlers import *
 
 urlpatterns = [
@@ -88,6 +91,21 @@ urlpatterns = [
     path('', include('bootleg.urls')),
     path('', include('bootleg.urls_apps')),
 ]
+```
+
+## Log errors in manage.py
+
+```python
+
+# manage.py
+
+import logging
+
+#...
+try:
+    execute_from_command_line(sys.argv)
+except Exception as e:
+    logging.getLogger("django").error('manage.py error: %s', ' '.join(sys.argv), exc_info=sys.exc_info())
 ```
 
 ### Include javascript in your template (if you're not extending bootleg/base.html) - jquery is required
