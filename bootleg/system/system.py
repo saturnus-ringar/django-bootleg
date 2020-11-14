@@ -6,9 +6,10 @@ import pkg_resources
 from django.conf import settings
 from django.db import connection, OperationalError
 
+from bootleg.db import db
 from bootleg.logging import logging
 from bootleg.system import shell, file_system, commands, nix
-from bootleg.utils import humanize, db
+from bootleg.utils import humanize
 
 
 class Disk:
