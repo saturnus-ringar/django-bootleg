@@ -1,5 +1,7 @@
 - rendera login i menyn
 
+- exception om get_logger får filnamn med extension, typ shish/shish.log
+
 - inte hårdkodad URL för javascripten i bootleg.js
 
 **********************
