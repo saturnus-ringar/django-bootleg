@@ -20,6 +20,7 @@ $ git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/dj
 
 INSTALLED_APPS = (
     # ...
+    'django.contrib.sites',
     'django.contrib.humanize',
     'compressor',
     'crispy_forms',
