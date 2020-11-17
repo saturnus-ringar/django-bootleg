@@ -9,11 +9,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 {% compress css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/bootleg.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/vendor/easy-autocomplete.css' %}" />
-    {% for css_file in bootleg_settings.CSS_FILES %}
-        <link rel="stylesheet" type="text/css" href="{% static css_file %}" />
-    {% endfor %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/bootleg.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/vendor/easy-autocomplete.css' %}" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+{% for css_file in bootleg_settings.CSS_FILES %}
+    <link rel="stylesheet" type="text/css" href="{% static css_file %}" />
+{% endfor %}
 {% endcompress %}
 {% block extra_head %}
 {% endblock %}
@@ -65,6 +66,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 {% compress js %}
     <script src="{% static 'bootleg/js/vendor/jquery.easy-autocomplete.js' %}"></script>
     <script src="{% static 'bootleg/js/vendor/jquery.highlight-5.patched.js' %}"></script>
