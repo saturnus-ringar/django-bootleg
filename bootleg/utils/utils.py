@@ -1,7 +1,37 @@
+import importlib
 import inspect
-import os
-import sys
-from django.conf import settings
+
+
+def get_meta_class_value(clazz, value):
+    if hasattr(clazz.Meta, value):
+        return getattr(clazz.Meta, value)
+    return None
+
+
+def get_class(module, clazz):
+    my_module = importlib.import_module(module)
+    return getattr(my_module, clazz)
+
+
+def get_non_abstract_subclasses(klazz):
+    klazzes = []
+    for inheritor in get_subclasses(klazz):
+        if not hasattr(inheritor.Meta, "abstract") or not inheritor.Meta.abstract:
+            klazzes.append(inheritor)
+    return klazzes
+
+
+def get_subclasses(klass):
+    # this olny works if the classes are in the same python file, it seems
+    subclasses = []
+    work = [klass]
+    while work:
+        parent = work.pop()
+        for child in parent.__subclasses__():
+            if child not in subclasses:
+                subclasses.append(child)
+                work.append(child)
+    return subclasses
 
 
 def get_caller():
