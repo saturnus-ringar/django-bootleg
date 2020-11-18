@@ -73,12 +73,6 @@ class System:
         self.db_size = self.get_db_size()
         self.loggers = logging.get_all_loggers()
 
-    def get_uptime_short(self):
-        return self.uptime.split(",")[0]
-
-    def get_load_averages(self):
-        return re.sub(r"load average[s]?\:", "", self.uptime.split(",")[-1])
-
     def get_short_python_version(self):
         return self.python_version.split()[0]
 
