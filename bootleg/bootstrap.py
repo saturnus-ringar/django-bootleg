@@ -1,21 +1,11 @@
-import bootleg
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 from django.conf import settings
 from django.db import connection
 
+import bootleg
 from bootleg.conf import bootleg_settings
 from bootleg.utils import models
-
-
-def print_setting(text, value):
-    color = Fore.LIGHTCYAN_EX
-    if isinstance(value, bool):
-        if value:
-            color = Fore.LIGHTGREEN_EX
-        else:
-            color = Fore.RED
-
-    print(Fore.LIGHTBLUE_EX + text.ljust(40) + "\t" + color + str(value))
+from bootleg.utils.printer import print_setting
 
 
 def startup_print():
