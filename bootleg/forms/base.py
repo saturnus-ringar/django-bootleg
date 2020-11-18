@@ -11,6 +11,7 @@ METHOD_GET = "GET"
 def get_default_form_helper(submit_text, inline=False, method="POST"):
     helper = FormHelper()
     helper.add_input(Submit('submit', submit_text, css_class="loading-button"))
+    helper.form_id = "bootleg_form"
     helper.form_method = method
     if inline:
         helper.form_class = 'form-inline'
@@ -36,14 +37,12 @@ class BaseForm(Form):
     inline = False
     method = "POST"
     logger = logging.get_logger("forms")
+    submit_text = _("Submit")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not self.submit_text:
-            raise ValueError("Please specify self.submit_text for the form")
         self.helper = get_default_form_helper(self.submit_text, self.inline, self.method)
         self.set_focus()
-
 
     def add_attribute(self, field, key, value):
         field.widget.attrs.update({key: value})
