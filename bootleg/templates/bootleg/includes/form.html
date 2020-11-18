@@ -1,8 +1,25 @@
 {% load i18n crispy_forms_tags bootstrap_tags %}
-{% if form %}
+
+{% if forms or form %}
     <div class="w-50 bg-light border rounded p-4">
+{% endif %}
+
+{% if forms %}
+    {# TODO: don't always use multipart #}
+    <form method="post" action="" enctype="multipart/form-data">
+        {% crispy form helper %}
+        {% for inner_form in forms %}
+            <h5 class="mb-3 mt-3">{{ inner_form.heading }}</h5>
+            {% crispy inner_form helper %}
+        {% endfor %}
+        <input type="submit" name="submit" value="{{ view.submit_button_text }}" class="btn btn-primary loading-button" id="submit-id-submit">
+    </form>
+{% else %}
     {% if form %}
         {% crispy form form.helper %}
     {% endif %}
+{% endif %}
+
+{% if forms or form %}
     </div>
 {% endif %}

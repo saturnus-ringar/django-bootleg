@@ -43,11 +43,8 @@ if($("form[id='Forgot password']").length > 0) {
 }
 
 function autoFocus() {
-    $('.autofocus').each(function() {
-        if(!$(this).val()) {
-            $(this).focus();
-        }
-    });
+    // focus on the first input in #bootleg_form
+    $('#bootleg_form').find('input[type=text],textarea,select').filter(':visible:first').focus();
 }
 
 function initSelect2s() {
