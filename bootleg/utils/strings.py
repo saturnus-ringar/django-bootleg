@@ -2,6 +2,7 @@ import difflib
 import json
 import random
 import re
+import unicodedata
 from itertools import chain
 from itertools import combinations
 from pprint import pprint
@@ -9,6 +10,11 @@ from pprint import pprint
 from django.utils.safestring import mark_safe
 
 from bootleg.utils import lists
+
+
+def strip_accents(s):
+    return ''.join(c for c in unicodedata.normalize('NFD', s)
+                   if unicodedata.category(c) != 'Mn')
 
 
 def list_to_lower(list):
