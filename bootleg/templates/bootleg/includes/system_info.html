@@ -1,5 +1,52 @@
 {% load i18n humanize bootstrap_tags bootleg %}
 
+<h3 class="mt-4">{% trans "Uptime" %}</h3>
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tr>
+                <td>{{ system.uptime }}</td>
+        </tr>
+</table>
+
+<h3 class="mt-4">{% trans "Disk usage" %}</h3>
+{% get_card_top %}
+<pre>
+{{ system.disk_usage }}
+</pre>
+{% get_card_bottom %}
+
+<h3 class="mt-4">{% trans "MySQL info" %}</h3>
+
+<table class="{% get_default_table_classes %} overflow-auto">
+        <tbody>
+                <tr>
+                        <td>{% trans "Version" %}</td>
+                        <td>{{ system.mysql_version }}</td>
+                </tr>
+                <tr>
+                        <td>{% trans "DB-size" %}</td>
+                        <td>{{ system.db_size|humanize_bytes }}</td>
+                </tr>
+                <tr>
+                        <td>{% trans "Number of rows" %}</td>
+                        <td>{{ system.get_number_of_db_rows|humanize_bytes }}</td>
+                </tr>
+        </tbody>
+</table>
+
+<h3 class="mt-4">{% trans "Log file dirs" %}</h3>
+{% get_card_top %}
+{% if system.apache_log_dir_info %}
+        <strong>{% trans "Apache" %}</strong>
+        <pre>
+            {{ system.apache_log_dir_info }}
+        </pre>
+{% endif %}
+<strong>{% trans "Log dir" %}</strong>
+        <pre>
+            {{ system.log_dir_info }}
+        </pre>
+{% get_card_bottom %}
+
 <h3 class="mt-4">{% trans "Platform/distribution" %}</h3>
 <table class="{% get_default_table_classes %} overflow-auto">
         <tbody>
@@ -35,13 +82,6 @@
         </tbody>
 </table>
 
-<h3 class="mt-4">{% trans "Disk usage" %}</h3>
-{% get_card_top %}
-<pre>
-{{ system.disk_usage }}
-</pre>
-{% get_card_bottom %}
-
 <h3 class="mt-4">{% trans "Files and directories" %}</h3>
 <table class="{% get_default_table_classes %} overflow-auto">
         <tbody>
@@ -62,20 +102,6 @@
                 </tr>
         </tbody>
 </table>
-
-<h3 class="mt-4">{% trans "Log file dirs" %}</h3>
-{% get_card_top %}
-{% if system.apache_log_dir_info %}
-        <strong>{% trans "Apache" %}</strong>
-        <pre>
-            {{ system.apache_log_dir_info }}
-        </pre>
-{% endif %}
-<strong>{% trans "Log dir" %}</strong>
-        <pre>
-            {{ system.log_dir_info }}
-        </pre>
-{% get_card_bottom %}
 
 <h3 class="mt-4">{% trans "Installed packages" %}</h3>
 {% get_card_top %}
@@ -112,21 +138,6 @@
 {{ system.disk_io }}
 </pre>
 {% get_card_bottom %}
-
-<h3 class="mt-4">{% trans "MySQL info" %}</h3>
-
-<table class="{% get_default_table_classes %} overflow-auto">
-        <tbody>
-                <tr>
-                        <td>{% trans "Version" %}</td>
-                        <td>{{ system.mysql_version }}</td>
-                </tr>
-                <tr>
-                        <td>{% trans "DB-size" %}</td>
-                        <td>{{ system.db_size|humanize_bytes }}</td>
-                </tr>
-        </tbody>
-</table>
 
 <h4 class="mt-4">{% trans "Tables" %}</h4>
 <table class="{% get_default_table_classes %} overflow-auto">
