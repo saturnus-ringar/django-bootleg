@@ -16,7 +16,6 @@ body {
 /* headings etc. */
 h1 {
     margin-bottom: 20px;
-    text-transform: uppercase;
     font-weight: bolder;
     color: var(--dark);
 }
