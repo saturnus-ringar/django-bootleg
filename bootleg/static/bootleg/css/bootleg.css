@@ -8,17 +8,17 @@ body {
     margin-top: 20px;
 }
 
-label.control-label {
-    font-weight: bold;
+/* helpers */
+.no-padding {
+    padding: 0 !important;
 }
 
+/* headings etc. */
 h1 {
     margin-bottom: 20px;
     text-transform: uppercase;
     font-weight: bolder;
 }
-
-
 
 legend {
     font-size: 2.6575rem;
@@ -26,31 +26,16 @@ legend {
     font-weight: bolder;
 }
 
-label {
-    font-weight: bolder;
-    color: var(--blue);
-}
-
-.btn:hover {
-    border-color: var(--blue);
-}
-
+/* text */
 span.help-block {
     color: var(--danger);
 }
 
-.no-padding {
-    padding: 0 !important;
+p {
+    font-family: inherit !important;
 }
 
-.table th, .table td {
-    vertical-align: middle !important;
-}
-
-input[type=checkbox][disabled] {
-    filter: invert(25%);
-}
-
+/* errors */
 ul.errorlist {
     color: var(--danger);
 }
@@ -60,10 +45,7 @@ ul.errorlist li {
     margin-left: -40px;
 }
 
-.asteriskField {
-    color: var(--danger);
-}
-
+/* forms and inputs */
 .form-inline {
     margin-bottom: 10px;
 }
@@ -72,30 +54,61 @@ ul.errorlist li {
     margin-right: 10px !important;
 }
 
-.table td {
-    vertical-align: top !important;
+label {
+    font-weight: bolder;
+    color: var(--blue);
 }
 
+label.control-label {
+    font-weight: bold;
+}
+
+input[type=checkbox][disabled] {
+    filter: invert(25%);
+}
+
+.btn:hover {
+    border-color: var(--blue);
+}
+
+.asteriskField {
+    margin-left: 0.2em;
+    color: var(--dark);
+}
+
+/* tables */
 .table {
     width: 100%;
+}
+
+.table td {
+    vertical-align: top !important;
 }
 
 .table thead th {
     border-bottom: none !important;
 }
 
+.table th, .table td {
+    vertical-align: middle !important;
+}
+
+/* pagination */
 .pagination li {
     margin: 3px;
 }
 
+/* auto-dropdown on hover in the dropdown menus */
 .navbar-nav li:hover>.dropdown-menu {
     display: block;
 }
 
+/* misch-ish */
 .word-wrap {
     word-break: break-all;
 }
 
+/* utils ... sort of */
 .red {
     background-color: red;
 }
@@ -104,6 +117,8 @@ ul.errorlist li {
     background-color: green;
 }
 
-div.form {
-
+/* easy autocomplete */
+.easy-autocomplete-container ul li b {
+    font-weight: bolder !important;
+    color: #000;
 }
