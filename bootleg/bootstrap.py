@@ -5,7 +5,7 @@ from django.db import connection
 import bootleg
 from bootleg.conf import bootleg_settings
 from bootleg.utils import models
-from bootleg.utils.printer import print_setting
+from bootleg.utils.printer import print_key_value
 
 
 def startup_print():
@@ -18,19 +18,19 @@ def startup_print():
     else:
         print(Fore.LIGHTBLUE_EX + "We're NOT running in " + Fore.RED + "DEBUG")
 
-    print_setting("Database Backend", connection.vendor)
-    print_setting("Database", connection.settings_dict['NAME'])
-    print_setting("Log Dir", bootleg_settings.LOG_DIR)
-    print_setting("Log Level", bootleg_settings.LOG_LEVEL)
-    print_setting("Django Log Level",  bootleg_settings.DJANGO_LOG_LEVEL)
-    print_setting("Static Root", getattr(settings, "STATIC_ROOT"))
-    print_setting("Static URL", getattr(settings, "STATIC_URL"))
-    print_setting("Media Root", getattr(settings, "MEDIA_ROOT"))
-    print_setting("Media URL", getattr(settings, "MEDIA_URL"))
+    print_key_value("Database Backend", connection.vendor)
+    print_key_value("Database", connection.settings_dict['NAME'])
+    print_key_value("Log Dir", bootleg_settings.LOG_DIR)
+    print_key_value("Log Level", bootleg_settings.LOG_LEVEL)
+    print_key_value("Django Log Level",  bootleg_settings.DJANGO_LOG_LEVEL)
+    print_key_value("Static Root", getattr(settings, "STATIC_ROOT"))
+    print_key_value("Static URL", getattr(settings, "STATIC_URL"))
+    print_key_value("Media Root", getattr(settings, "MEDIA_ROOT"))
+    print_key_value("Media URL", getattr(settings, "MEDIA_URL"))
 
     editable_models = models.get_editable_models()
     if editable_models:
-        print_setting("Editable models", str(models.get_editable_models()))
+        print_key_value("Editable models", str(models.get_editable_models()))
 
     if bootleg_settings.LOG_SQL:
         print(Fore.LIGHTGREEN_EX + "* Logging SQL")
@@ -45,6 +45,6 @@ def startup_print():
     if custom_settings_to_print:
         print(Fore.LIGHTBLUE_EX + "Custom settings")
         for setting, value in custom_settings_to_print.items():
-            print_setting(setting, value)
+            print_key_value(setting, value)
 
     print(Style.RESET_ALL)

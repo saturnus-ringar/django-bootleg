@@ -2,12 +2,12 @@ from django.core import management
 
 from bootleg import logging
 from bootleg.conf import bootleg_settings
-from bootleg.management.commands.base import BaseCommand
+from bootleg.management.commands.base import UserRequirementCommand
 from bootleg.system import utils, git
 from bootleg.utils import env
 
 
-class Command(BaseCommand):
+class Command(UserRequirementCommand):
     help = 'Deployment...'
     logger = logging.get_logger("deploy")
 

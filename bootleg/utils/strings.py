@@ -174,14 +174,14 @@ def camel_to_snake(string):
     return re.sub(r'(?<!^)(?=[A-Z])', '_', string).lower()
 
 
-def find_str(s, char):
+def find_str(s, string):
     index = 0
 
-    if char in s:
-        c = char[0]
+    if string in s:
+        c = string[0]
         for ch in s:
             if ch == c:
-                if s[index:index+len(char)] == char:
+                if s[index:index+len(string)] == string:
                     return index
 
             index += 1

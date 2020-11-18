@@ -9,7 +9,7 @@ from django.db import connection, OperationalError
 from bootleg.db import db
 from bootleg.logging import logging
 from bootleg.system import shell, file_system, commands, nix
-from bootleg.utils import humanize
+from bootleg.utils import humanize, strings, env
 
 
 class Disk:
@@ -38,6 +38,7 @@ class System:
         self.virtual_env_path = self.get_virtual_env_path()
 
         # system stats
+        self.uptime = shell.run_command(["uptime"])
         self.disk_usage = commands.get_disk_usage_h()
         self.memory_usage = commands.get_memory_usage_h()
         self.load_average = commands.get_load_average()
@@ -70,6 +71,16 @@ class System:
         self.mysql_table_status = self.get_mysql_table_status_filtered()
         self.db_size = self.get_db_size()
         self.loggers = logging.get_all_loggers()
+
+    def get_uptime_short(self):
+        return self.uptime.split(",")[0]
+
+    def get_load_averages(self):
+        position = strings.find_str(self.uptime, "load averages")
+        return self.uptime[position:].replace("load averages:", "").strip()
+
+    def get_short_python_version(self):
+        return self.python_version.split()[0]
 
     def get_env(self):
         cleaned_env = []
@@ -143,6 +154,15 @@ class System:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT sum(round(data_length + index_length)) as 'bytes' FROM "
                                "information_schema.TABLES WHERE table_schema = '%s'" %
+                               getattr(settings, "DATABASES")["default"]["NAME"])
+                return int(cursor.fetchone()[0])
+        except OperationalError:
+            return None
+
+    def get_number_of_db_rows(self):
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '%s'" %
                                getattr(settings, "DATABASES")["default"]["NAME"])
                 return int(cursor.fetchone()[0])
         except OperationalError:

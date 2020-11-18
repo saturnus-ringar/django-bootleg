@@ -8,7 +8,7 @@ class UserError(Exception):
     pass
 
 
-class BaseCommand(BaseCommand):
+class UserRequirementCommand(BaseCommand):
 
     def __init__(self, stdout=None, stderr=None, no_color=False, force_color=False):
         if not nix.is_current_user(bootleg_settings.main_user()):
