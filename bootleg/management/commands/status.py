@@ -19,6 +19,6 @@ class Command(BaseCommand):
         print_key_value("DB size", humanize.humanize_bytes(system.get_db_size()))
         print_key_value("DB rows", intcomma(system.get_number_of_db_rows()))
         print_key_value("Uptime", system.get_uptime_short())
-        print_key_value("Load averages", system.get_load_averages())
         print(Fore.LIGHTBLUE_EX + "Disk usage")
         print(Fore.LIGHTCYAN_EX + system.disk_usage)
+        print_key_value("Load averages", system.get_load_averages())
