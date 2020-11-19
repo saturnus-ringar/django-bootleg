@@ -5,14 +5,12 @@ from django.db import connection
 import bootleg
 from bootleg.conf import bootleg_settings
 from bootleg.utils import models
-from bootleg.utils.printer import print_key_value
+from bootleg.utils.printer import print_key_value, print_heading
 
 
 def startup_print():
-    print(Fore.LIGHTBLUE_EX + "  .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.")
-    print(" " + Fore.BLUE + "∞ " + Fore.LIGHTMAGENTA_EX + "Running django bootleg version: " +Fore.LIGHTGREEN_EX + bootleg.__version__
-          + Fore.BLUE + " ∞")
-    print(Fore.LIGHTBLUE_EX + "'     `-'     `-'     `-'     `-'     `-'     `-'     `-'     `-'     `-'     `")
+    print_heading(Fore.LIGHTMAGENTA_EX + "Running django bootleg version: " + Fore.LIGHTGREEN_EX + bootleg.__version__)
+
     if getattr(settings, "DEBUG"):
         print(Fore.LIGHTBLUE_EX + "We're running in " + Fore.LIGHTGREEN_EX + "DEBUG")
     else:
@@ -43,7 +41,6 @@ def startup_print():
 
     custom_settings_to_print = getattr(settings, "SETTINGS_TO_PRINT", None)
     if custom_settings_to_print:
-        print(Fore.LIGHTBLUE_EX + "Custom settings")
         for setting, value in custom_settings_to_print.items():
             print_key_value(setting, value)
 

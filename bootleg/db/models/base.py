@@ -8,10 +8,12 @@ from django.utils.translation import ugettext as _
 from django_extensions.db.models import TimeStampedModel
 
 from bootleg.logging import logging
+from bootleg.utils import strings
+
+
 ##########################################
 # managers
 ##########################################
-from bootleg.utils import strings
 
 
 class NameAndDescriptionManager(models.Manager):
