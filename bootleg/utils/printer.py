@@ -6,7 +6,7 @@ from colorama import Fore
 
 def print_heading(text):
     print(Fore.LIGHTBLUE_EX + "  .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.")
-    print(" ∞ " + text + " ∞")
+    print(Fore.BLUE + " ∞ " + text + Fore.BLUE + " ∞")
     print(Fore.LIGHTBLUE_EX + "'     `-'     `-'     `-'     `-'     `-'     `-'     `-'     `-'     `-'     `")
 
 
