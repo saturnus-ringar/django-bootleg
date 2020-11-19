@@ -1,8 +1,30 @@
+- autofokus, funkar inte här iaf.
+    http://localhost:8000/create/process/
+
+- statuskommando, lista:
+    diskutrymme
+    databasstorlek och kanske antal rader i databasen
+    log-dir-storlek
+    nuvarande commit
+
+- bokstavssortering i
+    get_subclasses
+    ... den verkar bara funka om dom är i samma fil dessutom
+
+- could not be reversed
+    ... index
+    ... har den i instagram urls
+
+
+- göra default-error-sidor så man inte måste ha dom i settings, men varna då dom används
+
 - rendera login i menyn
 
 - exception om get_logger får filnamn med extension, typ shish/shish.log
 
 - inte hårdkodad URL för javascripten i bootleg.js
+
+- få över django-settings date format till bootleg.js
 
 **********************
  NBC
