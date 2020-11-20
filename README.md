@@ -117,11 +117,12 @@ except Exception as e:
 {% endcompress %}
 ```
 
-## Django settings
+## Django settings (optional)
 
-MEDIA_ROOT
+MEDIA_ROOT - will default to "/media/" if it's not added to the settings
 
-MEDIA_ROOT
+STATIC_ROOT - will default to "/static/" if it's not added to the settings
+
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
 
 ## Reversing URLs
