@@ -173,46 +173,6 @@ So add this block to your templates:**
 {% endblock %}
 ```
 
-SYSTEM_TEMPLATE - default **'bootleg/system/system.html'**
-> Example: 'website/system/system_info.html'
-
-> Link to system info: <a href="{% url "bootleg:system_info" %}">{% trans "System" %}</a>
-
-> ...and an example on what the template could look like:
-```python
-{% extends 'website/base.html' %}
-{% block content %}
-<h1>{% trans 'System information' %}</h1>
-<p>
-    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
-</p>
-
-{# render system information #}
-{% render_system_information %}
-
-{% endblock %}
-```
-
-DEPLOYMENT_TEMPLATE - default **'bootleg/system/deployment.html'**
-> Example: 'website/system/deployment.html'
-
-> Link to deployment info: <a href="{% url "bootleg:deploy_info" %}">{% trans "Deployment" %}</a>
-
-> ...and an example on what the template could look like:
-```python
-{% extends 'website/base.html' %}
-{% block content %}
-<h1>{% trans 'Deployment' %}</h1>
-<p>
-    {% trans 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ... up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage...
-</p>
-
-{# render deploy information #}
-{% render_deploy_info %}
-
-{% endblock %}
-```
-
 NAVIGATION_TEMPLATE - default **None** 
 > Example: 'website/includes/navigation.html'
 
@@ -259,7 +219,7 @@ LOG_SQL - default **False**
 LOG_TO_STDOUT - default **True**
 > booean True/False
 
-### CSS
+### CSS and images
 
 CONTAINER_CSS_CLASS - default **'container-fluid bg-dark'**
 > Example: 'container'
@@ -273,6 +233,9 @@ CSS_FILES = default **['bootleg/css/vendor/bootstrap.css']**
 
 FAVICON_FILE = default **'bootleg/img/favicon.ico'**
 > Example: 'website/img/favicon.png'
+
+WRAP_FORMS = default **True**
+> Will wrap the forms with bg-light
 
 ### Errors/exceptions
 STORE_LOGGED_EXCEPTIONS - default **True**
