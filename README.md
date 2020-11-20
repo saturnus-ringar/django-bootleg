@@ -117,12 +117,30 @@ except Exception as e:
 {% endcompress %}
 ```
 
-## Django settings
+## Django settings (optional)
 
-MEDIA_ROOT
+MEDIA_ROOT - will default to "/media/" if it's not added to the settings
 
-MEDIA_ROOT
+STATIC_ROOT - will default to "/static/" if it's not added to the settings
+
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
+
+## An example of rendering bootleg (bootstrap) menu
+
+> Use the tag render_navigation
+
+```html
+{% load static i18n bootleg %}
+
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'index'">{% trans "Home" %}</a>
+        </li>
+        {% render_navigation request %}
+    </ul>
+</nav>
+```
 
 ## Reversing URLs
 Get the URL to the System info page
