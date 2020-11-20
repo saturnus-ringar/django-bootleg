@@ -26,7 +26,7 @@ if not settings.is_overridden("STATIC_ROOT"):
     STATIC_ROOT = "/static/"
 
 if not settings.is_overridden("MEDIA_ROOT"):
-    STATIC_ROOT = "/media/"
+    MEDIA_ROOT = "/media/"
 
 #####################################################
 # django tables 2
