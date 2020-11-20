@@ -336,9 +336,7 @@ def filter_non_alpha_numeric(strings, min_length=3):
 
 def cleanup_raw_text(text):
     if text:
-        dx(text)
         text = replace_linebreaks_with_space(text)
-        dx(text)
         return remove_duplicated_spaces(text).strip()
     else:
         return None
@@ -351,7 +349,7 @@ def remove_duplicated_spaces(string):
 def replace_linebreaks_with_space(string):
     if string:
         return string.replace("\n", " ").replace("\r", " ").strip()
-    return None
+    return ""
 
 
 def remove_line_breaks(string):
