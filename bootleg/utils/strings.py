@@ -12,11 +12,8 @@ from django.utils.safestring import mark_safe
 from bootleg.utils import lists
 
 
-# https://stackoverflow.com/a/50036508/9390372
 def remove_urls(string):
-    return re.sub(
-        r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''',
-        " ", string)
+    return re.sub(r'http\S+', '', string)
 
 
 def strip_accents(s):
