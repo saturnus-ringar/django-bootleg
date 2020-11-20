@@ -130,7 +130,7 @@ STATIC_ROOT - will default to "/static/" if it's not added to the settings
 > Use the tag render_navigation
 
 ```html
-{% load i18n bootleg %}
+{% load static i18n bootleg %}
 
 <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
     <ul class="navbar-nav ml-auto">
