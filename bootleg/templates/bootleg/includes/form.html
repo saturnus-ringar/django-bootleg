@@ -1,7 +1,11 @@
 {% load i18n crispy_forms_tags bootstrap_tags %}
 
 {% if forms or form %}
-    <div class="w-50 bg-light border rounded p-4">
+    {% if bootleg_settings.WRAP_FORMS %}
+        <div class="w-50 bg-light border rounded p-4">
+    {% else %}
+        <div class="w-50">
+    {% endif %}
 {% endif %}
 
 {% if forms %}
