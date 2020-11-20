@@ -12,6 +12,13 @@ from django.utils.safestring import mark_safe
 from bootleg.utils import lists
 
 
+# https://stackoverflow.com/a/50036508/9390372
+def remove_urls(string):
+    return re.sub(
+        r'''(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))''',
+        " ", string)
+
+
 def strip_accents(s):
     return ''.join(c for c in unicodedata.normalize('NFD', s)
                    if unicodedata.category(c) != 'Mn')
@@ -332,7 +339,9 @@ def filter_non_alpha_numeric(strings, min_length=3):
 
 def cleanup_raw_text(text):
     if text:
-        text = remove_line_breaks(text)
+        dx(text)
+        text = replace_linebreaks_with_space(text)
+        dx(text)
         return remove_duplicated_spaces(text).strip()
     else:
         return None
@@ -342,9 +351,15 @@ def remove_duplicated_spaces(string):
     return " ".join(string.split())
 
 
+def replace_linebreaks_with_space(string):
+    if string:
+        return string.replace("\n", " ").replace("\r", " ").strip()
+    return None
+
+
 def remove_line_breaks(string):
     if string:
-        return string.replace("\n", " ").replace("\r", " ")
+        return string.replace("\n", " ").replace("\r", " ").strip()
     return None
 
 
