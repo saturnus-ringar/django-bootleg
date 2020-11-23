@@ -65,11 +65,7 @@ class GenericModelCreateUpdateView(GenericModelView, BaseCreateUpdateView):
 
 
 class GenericModelCreateView(GenericModelCreateUpdateView, BaseCreateView):
-
-    def dispatch(self, request, *args, **kwargs):
-        response = super().dispatch(request, *args, **kwargs)
-        self.heading = _("Create") + " " + self.model._meta.verbose_name
-        return response
+    pass
 
 
 class GenericModelUpdateView(GenericModelCreateUpdateView, BaseUpdateView):
@@ -83,5 +79,6 @@ class GenericModelUpdateView(GenericModelCreateUpdateView, BaseUpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
-        self.heading = _("Update") + " " + self.model._meta.verbose_name
+        if not hasattr(self, "heading"):
+            self.heading = _("Update") + " " + self.model._meta.verbose_name
         return response
