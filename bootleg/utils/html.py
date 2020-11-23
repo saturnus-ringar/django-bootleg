@@ -20,6 +20,11 @@ def get_nav_item(url, text):
     return mark_safe(html)
 
 
+def display_in_menu(model):
+    if not hasattr(model["meta"], "exclude_from_menu") and not model["meta"] is False:
+        return True
+
+
 def get_main_navigation(request):
     # circular imports ... :|
     from bootleg.templatetags.bootleg import get_changelist_url
@@ -31,9 +36,10 @@ def get_main_navigation(request):
         html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
         for model in request.editable_models:
             # dicts here - for the templates since they can't access _meta
-            html += '<a class="dropdown-item" href="%s">%s</a>\n' % (
-            reverse("bootleg:list_view", args=[model["meta"].model_name]),
-            model["meta"].verbose_name_plural)
+            if display_in_menu(model):
+                html += '<a class="dropdown-item" href="%s">%s</a>\n' % (
+                reverse("bootleg:list_view", args=[model["meta"].model_name]),
+                model["meta"].verbose_name_plural)
         html += '</div>'
         html += '</li>'
 
@@ -42,8 +48,9 @@ def get_main_navigation(request):
         html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("Create")
         html += '<div class="dropdown-menu" aria-labelledby="editable_models_create">\n'
         for model in request.editable_models:
-            # dicts here - for the templates since they can't access _meta
-            html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
+            if display_in_menu(model):
+                # dicts here - for the templates since they can't access _meta
+                html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
         html += '</div>'
         html += '</li>'
 
