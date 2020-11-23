@@ -101,12 +101,15 @@ class BaseModel(models.Model):
     def get_add_url(self):
         return reverse("bootleg:create_model", args=[self._meta.model_name])
 
-    def get_add_url(self):
+    def get_update_url(self):
         return reverse("bootleg:update_model", args=[self._meta.model_name, self.id])
 
-    def get_update_link(self):
+    def get_button_link(self, url, text):
         return mark_safe('<a href="%s"><button class ="btn btn-primary btn-sm">%s</button></a>'
-                         % (self.get_add_url(), _("Update")))
+                         % (url, text))
+
+    def get_update_link(self):
+        return self.get_button_link(self.get_update_url(), _("Update"))
 
     @abstractmethod
     def to_log(self):
