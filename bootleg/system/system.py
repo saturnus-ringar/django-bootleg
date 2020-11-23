@@ -1,6 +1,5 @@
 import os
 import platform
-import re
 import sys
 
 import pkg_resources
@@ -10,7 +9,7 @@ from django.db import connection, OperationalError
 from bootleg.db import db
 from bootleg.logging import logging
 from bootleg.system import shell, file_system, commands, nix
-from bootleg.utils import humanize, strings, env
+from bootleg.utils import humanize
 
 
 class Disk:
