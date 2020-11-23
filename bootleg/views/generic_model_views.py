@@ -1,4 +1,5 @@
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.urls import reverse
 from django_tables2 import SingleTableView, RequestConfig
 
@@ -18,7 +19,7 @@ class GenericModelView:
         if model:
             self.model = model
         else:
-            raise PermissionDenied()
+            raise Http404("Could not find model.")
 
         self.fields = self.model._meta.visible_fields
         return super().dispatch(request, *args, **kwargs)
