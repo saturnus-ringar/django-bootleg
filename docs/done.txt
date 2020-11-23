@@ -1,3 +1,25 @@
+- fixa så man fångar exception i manage-kommandon också
+    ... går inte att göra tror jag - man måste ändra i manage.py
+
+- en konfigparameter för om man ska använda profile
+
+- länk för att uppdatera:
+    http://localhost:8000/list/kebab/
+
+- update verkar inte funka:
+    http://localhost:8000/update/kebab/12
+
+- exception om get_logger får filnamn med extension, typ shish/shish.log
+
+- rendera login i menyn
+
+- could not be reversed
+    ... index
+    ... har den i instagram urls
+
+- autofokus, funkar inte här iaf.
+    http://localhost:8000/create/process/
+
 - kunna sätta en Custom-profil-grunka som extendar Profile
 
 - Last Modified är tomt här:

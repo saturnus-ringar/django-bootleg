@@ -1,5 +1,3 @@
-- autofokus, funkar inte här iaf.
-    http://localhost:8000/create/process/
 
 - statuskommando, lista:
     diskutrymme
@@ -11,31 +9,11 @@
     get_subclasses
     ... den verkar bara funka om dom är i samma fil dessutom
 
-- could not be reversed
-    ... index
-    ... har den i instagram urls
-
-
 - göra default-error-sidor så man inte måste ha dom i settings, men varna då dom används
-
-- rendera login i menyn
-
-- exception om get_logger får filnamn med extension, typ shish/shish.log
 
 - inte hårdkodad URL för javascripten i bootleg.js
 
 - få över django-settings date format till bootleg.js
-
-**********************
- NBC
-**********************
-
-    - länk för att uppdatera:
-        http://localhost:8000/list/kebab/
-
-    - update verkar inte funka:
-        http://localhost:8000/update/kebab/12
-
 
 **********************
  LOGGNING
@@ -60,12 +38,6 @@
 ***********************
 
     - skriva ut i system att det är fejkdata om man använder textfilerna
-
-***********************
- profile
-***********************
-
-    - en konfigparameter för om man ska använda profile
 
 ***********************
  login middleware
@@ -103,7 +75,6 @@
 
 - varna i olika färger på load osv. - med javascript
 
-
 ***************************************
  kluriga saker
 ***************************************
@@ -128,8 +99,6 @@
 
 - en krasch-url
     ... kräv is_staff
-
-- fixa så man fångar exception i manage-kommandon också (har ändrat i manage.py för gigguide för  det)
 
 *********************************
  modelrevisioner
