@@ -26,6 +26,10 @@ DEBUG_LOGGER = []
 LOG_DIR_IS_WRITABLE = file_system.is_writable(bootleg_settings.LOG_DIR)
 
 
+class LogFilenameException(Exception):
+    pass
+
+
 def get_all_loggers():
     loggers_with_handlers = []
     loggers_without_handlers = []
@@ -63,6 +67,9 @@ def get_log_level(filename):
 
 
 def get_logger(filename):
+    extension = os.path.splitext(filename)[1]
+    if extension:
+        raise LogFilenameException("The filename should not contain an exention. Just 'path/file'.")
     if not LOG_DIR_IS_WRITABLE:
         return None
 
