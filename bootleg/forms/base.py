@@ -42,19 +42,12 @@ class BaseForm(Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = get_default_form_helper(self.submit_text, self.inline, self.method)
-        self.set_focus()
 
     def add_attribute(self, field, key, value):
         field.widget.attrs.update({key: value})
 
     def add_class(self, field, klass):
         field.widget.attrs["class"] += " " + klass
-
-    def set_focus(self):
-        # set autofocus on the first field
-        for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'autofocus'
-            return
 
 
 class BaseModelForm(ModelForm, BaseForm):
