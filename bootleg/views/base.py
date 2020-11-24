@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views import View
@@ -50,6 +50,11 @@ class BaseCreateUpdateView(BaseView):
 class BaseCreateView(BaseCreateUpdateView, CreateView):
     model = None
     submit_button_text = _("Save")
+    type = None
+
+    def get_success_url(self):
+        if self.type:
+            reverse("created") + "?model=%s" % self.model.model_name
 
     def form_valid(self, form):
         message = _("The %s was added" % self.model._meta.verbose_name)

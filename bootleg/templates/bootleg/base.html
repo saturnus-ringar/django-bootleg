@@ -55,6 +55,9 @@
     {% if view.get_extra_text %}
         {{ view.get_extra_text|safe }}
     {% endif %}
+    {% if extra_text %}
+        {{ extra_text|safe }}
+    {% endif %}
 {% endblock %}
 
 {% block footer %}

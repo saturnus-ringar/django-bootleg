@@ -13,7 +13,7 @@ from bootleg.views.auth_views import CustomLoginView, LogoutView, change_passwor
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView
 from bootleg.views.json_views import JSONSuggestView
-from bootleg.views.views import DevNullView, CrashView
+from bootleg.views.views import DevNullView, CrashView, CreatedView
 from bootleg.views.xhr_views import JavascriptErrorView
 
 # setup, indeed
@@ -57,6 +57,11 @@ urlpatterns = [
     #######################################
     path('create/<model_name>/', GenericModelCreateView.as_view(), name="create_model"),
     path('update/<model_name>/<int:pk>', GenericModelUpdateView.as_view(), name="update_model"),
+
+    #######################################
+    # created page
+    #######################################
+    path('created/', CreatedView.as_view(), name="created"),
 
     #######################################
     # hxr-views
