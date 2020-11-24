@@ -19,8 +19,13 @@ BOOTLEG_SETTINGS_IMPORTED = True
 
 SITE_ID = 1
 
+print(settings.DATETIME_FORMAT)
+
 if not settings.is_overridden("DATETIME_FORMAT"):
-    DATETIME_FORMAT = 'Y-m-d H:i:s'
+    DATETIME_FORMAT = "Y-m-d H:i:s"
+
+if not settings.is_overridden("DATETIME_FORMAT"):
+    DATE_FORMAT = "Y-m-d"
 
 if not settings.is_overridden("STATIC_ROOT"):
     STATIC_ROOT = "/static/"
