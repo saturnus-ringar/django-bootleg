@@ -27,8 +27,9 @@ def print_key_value(key, value):
             color = Fore.LIGHTGREEN_EX
         else:
             color = Fore.RED
-
-    if isinstance(value, int):
+    elif isinstance(value, int):
         value = intcomma(value)
 
+    if value is None:
+        value = ""
     print(Fore.LIGHTBLUE_EX + key.ljust(40) + "\t" + color + str(value))
