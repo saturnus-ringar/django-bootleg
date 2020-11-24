@@ -17,6 +17,15 @@ BOOTLEG_SETTINGS_IMPORTED = True
 # django settings
 #####################################################
 
+if not settings.is_overridden("STATICFILES_FINDERS"):
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        #'django.contrib.staticfiles.finders.AppDirectoriesFinder',    #causes verbose duplicate notifications in django 1.9
+        # NOTE: it's needed for the admin css
+        'compressor.finders.CompressorFinder',
+    )
+
 SITE_ID = 1
 
 if not settings.is_overridden("DATETIME_FORMAT"):
