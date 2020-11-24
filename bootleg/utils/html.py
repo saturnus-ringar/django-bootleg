@@ -54,7 +54,7 @@ def get_main_navigation(request):
         html += '</div>'
         html += '</li>'
 
-    if request.user.is_staff:
+    if request.user.is_superuser:
         html += get_nav_item(reverse("bootleg:system_info"), _("System"))
         html += get_nav_item(reverse("bootleg:deploy_info"), _("Deployment"))
         html += get_nav_item(get_changelist_url('bootleg', 'LoggedException') + "?handled__exact=0",
