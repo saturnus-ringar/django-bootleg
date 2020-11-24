@@ -22,7 +22,6 @@ $("input.dateinput").each(function() {
     // TODO: get DATE_FORMAT from django-settings
     new Pikaday({
         field: $(this)[0],
-
         format: "yyyy-MM-DD"
     })
 });
