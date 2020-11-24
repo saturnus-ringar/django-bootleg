@@ -19,8 +19,6 @@ BOOTLEG_SETTINGS_IMPORTED = True
 
 SITE_ID = 1
 
-print(settings.DATETIME_FORMAT)
-
 if not settings.is_overridden("DATETIME_FORMAT"):
     DATETIME_FORMAT = "Y-m-d H:i:s"
 
