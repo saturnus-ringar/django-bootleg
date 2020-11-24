@@ -1,4 +1,3 @@
-from bootleg.views.system_views import DeployInfoView, SystemInfoView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -13,6 +12,7 @@ from bootleg.views.auth_views import CustomLoginView, LogoutView, change_passwor
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView
 from bootleg.views.json_views import JSONSuggestView
+from bootleg.views.system_views import DeployInfoView, SystemInfoView
 from bootleg.views.views import DevNullView, CrashView, CreatedView
 from bootleg.views.xhr_views import JavascriptErrorView
 
@@ -40,8 +40,8 @@ urlpatterns = [
     # password
     path('password/', change_password, name="change_password"),
     path('password/reset/', CustomPasswordResetView.as_view(), name="password_reset"),
-    path('password/reset/done/', PasswordResetBaseView.as_view(extra_text="Instructions on how to reset the password "
-                                                                          "has been sent to your email-address."),
+    path('password/reset/done/', PasswordResetBaseView.as_view(extra_text=_("Instructions on how to reset the password "
+                                                                          "has been sent to your email-address.")),
          name="password_reset_done"),
     path('password/reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name="password_reset_confirm"),
     path('password/reset/complete/', CustomPasswordResetCompleteView.as_view(),
