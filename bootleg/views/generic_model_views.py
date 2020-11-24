@@ -15,11 +15,13 @@ class GenericModelView:
     fields = ["id"]
 
     def dispatch(self, request, *args, **kwargs):
-        model = models.get_editable_by_name(kwargs["model_name"])
-        if model:
-            self.model = model
-        else:
-            raise Http404("Could not find model.")
+        # allow forcing of model
+        if not self.model:
+            model = models.get_editable_by_name(kwargs["model_name"])
+            if model:
+                self.model = model
+            else:
+                raise Http404("Could not find model.")
 
         self.fields = self.model._meta.visible_fields
         return super().dispatch(request, *args, **kwargs)
