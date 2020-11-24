@@ -85,6 +85,7 @@ def get_editable_models():
     return models
 
 
+# https://stackoverflow.com/a/1239602/9390372
 def search(model, fields, query):
     qr = None
     for field in fields:
@@ -94,4 +95,4 @@ def search(model, fields, query):
         else:
             qr = q
 
-        return model.objects.filter(qr).order_by("id")
+    return model.objects.filter(qr).order_by("id")

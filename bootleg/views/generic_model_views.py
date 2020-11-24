@@ -57,6 +57,7 @@ class GenericListView(GenericModelView, SingleTableView):
         context = super().get_context_data(**kwargs)
         if hasattr(self.model._meta, "search_fields"):
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
+
         return context
 
 
