@@ -17,15 +17,6 @@ BOOTLEG_SETTINGS_IMPORTED = True
 # django settings
 #####################################################
 
-if not settings.is_overridden("STATICFILES_FINDERS"):
-    STATICFILES_FINDERS = (
-        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-        'django.contrib.staticfiles.finders.FileSystemFinder',
-        #'django.contrib.staticfiles.finders.AppDirectoriesFinder',    #causes verbose duplicate notifications in django 1.9
-        # NOTE: it's needed for the admin css
-        'compressor.finders.CompressorFinder',
-    )
-
 SITE_ID = 1
 
 if not settings.is_overridden("DATETIME_FORMAT"):
@@ -37,8 +28,25 @@ if not settings.is_overridden("DATETIME_FORMAT"):
 if not settings.is_overridden("STATIC_ROOT"):
     STATIC_ROOT = "/static/"
 
+if not settings.is_overridden("STATIC_URL"):
+    STATIC_URL = "/static/"
+
 if not settings.is_overridden("MEDIA_ROOT"):
     MEDIA_ROOT = "/media/"
+
+if not settings.is_overridden("MEDIA_URL"):
+    MEDIA_URL = "/media/"
+
+if not settings.is_overridden("STATICFILES_FINDERS"):
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        #'django.contrib.staticfiles.finders.AppDirectoriesFinder', #causes verbose duplicate notifications in django 1.9
+        # NOTE: it's needed for the admin css
+        # 2020-11-24: que? I don't understand the comment above. The (django) admin-css works just fine?!
+        # django compress
+        'compressor.finders.CompressorFinder',
+    )
 
 #####################################################
 # django tables 2
@@ -101,6 +109,7 @@ LOGGING = {
 }
 
 log_sql = getattr(settings, "LOG_SQL", None)
+
 if log_sql and log_sql is True:
     LOGGING["loggers"]["django.db.backends"] = {
         'level': 'DEBUG',  # always debug on this one
