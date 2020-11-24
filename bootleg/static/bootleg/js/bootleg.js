@@ -26,6 +26,14 @@ $("input.dateinput").each(function() {
     })
 });
 
+$("input.datetimeinput").each(function() {
+    // TODO: get DATE_FORMAT from django-settings
+    new Pikaday({
+        field: $(this)[0],
+        format: "yyyy-MM-DD hh:ss"
+    })
+});
+
 // create loading-spinners on buttons when forms are submitted
 $("form").submit(function() {
     var submitButton = $(this).find("input[type=\'submit\']");
