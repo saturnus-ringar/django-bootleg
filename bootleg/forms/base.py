@@ -47,7 +47,10 @@ class BaseForm(Form):
         field.widget.attrs.update({key: value})
 
     def add_class(self, field, klass):
-        field.widget.attrs["class"] += " " + klass
+        if "class" not in field.widget.attrs:
+            field.widget.attrs["class"] = klass
+        else:
+            field.widget.attrs["class"] += " " + klass
 
 
 class BaseModelForm(ModelForm, BaseForm):

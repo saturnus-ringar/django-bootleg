@@ -10,7 +10,8 @@ from bootleg.conf import bootleg_settings
 from bootleg.forms.auth_forms import LoginForm
 from bootleg.views.auth_views import CustomLoginView, LogoutView, change_password, \
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
-from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView
+from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView, \
+    GenericModelCloneView
 from bootleg.views.json_views import JSONSuggestView
 from bootleg.views.system_views import DeployInfoView, SystemInfoView
 from bootleg.views.views import DevNullView, CrashView, CreatedView
@@ -57,7 +58,7 @@ urlpatterns = [
     #######################################
     path("create/<model_name>/", GenericModelCreateView.as_view(), name="create_model"),
     path("update/<model_name>/<int:pk>", GenericModelUpdateView.as_view(), name="update_model"),
-    path("update/<model_name>/<int:pk>", GenericModelUpdateView.as_view(), name="update_model"),
+    path("clone/<model_name>/<int:pk>", GenericModelCloneView.as_view(), name="clone_model"),
 
     #######################################
     # created page

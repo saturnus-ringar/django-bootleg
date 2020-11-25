@@ -4,6 +4,7 @@ from bootleg.utils import models
 
 
 class JSONSuggestView(JsonView):
+    search_limit = 75
     # some error handling/validation should be added here
 
     def dispatch(self, request, *args, **kwargs):
@@ -11,4 +12,10 @@ class JSONSuggestView(JsonView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        return list(self.model.objects.search_flat(self.request.GET.get("q")))
+        results = []
+        for result in models.search(self.model, self.model._meta.search_fields,
+                                    self.request.GET.get("q"))[:self.search_limit]:
+            for field in self.model._meta.search_fields:
+                if hasattr(result, field):
+                    results.append(getattr(result, field))
+        return results

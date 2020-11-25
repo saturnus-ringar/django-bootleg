@@ -1,6 +1,8 @@
 from abc import abstractmethod
+from pprint import pprint
 
 from django.db import models
+from django.db.models import CharField, ForeignKey
 from django.db.models.fields.files import ImageField
 from django.urls import reverse
 from django.utils.safestring import mark_safe
@@ -14,15 +16,6 @@ from bootleg.utils import strings
 ##########################################
 # managers
 ##########################################
-
-
-class NameAndDescriptionManager(models.Manager):
-
-    def search_flat(self, query):
-        return self.search(query).values_list("name", flat=True)
-
-    def search(self, query):
-        return self.model.objects.filter(name__icontains=query)
 
 
 class UnhandledStatusModelManager(models.Manager):
@@ -57,7 +50,7 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_autocomplete_url(self):
-        if hasattr(self._meta, "autocomplete_field"):
+        if hasattr(self._meta, "search_fields"):
             return reverse("bootleg:json_suggest", args=[self._meta.model_name])
 
         return None
@@ -133,8 +126,6 @@ class NameModel(BaseModel):
 class NameAndDescriptionModel(NameModel):
     description = models.TextField(null=False, blank=False, verbose_name=_("Description"))
 
-    objects = NameAndDescriptionManager()
-
     def to_log(self):
         return "Name: [%s] Description: [%s]" % (self.name, strings.truncate(self.description))
 
@@ -145,7 +136,6 @@ class NameAndDescriptionModel(NameModel):
         abstract = True
         visible_fields = ["name", "description"]
         search_fields = ["name", "description"]
-        autocomplete_field = "name"
 
 
 class EditableNameAndDescriptionModel(NameAndDescriptionModel, TimeStampedModel):
