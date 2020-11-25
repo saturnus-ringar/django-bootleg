@@ -39,6 +39,14 @@ class GenericListView(GenericModelView, SingleTableView):
     paginate_by = 25
     template_name = "bootleg/list_view.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        if hasattr(self, "extra_form"):
+            if self.extra_form.method == "GET":
+                self.extra_form = self.extra_form(self.request.GET)
+            elif self.extra_form.method == "POST":
+                self.extra_form = self.extra_form(self.request.POST)
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_table_class(self):
         return views.get_default_table(self.model)
 
