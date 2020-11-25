@@ -52,8 +52,8 @@ class BaseCreateView(BaseCreateUpdateView, CreateView):
     submit_button_text = _("Save")
 
     def get_success_url(self):
-        if self.type:
-            reverse("created") + "?model=%s" % self.model.model_name
+        # is this the right way to do it? with __name__.lower?
+        return reverse("bootleg:created", args=[self.object._meta.model.__name__.lower()])
 
     def form_valid(self, form):
         message = _("The %s was added" % self.model._meta.verbose_name)

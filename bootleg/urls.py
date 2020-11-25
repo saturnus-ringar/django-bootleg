@@ -63,7 +63,7 @@ urlpatterns = [
     #######################################
     # created page
     #######################################
-    path("created/", CreatedView.as_view(), name="created"),
+    path("created/<model_name>", CreatedView.as_view(), name="created"),
 
     #######################################
     # hxr-views

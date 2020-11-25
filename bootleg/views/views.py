@@ -18,9 +18,13 @@ def get_default_table(model):
 
 class CreatedView(BaseTemplateView):
 
+    def dispatch(self, request, *args, **kwargs):
+        self.model = kwargs["model_name"]
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        model = models.get_editable_by_name(self.request.GET.get("model"))
+        model = models.get_editable_by_name(self.model)
         context["page_title"] = model().get_created_title()
         context["heading"] = model().get_created_title()
         context["extra_text"] = model().get_created_text()
