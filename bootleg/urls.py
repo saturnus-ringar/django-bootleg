@@ -35,7 +35,7 @@ urlpatterns = [
     #######################################
     # auth/login
     #######################################
-    path('login/', CustomLoginView.as_view(authentication_form=LoginForm, title=_("Login")), name="login"),
+    path('login/', CustomLoginView.as_view(authentication_form=LoginForm, page_title=_("Login")), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
     # password
     path('password/', change_password, name="change_password"),

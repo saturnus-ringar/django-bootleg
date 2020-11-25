@@ -20,7 +20,7 @@ class StaffRequiredView:
 
 class BaseView:
     template_name = bootleg_settings.BASE_TEMPLATE
-    title = None
+    page_title = None
     heading = None
     template_name = None
     extra_text = None
@@ -50,7 +50,6 @@ class BaseCreateUpdateView(BaseView):
 class BaseCreateView(BaseCreateUpdateView, CreateView):
     model = None
     submit_button_text = _("Save")
-    type = None
 
     def get_success_url(self):
         if self.type:
@@ -63,8 +62,10 @@ class BaseCreateView(BaseCreateUpdateView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if not hasattr(self, "heading"):
+        if not hasattr(self, "heading") or self.heading is None:
             context["heading"] = _("Create %s" % self.model._meta.verbose_name)
+        if not hasattr(self, "page_title") or self.page_title is None:
+            context["page_title"] = _("Create %s" % self.model._meta.verbose_name)
         return context
 
 
@@ -79,7 +80,10 @@ class BaseUpdateView(BaseCreateUpdateView, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["heading"] = _("Update %s" % self.model._meta.verbose_name)
+        if not hasattr(self, "heading") or self.heading is None:
+            context["heading"] = _("Update %s" % self.model._meta.verbose_name)
+        if not hasattr(self, "page_title") or self.page_title is None:
+            context["page_title"] = _("Update %s" % self.model._meta.verbose_name)
         return context
 
 

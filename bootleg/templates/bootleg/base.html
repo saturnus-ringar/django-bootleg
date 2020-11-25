@@ -3,7 +3,7 @@
 <html lang="{{ bootleg_settings.html_language_code }}">
 <head>
 <meta charset="utf-8">
-<title>{% block page_title %}{% get_first_with_value view.title event_search.get_page_title %}{% endblock %}</title>
+<title>{% block page_title %}{% get_first_with_value view.page_title page_title %}{% endblock %}</title>
 <meta name="description" content="{% block meta_description %}{% get_first_with_value meta_description view.meta_description view.title %}{% endblock %}" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
@@ -47,8 +47,8 @@
 </h1>
 
 {% block content %}
-    {% if view.text %}
-        {{ view.text }}
+    {% if view.page_text %}
+        {{ view.page_text }}
     {% endif %}
     {% include "bootleg/includes/form.html" %}
     {% if view.get_extra_text %}

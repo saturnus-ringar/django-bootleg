@@ -11,8 +11,8 @@ from django.conf import settings
 
 
 class LogoutView(BaseTemplateView):
-    title = _("Logout")
-    text = _("You have been logged out")
+    page_title = _("Logout")
+    page_text = _("You have been logged out")
 
     def get(self, request, *args, **kwargs):
         logout(request)
@@ -38,7 +38,7 @@ class CustomLoginView(BaseTemplateView, LoginView, FormWithRequestMixin):
 
 
 class PasswordResetBaseView(BaseTemplateView):
-    title = _("Reset password")
+    page_title = _("Reset password")
 
 
 class CustomPasswordResetView(PasswordResetBaseView, PasswordResetView):
@@ -70,5 +70,5 @@ def change_password(request):
 
     context = {}
     context["form"] = form
-    context["title"] = _("Change password")
+    context["page_title"] = _("Change password")
     return render(request, 'website/base.html', context)

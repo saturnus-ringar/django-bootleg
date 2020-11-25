@@ -21,7 +21,7 @@ class CreatedView(BaseTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         model = models.get_editable_by_name(self.request.GET.get("model"))
-        context["title"] = model().get_created_title()
+        context["page_title"] = model().get_created_title()
         context["heading"] = model().get_created_title()
         context["extra_text"] = model().get_created_text()
         return context
@@ -29,7 +29,7 @@ class CreatedView(BaseTemplateView):
 
 class DevNullView(BaseTemplateView):
     template_name = "bootleg/dev_null.html"
-    title = _("dev/null")
+    page_title = _("dev/null")
     heading = _("dev/null")
 
     def dispatch(self, request, *args, **kwargs):
