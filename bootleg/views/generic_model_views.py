@@ -1,13 +1,13 @@
-from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.urls import reverse
+from django.utils.translation import ugettext as _
+from django.views.generic import RedirectView
 from django_tables2 import SingleTableView, RequestConfig
 
 from bootleg.forms.forms import GenericModelSearchForm
 from bootleg.utils import models
 from bootleg.views import views
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView
-from django.utils.translation import ugettext as _
 
 
 class GenericModelView:
@@ -100,4 +100,11 @@ class GenericModelUpdateView(GenericModelCreateUpdateView, BaseUpdateView):
         response = super().dispatch(request, *args, **kwargs)
         if not hasattr(self, "heading"):
             self.heading = _("Update") + " " + self.model._meta.verbose_name
+        return response
+
+
+class GenericModelCloneView(RedirectView):
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
         return response
