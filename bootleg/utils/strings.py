@@ -12,6 +12,11 @@ from django.utils.safestring import mark_safe
 from bootleg.utils import lists
 
 
+# https://stackoverflow.com/a/50152237/9390372
+def remove_non_printable(string):
+    return ''.join(c for c in string if c.isprintable())
+
+
 def remove_urls(string):
     return re.sub(r'http\S+', '', string)
 
