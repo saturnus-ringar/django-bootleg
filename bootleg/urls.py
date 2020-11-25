@@ -30,55 +30,56 @@ urlpatterns = [
     #######################################
     # crash-url - to test errors
     #######################################
-    path('crash/', CrashView.as_view(), name="crash"),
+    path("crash/", CrashView.as_view(), name="crash"),
 
     #######################################
     # auth/login
     #######################################
-    path('login/', CustomLoginView.as_view(authentication_form=LoginForm, page_title=_("Login")), name="login"),
-    path('logout/', LogoutView.as_view(), name="logout"),
+    path("login/", CustomLoginView.as_view(authentication_form=LoginForm, page_title=_("Login")), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
     # password
-    path('password/', change_password, name="change_password"),
-    path('password/reset/', CustomPasswordResetView.as_view(), name="password_reset"),
-    path('password/reset/done/', PasswordResetBaseView.as_view(extra_text=_("Instructions on how to reset the password "
+    path("password/", change_password, name="change_password"),
+    path("password/reset/", CustomPasswordResetView.as_view(), name="password_reset"),
+    path("password/reset/done/", PasswordResetBaseView.as_view(extra_text=_("Instructions on how to reset the password "
                                                                           "has been sent to your email-address.")),
          name="password_reset_done"),
-    path('password/reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name="password_reset_confirm"),
-    path('password/reset/complete/', CustomPasswordResetCompleteView.as_view(),
+    path("password/reset/<uidb64>/<token>/", CustomPasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path("password/reset/complete/", CustomPasswordResetCompleteView.as_view(),
          name='password_reset_complete'),
 
     #######################################
     # list view(s)
     #######################################
-    path('list/<model_name>/', GenericListView.as_view(), name="list_view"),
+    path("list/<model_name>/", GenericListView.as_view(), name="list_view"),
 
     #######################################
     # generic model create/update views
     #######################################
-    path('create/<model_name>/', GenericModelCreateView.as_view(), name="create_model"),
-    path('update/<model_name>/<int:pk>', GenericModelUpdateView.as_view(), name="update_model"),
+    path("create/<model_name>/", GenericModelCreateView.as_view(), name="create_model"),
+    path("update/<model_name>/<int:pk>", GenericModelUpdateView.as_view(), name="update_model"),
+    path("update/<model_name>/<int:pk>", GenericModelUpdateView.as_view(), name="update_model"),
 
     #######################################
     # created page
     #######################################
-    path('created/', CreatedView.as_view(), name="created"),
+    path("created/", CreatedView.as_view(), name="created"),
 
     #######################################
     # hxr-views
     #######################################
-    path('json/<model_name>/', JSONSuggestView.as_view(), name='json_suggest'),
-    path('xhr/javascript-error/', JavascriptErrorView.as_view(), name='javascript_error'),
+    path("json/<model_name>/", JSONSuggestView.as_view(), name='json_suggest'),
+    path("xhr/javascript-error/", JavascriptErrorView.as_view(), name='javascript_error'),
 
     #######################################
     # misc-ish
     #######################################
-    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url(bootleg_settings.FAVICON_FILE))),
+    path("favicon.ico", RedirectView.as_view(url=staticfiles_storage.url(bootleg_settings.FAVICON_FILE))),
 
     #######################################
     # deploy/system info
     #######################################
-    path('deploy/info/', DeployInfoView.as_view(), name="deploy_info"),
-    path('system/info/', SystemInfoView.as_view(), name="system_info"),
+    path("deploy/info/", DeployInfoView.as_view(), name="deploy_info"),
+    path("system/info/", SystemInfoView.as_view(), name="system_info"),
 ]
 
 if settings.DEBUG:
