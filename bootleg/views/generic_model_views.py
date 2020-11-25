@@ -51,6 +51,15 @@ class GenericListView(GenericModelView, SingleTableView):
         if query:
             return models.search(self.model, self.model._meta.search_fields, query)
 
+        # dynamic filtering on model properties
+        args = dict()
+        for param in self.request.GET:
+            args[param] = self.request.GET.get(param)
+
+        if args:
+            # got args... filter
+            return self.model.objects.filter(**args)
+
         return self.model.objects.all().order_by("id")
 
     def get_context_data(self, **kwargs):

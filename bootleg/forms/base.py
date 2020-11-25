@@ -51,7 +51,5 @@ class BaseForm(Form):
 
 
 class BaseModelForm(ModelForm, BaseForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = get_default_form_helper(_("Save"))
+    submit_text = _("Save")
+    pass
