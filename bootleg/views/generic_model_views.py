@@ -47,9 +47,8 @@ class GenericListView(GenericModelView, SingleTableView):
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        if query:
-            return models.search(self.model, self.model._meta.search_fields, query)
+        if "q" in self.request.GET:
+            return models.search(self.model, self.model._meta.search_fields, self.request.GET.get("q"))
 
         # dynamic filtering on model properties
         args = dict()
