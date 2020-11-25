@@ -40,13 +40,20 @@ class GenericListView(GenericModelView, SingleTableView):
     template_name = "bootleg/list_view.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if hasattr(self, "extra_form"):
-            if self.extra_form.method == "GET":
-                self.extra_form = self.extra_form(self.request.GET)
-            elif self.extra_form.method == "POST":
-                self.extra_form = self.extra_form(self.request.POST)
+        self.set_extra_form(request)
         return super().dispatch(request, *args, **kwargs)
-    
+
+    def set_extra_form(self, request):
+        if hasattr(self, "extra_form_class"):
+            data = self.request.POST
+            if self.extra_form_class.method == "GET":
+                data = self.request.GET
+
+            if self.extra_form_class().has_submitted_value(request):
+                self.extra_form = self.extra_form_class(data)
+            else:
+                self.extra_form = self.extra_form_class()
+
     def get_table_class(self):
         return views.get_default_table(self.model)
 
@@ -73,7 +80,8 @@ class GenericListView(GenericModelView, SingleTableView):
         context = super().get_context_data(**kwargs)
         if hasattr(self.model._meta, "search_fields"):
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
-
+        if hasattr(self, "extra_form"):
+            context["extra_form"] = self.extra_form
         return context
 
 

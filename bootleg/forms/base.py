@@ -43,6 +43,17 @@ class BaseForm(Form):
         super().__init__(*args, **kwargs)
         self.helper = get_default_form_helper(self.submit_text, self.inline, self.method)
 
+    def has_submitted_value(self, request):
+        for field in self.fields:
+            if self.method == "POST":
+                if request.POST.get(field):
+                    return True
+            if self.method == "GET":
+                if request.GET.get(field):
+                    return True
+
+        return False
+
     def add_attribute(self, field, key, value):
         field.widget.attrs.update({key: value})
 

@@ -28,8 +28,8 @@
     </div>
 {% endif %}
 
-{% if view.extra_form %}
+{% if extra_form %}
     <div class="w-50 bg-light border rounded p-4 mt-4">
-        {% crispy view.extra_form view.extra_form.helper %}
+        {% crispy extra_form extra_form.helper %}
     </div>
 {% endif %}
