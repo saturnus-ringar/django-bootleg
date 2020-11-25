@@ -17,6 +17,11 @@ BOOTLEG_SETTINGS_IMPORTED = True
 # django settings
 #####################################################
 
+if not settings.is_overridden("INTERNAL_IPS"):
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
+
 SITE_ID = 1
 
 if not settings.is_overridden("DATETIME_FORMAT"):
