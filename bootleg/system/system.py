@@ -1,8 +1,10 @@
 import os
 import platform
 import sys
+from collections import OrderedDict
 
 import pkg_resources
+from debug_toolbar.panels.settings import get_safe_settings
 from django.conf import settings
 from django.db import connection, OperationalError
 
@@ -71,6 +73,9 @@ class System:
         self.mysql_table_status = self.get_mysql_table_status_filtered()
         self.db_size = self.get_db_size()
         self.loggers = logging.get_all_loggers()
+
+        # django settings (using django debug toolbar)
+        self.django_settings = OrderedDict(sorted(get_safe_settings().items(), key=lambda s: s[0]))
 
     def get_short_python_version(self):
         return self.python_version.split()[0]

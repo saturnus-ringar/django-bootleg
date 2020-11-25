@@ -92,10 +92,6 @@ input[type=checkbox][disabled] {
     border-bottom: none !important;
 }
 
-.table th, .table td {
-    vertical-align: middle !important;
-}
-
 /* pagination */
 .pagination li {
     margin: 3px;

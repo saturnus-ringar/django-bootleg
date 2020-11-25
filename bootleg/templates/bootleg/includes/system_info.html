@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-        <div class="col-2">
+        <div class="col-3">
                 <ul class="list-group left-menu">
                         <li class="list-group-item"><a class="anchor" data-target="#system_uptime" href="#">{% trans "Uptime" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_mysql" href="#">{% trans "MySQL" %}</a></li>
@@ -16,10 +16,12 @@
                         <li class="list-group-item"><a class="anchor" data-target="#system_disk_io" href="#">{% trans "Disk IO" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_db_tables" href="#">{% trans "DB Tables" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_bootleg_settings" href="#">{% trans "Bootleg settings" %}</a></li>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_django_settings" href="#">{% trans "Django settings" %}</a></li>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_env" href="#">{% trans "Environment variables" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_loggers" href="#">{% trans "Loggers" %}</a></li>
                 </ul>
         </div>
-        <div class="col-10">
+        <div class="col-9">
                 <h3 class="mt-4" id="system_uptime">{% trans "Uptime" %}</h3>
                 <table class="{% get_default_table_classes %} overflow-auto">
                         <tr>
@@ -188,26 +190,38 @@
                 </table>
 
                 <h3 class="mt-4" id="system_bootleg_settings">{% trans "Bootleg settings" %}</h3>
-
                 <table class="{% get_default_table_classes %} overflow-auto">
                         <tbody>
                         {% for attribute, value in bootleg_settings.get_settings.items %}
                                 <tr>
                                         <td>{{ attribute }}</td>
-                                        <td class="word-wrap">{{ value }}</td>
+                                        <td class="word-wrap"><code>{{ value|pprint }}</code></td>
                                 </tr>
                         {% endfor %}
                 </tbody>
                 </table>
 
-                <h3 class="mt-4" id="system_env">{% trans "Environment variables" %}</h3>
 
+
+                <h3 class="mt-4" id="system_django_settings">{% trans "Django settings" %}</h3>
+                <table class="{% get_default_table_classes %} overflow-auto">
+                        <tbody>
+                            {% for name, value in system.django_settings.items %}
+                                <tr>
+                                        <td>{{ name }}</td>
+                                        <td><code>{{ value }}</code></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                </table>
+
+                <h3 class="mt-4" id="system_env">{% trans "Environment variables" %}</h3>
                 <table class="{% get_default_table_classes %} overflow-auto">
                         <tbody>
                         {% for env in system.env %}
                                 <tr>
                                         <td>{{ env.key }}</td>
-                                        <td class="word-wrap">{{ env.value }}</td>
+                                        <td class="word-wrap"><code>{{ env.value }}</code></td>
                                 </tr>
                         {% endfor %}
                 </tbody>
@@ -225,10 +239,10 @@
                         {% for logger in system.loggers %}
                                 <tr>
                                         <td>{{ logger.name }} </td>
-                                        <td>{{ logger }} </td>
+                                        <td><code>{{ logger }}</code></td>
                                         <td>
                                                 {% for handler in logger.handlers %}
-                                                        {{ handler }}
+                                                        <code>{{ handler }}</code>
                                                 {% endfor %}
                                         </td>
                                 </tr>
