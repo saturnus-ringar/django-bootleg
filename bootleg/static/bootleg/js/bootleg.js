@@ -62,6 +62,26 @@ function highlightSearchResults() {
     $(".table-container").highlight(getURLParameter("q"));
 }
 
+function hasFixedNavbar() {
+    if($("nav").hasClass("fixed-top")) {
+        return true;
+    }
+    return false;
+}
+
+function getNavbarOffset() {
+    if(hasFixedNavbar()) {
+        return $("nav").height() + 40;
+    }
+    return 0;
+}
+
+$("a.anchor").on("click", function(event) {
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $($(this).data("target")).offset().top - getNavbarOffset()
+    }, 500);
+});
+
 function getURLParameter(name) {
     return decodeURIComponent((RegExp('[?|&]' + name + '=' + '(.+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
 }

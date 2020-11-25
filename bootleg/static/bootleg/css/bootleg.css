@@ -125,3 +125,8 @@ input[type=checkbox][disabled] {
     font-weight: bolder !important;
     color: #000;
 }
+
+.left-menu {
+  position: fixed;
+  top: calc(15% + (10px/2));
+}
