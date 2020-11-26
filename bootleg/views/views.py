@@ -11,7 +11,7 @@ def get_default_table(model):
         fields = model._meta.visible_fields
     else:
         fields = model._meta.fields
-    table_class = tables.table_factory(model, fields=fields + ["get_update_link"])
+    table_class = tables.table_factory(model, fields=fields + ["get_update_link", "get_clone_link"])
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
     return table_class
 

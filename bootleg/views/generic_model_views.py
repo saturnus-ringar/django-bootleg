@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import Http404
 from django.urls import reverse
 from django.utils.translation import ugettext as _
@@ -16,10 +17,12 @@ class GenericModelView:
 
     def dispatch(self, request, *args, **kwargs):
         # allow forcing of model
-        if not self.model:
+        if not hasattr(self, "model") or not self.model:
             model = models.get_editable_by_name(kwargs["model_name"])
             if model:
                 self.model = model
+                if "pk" in kwargs:
+                    self.object = self.model.objects.get(id=kwargs["pk"])
             else:
                 raise Http404("Could not find model.")
 
@@ -111,8 +114,17 @@ class GenericModelUpdateView(GenericModelCreateUpdateView, BaseUpdateView):
         return response
 
 
-class GenericModelCloneView(RedirectView):
+class GenericModelCloneView(GenericModelView, RedirectView):
 
-    def dispatch(self, request, *args, **kwargs):
-        response = super().dispatch(request, *args, **kwargs)
-        return response
+    def get_redirect_url(self, *args, **kwargs):
+        dx("self.model: %s" % self.model)
+        dx("self.object: %s" % self.object)
+        self.object.pk = None
+        try:
+            fix_clone_data = getattr(self.object, "fix_clone_data")
+            fix_clone_data()
+        except AttributeError:
+            pass
+        self.object.save()
+        messages.add_message(self.request, messages.INFO, _("The %s was cloned" % self.model._meta.verbose_name))
+        return self.object.get_update_url()

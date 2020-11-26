@@ -1,16 +1,17 @@
+import datetime
 from abc import abstractmethod
-from pprint import pprint
 
 from django.db import models
-from django.db.models import CharField, ForeignKey
 from django.db.models.fields.files import ImageField
 from django.urls import reverse
+from django.utils import formats
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django_extensions.db.models import TimeStampedModel
 
 from bootleg.logging import logging
 from bootleg.utils import strings
+from django.conf import settings
 
 
 ##########################################
@@ -97,12 +98,19 @@ class BaseModel(models.Model):
     def get_update_url(self):
         return reverse("bootleg:update_model", args=[self._meta.model_name, self.id])
 
+    def get_clone_url(self):
+        return reverse("bootleg:clone_model", args=[self._meta.model_name, self.id])
+
     def get_button_link(self, url, text):
         return mark_safe('<a href="%s"><button class ="btn btn-primary btn-sm">%s</button></a>'
                          % (url, text))
 
     def get_update_link(self):
         return self.get_button_link(self.get_update_url(), _("Update"))
+
+    def get_clone_link(self):
+        return self.get_button_link(self.get_clone_url(), _("Clone"))
+
 
     @abstractmethod
     def to_log(self):
@@ -114,6 +122,10 @@ class BaseModel(models.Model):
 
 class NameModel(BaseModel):
     name = models.CharField(max_length=255, unique=True, null=False, blank=False, verbose_name=_("Name"))
+
+    def fix_clone_data(self):
+        self.name = _("Cloned %s - %s" % (self._meta.verbose_name,
+                                          formats.date_format(datetime.datetime.now(), settings.DATETIME_FORMAT)))
 
     def __str__(self):
         return self.name
