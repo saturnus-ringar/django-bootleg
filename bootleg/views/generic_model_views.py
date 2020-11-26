@@ -117,8 +117,6 @@ class GenericModelUpdateView(GenericModelCreateUpdateView, BaseUpdateView):
 class GenericModelCloneView(GenericModelView, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        dx("self.model: %s" % self.model)
-        dx("self.object: %s" % self.object)
         self.object.pk = None
         try:
             fix_clone_data = getattr(self.object, "fix_clone_data")
