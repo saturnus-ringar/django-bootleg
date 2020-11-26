@@ -68,16 +68,22 @@ class GenericListView(GenericModelView, SingleTableView):
         if "q" in self.request.GET:
             return models.search(self.model, self.model._meta.search_fields, self.request.GET.get("q"))
 
-        # dynamic filtering on model properties
-        args = dict()
-        for param in self.request.GET:
-            args[param] = self.request.GET.get(param)
-
+        args = self.get_args()
         if args:
             # got args... filter
             return self.model.objects.filter(**args)
 
         return self.model.objects.all().order_by("id")
+
+    def get_args(self):
+        # dynamic filtering on model properties
+        args = dict()
+        field_names = self.model.get_all_field_names()
+        for param in self.request.GET:
+            if param in field_names:
+                args[param] = self.request.GET.get(param)
+
+        return args
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

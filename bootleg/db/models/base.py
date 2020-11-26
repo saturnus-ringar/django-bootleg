@@ -46,6 +46,14 @@ class LoggedExceptionManager(models.Manager):
 class BaseModel(models.Model):
 
     @classmethod
+    def get_all_field_names(cls):
+        field_names = []
+        for field in cls._meta.fields:
+            field_names.append(field.name)
+
+        return field_names
+
+    @classmethod
     def get_changelist_url(cls):
         return reverse('admin:%s_%s_changelist' % (cls._meta.app_label, cls._meta.model_name))
 
