@@ -1,9 +1,10 @@
-
 - statuskommando, lista:
     diskutrymme
     databasstorlek och kanske antal rader i databasen
-    log-dir-storlek
-    nuvarande commit
+
+        *** TODO ***
+        log-dir-storlek
+        nuvarande commit
 
 - bokstavssortering i
     get_subclasses
