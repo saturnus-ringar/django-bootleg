@@ -66,12 +66,12 @@ def get_first_with_value(*args):
 
 @register.simple_tag
 def render_last_modified_file(file):
-    html = '<td colspan="3"></td>'
+    html = ""
     if file:
-        html = '<td><small class="text-muted">%s</small></td>\n' % _("Modified")
-        html += '<td>%s <small class="text-muted">(%s)</small></td>\n' \
+        html = '<br /><small>%s' % _("Modified")
+        html += ' %s (%s)</small>' \
                 % ((formats.date_format(file["date"], "DATETIME_FORMAT"), naturaltime(file["date"])))
-        html += '<td><span class="text-muted">%s</td>' % file["path"]
+        html += '<br /><small class="text-muted">%s</span></p>' % file["path"]
 
     return mark_safe(html)
 

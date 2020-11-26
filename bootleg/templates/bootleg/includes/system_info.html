@@ -8,13 +8,13 @@
                         <li class="list-group-item"><a class="anchor" data-target="#system_mysql" href="#">{% trans "MySQL" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_log_dirs" href="#">{% trans "Log dirs" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_platform" href="#">{% trans "Platform" %}</a></li>
-                        <li class="list-group-item"><a class="anchor" data-target="#system_python" href="#">{% trans "Python" %}</a></li>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_python" href="#">{% trans "Python/Django/bootleg" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_load" href="#">{% trans "Load average" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_memory" href="#">{% trans "Memory usage" %}</a>
                         <li class="list-group-item"><a class="anchor" data-target="#system_cpu" href="#">{% trans "CPU usage" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_disk_io" href="#">{% trans "Disk IO" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_db_tables" href="#">{% trans "DB Tables" %}</a></li>
-                        <li class="list-group-item"><a class="anchor" data-target="#system_bootleg_settings" href="#">{% trans "Bootleg settings" %}</a></li>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_bootleg_settings" href="#">{% trans "bootleg settings" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_django_settings" href="#">{% trans "Django settings" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_env" href="#">{% trans "Environment variables" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_loggers" href="#">{% trans "Loggers" %}</a></li>
@@ -45,11 +45,19 @@
                                 </tr>
                                 <tr>
                                         <td>{% trans "DB-size" %}</td>
-                                        <td>{{ system.db_size|humanize_bytes }}</td>
+                                        <td>
+                                                <a class="anchor" data-target="#system_db_tables" href="#">
+                                                        {{ system.db_size|humanize_bytes }}
+                                                </a>
+                                        </td>
                                 </tr>
                                 <tr>
                                         <td>{% trans "Number of rows" %}</td>
-                                        <td>{{ system.get_number_of_db_rows|intcomma }}</td>
+                                        <td>
+                                                <a class="anchor" data-target="#system_db_tables" href="#">
+                                                        {{ system.get_number_of_db_rows|intcomma }}
+                                                </a>
+                                        </td>
                                 </tr>
                         </tbody>
                 </table>
@@ -89,16 +97,26 @@
                         <tbody>
                                 <tr>
                                         <td>{% trans "Version " %}</td>
-                                        <td colspan="4">{{ system.python_version }}</td>
+                                        <td>{{ system.python_version }}</td>
                                 </tr>
                                 <tr>
                                         <td>{% trans "Executable " %}</td>
-                                        <td colspan="4">{{ system.executable }}</td>
+                                        <td><code>{{ system.executable }}</code></td>
                                 </tr>
                                 <tr>
                                         <td>{% trans "Virtual env" %}</td>
-                                        <td>{{ system.virtual_env_path }}</td>
-                                        {% render_last_modified_file system.env_dir_last_modified_file %}
+                                        <td>
+                                                <code>{{ system.virtual_env_path }}</code>
+                                                {% render_last_modified_file system.env_dir_last_modified_file %}
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td>{% trans "Django version " %}</td>
+                                        <td>{{ system.django_version }}</td>
+                                </tr>
+                                <tr>
+                                        <td>{% trans "bootleg version " %}</td>
+                                        <td>{{ system.bootleg_version }}</td>
                                 </tr>
                         </tbody>
                 </table>
@@ -108,18 +126,24 @@
                         <tbody>
                                 <tr>
                                         <td>{% trans "Project path" %}</td>
-                                        <td>{{ system.project_path }}</td>
-                                        {% render_last_modified_file system.project_dir_last_modified_file %}
+                                        <td>
+                                                <code>{{ system.project_path }}</code>
+                                                {% render_last_modified_file system.project_dir_last_modified_file %}
+                                        </td>
                                 </tr>
                                 <tr>
                                         <td>{% trans "MEDIA_ROOT" %}</td>
-                                        <td>{{ system.media_root }}</td>
-                                        {% render_last_modified_file system.media_dir_last_modified_file %}
+                                        <td>
+                                                <code>{{ system.media_root }}</code>
+                                                {% render_last_modified_file system.media_dir_last_modified_file %}
+                                        </td>
                                 </tr>
                                 <tr>
                                         <td>{% trans "STATIC_ROOT" %}</td>
-                                        <td>{{ system.static_root }}</td>
-                                        {% render_last_modified_file system.static_dir_last_modified_file %}
+                                        <td>
+                                                <code>{{ system.static_root }}</code>
+                                                {% render_last_modified_file system.static_dir_last_modified_file %}
+                                        </td>
                                 </tr>
                         </tbody>
                 </table>
@@ -188,7 +212,7 @@
                         </tbody>
                 </table>
 
-                <h3 class="mt-4" id="system_bootleg_settings">{% trans "Bootleg settings" %}</h3>
+                <h3 class="mt-4" id="system_bootleg_settings">{% trans "bootleg settings" %}</h3>
                 <table class="{% get_default_table_classes %} overflow-auto">
                         <tbody>
                         {% for attribute, value in bootleg_settings.get_settings.items %}

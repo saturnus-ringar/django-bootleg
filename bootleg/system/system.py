@@ -3,6 +3,9 @@ import platform
 import sys
 from collections import OrderedDict
 
+import django
+
+import bootleg
 import pkg_resources
 from debug_toolbar.panels.settings import get_safe_settings
 from django.conf import settings
@@ -61,6 +64,8 @@ class System:
         self.env_dir_last_modified_file = file_system.get_last_modified_file(self.virtual_env_path)
         self.media_dir_last_modified_file = file_system.get_last_modified_file(getattr(settings, "MEDIA_ROOT"))
         self.static_dir_last_modified_file = file_system.get_last_modified_file(getattr(settings, "STATIC_ROOT"))
+        self.bootleg_version = bootleg.__version__
+        self.django_version = django.get_version()
         self.env = self.get_env()
 
         # log dirs
