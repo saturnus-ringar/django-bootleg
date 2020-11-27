@@ -4,6 +4,7 @@ import sys
 from collections import OrderedDict
 
 import django
+from django.views.debug import cleanse_setting
 
 import bootleg
 import pkg_resources
@@ -87,15 +88,11 @@ class System:
 
     def get_env(self):
         cleaned_env = []
-        non_allowed_patterns = ["password", "key"]
         for key, value in sorted(os.environ.items()):
             env = {}
             env["key"] = key
-            env["value"] = value
-            for pattern in non_allowed_patterns:
-                if pattern.lower() in key.lower():
-                    env["value"] = "************"
-
+            # use django debug toolbar to clean the settings value
+            env["value"] = cleanse_setting(key.upper(), value)
             cleaned_env.append(env)
 
         return cleaned_env
