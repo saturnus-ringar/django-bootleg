@@ -4,10 +4,12 @@ import sys
 from collections import OrderedDict
 
 import django
-try:
+
+if django.VERSION >= (3, 1):
+    from django.views.debug import get_default_exception_reporter_filter
+    cleanse_setting = get_default_exception_reporter_filter().get_safe_settings
+else:
     from django.views.debug import cleanse_setting
-except ImportError:
-    from django.views.debug import SafeExceptionReporterFilter
 
 import bootleg
 import pkg_resources
@@ -81,6 +83,7 @@ class System:
         self.mysql_version = self.get_mysql_version()
         self.mysql_table_status = self.get_mysql_table_status_filtered()
         self.db_size = self.get_db_size()
+        # loggers
         self.loggers = logging.get_all_loggers()
 
         # django settings (using django debug toolbar)
@@ -94,10 +97,7 @@ class System:
         for key, value in sorted(os.environ.items()):
             env = {}
             env["key"] = key
-            try:
-                env["value"] = cleanse_setting(key.upper(), value)
-            except NameError:
-                env["value"] = SafeExceptionReporterFilter().cleanse_setting(key.upper, value)
+            env["value"] = cleanse_setting(key.upper(), value)
             cleaned_env.append(env)
 
         return cleaned_env

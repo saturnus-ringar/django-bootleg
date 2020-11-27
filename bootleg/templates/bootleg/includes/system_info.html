@@ -11,15 +11,15 @@
                         <li class="list-group-item"><a class="anchor" data-target="#system_python" href="#">{% trans "Python/Django/bootleg" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_file_and_dirs" href="#">{% trans "Files and directories" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_packages" href="#">{% trans "Installed packages" %}</a></li>
-                        <li class="list-group-item"><a class="anchor" data-target="#system_load" href="#">{% trans "Load average" %}</a></li>
-                        <li class="list-group-item"><a class="anchor" data-target="#system_memory" href="#">{% trans "Memory usage" %}</a>
-                        <li class="list-group-item"><a class="anchor" data-target="#system_cpu" href="#">{% trans "CPU usage" %}</a></li>
-                        <li class="list-group-item"><a class="anchor" data-target="#system_disk_io" href="#">{% trans "Disk IO" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_db_tables" href="#">{% trans "DB Tables" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_bootleg_settings" href="#">{% trans "bootleg settings" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_django_settings" href="#">{% trans "Django settings" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_env" href="#">{% trans "Environment variables" %}</a></li>
                         <li class="list-group-item"><a class="anchor" data-target="#system_loggers" href="#">{% trans "Loggers" %}</a></li>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_load" href="#">{% trans "Load average" %}</a></li>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_memory" href="#">{% trans "Memory usage" %}</a>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_cpu" href="#">{% trans "CPU usage" %}</a></li>
+                        <li class="list-group-item"><a class="anchor" data-target="#system_disk_io" href="#">{% trans "Disk IO" %}</a></li>
                 </ul>
         </div>
         <div class="col-9">
@@ -43,7 +43,7 @@
                         <tbody>
                                 <tr>
                                         <td>{% trans "Version" %}</td>
-                                        <td>{{ system.mysql_version }}</td>
+                                        <td><code>{{ system.mysql_version }}</code></td>
                                 </tr>
                                 <tr>
                                         <td>{% trans "DB-size" %}</td>
@@ -162,34 +162,6 @@
                         </tbody>
                 </table>
 
-                <h3 class="mt-4" id="system_load">{% trans "Load average" %}</h3>
-                {% get_card_top %}
-                <pre>
-                {{ system.load_average }}
-                </pre>
-                {% get_card_bottom %}
-
-                <h3 class="mt-4" id="system_memory">{% trans "Memory usage" %}</h3>
-                {% get_card_top %}
-                <pre>
-                {{ system.memory_usage }}
-                </pre>
-                {% get_card_bottom %}
-
-                <h3 class="mt-4" id="system_cpu">{% trans "CPU usage" %}</h3>
-                {% get_card_top %}
-                <pre>
-                {{ system.cpu_usage }}
-                </pre>
-                {% get_card_bottom %}
-
-                <h3 class="mt-4" id="system_disk_io">{% trans "Disk IO" %}</h3>
-                {% get_card_top %}
-                <pre>
-                {{ system.disk_io }}
-                </pre>
-                {% get_card_bottom %}
-
                 <h4 class="mt-4" id="system_db_tables">{% trans "DB Tables" %}</h4>
                 <table class="{% get_default_table_classes %} overflow-auto">
                         <tbody>
@@ -278,6 +250,33 @@
                         {% endfor %}
                 </tbody>
                 </table>
+                <h3 class="mt-4" id="system_load">{% trans "Load average" %}</h3>
+                {% get_card_top %}
+                <pre>
+                {{ system.load_average }}
+                </pre>
+                {% get_card_bottom %}
+
+                <h3 class="mt-4" id="system_memory">{% trans "Memory usage" %}</h3>
+                {% get_card_top %}
+                <pre>
+                {{ system.memory_usage }}
+                </pre>
+                {% get_card_bottom %}
+
+                <h3 class="mt-4" id="system_cpu">{% trans "CPU usage" %}</h3>
+                {% get_card_top %}
+                <pre>
+                {{ system.cpu_usage }}
+                </pre>
+                {% get_card_bottom %}
+
+                <h3 class="mt-4" id="system_disk_io">{% trans "Disk IO" %}</h3>
+                {% get_card_top %}
+                <pre>
+                {{ system.disk_io }}
+                </pre>
+                {% get_card_bottom %}
         </div>
   </div>
 </div>
