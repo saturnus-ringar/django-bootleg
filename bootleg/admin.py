@@ -90,7 +90,7 @@ class SelectableEditableModelAdmin(ReadOnlyModelAdmin):
         return True
 
     def save_model(self, request, obj, form, change):
-        return super().save_model(request, obj, form, change)
+        return obj.save()
 
     def get_readonly_fields(self, request, obj=None):
         fields = super().get_readonly_fields(request, obj)
