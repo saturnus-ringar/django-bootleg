@@ -4,7 +4,10 @@ import sys
 from collections import OrderedDict
 
 import django
-from django.views.debug import cleanse_setting
+try:
+    from django.views.debug import cleanse_setting
+except ImportError:
+    from django.views.debug import SafeExceptionReporterFilter
 
 import bootleg
 import pkg_resources
@@ -91,8 +94,10 @@ class System:
         for key, value in sorted(os.environ.items()):
             env = {}
             env["key"] = key
-            # use django debug toolbar to clean the settings value
-            env["value"] = cleanse_setting(key.upper(), value)
+            try:
+                env["value"] = cleanse_setting(key.upper(), value)
+            except NameError:
+                env["value"] = SafeExceptionReporterFilter().cleanse_setting(key.upper, value)
             cleaned_env.append(env)
 
         return cleaned_env
