@@ -1,9 +1,8 @@
+from django.conf import settings
 from django.contrib import admin
 from django.contrib import messages
-from django.contrib.admin import ModelAdmin
 from django.utils.formats import date_format
 from django.utils.translation import ugettext as _
-from django.conf import settings
 
 from bootleg.db.models.django_log_entry import DjangoLogEntry
 from bootleg.db.models.javascript_error import JavascriptError
@@ -12,7 +11,7 @@ from bootleg.db.models.logged_exception import LoggedException
 from bootleg.utils import strings
 
 
-class BaseAdmin(admin.ModelAdmin):
+class BaseModelAdmin(admin.ModelAdmin):
 
     @property
     def media(self):
@@ -26,7 +25,14 @@ class BaseAdmin(admin.ModelAdmin):
         return media
 
 
-class ReadOnlyModelAdmin(BaseAdmin):
+class UndeletableModelAdmin(BaseModelAdmin):
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class ReadOnlyModelAdmin(BaseModelAdmin):
+    actions = None
 
     def get_readonly_fields(self, request, obj=None):
         fields = []
@@ -60,7 +66,40 @@ class ReadOnlyModelAdmin(BaseAdmin):
         })
 
 
-class TimeStampedModelAdmin(ModelAdmin):
+class OnlyDeleteAllowedModelAdmin(ReadOnlyModelAdmin):
+    actions = ["delete"]
+
+    def has_delete_permission(self, request, obj=None):
+        return True
+
+
+class DeleteNotAllowedModelAdmin(BaseModelAdmin):
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class AddNotAllowedModelAdmin(BaseModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+
+class SelectableEditableModelAdmin(ReadOnlyModelAdmin):
+    editable_fields = []
+
+    def has_change_permission(self, request, obj=None):
+        return True
+
+    def save_model(self, request, obj, form, change):
+        return super().save_model(request, obj, form, change)
+
+    def get_readonly_fields(self, request, obj=None):
+        fields = super().get_readonly_fields(request, obj)
+        for editable_field in self.editable_fields:
+            fields.remove(editable_field)
+        return fields
+
+
+class TimeStampedModelAdmin(BaseModelAdmin):
     list_display = ["created_explicit", "modified"]
     date_hierarchy = "created"
     list_filter = ["created", "modified"]
@@ -72,12 +111,12 @@ class TimeStampedModelAdmin(ModelAdmin):
     created_explicit.admin_order_field = "created"
 
 
-class NameAndDescriptionAdmin(BaseAdmin):
+class NameAndDescriptionAdmin(BaseModelAdmin):
     list_display = ["name", "description"]
     search_fields = ["name", "description"]
 
 
-class TimeStampedNamedAndDescriptionAdmin(BaseAdmin):
+class TimeStampedNamedAndDescriptionAdmin(BaseModelAdmin):
     list_display = TimeStampedModelAdmin.list_display + NameAndDescriptionAdmin.list_display
 
     @property
