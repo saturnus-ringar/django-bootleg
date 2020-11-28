@@ -7,7 +7,7 @@ import django
 
 if django.VERSION >= (3, 1):
     from django.views.debug import get_default_exception_reporter_filter
-    cleanse_setting = get_default_exception_reporter_filter().get_safe_settings
+    cleanse_setting = get_default_exception_reporter_filter().cleanse_setting
 else:
     from django.views.debug import cleanse_setting
 
