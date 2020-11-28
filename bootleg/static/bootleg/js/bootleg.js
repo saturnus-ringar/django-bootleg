@@ -21,18 +21,26 @@ $(document).ready(function() {
 
 $("input.dateinput").each(function() {
     // TODO: get DATE_FORMAT from django-settings
-    new Pikaday({
-        field: $(this)[0],
-        format: "yyyy-MM-DD"
-    })
+    try {
+        new Pikaday({
+            field: $(this)[0],
+            format: "yyyy-MM-DD"
+        })
+    } catch (error) {
+        // the pikaday library might not be loaded
+    }
 });
 
 $("input.datetimeinput").each(function() {
-    // TODO: get DATE_FORMAT from django-settings
-    new Pikaday({
-        field: $(this)[0],
-        format: "yyyy-MM-DD hh:ss"
-    })
+    try {
+        // TODO: get DATE_FORMAT from django-settings
+        new Pikaday({
+            field: $(this)[0],
+            format: "yyyy-MM-DD hh:ss"
+        })
+    } catch (error) {
+        // the pikaday library might not be loaded
+    }
 });
 
 // create loading-spinners on buttons when forms are submitted
