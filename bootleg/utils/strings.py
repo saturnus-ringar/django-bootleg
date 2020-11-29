@@ -6,10 +6,36 @@ import unicodedata
 from itertools import chain
 from itertools import combinations
 from pprint import pprint
-
+from io import StringIO
+from html.parser import HTMLParser
 from django.utils.safestring import mark_safe
 
+
 from bootleg.utils import lists
+
+
+# https://stackoverflow.com/a/925630
+class MLStripper(HTMLParser):
+
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs= True
+        self.text = StringIO()
+
+    def handle_data(self, d):
+        self.text.write(d)
+
+    def get_data(self):
+        return self.text.getvalue()
+
+
+# https://stackoverflow.com/a/925630
+def strip_html(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
 
 
 # https://stackoverflow.com/a/50152237/9390372
