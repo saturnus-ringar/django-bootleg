@@ -1,4 +1,4 @@
-# django-bootleg™©℗®
+# django-bootleg
 Django additions, tools and ...stuff...
 
 ## Features
@@ -72,7 +72,7 @@ NAVIGATION_TEMPLATE = 'path/navigation.html'
 # log dir
 LOG_DIR = '/var/log/project-name?/'
 
-# should be the last line i settings.py
+# should be the last line in settings.py
 from bootleg.settings import *
 ```
 
