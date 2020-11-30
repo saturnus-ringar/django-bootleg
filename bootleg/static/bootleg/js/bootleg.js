@@ -1,7 +1,7 @@
 window.onerror = function(msg, url, line) {
     var params = "msg=" + encodeURIComponent(msg) + '&url=' + encodeURIComponent(url) + "&line=" + line;
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', "/xhr/javascript-error/", true);
+    xhr.open('POST', Context.jsErrorURL, true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(params);
 };
@@ -24,7 +24,7 @@ $("input.dateinput").each(function() {
     try {
         new Pikaday({
             field: $(this)[0],
-            format: "yyyy-MM-DD"
+            format: Context.dateFormat
         })
     } catch (error) {
         // the pikaday library might not be loaded
@@ -36,7 +36,7 @@ $("input.datetimeinput").each(function() {
         // TODO: get DATE_FORMAT from django-settings
         new Pikaday({
             field: $(this)[0],
-            format: "yyyy-MM-DD hh:ss"
+            format: Context.dateTimeFormat
         })
     } catch (error) {
         // the pikaday library might not be loaded

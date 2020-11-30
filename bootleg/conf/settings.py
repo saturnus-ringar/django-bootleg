@@ -121,6 +121,12 @@ class Settings:
         self.add_setting("WRAP_FORMS", True)
 
         ####################################################
+        # javascript
+        ####################################################
+        self.add_setting("JS_DATE_FORMAT", "yyyy-MM-DD")
+        self.add_setting("JS_DATETIME_FORMAT", "yyyy-MM-DD hh:ss")
+
+        ####################################################
         # URLs
         ####################################################
         self.add_setting("LOGIN_EXEMPT_URLS_FUNCTION", None)
