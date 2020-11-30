@@ -1,4 +1,4 @@
-# django-bootleg™©℗®
+# django-bootleg
 Django additions, tools and ...stuff...
 
 ## Features
@@ -68,16 +68,11 @@ HOME_URL = "<index_page>"
 # templates
 BASE_TEMPLATE = 'path/template.html'
 NAVIGATION_TEMPLATE = 'path/navigation.html'
-ERROR_400_TEMPLATE = 'path/400.html'
-ERROR_403_TEMPLATE = 'path/403.html'
-ERROR_404_TEMPLATE = 'path/404.html'
-ERROR_500_TEMPLATE = 'path/500.html'
-
 
 # log dir
 LOG_DIR = '/var/log/project-name?/'
 
-# should be the last line i settings.py
+# should be the last line in settings.py
 from bootleg.settings import *
 ```
 
@@ -243,6 +238,12 @@ STORE_LOGGED_EXCEPTIONS - default **True**
 
 STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else **False** 
 > booean True/False
+
+### Error templates
+ERROR_400_TEMPLATE - default **"bootleg/error/400.html"**
+ERROR_403_TEMPLATE - default **"bootleg/error/403.html"**
+ERROR_404_TEMPLATE - default **"bootleg/error/404.html"**
+ERROR_500_TEMPLATE - default **"bootleg/error/500.html"**
 
 ### Javascript
 JS_DATE_FORMAT - default **"yyyy-MM-DD"**
