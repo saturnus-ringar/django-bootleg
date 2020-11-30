@@ -11,7 +11,7 @@ def error_handler(request, template, status_code):
 
 
 def log(status_code, request):
-    logger_name = "bootleg.errors_" % str(status_code)
+    logger_name = "bootleg.errors_%s" % str(status_code)
     logging.get_logger("errors/%s" % str(status_code), logger_name).error("%s on the URL: %s" %
                                                              (str(status_code), request.get_full_path()))
 

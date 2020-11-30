@@ -1,6 +1,6 @@
+from bootleg.logging import logging
 from django.core import management
 
-from bootleg import logging
 from bootleg.conf import bootleg_settings
 from bootleg.management.commands.base import UserRequirementCommand
 from bootleg.system import utils, git
