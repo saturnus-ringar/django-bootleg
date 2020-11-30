@@ -78,13 +78,13 @@ function initGenericAutoComplete() {
         return;
     }
     var options = {
+        adjustWidth: false,
         url: function(query) {
             return input.data("autocomplete-url") + "?q=" + encodeURI(query);
         },
         list: {
             maxNumberOfElements: 20,
         },
-        theme: "plate-dark",
     };
     input.easyAutocomplete(options);
 }

@@ -6,7 +6,8 @@
 <title>{% block page_title %}{% get_first_with_value view.page_title page_title %}{% endblock %}</title>
 <meta name="description" content="{% block meta_description %}{% get_first_with_value meta_description view.meta_description view.title %}{% endblock %}" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/28738b72bb.js" crossorigin="anonymous"></script>
 {% compress css %}
 <link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/bootleg.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/vendor/easy-autocomplete.css' %}" />

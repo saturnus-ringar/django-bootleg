@@ -1,10 +1,23 @@
 {% load i18n crispy_forms_tags bootstrap_tags %}
 
-{% if forms or form %}
-    {% if bootleg_settings.WRAP_FORMS %}
-        <div class="w-50 bg-light border rounded p-4">
-    {% else %}
-        <div class="w-50">
+{% if form.is_search_form %}
+    <form>
+        <div class="input-group w-25">
+            {{ form.q }}
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+{% else %}
+    {% if forms or form %}
+        {% if bootleg_settings.WRAP_FORMS %}
+            <div class="w-50 bg-light border rounded p-4">
+        {% else %}
+            <div class="w-50">
+        {% endif %}
     {% endif %}
 {% endif %}
 
@@ -19,12 +32,12 @@
         <input type="submit" name="submit" value="{{ view.submit_button_text }}" class="btn btn-primary loading-button" id="submit-id-submit">
     </form>
 {% else %}
-    {% if form %}
+    {% if form and not form.is_search_form %}
         {% crispy form form.helper %}
     {% endif %}
 {% endif %}
 
-{% if forms or form %}
+{% if forms or form and not form.is_search_form %}
     </div>
 {% endif %}
 

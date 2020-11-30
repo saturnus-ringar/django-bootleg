@@ -63,6 +63,12 @@ class BaseForm(Form):
         else:
             field.widget.attrs["class"] += " " + klass
 
+    def is_search_form(self):
+        if len(self.fields) == 1 and "q" in self.fields:
+            return True
+
+        return False
+
 
 class BaseModelForm(ModelForm, BaseForm):
     submit_text = _("Save")

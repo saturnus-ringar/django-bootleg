@@ -20,4 +20,6 @@ class GenericModelSearchForm(BaseForm):
     def fix_autocomplete(self):
         if self.model.get_autocomplete_url():
             self.add_attribute(self.fields["q"], "data-autocomplete-url", self.model.get_autocomplete_url)
+            self.add_attribute(self.fields["q"], "placeholder", _("Search"))
             self.add_class(self.fields["q"], "generic-autocomplete")
+            self.add_class(self.fields["q"], "form-control")
