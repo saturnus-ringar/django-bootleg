@@ -244,9 +244,12 @@ STORE_LOGGED_EXCEPTIONS - default **True**
 STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else **False** 
 > booean True/False
 
+### Javascript
+JS_DATE_FORMAT - default **"yyyy-MM-DD"**
+JS_DATETIME_FORMAT - default **"yyyy-MM-DD hh:ss"**
 
 ### Misc-ish
-POST_LOGIN_URL = default **reverse('dev_null')**
+POST_LOGIN_URL = default **reverse("dev_null")**
 > Just a string. The string will be URL-reverse():ed
 
 SITE_ID = default **1**
