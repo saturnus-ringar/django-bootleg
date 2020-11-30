@@ -27,7 +27,7 @@ def is_gunicorn():
 
 def check_if_service_is_running(service_name):
     try:
-        output = run_command("systemctl status " % service_name)
+        output = run_command("systemctl status %s" % service_name)
         print(output)
         if "active (running)" in output:
             return True
