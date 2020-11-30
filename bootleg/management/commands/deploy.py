@@ -38,3 +38,5 @@ class Command(UserRequirementCommand):
                 run_command(["systemctl", "restart", "gunicorn.socket"])
             else:
                 raise ValueError("Could not determine which server type this is running on. Can't restart.")
+
+        self.logger.info("Done with deploy")
