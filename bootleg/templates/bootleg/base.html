@@ -67,7 +67,8 @@
 <script>
     var Context = {
         jsErrorURL: "{% url 'bootleg:javascript_error' %}",
-        dateFormat: "{{ settings.JS_DATE_FORMAT }}",
+        dateFormat: "{{ bootleg_settings.JS_DATE_FORMAT }}",
+        dateTimeFormat: "{{ bootleg_settings.JS_DATETIME_FORMAT }}",
     }
 </script>
 
