@@ -26,14 +26,12 @@ def is_gunicorn():
 
 
 def check_if_service_is_running(service_name):
-    print("check_if_service_is_running 123")
     try:
         output = run_command(["systemctl", "is-active", service_name])
         if "inactive" not in output:
             return True
         return False
-    except FileNotFoundError as e:
-        print(e)
+    except FileNotFoundError:
         return False
 
 
