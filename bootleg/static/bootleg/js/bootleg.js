@@ -83,10 +83,11 @@ function initGenericAutoComplete() {
             return input.data("autocomplete-url") + "?q=" + encodeURI(query);
         },
         list: {
-            maxNumberOfElements: 20,
+            maxNumberOfElements: 50,
         },
     };
     input.easyAutocomplete(options);
+    $(".easy-autocomplete").addClass("w-75");
 }
 
 function highlightSearchResults() {
