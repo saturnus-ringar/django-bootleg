@@ -1,5 +1,7 @@
 import os
 import sys
+
+from bootleg.system.shell import run_command
 from django.conf import settings
 
 
@@ -21,6 +23,24 @@ def is_gunicorn():
         return True
 
     return False
+
+
+def check_if_service_is_running(service_name):
+    try:
+        output = run_command("systemctl status " % service_name)
+        if "active (running)" in output:
+            return True
+        return False
+    except FileNotFoundError:
+        return False
+
+
+def is_apache_from_cli():
+    return check_if_service_is_running("apache2")
+
+
+def is_gunicorn_from_cli():
+    return check_if_service_is_running("gunicorn")
 
 
 def is_production():
