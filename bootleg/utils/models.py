@@ -85,6 +85,14 @@ def get_editable_models():
     return models
 
 
+def get_editable_model_verbose_names():
+    model_names = []
+    for model in get_editable_models():
+        model_names.append(model._meta.verbose_name)
+    model_names.sort()
+    return model_names
+
+
 # https://stackoverflow.com/a/1239602/9390372
 def search(model, fields, query):
     qr = None

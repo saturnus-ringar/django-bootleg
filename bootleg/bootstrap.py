@@ -26,9 +26,9 @@ def startup_print():
     print_key_value("Media Root", getattr(settings, "MEDIA_ROOT"))
     print_key_value("Media URL", getattr(settings, "MEDIA_URL"))
 
-    editable_models = models.get_editable_models()
+    editable_models = models.get_editable_model_verbose_names()
     if editable_models:
-        print_key_value("Editable models", str(models.get_editable_models()))
+        print_key_value("Editable models", str(editable_models))
 
     if bootleg_settings.LOG_SQL:
         print(Fore.LIGHTGREEN_EX + "* Logging SQL")
