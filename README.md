@@ -125,6 +125,10 @@ STATIC_ROOT - will default to "/static/" if it's not added to the settings
 
 > If these settings are set and DEBUG is True this will be added to urlpatterns in urls.py
 
+## Javascript settings (optional=
+JS_DATE_FORMAT - default **"yyyy-MM-DD"**
+JS_DATETIME_FORMAT - default **"yyyy-MM-DD hh:ss"**
+
 ## An example of rendering bootleg (bootstrap) menu
 
 > Use the tag render_navigation
