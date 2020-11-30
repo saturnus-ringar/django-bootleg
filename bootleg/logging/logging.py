@@ -69,7 +69,7 @@ def get_log_level(filename):
 def get_logger(filename):
     extension = os.path.splitext(filename)[1]
     if extension:
-        raise LogFilenameException("The filename should not contain an exention. Just 'path/file'.")
+        raise LogFilenameException("The filename should not contain an extension. Just 'path/file'.")
     if not LOG_DIR_IS_WRITABLE:
         return None
 
