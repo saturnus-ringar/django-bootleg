@@ -251,6 +251,7 @@
                 </tbody>
                 </table>
                 <h3 class="mt-4" id="system_load">{% trans "Load average" %}</h3>
+                {% sar_warning %}
                 {% get_card_top %}
                 <pre>
                 {{ system.load_average }}
@@ -258,6 +259,7 @@
                 {% get_card_bottom %}
 
                 <h3 class="mt-4" id="system_memory">{% trans "Memory usage" %}</h3>
+                {% sar_warning %}
                 {% get_card_top %}
                 <pre>
                 {{ system.memory_usage }}
@@ -265,6 +267,7 @@
                 {% get_card_bottom %}
 
                 <h3 class="mt-4" id="system_cpu">{% trans "CPU usage" %}</h3>
+                {% sar_warning %}
                 {% get_card_top %}
                 <pre>
                 {{ system.cpu_usage }}
@@ -272,6 +275,7 @@
                 {% get_card_bottom %}
 
                 <h3 class="mt-4" id="system_disk_io">{% trans "Disk IO" %}</h3>
+                {% sar_warning %}
                 {% get_card_top %}
                 <pre>
                 {{ system.disk_io }}

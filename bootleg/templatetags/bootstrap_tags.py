@@ -1,6 +1,7 @@
+from bootleg.system.commands import SAR_COMMAND_EXISTS
 from django import template
 from django.utils.safestring import mark_safe
-
+from django.utils.translation import ugettext as _
 from bootleg.utils import html
 
 register = template.Library()
@@ -42,3 +43,9 @@ def get_card_bottom():
 @register.simple_tag
 def get_default_table_classes():
     return html.get_default_table_class_string()
+
+
+@register.simple_tag
+def sar_warning():
+    if not SAR_COMMAND_EXISTS:
+        return get_alert("warning", _("The SAR command doesn't exist on this system. This is not real data."))
