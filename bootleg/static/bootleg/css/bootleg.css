@@ -126,3 +126,7 @@ input[type=checkbox][disabled] {
   position: fixed;
   top: calc(15% + (10px/2));
 }
+
+form li {
+    list-style: none;
+}
