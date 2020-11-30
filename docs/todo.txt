@@ -1,29 +1,3 @@
-- statuskommando, lista:
-    diskutrymme
-    databasstorlek och kanske antal rader i databasen
-
-        *** TODO ***
-        log-dir-storlek
-        nuvarande commit
-
-- bokstavssortering i
-    get_subclasses
-    ... den verkar bara funka om dom är i samma fil dessutom
-
-- göra default-error-sidor så man inte måste ha dom i settings, men varna då dom används
-
-- inte hårdkodad URL för javascripten i bootleg.js
-
-- få över django-settings date format till bootleg.js
-
-**********************
- LOGGNING
-**********************
-
-- göra så man hämtar loggers med namn och filnamn:
-    get_logger(filename=None, name=None)
-    ... django slås t.ex. inte upp på filename
-
 **********************
  ERRORS
 **********************

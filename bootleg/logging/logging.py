@@ -66,8 +66,9 @@ def get_log_level(filename):
     return level
 
 
-def get_logger(filename):
+def get_logger(filename, name=None):
     extension = os.path.splitext(filename)[1]
+    logger_name = name or filename
     if extension:
         raise LogFilenameException("The filename should not contain an extension. Just 'path/file'.")
     if not LOG_DIR_IS_WRITABLE:
@@ -83,7 +84,7 @@ def get_logger(filename):
         level = get_log_level(filename)
         file_path = get_file_path(filename)
         file_path = test_writing_and_get_filename(file_path)
-        logger = logging.getLogger(filename)
+        logger = logging.getLogger(logger_name)
         check_log_level(level)
         logger.setLevel(level)
         # add custom file handler

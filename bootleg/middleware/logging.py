@@ -10,7 +10,7 @@ from bootleg.utils import humanize
 
 
 class LoggingMiddleware(BaseMiddleware):
-    logger = logging.get_logger("access")
+    logger = logging.get_logger("access", "bootleg.access")
 
     def __call__(self, request):
         self.start_time = time()

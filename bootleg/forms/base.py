@@ -36,7 +36,7 @@ BaseForm.is_valid = monkey_patched_is_valid
 class BaseForm(Form):
     inline = False
     method = "POST"
-    logger = logging.get_logger("forms")
+    logger = logging.get_logger("forms", "bootleg.forms")
     submit_text = _("Submit")
 
     def __init__(self, *args, **kwargs):
