@@ -32,9 +32,9 @@ class Command(UserRequirementCommand):
         if not options['soft_deploy']:
             if env.is_apache_from_cli():
                 self.logger.info("Restarting Apache")
-                run_command("sudo systemctl restart apache2")
+                run_command(["sudo systemctl restart apache2"])
             elif env.is_gunicorn_from_cli():
                 self.logger.info("Restarting Gunicorn")
-                run_command("systemctl restart gunicorn.socket")
+                run_command(["systemctl restart gunicorn.socket"])
             else:
                 raise ValueError("Could not determine which server type this is running on. Can't restart.")
