@@ -27,7 +27,7 @@ SITE_ID = 1
 if not settings.is_overridden("DATETIME_FORMAT"):
     DATETIME_FORMAT = "Y-m-d H:i:s"
 
-if not settings.is_overridden("DATETIME_FORMAT"):
+if not settings.is_overridden("DATE_FORMAT"):
     DATE_FORMAT = "Y-m-d"
 
 if not settings.is_overridden("STATIC_ROOT"):
