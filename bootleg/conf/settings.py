@@ -87,10 +87,10 @@ class Settings:
         self.add_setting("NAVIGATION_TEMPLATE", None)
         self.add_setting("SYSTEM_TEMPLATE", "bootleg/system/system.html")
         self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system/deployment.html")
-        self.add_setting("ERROR_400_TEMPLATE", None)
-        self.add_setting("ERROR_403_TEMPLATE", None)
-        self.add_setting("ERROR_404_TEMPLATE", None)
-        self.add_setting("ERROR_500_TEMPLATE", None)
+        self.add_setting("ERROR_400_TEMPLATE", "bootleg/error/400.html")
+        self.add_setting("ERROR_403_TEMPLATE", "bootleg/error/403.html")
+        self.add_setting("ERROR_404_TEMPLATE", "bootleg/error/404.html")
+        self.add_setting("ERROR_500_TEMPLATE", "bootleg/error/500.html")
 
         ####################################################
         # site

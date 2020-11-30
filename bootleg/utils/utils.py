@@ -18,11 +18,12 @@ def get_non_abstract_subclasses(klazz):
     for inheritor in get_subclasses(klazz):
         if not hasattr(inheritor.Meta, "abstract") or not inheritor.Meta.abstract:
             klazzes.append(inheritor)
+    klazzes.sort(key=lambda x: x.__name__)
     return klazzes
 
 
 def get_subclasses(klass):
-    # this olny works if the classes are in the same python file, it seems
+    # this only works if the classes are in the same python file, it seems
     subclasses = []
     work = [klass]
     while work:
