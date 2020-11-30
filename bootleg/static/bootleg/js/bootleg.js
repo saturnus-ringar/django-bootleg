@@ -59,8 +59,13 @@ if($("form[id='Forgot password']").length > 0) {
 }
 
 function autoFocus() {
-    // focus on the first input in #bootleg_form
-    $('#bootleg_form').find('input[type=text],textarea,select').filter(':visible:first').focus();
+    // focus on the first empty text input in #bootleg_form
+    $('#bootleg_form input').each(function(){
+        if($(this).val() == '') {
+            this.focus();
+            return false;
+        }
+    });
 }
 
 function initSelect2s() {
