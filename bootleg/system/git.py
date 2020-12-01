@@ -31,6 +31,6 @@ def git_pull():
     if bootleg_settings.GIT_USERNAME:
         os.environ["GIT_USERNAME"] = bootleg_settings.GIT_USERNAME
     print(bootleg_settings.GIT_USERNAME)
-    print(os)
+    print(os.getenv("GIT_USERNAME"))
     g = git.cmd.Git(getattr(settings, "BASE_DIR"))
     return g.pull()
