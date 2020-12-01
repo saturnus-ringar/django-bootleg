@@ -18,6 +18,7 @@ def get_alias_prefix():
 
 
 def setup_alias_file():
+    print("Setup alias file")
     content = "# !/bin/bash\n"
     content += 'SOURCE_ENV = "source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
     content += 'PROJECT_PATH = "source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
