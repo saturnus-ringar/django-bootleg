@@ -25,20 +25,14 @@ class Command(UserRequirementCommand):
         if options["soft"]:
             self.logger.info("Running soft deploy. Won't restart the server.")
 
-        self.logger.info("Running git pull")
         self.logger.info(git.git_pull())
-        self.logger.info("Installing packages")
         utils.pip_install()
-        self.logger.info("Migrating")
         management.call_command("migrate")
-        self.logger.info("Collecting static")
         management.call_command("collectstatic", interactive=False)
         if not options["soft"]:
             if env.is_apache_from_cli():
-                self.logger.info("Restarting Apache")
                 run_command(["systemctl", "restart", "apache2"])
             elif env.is_gunicorn_from_cli():
-                self.logger.info("Restarting Gunicorn")
                 run_command(["systemctl", "restart", "gunicorn.socket"])
             else:
                 raise ValueError("Could not determine which server type this is running on. Can't restart.")
