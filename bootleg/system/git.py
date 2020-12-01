@@ -1,6 +1,9 @@
+import os
+
 import git
 import giturlparse
 from django.conf import settings
+from bootleg.conf import settings as bootleg_settings
 
 
 class GitData:
@@ -25,5 +28,8 @@ def get_git_repo():
 
 
 def git_pull():
+    if bootleg_settings.GIT_USERNAME:
+        os.environ["GIT_USERNAME"] = bootleg_settings.GIT_USERNAME
+
     g = git.cmd.Git(getattr(settings, "BASE_DIR"))
     return g.pull()

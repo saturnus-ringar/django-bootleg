@@ -10,20 +10,21 @@ from bootleg.utils import env
 
 
 class Command(UserRequirementCommand):
-    help = 'Deployment...'
     logger = logging.get_logger("deploy", "bootleg.deploy")
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            '-s', '--soft-deploy', action='store_true', dest='soft_deploy',
-            help="Soft deploy without a server restart",
-        )
+        parser.add_argument("-s", "--soft", action="store_true", default=False,
+                            help="Soft deploy without a server restart")
 
     def handle(self, *args, **options):
         if not env.is_venv():
             raise RuntimeError("This must be run in an virtual env")
 
         self.logger.info("Deploying %s" % bootleg_settings.PROJECT_NAME)
+
+        if options["soft"]:
+            self.logger.info("Running soft deploy. Won't restart the server.")
+
         self.logger.info("Running git pull")
         self.logger.info(git.git_pull())
         self.logger.info("Installing packages")
@@ -32,7 +33,7 @@ class Command(UserRequirementCommand):
         management.call_command("migrate")
         self.logger.info("Collecting static")
         management.call_command("collectstatic", interactive=False)
-        if not options['soft_deploy']:
+        if not options["soft"]:
             if env.is_apache_from_cli():
                 self.logger.info("Restarting Apache")
                 run_command(["systemctl", "restart", "apache2"])

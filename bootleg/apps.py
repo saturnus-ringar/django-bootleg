@@ -84,21 +84,6 @@ def check_user_is_in_group(errors, user, group, number):
     return errors
 
 
-def check_git_url(errors):
-    git_url = bootleg_settings.GIT_URL
-    if git_url and not validate(git_url):
-        errors.append(
-            Error(
-                "GIT_URL: %s is not a valid github-repo-URL" % git_url,
-                hint='Set a valid github-repo-URL in GIT_URL in the settings',
-                obj=settings,
-                id='bootleg.E015'
-            )
-        )
-
-    return errors
-
-
 def check_template(errors, attribute, template, number, required=False):
     if required and not template:
         errors.append(
@@ -276,7 +261,6 @@ def check_settings(app_configs, **kwargs):
         errors = check_user_is_in_group(errors, bootleg_settings.WEBSERVER_USER, bootleg_settings.WEBSERVER_USER_GROUP, 12)
         errors = check_user_is_in_group(errors, bootleg_settings.MAIN_USER, bootleg_settings.WEBSERVER_USER_GROUP, 13)
         errors = check_user_is_in_group(errors, bootleg_settings.WEBSERVER_USER, bootleg_settings.MAIN_USER_GROUP, 14)
-        errors = check_git_url(errors)
 
     # check templates
     errors = check_template(errors, "BASE_TEMPLATE", bootleg_settings.BASE_TEMPLATE, 16, required=True)
