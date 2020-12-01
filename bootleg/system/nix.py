@@ -27,7 +27,7 @@ def setup_alias_file():
     content += 'alias %sdeploy="$SOURCE_ENV; cd $PROJECT_PATH; pm deploy"\n' % get_alias_prefix()
     content += 'alias %ssoftdeploy="$SOURCE_ENV; cd $PROJECT_PATH; pm deploy -s"\n' % get_alias_prefix()
     content += 'alias %stail="tail -f ${LOG_DIR}debug/debug.log"\n' % get_alias_prefix()
-    filename = os.path.expanduser('~') + "/alias.sh"
+    filename = os.path.expanduser('~') + "/aliases.sh"
     f = open(filename, "w")
     f.write(content)
     f.close()
