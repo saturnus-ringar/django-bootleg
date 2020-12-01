@@ -15,21 +15,26 @@ def is_testing():
 def is_apache():
     if "APACHE_PID_FILE" in os.environ:
         return True
-    elif check_if_service_is_running("apache2"):
-        return True
+
     return False
 
 
 def is_gunicorn():
     if "gunicorn" in os.environ.get("SERVER_SOFTWARE", ""):
         return True
-    elif check_if_service_is_running("gunicorn"):
-        return True
 
     return False
 
 
-def check_if_service_is_running(service_name):
+def is_apache_from_cli():
+    return service_is_running("apache2")
+
+
+def is_gunicorn_from_cli():
+    return service_is_running("gunicorn")
+
+
+def service_is_running(service_name):
     try:
         output = run_command(["systemctl", "is-active", service_name])
         if "inactive" not in output:
@@ -37,6 +42,7 @@ def check_if_service_is_running(service_name):
         return False
     except FileNotFoundError:
         return False
+
 
 
 def is_production():
