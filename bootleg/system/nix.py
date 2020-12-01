@@ -33,6 +33,7 @@ def setup_alias_file():
     f.write(content)
     f.close()
     run_command(["chmod", "+x", filename])
+    print("wrote file: %s" % filename)
 
 
 def is_current_user(user):
