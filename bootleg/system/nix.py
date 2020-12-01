@@ -10,6 +10,8 @@ from bootleg.system import shell
 from bootleg.conf import bootleg_settings
 from django.conf import settings
 
+from bootleg.utils.env import get_virtual_env_path
+
 
 def get_alias_prefix():
     if getattr(bootleg_settings, "ALIAS_PREFIX", None):
@@ -32,7 +34,7 @@ def setup_alias_file():
     home_dir = get_home_directory_of_main_user()
     if home_dir:
         content = "# !/bin/bash\n"
-        content += 'SOURCE_ENV="source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
+        content += 'SOURCE_ENV="source %sbin/activate"\n' % get_virtual_env_path()
         content += 'PROJECT_DIR="%s"\n' % settings.BASE_DIR
         content += 'LOG_DIR="%s"\n' % settings.LOG_DIR
         content += 'alias pm="python manage.py"\n'
@@ -40,6 +42,8 @@ def setup_alias_file():
         content += 'alias %sdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy"\n' % get_alias_prefix()
         content += 'alias %ssoftdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy -s"\n' % get_alias_prefix()
         content += 'alias %stail="tail -f ${LOG_DIR}/debug.log"\n' % get_alias_prefix()
+        content += 'alias %srun="%s python manage runserver"\n' % (get_alias_prefix(), get_alias_prefix())
+        content += 'alias %slogdir="cd $LOG_DIR"\n' % (get_alias_prefix(), get_alias_prefix())
         # well... write file then
         filename = "%saliases_%s.sh" % (home_dir, bootleg_settings.PROJECT_NAME)
         write_file(filename, content)
