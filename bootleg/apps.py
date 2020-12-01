@@ -1,11 +1,10 @@
-from django.apps import AppConfig, apps
+from django.apps import AppConfig
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.checks import Error, Warning, register
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.urls import reverse, NoReverseMatch
-from giturlparse import validate
 
 from bootleg.conf import bootleg_settings
 from bootleg.conf.settings import ConfigurationError, DEFAULT_FAVICON
