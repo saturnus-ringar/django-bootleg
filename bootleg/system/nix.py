@@ -18,22 +18,20 @@ def get_alias_prefix():
 
 
 def setup_alias_file():
-    print("Setup alias file")
     content = "# !/bin/bash\n"
-    content += 'SOURCE_ENV = "source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
-    content += 'PROJECT_PATH = "source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
+    content += 'SOURCE_ENV="source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
+    content += 'PROJECT_DIR="%s"\n' % set.BASE_DIR
     content += 'LOG_DIR = "%s"\n' % settings.LOG_DIR
     content += 'alias pm="python manage.py"\n'
-    content += 'alias %s="$SOURCE_ENV; cd $PROJECT_PATH"\n' % get_alias_prefix()
-    content += 'alias %sdeploy="$SOURCE_ENV; cd $PROJECT_PATH; pm deploy"\n' % get_alias_prefix()
-    content += 'alias %ssoftdeploy="$SOURCE_ENV; cd $PROJECT_PATH; pm deploy -s"\n' % get_alias_prefix()
+    content += 'alias %s="$SOURCE_ENV; cd $PROJECT_DIR"\n' % get_alias_prefix()
+    content += 'alias %sdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy"\n' % get_alias_prefix()
+    content += 'alias %ssoftdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy -s"\n' % get_alias_prefix()
     content += 'alias %stail="tail -f ${LOG_DIR}debug/debug.log"\n' % get_alias_prefix()
     filename = os.path.expanduser('~') + "/aliases.sh"
     f = open(filename, "w")
     f.write(content)
     f.close()
     run_command(["chmod", "+x", filename])
-    print("wrote file: %s" % filename)
 
 
 def is_current_user(user):
