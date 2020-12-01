@@ -305,3 +305,10 @@ bootleg generates an <project_name>aliases.sh-file in the users home directory. 
 source /home/nbcab/aliases_<project_name>.sh
 
 ```
+
+## Fix messed upp file permissions
+```bash
+
+sudo /home/<project_name>/env/bin/python3 manage.py setup
+
+```
