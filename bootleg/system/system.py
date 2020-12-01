@@ -5,6 +5,8 @@ from collections import OrderedDict
 
 import django
 
+from bootleg.utils.env import get_virtual_env_path
+
 if django.VERSION >= (3, 1):
     from django.views.debug import get_default_exception_reporter_filter
     cleanse_setting = get_default_exception_reporter_filter().cleanse_setting
@@ -46,7 +48,7 @@ class System:
         # python ...stuff...
         self.python_version = self.cleanup(sys.version)
         self.executable = sys.executable
-        self.virtual_env_path = self.get_virtual_env_path()
+        self.virtual_env_path = get_virtual_env_path()
 
         # system stats
         self.uptime = shell.run_command(["uptime"])
@@ -181,11 +183,6 @@ class System:
 
     def get_installed_packages(self):
         return reversed([d for d in pkg_resources.working_set])
-
-    def get_virtual_env_path(self):
-        # haven't figured out any good way of getting this :|, os.environ["VIRTUAL_ENV"] is not
-        # available when running in Apache-context
-        return sys.executable.replace("bin/python", "")
 
     def cleanup(self, string):
         return string.replace("\n", " ")

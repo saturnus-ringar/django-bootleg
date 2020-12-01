@@ -65,3 +65,9 @@ def is_github():
 def is_venv():
     return (hasattr(sys, 'real_prefix') or
             (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix))
+
+
+def get_virtual_env_path():
+    # haven't figured out any good way of getting this :|, os.environ["VIRTUAL_ENV"] is not
+    # available when running in Apache-context
+    return sys.executable.replace("bin/python", "")
