@@ -107,11 +107,6 @@ class Settings:
         self.add_setting("WEBSERVER_USER_GROUP", "www-data")
 
         ####################################################
-        # git
-        ####################################################
-        self.add_setting("GIT_USERNAME", None)
-
-        ####################################################
         # css/html/images
         ####################################################
         self.add_setting("HTML_LANGUAGE_CODE", get_setting("LANGUAGE_CODE", "en")[:2])
