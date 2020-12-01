@@ -17,22 +17,34 @@ def get_alias_prefix():
     return bootleg_settings.PROJECT_NAME
 
 
-def setup_alias_file():
-    content = "# !/bin/bash\n"
-    content += 'SOURCE_ENV="source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
-    content += 'PROJECT_DIR="%s"\n' % settings.BASE_DIR
-    content += 'LOG_DIR = "%s"\n' % settings.LOG_DIR
-    content += 'alias pm="python manage.py"\n'
-    content += 'alias %s="$SOURCE_ENV; cd $PROJECT_DIR"\n' % get_alias_prefix()
-    content += 'alias %sdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy"\n' % get_alias_prefix()
-    content += 'alias %ssoftdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy -s"\n' % get_alias_prefix()
-    content += 'alias %stail="tail -f ${LOG_DIR}debug/debug.log"\n' % get_alias_prefix()
+def get_home_directory_of_main_user():
+    mac_os_dir = "/Users/%s/" % bootleg_settings.MAIN_USER
+    if os.path.isdir(mac_os_dir):
+        return mac_os_dir
 
-    filename = "/home/%s/%s_%s" % (bootleg_settings.MAIN_USER, bootleg_settings.PROJECT_NAME, "aliases.sh")
-    f = open(filename, "w")
-    f.write(content)
-    f.close()
-    run_command(["chmod", "+x", filename])
+    nix_dir = "/home/%s/" % bootleg_settings.MAIN_USER
+    if os.path.isdir(nix_dir):
+        return nix_dir
+
+
+def setup_alias_file():
+    home_dir = get_home_directory_of_main_user()
+    if home_dir:
+        content = "# !/bin/bash\n"
+        content += 'SOURCE_ENV="source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
+        content += 'PROJECT_DIR="%s"\n' % settings.BASE_DIR
+        content += 'LOG_DIR="%s"\n' % settings.LOG_DIR
+        content += 'alias pm="python manage.py"\n'
+        content += 'alias %s="$SOURCE_ENV; cd $PROJECT_DIR"\n' % get_alias_prefix()
+        content += 'alias %sdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy"\n' % get_alias_prefix()
+        content += 'alias %ssoftdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy -s"\n' % get_alias_prefix()
+        content += 'alias %stail="tail -f ${LOG_DIR}/debug.log"\n' % get_alias_prefix()
+        # well... write file then
+        filename = "%saliases_%s.sh" % (home_dir, bootleg_settings.PROJECT_NAME)
+        f = open(filename, "w")
+        f.write(content)
+        f.close()
+        run_command(["chmod", "+x", filename])
 
 
 def is_current_user(user):
