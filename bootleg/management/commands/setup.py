@@ -10,7 +10,7 @@ from bootleg.utils.env import get_virtual_env_path
 
 
 class Command(UserRequirementCommand):
-    logger = logging.get_logger("setup", "bootleg.setup")
+    logger = logging.get_logger("bootleg/setup", "bootleg.setup")
 
     def handle(self, *args, **options):
         print("handle?!")

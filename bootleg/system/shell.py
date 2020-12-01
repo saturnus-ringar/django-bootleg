@@ -4,6 +4,7 @@ from bootleg.utils.strings import nl2br
 
 
 def run_command(args):
+    print(args)
     process = subprocess.Popen(args,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)

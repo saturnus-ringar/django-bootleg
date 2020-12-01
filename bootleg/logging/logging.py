@@ -93,6 +93,7 @@ def get_logger(filename, name=None):
         handler.setFormatter(get_formatter())
         logger.addHandler(handler)
         if bootleg_settings.LOG_TO_STDOUT:
+            print("adding stream handler")
             # add stream handler ... indeed
             add_stream_handler(logger)
 
