@@ -9,6 +9,8 @@ def run_command(args):
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
+    print(stdout)
+    print(stderr)
     return stdout.decode("utf-8").strip()
 
 
