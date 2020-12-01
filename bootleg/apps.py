@@ -9,6 +9,7 @@ from django.urls import reverse, NoReverseMatch
 from bootleg.conf import bootleg_settings
 from bootleg.conf.settings import ConfigurationError, DEFAULT_FAVICON
 from bootleg.system import nix
+from bootleg.system.nix import setup_alias_file
 from bootleg.utils import models, env
 
 
@@ -292,3 +293,4 @@ class BootlegConfig(AppConfig):
             raise ConfigurationError("The bootleg settings have not been imported. Add this (as the last line) "
                                      "to settings.py: from bootleg.settings import *")
         models.setup_default_site()
+        setup_alias_file()

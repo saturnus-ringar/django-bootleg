@@ -27,8 +27,6 @@ class Command(UserRequirementCommand):
     def fix_dir(self, directory):
         main_user = bootleg_settings.MAIN_USER
         user_group = bootleg_settings.WEBSERVER_USER_GROUP
-        self.logger.info("Setting up alias file")
-        nix.setup_alias_file()
         self.logger.info("Fixing directory: [%s]" % directory)
         run_command(["mkdir", "-p", directory])
         run_command(["chmod", "-R", "770", directory])
