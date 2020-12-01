@@ -1,6 +1,5 @@
 import subprocess
-from bootleg.utils.strings import nl2br
-import subprocess
+
 from bootleg.utils.strings import nl2br
 
 
