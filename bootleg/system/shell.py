@@ -4,13 +4,12 @@ from bootleg.utils.strings import nl2br
 
 
 def run_command(args):
-    print(args)
     process = subprocess.Popen(args,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    print(stdout)
-    print(stderr)
+    if stderr:
+        print("The process [%s] raised an error: %s" % (args, stderr.decode()))
     return stdout.decode("utf-8").strip()
 
 
