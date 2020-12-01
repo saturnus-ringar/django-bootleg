@@ -22,3 +22,4 @@ class Command(BaseCommand):
         print(Fore.LIGHTCYAN_EX + system.disk_usage)
         print(Fore.LIGHTBLUE_EX + "Uptime")
         print(Fore.LIGHTCYAN_EX + system.uptime)
+        print(Fore.RESET)
