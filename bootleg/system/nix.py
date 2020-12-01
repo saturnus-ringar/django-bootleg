@@ -20,7 +20,7 @@ def get_alias_prefix():
 def setup_alias_file():
     content = "# !/bin/bash\n"
     content += 'SOURCE_ENV="source /home/%s/env/bin/activate"\n' % bootleg_settings.PROJECT_NAME
-    content += 'PROJECT_DIR="%s"\n' % set.BASE_DIR
+    content += 'PROJECT_DIR="%s"\n' % settings.BASE_DIR
     content += 'LOG_DIR = "%s"\n' % settings.LOG_DIR
     content += 'alias pm="python manage.py"\n'
     content += 'alias %s="$SOURCE_ENV; cd $PROJECT_DIR"\n' % get_alias_prefix()
