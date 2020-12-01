@@ -299,6 +299,8 @@ SETTINGS_TO_PRINT = {
 ## Bash aliases
 bootleg generates an <project_name>aliases.sh-file in the users home directory. Source that file in your .bashrc to use the aliases:
 
+Use the ALIAS_PREFIX-setting to prefix the aliases.
+
 ```bash
 # .bashrc
 
