@@ -9,7 +9,7 @@ def run_command(args):
                                stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     if stderr:
-        print("The process [%s] raised an error: %s" % (args, stderr.decode()))
+        raise Exception("The process [%s] raised an error: %s" % (args, stderr.decode()))
     return stdout.decode("utf-8").strip()
 
 
