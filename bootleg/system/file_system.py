@@ -57,3 +57,9 @@ def get_last_modified_file(dir, exclude_pycache=True):
                     last_modified = mtime
 
     return last_modified_file
+
+
+def write_file(filename, content):
+    f = open(filename, "w")
+    f.write(content)
+    f.close()

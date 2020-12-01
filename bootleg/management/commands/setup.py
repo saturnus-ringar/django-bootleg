@@ -30,7 +30,7 @@ class Command(BaseCommand):
         run_command(["mkdir", "-p", directory])
         run_command(["chmod", "-R", "770", directory])
         run_command(["chown", "-R", main_user + ":" + user_group, directory])
-        run_command(["chown", "-R", "g+s", directory])
+        run_command(["chmod", "-R", "g+s", directory])
 
 
 '''

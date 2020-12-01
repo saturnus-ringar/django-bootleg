@@ -3,6 +3,7 @@ import grp
 import os
 import pwd
 
+from bootleg.system.file_system import write_file
 from bootleg.system.shell import run_command
 
 from bootleg.system import shell
@@ -41,9 +42,7 @@ def setup_alias_file():
         content += 'alias %stail="tail -f ${LOG_DIR}/debug.log"\n' % get_alias_prefix()
         # well... write file then
         filename = "%saliases_%s.sh" % (home_dir, bootleg_settings.PROJECT_NAME)
-        f = open(filename, "w")
-        f.write(content)
-        f.close()
+        write_file(filename, content)
         run_command(["chmod", "+x", filename])
 
 
