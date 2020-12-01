@@ -12,6 +12,13 @@ def is_testing():
     return False
 
 
+def is_manage():
+    if sys.argv[0] == 'manage.py':
+        return True
+
+    return False
+
+
 def is_apache():
     if "APACHE_PID_FILE" in os.environ:
         return True

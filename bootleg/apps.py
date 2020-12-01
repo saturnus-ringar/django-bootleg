@@ -292,4 +292,5 @@ class BootlegConfig(AppConfig):
             raise ConfigurationError("The bootleg settings have not been imported. Add this (as the last line) "
                                      "to settings.py: from bootleg.settings import *")
         models.setup_default_site()
-        setup_alias_file()
+        if env.is_manage():
+            setup_alias_file()
