@@ -134,6 +134,7 @@ class Settings:
         self.add_setting("PRINT_AT_STARTUP", True)
         self.add_setting("ADD_BUILTINS", True)
         self.add_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
+        self.add_setting("ALIAS_PREFIX", None)
 
     def add_setting(self, attribute, default=None, required=False):
         value = get_setting(attribute, default, required=required)

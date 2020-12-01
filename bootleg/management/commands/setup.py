@@ -1,3 +1,5 @@
+from bootleg.system import nix
+
 from bootleg.system.shell import run_command
 
 from bootleg.logging import logging
@@ -25,12 +27,13 @@ class Command(UserRequirementCommand):
     def fix_dir(self, directory):
         main_user = bootleg_settings.MAIN_USER
         user_group = bootleg_settings.WEBSERVER_USER_GROUP
+        self.logger.info("Setting up alias file")
+        nix.setup_alias_file()
         self.logger.info("Fixing directory: [%s]" % directory)
         run_command(["mkdir", "-p", directory])
         run_command(["chmod", "-R", "770", directory])
         run_command(["chown", "-R", main_user + ":" + user_group, directory])
         run_command(["chown", "-R", "g+s", directory])
-
 
 
 '''
