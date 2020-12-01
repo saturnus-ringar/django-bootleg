@@ -70,10 +70,6 @@ def check_group(errors, group, setting, number):
 
 
 def check_user_is_in_group(errors, user, group, number):
-    print("check_user_is_in_group")
-    print("user: %s" % user)
-    print("group: %s" % group)
-    print('nix.user_is_in_group(user, group) %s' % nix.user_is_in_group(user, group))
     if not nix.user_is_in_group(user, group):
         errors.append(
             Error(
@@ -255,7 +251,6 @@ def check_settings(app_configs, **kwargs):
     errors = check_required_setting(errors, "HOME_URL", 4)
 
     if env.is_production():
-        print("is production")
         # only check users and groups if it's in production
         errors = check_user(errors, bootleg_settings.MAIN_USER, "MAIN_USER", 7)
         errors = check_user(errors, bootleg_settings.WEBSERVER_USER, "WEBSERVER_USER", 8)
@@ -265,8 +260,6 @@ def check_settings(app_configs, **kwargs):
         errors = check_user_is_in_group(errors, bootleg_settings.WEBSERVER_USER, bootleg_settings.WEBSERVER_USER_GROUP, 12)
         errors = check_user_is_in_group(errors, bootleg_settings.MAIN_USER, bootleg_settings.WEBSERVER_USER_GROUP, 13)
         errors = check_user_is_in_group(errors, bootleg_settings.WEBSERVER_USER, bootleg_settings.MAIN_USER_GROUP, 14)
-    else:
-        print("is not in production")
 
     # check templates
     errors = check_template(errors, "BASE_TEMPLATE", bootleg_settings.BASE_TEMPLATE, 16, required=True)
