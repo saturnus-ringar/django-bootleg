@@ -12,6 +12,12 @@ def run_command(args):
     return stdout.decode("utf-8").strip()
 
 
+# https://stackoverflow.com/a/13332300
+def run_command_with_pipe(args1, args2):
+    process = subprocess.Popen(args1, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.run(args2, stdin=process.stdout)
+
+
 def get_var(file, name):
     cmd = 'echo $(source %s; echo $%s)' % (file, name)
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, executable='/bin/bash')

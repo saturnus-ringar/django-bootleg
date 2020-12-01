@@ -59,3 +59,9 @@ def is_github():
         return True
 
     return False
+
+
+# https://stackoverflow.com/a/42580137
+def is_venv():
+    return (hasattr(sys, 'real_prefix') or
+            (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix))

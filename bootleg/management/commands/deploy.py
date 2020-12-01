@@ -20,6 +20,9 @@ class Command(UserRequirementCommand):
         )
 
     def handle(self, *args, **options):
+        if not env.is_venv():
+            raise RuntimeError("This must be run in an virtual env")
+
         self.logger.info("Deploying %s" % bootleg_settings.PROJECT_NAME)
         self.logger.info("Running git pull")
         self.logger.info(git.git_pull())
