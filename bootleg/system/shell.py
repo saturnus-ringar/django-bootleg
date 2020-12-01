@@ -3,13 +3,17 @@ import subprocess
 from bootleg.utils.strings import nl2br
 
 
+class CommandException(Exception):
+    pass
+
+
 def run_command(args):
     process = subprocess.Popen(args,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     if stderr:
-        raise Exception("The process [%s] raised an error: %s" % (args, stderr.decode()))
+        raise CommandException("The process [%s] raised an error: %s" % (args, stderr.decode()))
     return stdout.decode("utf-8").strip()
 
 
