@@ -1,15 +1,13 @@
-from bootleg.system import nix
-
-from bootleg.system.shell import run_command
-
-from bootleg.logging import logging
 from django.conf import settings
+from django.core.management import BaseCommand
+
 from bootleg.conf import bootleg_settings
-from bootleg.management.commands.base import UserRequirementCommand
+from bootleg.logging import logging
+from bootleg.system.shell import run_command
 from bootleg.utils.env import get_virtual_env_path
 
 
-class Command(UserRequirementCommand):
+class Command(BaseCommand):
     logger = logging.get_logger("bootleg/setup", "bootleg.setup")
 
     def handle(self, *args, **options):
