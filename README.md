@@ -297,7 +297,7 @@ SETTINGS_TO_PRINT = {
 ```
 
 ## Bash aliases
-bootleg generates an <project_name>aliases.sh-file in the users home directory. Source that file in your .bashrc to use the aliases:
+bootleg generates an <project_name>aliases.sh-file in the users home directory. Source that file in your .bashrc to use the aliases. The alias file is only created when manage.py is run. So in case you want to update/create the alias files, just run any manage.py command.
 
 Use the ALIAS_PREFIX-setting to prefix the aliases and, for development, set your local user account to MAIN_USER to generate the alias files.
 
