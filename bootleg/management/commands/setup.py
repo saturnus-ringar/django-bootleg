@@ -13,6 +13,7 @@ class Command(UserRequirementCommand):
     logger = logging.get_logger("setup", "bootleg.setup")
 
     def handle(self, *args, **options):
+        print("handle?!")
         self.logger.info("Fixing directories")
         self.fix_dir(settings.LOG_DIR)
         self.fix_dir(settings.LOG_DIR + "cron")
