@@ -29,8 +29,6 @@ def get_git_repo():
 
 def git_pull():
     if bootleg_settings.GIT_USERNAME:
-        os.environ["GIT_USERNAME"] = bootleg_settings.GIT_USERNAME
-    print(bootleg_settings.GIT_USERNAME)
-    print(os.getenv("GIT_USERNAME"))
-    g = git.cmd.Git(getattr(settings, "BASE_DIR"))
-    return g.pull()
+        repo = get_git_repo()
+        repo.config_writer().set_value("user", "name", bootleg_settings.GIT_USERNAME).release()
+    return git.cmd.Git(getattr(settings, "BASE_DIR")).pull()
