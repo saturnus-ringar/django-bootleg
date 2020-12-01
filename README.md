@@ -295,3 +295,13 @@ SETTINGS_TO_PRINT = {
     "CUSTOM_SETTING_ONCE_AGAIN": "This will be printed"
 }
 ```
+
+## Bash aliases
+bootleg generates an <project_name>aliases.sh-file in the users home directory. Source that file in your .bashrc to use the aliases:
+
+```bash
+# .bashrc
+
+source /home/nbcab/aliases_<project_name>.sh
+
+```
