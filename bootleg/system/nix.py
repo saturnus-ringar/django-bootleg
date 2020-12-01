@@ -43,7 +43,7 @@ def setup_alias_file():
         content += 'alias %ssoftdeploy="$SOURCE_ENV; cd $PROJECT_DIR; pm deploy -s"\n' % get_alias_prefix()
         content += 'alias %stail="tail -f ${LOG_DIR}/debug.log"\n' % get_alias_prefix()
         content += 'alias %srun="%s python manage runserver"\n' % (get_alias_prefix(), get_alias_prefix())
-        content += 'alias %slogdir="cd $LOG_DIR"\n' % (get_alias_prefix(), get_alias_prefix())
+        content += 'alias %slogdir="cd $LOG_DIR"\n' % get_alias_prefix()
         # well... write file then
         filename = "%saliases_%s.sh" % (home_dir, bootleg_settings.PROJECT_NAME)
         write_file(filename, content)
