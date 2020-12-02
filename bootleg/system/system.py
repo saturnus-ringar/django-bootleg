@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 import django
 
-from bootleg.utils.env import get_virtual_env_path
+from bootleg.utils.env import get_virtual_env_dir
 
 if django.VERSION >= (3, 1):
     from django.views.debug import get_default_exception_reporter_filter
@@ -48,7 +48,7 @@ class System:
         # python ...stuff...
         self.python_version = self.cleanup(sys.version)
         self.executable = sys.executable
-        self.virtual_env_path = get_virtual_env_path()
+        self.virtual_env_path = get_virtual_env_dir()
 
         # system stats
         self.uptime = shell.run_command(["uptime"])

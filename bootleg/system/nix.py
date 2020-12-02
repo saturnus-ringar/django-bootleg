@@ -10,7 +10,7 @@ from bootleg.system import shell
 from bootleg.conf import bootleg_settings
 from django.conf import settings
 
-from bootleg.utils.env import get_virtual_env_path
+from bootleg.utils.env import get_virtual_env_dir
 
 
 def get_alias_prefix():
@@ -34,7 +34,7 @@ def setup_alias_file():
     home_dir = get_home_directory_of_main_user()
     if home_dir:
         content = "# !/bin/bash\n"
-        content += 'SOURCE_ENV="source %sbin/activate"\n' % get_virtual_env_path()
+        content += 'SOURCE_ENV="source %sbin/activate"\n' % get_virtual_env_dir()
         content += 'PROJECT_DIR="%s"\n' % settings.BASE_DIR
         content += 'LOG_DIR="%s"\n' % settings.LOG_DIR
         content += 'alias pm="python manage.py"\n'

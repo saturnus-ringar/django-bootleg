@@ -75,7 +75,7 @@ def is_venv():
             (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix))
 
 
-def get_virtual_env_path():
+def get_virtual_env_dir():
     # haven't figured out any good way of getting this :|, os.environ["VIRTUAL_ENV"] is not
     # available when running in Apache-context
     return sys.executable.replace("bin/python", "")
