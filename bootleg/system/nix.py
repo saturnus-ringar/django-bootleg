@@ -39,6 +39,7 @@ def setup_alias_file():
         content += 'LOG_DIR="%s"\n' % settings.LOG_DIR
         content += 'alias pm="python manage.py"\n'
         content += 'alias %s="$SOURCE_ENV; cd $PROJECT_DIR"\n' % get_alias_prefix()
+        content += 'alias %spm="%s; python manage.py"\n' % (get_alias_prefix(), get_alias_prefix())
         content += 'alias %sdeploy="%s; pm deploy"\n' % (get_alias_prefix(), get_alias_prefix())
         content += 'alias %ssoftdeploy="%s; pm deploy -s"\n' % (get_alias_prefix(), get_alias_prefix())
         content += 'alias %srun="%s; pm runserver"\n' % (get_alias_prefix(), get_alias_prefix())
