@@ -1,3 +1,4 @@
+from bootleg.utils.utils import get_meta_class_value
 from django.contrib import messages
 from django.core.exceptions import SuspiciousOperation, PermissionDenied
 from django.http import HttpResponseForbidden, Http404
@@ -13,7 +14,12 @@ def get_default_table(model):
         fields = model._meta.visible_fields
     else:
         fields = model._meta.fields
-    table_class = tables.table_factory(model, fields=fields + ["get_update_link", "get_clone_link"])
+
+    extra_fields = ["get_update_link"]
+    if get_meta_class_value(model, "cloneable") is True:
+        extra_fields.append("get_clone_link")
+
+    table_class = tables.table_factory(model, fields=fields + extra_fields)
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
     return table_class
 

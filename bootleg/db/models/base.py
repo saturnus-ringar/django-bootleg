@@ -120,8 +120,10 @@ class BaseModel(models.Model):
         return self.get_button_link(self.get_update_url(), _("Update"))
 
     def get_clone_link(self):
-        return self.get_button_link(self.get_clone_url(), _("Clone"))
-
+        try:
+            return self.get_button_link(self.get_clone_url(), _("Clone"))
+        except Exception as e:
+            dx(e)
 
     @abstractmethod
     def to_log(self):
