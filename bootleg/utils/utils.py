@@ -3,8 +3,11 @@ import inspect
 
 
 def get_meta_class_value(clazz, value):
-    if hasattr(clazz._meta, value):
-        return getattr(clazz._meta, value)
+    if hasattr(clazz, "_meta"):
+        if hasattr(clazz._meta, value):
+            return getattr(clazz._meta, value)
+    elif hasattr(clazz.Meta, value):
+        return getattr(clazz.Meta, value)
     return None
 
 
