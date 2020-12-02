@@ -1,6 +1,9 @@
 import datetime
 from abc import abstractmethod
 
+from annoying.functions import get_object_or_None
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.fields.files import ImageField
 from django.urls import reverse
@@ -192,3 +195,14 @@ class ExceptionModel(HandledStatusModel):
 
     class Meta:
         abstract = True
+
+
+# monkey patch django's user clean
+def clean_user(self):
+    if self.email:
+        if get_object_or_None(User, email=self.email):
+            raise ValidationError("A user with this email adress already exists.")
+
+
+User.clean = clean_user
+
