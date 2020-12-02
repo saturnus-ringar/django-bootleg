@@ -108,11 +108,20 @@ function getNavbarOffset() {
     return 0;
 }
 
-$("a.anchor").on("click", function(event) {
+$("a.anchor").on("click", function() {
     $([document.documentElement, document.body]).animate({
         scrollTop: $($(this).data("target")).offset().top - getNavbarOffset()
     }, 500);
 });
+
+
+$("a.confirmation-link").on("click", function(e) {
+    if(!confirm($(this).data("confirmation-text"))) {
+        e.preventDefault();
+        return false
+    }
+});
+
 
 function getURLParameter(name) {
     return decodeURIComponent((RegExp('[?|&]' + name + '=' + '(.+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
