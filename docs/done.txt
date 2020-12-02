@@ -1,3 +1,29 @@
+- sidor för att hantera loggade exceptions och django log exceptions
+
+a konfig för PROJECT_ABBR , istället för prefixgrejen
+
+- fixa ett alias för status nbcstatus -> pm status
+
+- snyggare paginering
+
+- setup verkar inte fixa filrättigheterna rekursivt
+
+- setup-loggern skriver inte till standard out
+
+- bootleg-error-loggarna med felkod funkar inte
+
+- göra en test-sida för error-sidorna:
+    /obscurity-by-test/error/<status_code>/
+    ... kräv is_staff
+
+- en krasch-url
+    ... kräv is_staff
+
+- en ping-url
+    ... man kan använda dev-null
+
+- skriva ut i system att det är fejkdata om man använder textfilerna
+
 - bootleg-loggers ska heta bootleg.forms osv.
 
 - göra så man hämtar loggers med namn och filnamn:

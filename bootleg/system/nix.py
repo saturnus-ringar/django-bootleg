@@ -14,8 +14,8 @@ from bootleg.utils.env import get_virtual_env_dir
 
 
 def get_alias_prefix():
-    if getattr(bootleg_settings, "ALIAS_PREFIX", None):
-        return bootleg_settings.ALIAS_PREFIX
+    if getattr(bootleg_settings, "PROJECT_ABBR", None):
+        return bootleg_settings.PROJECT_ABBR
 
     return bootleg_settings.PROJECT_NAME
 

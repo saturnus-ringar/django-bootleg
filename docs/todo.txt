@@ -1,3 +1,4 @@
+
 **********************
  ERRORS
 **********************
@@ -5,14 +6,6 @@
     - måste gruppera felen på hash och count
 
     - kunna muta loggade exceptions + django log exceptions
-
-    - sidor för att hantera loggade exceptions och django log exceptions
-
-***********************
- system
-***********************
-
-    - skriva ut i system att det är fejkdata om man använder textfilerna
 
 ***********************
  login middleware
@@ -33,16 +26,13 @@
         projekt-diret
         log-dir
 
-    - ta URL vid git pull från GIT_URL i settings om den finns
-
-    - hantera Requirements already... i pip install så det inte spammar
-
     - hantera failat:
         git pull
         pip install
         management.call_command("migrate")
         management.call_command("collectstatic", interactive=False)
         server restart
+        ...verkar funka
 
 ***************************************
  nice to kebab
@@ -61,19 +51,6 @@
 
 - göra så man inte behöver inkludera init i urls.py
     ... sätter error handlers
-
-***************************************
- errors
-***************************************
-
-- göra en test-sida för error-sidorna:
-    /obscurity-by-test/error/<status_code>/
-    ... kräv is_staff
-
-- en ping-url
-
-- en krasch-url
-    ... kräv is_staff
 
 *********************************
  modelrevisioner
