@@ -14,7 +14,7 @@ from bootleg.views.auth_views import CustomLoginView, LogoutView, change_passwor
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView, \
     GenericModelCloneView
 from bootleg.views.json_views import JSONSuggestView
-from bootleg.views.views import DevNullView, CrashView, ErrorTestView
+from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView
 from bootleg.views.xhr_views import JavascriptErrorView
 
 # setup, indeed
@@ -59,6 +59,11 @@ urlpatterns = [
     # clone generic models
     #######################################
     path("clone/<model_name>/<int:pk>", GenericModelCloneView.as_view(), name="clone_model"),
+
+    #######################################
+    # created page
+    #######################################
+    path("created/<model_name>", CreatedView.as_view(), name="created"),
 
     #######################################
     # hxr-views
