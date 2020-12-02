@@ -2,6 +2,7 @@ import logging
 import traceback
 
 from django.core.exceptions import AppRegistryNotReady
+from django.db import OperationalError
 
 from bootleg.utils import env
 
@@ -36,7 +37,11 @@ class DjangoLogHandler(FileHandler):
 
     def emit(self, record):
         if self.should_log(record):
-            self.create_entry(record)
+            try:
+                self.create_entry(record)
+            except OperationalError:
+                # the db might fail - just pass and log to the text file
+                pass
         super().emit(record)
 
     def create_entry(self, record):
