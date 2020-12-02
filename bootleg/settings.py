@@ -57,7 +57,7 @@ if not settings.is_overridden("STATICFILES_FINDERS"):
 # django tables 2
 #####################################################
 
-DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap-responsive.html"
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap4.html"
 
 #####################################################
 # crispy forms
