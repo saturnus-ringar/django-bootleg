@@ -60,7 +60,6 @@ urlpatterns = [
     #######################################
     path("clone/<model_name>/<int:pk>", GenericModelCloneView.as_view(), name="clone_model"),
 
-
     #######################################
     # hxr-views
     #######################################
