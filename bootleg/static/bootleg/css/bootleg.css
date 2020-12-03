@@ -131,6 +131,10 @@ form li {
     background-color: green;
 }
 
+.badge-lg {
+    font-size: 100% !important;
+}
+
 /* easy autocomplete */
 .easy-autocomplete-container ul li b {
     font-weight: bolder !important;
