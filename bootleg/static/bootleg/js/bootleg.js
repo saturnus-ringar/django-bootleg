@@ -125,9 +125,9 @@ $("a.anchor").on("click", function() {
 });
 
 
-$("a.confirmation-link").on("click", function(e) {
-    if(!confirm($(this).data("confirmation-text"))) {
-        e.preventDefault();
+$("a.confirmation-link").on("click", function() {
+    console.log("SHASH!");
+    if(!confirm($(this).data("text"))) {
         return false
     }
 });

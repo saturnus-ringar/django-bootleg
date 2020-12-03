@@ -133,12 +133,12 @@ class BaseModel(models.Model):
         return self.get_button_link(self.get_update_url(), _("Update"))
 
     def get_delete_link(self):
-        return mark_safe('<a href="%s" class="confirmation-link" data-confirmation-text="%s">'
+        return mark_safe('<a href="%s" class="confirmation-link" data-text="%s">'
                          '<button class ="btn btn-danger btn-sm">%s</button></a>'
                          % (self.get_delete_url(), _("Are you sure you want to delete this?"), _("Delete")))
 
     def get_clone_link(self):
-        return mark_safe('<a href="%s" class="confirmation-link" data-confirmation-text="%s">'
+        return mark_safe('<a href="%s" class="confirmation-link" data-text="%s">'
                          '<button class ="btn btn-primary btn-sm">%s</button></a>'
                          % (self.get_clone_url(), _("Are you sure you want to clone this?"), _("Clone")))
 
