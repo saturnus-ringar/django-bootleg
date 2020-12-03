@@ -1,7 +1,6 @@
 from django.utils.safestring import mark_safe
-from django.utixls.translation import ugettext as _
 from django_tables2 import tables, Column, BooleanColumn
-
+from django.utils.translation import ugettext as _
 from bootleg.utils.utils import get_meta_class_value
 
 
