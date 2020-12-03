@@ -78,12 +78,12 @@ class GenericListView(GenericModelView, SingleTableView):
             # got args... filter
             return self.model.objects.filter(**args)
 
-        return self.model.objects.all().order_by(self.get_order_by())
+        return self.model.objects.all().order_by(*self.get_order_by())
 
     def get_order_by(self):
         if hasattr(self.model._meta, "ordering"):
             return self.model._meta.ordering
-        return "-id"
+        return ["-id"]
 
     def get_args(self):
         # dynamic filtering on model properties
