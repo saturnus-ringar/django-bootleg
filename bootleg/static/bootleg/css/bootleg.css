@@ -131,6 +131,10 @@ form li {
     background-color: green;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .badge-lg {
     font-size: 100% !important;
 }

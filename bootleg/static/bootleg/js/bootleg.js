@@ -58,6 +58,16 @@ if($("form[id='Forgot password']").length > 0) {
     $("form[id='Forgot password'] button[type=submit]").addClass("loading-button")
 }
 
+// add loader on the search form
+$("#bootleg_q_form").submit(function() {
+    showElement($("#q_loader"));
+});
+
+
+function showElement(element) {
+    element.removeClass("hidden");
+}
+
 function autoFocus() {
     // focus on the first empty text input in #bootleg_form
     $('#bootleg_form input').each(function(){
