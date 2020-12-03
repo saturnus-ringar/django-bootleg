@@ -24,6 +24,8 @@ def get_default_table(model):
     if get_meta_class_value(model, "cloneable") is True:
         table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
                                                           orderable=False))])
+    table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
+                                                       orderable=False))])
     table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
                                                        orderable=False))])
 
