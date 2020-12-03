@@ -96,15 +96,14 @@ def get_editable_model_verbose_names():
 
 
 def filter_autocomplete_fields(model, fields):
+    # TODO: have to check fields with double underscores, a la: foreign_key__name
+    # ... eventually
     included_types = [CharField]
     filtered_fields = []
     for field_name in fields:
-        dx("field_name: %s" % field_name)
         try:
             field = model._meta.get_field(field_name)
-            dx("type: %s" % type(field))
             if type(field) in included_types:
-                dx("adding field_name: %s" % field_name)
                 filtered_fields.append(field_name)
         except FieldDoesNotExist:
             pass
