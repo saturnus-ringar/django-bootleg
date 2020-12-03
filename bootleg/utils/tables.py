@@ -4,17 +4,17 @@ from django.utils.translation import ugettext as _
 from bootleg.utils.utils import get_meta_class_value
 
 
-def add_initial_columns(model, table_class):
-    initial_column_names = []
-    if hasattr(model, "get_initial_columns"):
-        initial_columns = model.get_initial_columns()
-        for initial_column in initial_columns:
-            initial_column_names.append(initial_column[0])
-        table_class.base_columns.update(initial_columns)
-        for column_name in initial_column_names:
+def add_columns(model, table_class, method):
+    column_names = []
+    if hasattr(model, method):
+        columns = getattr(model, method)()
+        for column in columns:
+            column_names.append(column[0])
+        table_class.base_columns.update(columns)
+        for column_name in column_names:
             table_class.base_columns.move_to_end(column_name, last=False)
 
-    return initial_column_names
+    return column_names
 
 
 def get_default_table(model):
@@ -34,7 +34,9 @@ def get_default_table(model):
     if get_meta_class_value(model, "allow_deletion"):
         end_fields.append("delete")
 
-    initial_columns = add_initial_columns(model, table_class)
+    # add initial and additional columns
+    initial_columns = add_columns(model, table_class, "get_initial_columns")
+    additional_columns = add_columns(model, table_class, "get_additional_columns")
 
     # clone link
     if get_meta_class_value(model, "cloneable") is True:
@@ -53,7 +55,7 @@ def get_default_table(model):
     if get_meta_class_value(model, "allow_deletion"):
         table_class.base_columns.update([("delete", Column(accessor="get_delete_link", verbose_name=_("Delete"),
                                                            orderable=False))])
-    table_class._meta.sequence = (initial_columns + fields + end_fields)
+    table_class._meta.sequence = (initial_columns + fields + additional_columns + end_fields)
     return table_class
 
 
