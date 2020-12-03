@@ -1,0 +1,5 @@
+{% if messages %}
+    {% for message in messages %}
+        {% get_alert message.tags message %}
+    {% endfor %}
+{% endif %}

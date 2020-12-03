@@ -137,28 +137,17 @@ def check_css_files(errors):
             )
         )
     else:
-        if len(bootleg_settings.CSS_FILES) == 0:
-            # empty list
-            errors.append(
-                Error(
-                    "CSS_FILES is empty",
-                    hint="Add css-files to CSS_FILES in the settings",
-                    obj=settings,
-                    id="bootleg.E029"
-                )
-            )
-        else:
-            # it's a list containing entries, verify that the files exist
-            for css_file in bootleg_settings.CSS_FILES:
-                if not finders.find(css_file):
-                    errors.append(
-                        Error(
-                            "Could not find the css file: %s from CSS_FILES" % css_file,
-                            hint="Add an existing file",
-                            obj=settings,
-                            id="bootleg.E029"
-                        )
+        # it's a list containing entries, verify that the files exist
+        for css_file in bootleg_settings.CSS_FILES:
+            if not finders.find(css_file):
+                errors.append(
+                    Error(
+                        "Could not find the css file: %s from CSS_FILES" % css_file,
+                        hint="Add an existing file",
+                        obj=settings,
+                        id="bootleg.E029"
                     )
+                )
 
     return errors
 

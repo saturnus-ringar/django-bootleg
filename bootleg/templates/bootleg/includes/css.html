@@ -1,0 +1,11 @@
+{% load compress static %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/28738b72bb.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+{% compress css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/bootleg.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'bootleg/css/vendor/easy-autocomplete.css' %}" />
+    {% for css_file in bootleg_settings.CSS_FILES %}
+        <link rel="stylesheet" type="text/css" href="{% static css_file %}" />
+    {% endfor %}
+{% endcompress %}
