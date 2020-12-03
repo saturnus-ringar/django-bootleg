@@ -5,6 +5,7 @@ from collections import OrderedDict
 
 import django
 
+from bootleg.system.shell import CommandException
 from bootleg.utils.env import get_virtual_env_dir
 
 if django.VERSION >= (3, 1):
@@ -53,13 +54,12 @@ class System:
         # system stats
         self.uptime = shell.run_command(["uptime"])
         self.disk_usage = commands.get_disk_usage_h()
-        self.memory_usage = commands.get_memory_usage_h()
-        self.load_average = commands.get_load_average()
-        self.cpu_usage = commands.get_cpu_usage()
-        self.disk_io = commands.get_disk_io()
         self.disks = self.get_disks()
         self.load_average_data = commands.get_load_average_cleaned()
         self.memory_usage_data = commands.get_memory_usage_cleaned()
+
+        # sar data
+        self.set_sar_data()
 
         # installed packages
         self.installed_packages = self.get_installed_packages()
@@ -90,6 +90,28 @@ class System:
 
         # django settings (using django debug toolbar)
         self.django_settings = OrderedDict(sorted(get_safe_settings().items(), key=lambda s: s[0]))
+
+    def set_sar_data(self):
+        sar_failure = "sar command failed"
+        try:
+            self.memory_usage = commands.get_memory_usage_h()
+        except CommandException:
+            self.memory_usage = sar_failure
+
+        try:
+            self.load_average = commands.get_load_average()
+        except CommandException:
+            self.load_average = sar_failure
+
+        try:
+            self.cpu_usage = commands.get_cpu_usage()
+        except CommandException:
+            self.cpu_usage = sar_failure
+
+        try:
+            self.disk_io = commands.get_disk_io()
+        except CommandException:
+            self.cpu_usage = sar_failure
 
     def get_short_python_version(self):
         return self.python_version.split()[0]
