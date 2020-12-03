@@ -60,14 +60,14 @@ def get_default_table(model):
     # detail link
     table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
                                                        orderable=False))])
-    # update links
-    if not get_meta_class_value(model, "disable_create_update") is True:
-        if hasattr(model(), "get_custom_update_link"):
-            table_class.base_columns.update([("update", Column(accessor="get_custom_update_link",
-                                                               verbose_name=_("Update"), orderable=False))])
-        else:
+    if hasattr(model(), "get_custom_update_link"):
+        table_class.base_columns.update([("update", Column(accessor="get_custom_update_link",
+                                                           verbose_name=_("Update"), orderable=False))])
+    else:
+        # update links
+        if not get_meta_class_value(model, "disable_create_update") is True:
             table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
-                                                               orderable=False))])
+                                                           orderable=False))])
     # deletion links
     if get_meta_class_value(model, "allow_deletion"):
         table_class.base_columns.update([("delete", Column(accessor="get_delete_link", verbose_name=_("Delete"),
