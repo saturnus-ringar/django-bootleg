@@ -49,3 +49,4 @@ def get_default_table_classes():
 def sar_warning():
     if not SAR_COMMAND_EXISTS:
         return get_alert("warning", _("The SAR command doesn't exist on this system. This is not real data."))
+    return ""
