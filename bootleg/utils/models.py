@@ -1,9 +1,11 @@
 import django
 from django.apps import apps
-from django.db import ProgrammingError, OperationalError
-from django.db.models import Q
-from django.urls import reverse
 from django.conf import settings
+from django.core.exceptions import FieldDoesNotExist
+from django.db import ProgrammingError, OperationalError
+from django.db.models import Q, CharField
+from django.urls import reverse
+
 from bootleg.conf import bootleg_settings
 
 
@@ -93,11 +95,34 @@ def get_editable_model_verbose_names():
     return model_names
 
 
+def filter_autocomplete_fields(model, fields):
+    included_types = [CharField]
+    filtered_fields = []
+    for field_name in fields:
+        dx("field_name: %s" % field_name)
+        try:
+            field = model._meta.get_field(field_name)
+            dx("type: %s" % type(field))
+            if type(field) in included_types:
+                dx("adding field_name: %s" % field_name)
+                filtered_fields.append(field_name)
+        except FieldDoesNotExist:
+            pass
+
+    return filtered_fields
+
+
 # https://stackoverflow.com/a/1239602/9390372
-def search(model, fields, query):
+def search(model, fields, query, autocomplete=False):
+    fields = filter_autocomplete_fields(model, fields)
+
     qr = None
     for field in fields:
-        q = Q(**{"%s__icontains" % field: query})
+        if not autocomplete:
+            q = Q(**{"%s__icontains" % field: query})
+        else:
+            q = Q(**{"%s__istartswith" % field: query})
+
         if qr:
             qr = qr | q
         else:

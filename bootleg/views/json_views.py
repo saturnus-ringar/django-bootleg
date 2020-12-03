@@ -16,7 +16,7 @@ class JSONAutocompleteView(JsonView):
         results = []
         query = self.request.GET.get("q")
         for result in models.search(self.model, self.model._meta.search_fields,
-                                    self.request.GET.get("q"))[:self.search_limit]:
+                                    query, autocomplete=True)[:self.search_limit]:
             for field in self.model._meta.search_fields:
                 value = get_attr__(result, field)
                 if query.lower() in str(value).lower():
