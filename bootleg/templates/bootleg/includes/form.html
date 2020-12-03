@@ -43,6 +43,9 @@
 
 {% if extra_form %}
     <div class="w-50 bg-light border rounded p-4 mt-4">
+        {% if extra_form.legend %}
+            <legend class="mt-n2">{{ extra_form.legend }}</legend>
+        {% endif %}
         {% crispy extra_form extra_form.helper %}
     </div>
 {% endif %}
