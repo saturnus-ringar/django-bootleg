@@ -23,7 +23,6 @@ def get_end_field_list(model):
     if hasattr(model(), "get_absolute_url_link"):
         end_fields = ["absolute_url"]
 
-    end_fields.append("detail")
     if not get_meta_class_value(model, "disable_create_update") is True:
         end_fields.append("update")
     if get_meta_class_value(model, "allow_deletion"):
@@ -43,7 +42,7 @@ def get_default_table(model):
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
 
     # add initial and additional columns
-    initial_columns = add_columns(model, table_class, "get_initial_columns")
+    initial_columns = ["detail"] + add_columns(model, table_class, "get_initial_columns")
     additional_columns = add_columns(model, table_class, "get_additional_columns")
     # get end field names
     end_fields = get_end_field_list(model)
