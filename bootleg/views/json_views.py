@@ -1,9 +1,10 @@
 from jsonview.views import JsonView
 
 from bootleg.utils import models
+from bootleg.utils.utils import get_attr__
 
 
-class JSONSuggestView(JsonView):
+class JSONAutocompleteView(JsonView):
     search_limit = 75
     # some error handling/validation should be added here
 
@@ -13,9 +14,12 @@ class JSONSuggestView(JsonView):
 
     def get_context_data(self, **kwargs):
         results = []
+        query = self.request.GET.get("q")
         for result in models.search(self.model, self.model._meta.search_fields,
                                     self.request.GET.get("q"))[:self.search_limit]:
             for field in self.model._meta.search_fields:
-                if hasattr(result, field):
-                    results.append(getattr(result, field))
+                value = get_attr__(result, field)
+                if query.lower() in str(value).lower():
+                    if value not in results:
+                        results.append(value)
         return results

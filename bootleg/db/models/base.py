@@ -63,7 +63,7 @@ class BaseModel(models.Model):
     @classmethod
     def get_autocomplete_url(self):
         if hasattr(self._meta, "search_fields"):
-            return reverse("bootleg:json_suggest", args=[self._meta.model_name])
+            return reverse("bootleg:json_autocomplete", args=[self._meta.model_name])
 
         return None
 

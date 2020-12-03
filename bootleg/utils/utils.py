@@ -2,6 +2,21 @@ import importlib
 import inspect
 
 
+# there are probably easier ways of doing this?!
+def get_attr__(obj, attr):
+    attrs = attr.split("__")
+    if len(attrs) > 1:
+        if hasattr(obj, attrs[0]):
+            main_attr = getattr(obj, attrs[0])
+            if hasattr(main_attr, attrs[1]):
+                return getattr(main_attr, attrs[1])
+    else:
+        if hasattr(obj, attr):
+            return getattr(obj, attr)
+
+    return None
+
+
 def get_meta_class_value(clazz, value):
     if hasattr(clazz, "_meta"):
         if hasattr(clazz._meta, value):

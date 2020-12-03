@@ -13,7 +13,7 @@ from bootleg.views.auth_views import CustomLoginView, LogoutView, change_passwor
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView, \
     GenericModelCloneView, GenericModelDetailView
-from bootleg.views.json_views import JSONSuggestView
+from bootleg.views.json_views import JSONAutocompleteView
 from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView
 from bootleg.views.xhr_views import JavascriptErrorView
 
@@ -65,7 +65,7 @@ urlpatterns = [
     #######################################
     # hxr-views
     #######################################
-    path("json/<model_name>/", JSONSuggestView.as_view(), name="json_suggest"),
+    path("json/<model_name>/", JSONAutocompleteView.as_view(), name="json_autocomplete"),
     path("xhr/javascript-error/", JavascriptErrorView.as_view(), name="javascript_error"),
 
     #######################################

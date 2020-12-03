@@ -136,3 +136,7 @@ form li {
     font-weight: bolder !important;
     color: #000;
 }
+
+.easy-autocomplete-container ul li, .easy-autocomplete-container ul .eac-category {
+  font-size: 100% !important;
+}
