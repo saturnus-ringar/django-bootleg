@@ -2,6 +2,9 @@
 {% load i18n bootleg %}
 {% block content %}
 <h1>{{ object }}</h1>
+<p>
+    <button type="button" onclick="history.back()" class="btn btn-primary mt-4">{% trans "Go back" %}</button></a>
+</p>
 <div class="card mb-4 bg-light">
     <div class="card-body">
         {% for field in object.get_simple_fields_except_id %}
