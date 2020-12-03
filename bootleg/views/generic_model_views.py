@@ -6,7 +6,7 @@ from django.views.generic import RedirectView, DetailView
 from django_tables2 import SingleTableView, RequestConfig
 
 from bootleg.forms.forms import GenericModelSearchForm
-from bootleg.utils import models
+from bootleg.utils import models, tables
 from bootleg.views import views
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView
 
@@ -58,7 +58,7 @@ class GenericListView(GenericModelView, SingleTableView):
                 self.extra_form = self.extra_form_class()
 
     def get_table_class(self):
-        return views.get_default_table(self.model)
+        return tables.get_default_table(self.model)
 
     def get_table(self, **kwargs):
         table = super().get_table(**kwargs)

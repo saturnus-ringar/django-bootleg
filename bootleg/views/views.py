@@ -1,35 +1,10 @@
-from bootleg.utils.utils import get_meta_class_value
 from django.contrib import messages
 from django.core.exceptions import SuspiciousOperation, PermissionDenied
-from django.http import HttpResponseForbidden, Http404
+from django.http import Http404
 from django.utils.translation import ugettext_lazy as _
-from django_tables2 import tables, Column
 
 from bootleg.utils import models
 from bootleg.views.base import BaseTemplateView, StaffRequiredTemplateView
-
-
-def get_default_table(model):
-    if hasattr(model._meta, "visible_fields"):
-        fields = model._meta.visible_fields
-    else:
-        fields = model._meta.fields
-
-    table_class = tables.table_factory(model, fields=fields)
-    table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
-
-    if hasattr(model(), "get_extra_columns"):
-        table_class.base_columns.update(model().get_extra_columns())
-
-    if get_meta_class_value(model, "cloneable") is True:
-        table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
-                                                          orderable=False))])
-    table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
-                                                       orderable=False))])
-    table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
-                                                       orderable=False))])
-
-    return table_class
 
 
 class CreatedView(BaseTemplateView):

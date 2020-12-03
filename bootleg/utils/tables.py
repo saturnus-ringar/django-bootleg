@@ -1,0 +1,41 @@
+from bootleg.utils.utils import get_meta_class_value
+from django_tables2 import tables, Column
+from django.utils.translation import ugettext as _
+
+
+def add_initial_columns(model, table_class):
+    initial_column_names = []
+    if hasattr(model, "get_initial_columns"):
+        initial_columns = model.get_initial_columns()
+        for initial_column in initial_columns:
+            initial_column_names.append(initial_column[0])
+        table_class.base_columns.update(initial_columns)
+        for column_name in initial_column_names:
+            table_class.base_columns.move_to_end(column_name, last=False)
+
+    return initial_column_names
+
+
+def get_default_table(model):
+    if hasattr(model._meta, "visible_fields"):
+        fields = model._meta.visible_fields
+    else:
+        fields = model._meta.fields
+
+    end_fields = ["detail", "update"]
+
+    table_class = tables.table_factory(model, fields=fields)
+    table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
+    initial_columns = add_initial_columns(model, table_class)
+
+    if get_meta_class_value(model, "cloneable") is True:
+        table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
+                                                          orderable=False))])
+        end_fields.append("clone")
+
+    table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
+                                                       orderable=False))])
+    table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
+                                                       orderable=False))])
+    table_class._meta.sequence = (initial_columns + fields + end_fields)
+    return table_class
