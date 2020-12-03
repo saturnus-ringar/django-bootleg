@@ -108,7 +108,7 @@ input[type=checkbox][disabled] {
 }
 
 /* left side menu */
-.left-menu {
+.fixed-menu {
   position: fixed;
   top: calc(15% + (10px/2));
 }

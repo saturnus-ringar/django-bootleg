@@ -20,7 +20,6 @@ $(document).ready(function() {
 });
 
 $("input.dateinput").each(function() {
-    // TODO: get DATE_FORMAT from django-settings
     try {
         new Pikaday({
             field: $(this)[0],
@@ -33,7 +32,6 @@ $("input.dateinput").each(function() {
 
 $("input.datetimeinput").each(function() {
     try {
-        // TODO: get DATE_FORMAT from django-settings
         new Pikaday({
             field: $(this)[0],
             format: Context.dateTimeFormat
@@ -118,7 +116,15 @@ function getNavbarOffset() {
     return 0;
 }
 
+function clearActiveInListGroup() {
+     $('.list-group a').each(function() {
+         $(this).removeClass("active");
+     });
+}
+
 $("a.anchor").on("click", function() {
+    clearActiveInListGroup();
+    $(this).addClass("active");
     $([document.documentElement, document.body]).animate({
         scrollTop: $($(this).data("target")).offset().top - getNavbarOffset()
     }, 500);
