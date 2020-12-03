@@ -10,10 +10,10 @@ from bootleg.forms.forms import GenericModelSearchForm
 from bootleg.utils import models, tables
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views import views
-from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView
+from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
 
 
-class GenericModelView:
+class GenericModelView(StaffRequiredView):
     # set this so django doesn't crash with a ... "without the 'fields' attribute is prohibited."
     fields = ["id"]
 
