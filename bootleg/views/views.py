@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.exceptions import SuspiciousOperation, PermissionDenied
 from django.http import HttpResponseForbidden, Http404
 from django.utils.translation import ugettext_lazy as _
-from django_tables2 import tables
+from django_tables2 import tables, Column
 
 from bootleg.utils import models
 from bootleg.views.base import BaseTemplateView, StaffRequiredTemplateView
@@ -15,12 +15,18 @@ def get_default_table(model):
     else:
         fields = model._meta.fields
 
-    extra_fields = ["get_update_link"]
-    if get_meta_class_value(model, "cloneable") is True:
-        extra_fields.append("get_clone_link")
-
-    table_class = tables.table_factory(model, fields=fields + extra_fields)
+    table_class = tables.table_factory(model, fields=fields)
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
+
+    if hasattr(model(), "get_extra_columns"):
+        table_class.base_columns.update(model().get_extra_columns())
+
+    if get_meta_class_value(model, "cloneable") is True:
+        table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
+                                                          orderable=False))])
+    table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
+                                                       orderable=False))])
+
     return table_class
 
 
