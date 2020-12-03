@@ -27,7 +27,7 @@ class GenericModelView(StaffRequiredView):
             else:
                 raise Http404("Could not find model.")
 
-        if isinstance(self, GenericModelCreateView):
+        if isinstance(self, GenericModelCreateView) or isinstance(self, GenericModelUpdateView):
             if get_meta_class_value(self.model, "disable_create_update") is True:
                 raise PermissionDenied()
 

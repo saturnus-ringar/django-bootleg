@@ -21,9 +21,11 @@
             <h4 class="mt-4">{{ image_field.verbose_name }}</h4>
             <img src="{% get_attribute object image_field.name %}" height="200" />
         {% endfor %}
-        <p>
-            <a href="{{ object.get_update_url }}"><button type="button" class="btn btn-primary mt-4">{% trans "Update" %}</button></a>
-        </p>
+        {% if not model.meta.disable_create_update is True %}
+            <p>
+                <a href="{{ object.get_update_url }}"><button type="button" class="btn btn-primary mt-4">{% trans "Update" %}</button></a>
+            </p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
