@@ -9,7 +9,6 @@ from django_tables2 import SingleTableView, RequestConfig
 from bootleg.forms.forms import GenericModelSearchForm
 from bootleg.utils import models, tables
 from bootleg.utils.utils import get_meta_class_value
-from bootleg.views import views
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
 
 
