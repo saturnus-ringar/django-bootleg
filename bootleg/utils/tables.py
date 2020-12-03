@@ -1,10 +1,8 @@
 from django.utils.safestring import mark_safe
-from django_tables2.utils import AttributeDict
+from django.utils.translation import ugettext as _
+from django_tables2 import tables, Column, BooleanColumn
 
 from bootleg.utils.utils import get_meta_class_value
-from django_tables2 import tables, Column, BooleanColumn
-from django.utils.translation import ugettext as _
-from django.utils.html import escape, format_html
 
 
 def add_initial_columns(model, table_class):
