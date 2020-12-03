@@ -1,18 +1,27 @@
 {% load i18n crispy_forms_tags bootstrap_tags %}
 
-{% if bootleg_form.is_search_form %}
-    <form>
-        <div class="input-group w-50">
-            {{ form.q }}
-            <div class="input-group-append">
-                <button class="btn btn-secondary" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
+{% if form.is_search_form %}
+    {% if not bootleg_settings.BOOTSTRAP_3 %}
+        <form>
+            <div class="input-group w-50">
+                {{ form.q }}
+                    <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                    </div>
             </div>
+        </form>
+    {% else %}
+    <form class="form-inline col-8">
+        <div class="form-group">
+            {{ form.q }}
         </div>
+        <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
     </form>
+    {% endif %}
 {% else %}
-    {% if forms or bootleg_form %}
+    {% if forms or form %}
         {% if bootleg_settings.WRAP_FORMS %}
             <div class="w-50 bg-light border rounded p-4">
         {% else %}
@@ -24,7 +33,7 @@
 {% if forms %}
     {# TODO: don't always use multipart #}
     <form method="post" action="" enctype="multipart/form-data">
-        {% crispy bootleg_form helper %}
+        {% crispy form helper %}
         {% for inner_form in forms %}
             <h5 class="mb-3 mt-3">{{ inner_form.heading }}</h5>
             {% crispy inner_form helper %}
@@ -32,12 +41,12 @@
         <input type="submit" name="submit" value="{{ view.submit_button_text }}" class="btn btn-primary loading-button" id="submit-id-submit">
     </form>
 {% else %}
-    {% if bootleg_form and not form.is_search_form %}
-        {% crispy bootleg_form bootleg_form.helper %}
+    {% if form and not form.is_search_form %}
+        {% crispy form form.helper %}
     {% endif %}
 {% endif %}
 
-{% if forms or bootleg_form and not bootleg_form.is_search_form %}
+{% if forms or form and not form.is_search_form %}
     </div>
 {% endif %}
 

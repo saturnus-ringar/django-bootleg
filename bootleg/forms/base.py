@@ -66,7 +66,7 @@ class BaseForm(Form):
     def is_search_form(self):
         if len(self.fields) == 1 and "q" in self.fields:
             return True
-
+        dx("ret false")
         return False
 
 

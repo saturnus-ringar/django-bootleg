@@ -1,4 +1,4 @@
-{% extends bootleg_settings.BASE_TEMPLATE %}
+{% extends bootleg_settings.ADMIN_TEMPLATE %}
 {% load i18n bootleg %}
 {% block content %}
 <h1>{{ object }}</h1>
@@ -6,19 +6,19 @@
     <div class="card-body">
         {% for field in object.get_simple_fields_except_id %}
             {% if field.name != "name" %}
-                <h6 class="mt-4">{{ field.verbose_name }}</h6>
+                <h4 class="mt-4">{{ field.verbose_name }}</h4>
                 {% get_attribute object field.name %}
             {% endif %}
         {% endfor %}
         {% for many_to_many_field in object.get_many_to_many_fields %}
-            <h6 class="mt-4">{{ many_to_many_field.verbose_name }}</h6>
+            <h4 class="mt-4">{{ many_to_many_field.verbose_name }}</h4>
                 {% get_many_to_many_fields_values object many_to_many_field.name as fields %}
                 {% for field in fields %}
                     {{ field }}<br />
                 {% endfor %}
         {% endfor %}
         {% for image_field in object.get_image_fields %}
-            <h6 class="mt-4">{{ image_field.verbose_name }}</h6>
+            <h4 class="mt-4">{{ image_field.verbose_name }}</h4>
             <img src="{% get_attribute object image_field.name %}" height="200" />
         {% endfor %}
         <p>

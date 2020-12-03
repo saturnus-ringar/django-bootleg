@@ -99,7 +99,7 @@ class GenericListView(GenericModelView, SingleTableView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if hasattr(self.model._meta, "search_fields"):
-            context["bootleg_form"] = GenericModelSearchForm(self.request, model=self.model)
+            context["form"] = GenericModelSearchForm(self.request, model=self.model)
         if hasattr(self, "extra_form"):
             context["extra_form"] = self.extra_form
         return context

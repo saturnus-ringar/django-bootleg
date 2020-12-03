@@ -114,6 +114,7 @@ class Settings:
         self.add_setting("FAVICON_FILE", DEFAULT_FAVICON)
         self.add_setting("CONTAINER_CSS_CLASS", "container bg-dark")
         self.add_setting("WRAP_FORMS", True)
+        self.add_setting("BOOTSTRAP_3", False)
 
         ####################################################
         # javascript
