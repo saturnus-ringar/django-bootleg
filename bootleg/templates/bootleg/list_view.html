@@ -13,11 +13,9 @@
         </a>
     {% endif %}
 
-{% if request.GET.q %}
-    <div class="mt-4 mb-4">
-        <strong>{{ paginator.count|intcomma }}</strong> {% trans "results found" %}
-    </div>
-{% endif %}
+<div class="mt-4 mb-4">
+    <strong>{{ paginator.count|intcomma }}</strong> {{ model.meta.verbose_name_plural }} {% trans "found" %}
+</div>
 
 {% if object_list %}
     {% render_table table %}
