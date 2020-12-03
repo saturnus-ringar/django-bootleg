@@ -29,37 +29,45 @@ def display_in_menu(model):
 def get_main_navigation(request):
     # circular imports ... :|
     from bootleg.templatetags.bootleg import get_changelist_url
-    menu_output = False
     html = '<ul class="nav navbar-nav mr-auto float-left">'
     if request.user.is_staff and request.editable_models:
-        html += '<li class="nav-item dropdown">\n'
-        html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
-        html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
-        html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
+        list_output = False
+        list_html = '<li class="nav-item dropdown">\n'
+        list_html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
+        list_html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
+        list_html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
         for model in request.editable_models:
             # dicts here - for the templates since they can't access _meta
             if display_in_menu(model):
-                html += '<a class="dropdown-item" href="%s">%s</a>\n' % (
+                list_html += '<a class="dropdown-item" href="%s">%s</a>\n' % (
                 reverse("bootleg:list_view", args=[model["meta"].model_name]),
                 model["meta"].verbose_name_plural)
-                menu_output = True
-        html += '</div>'
-        html += '</li>'
+                list_output = True
+        list_html += '</div>'
+        list_html += '</li>'
 
-        html += '<li class="nav-item dropdown">\n'
-        html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_create" data-toggle="dropdown"'
-        html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("Create")
-        html += '<div class="dropdown-menu" aria-labelledby="editable_models_create">\n'
+        if not list_output:
+            list_html = ""
+
+        html += list_html
+
+        create_output = False
+        create_html = '<li class="nav-item dropdown">\n'
+        create_html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_create" data-toggle="dropdown"'
+        create_html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("Create")
+        create_html += '<div class="dropdown-menu" aria-labelledby="editable_models_create">\n'
         for model in request.editable_models:
             if display_in_menu(model):
                 # dicts here - for the templates since they can't access _meta
-                html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
-                menu_output = True
-        html += '</div>'
-        html += '</li>'
+                create_html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
+                create_output = True
+        create_html += '</div>'
+        create_html += '</li>'
 
-    if not menu_output:
-        html = ""
+        if not create_output:
+            create_html = ""
+
+        html += create_html
 
     if request.user.is_superuser:
         html += get_nav_item(reverse("bootleg:system_info"), _("System"))
