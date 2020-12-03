@@ -69,6 +69,6 @@ def change_password(request):
         form = CustomSetPasswordForm(request.user)
 
     context = {}
-    context["form"] = form
+    context["bootleg_form"] = form
     context["page_title"] = _("Change password")
     return render(request, 'website/base.html', context)

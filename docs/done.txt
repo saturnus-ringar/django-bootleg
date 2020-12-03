@@ -1,3 +1,7 @@
+- default-sortering = id, men att kunna välja sortering
+
+- kunna disabla skapande och radering
+
 - sidor för att hantera loggade exceptions och django log exceptions
 
 a konfig för PROJECT_ABBR , istället för prefixgrejen

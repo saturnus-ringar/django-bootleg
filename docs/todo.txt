@@ -1,3 +1,21 @@
+- funkar inte:
+    http://localhost:8000/view/dismissedevent/203741
+
+- dubbla alerts då man ska radera ett objekt
+
+- sökformuläret syns inte för dismissed-event
+
+- generell filtrering på modeller via specade fält som ligger till höger
+
+- skriva ut hur många object som finns i listvyn
+
+- kräva inloggning på listvyer osv.
+    http://localhost:8000/list/dismissedevent/
+
+- byta namn på "editable models" ... till "bootleg models" , eller någe
+    ... kanske göra en basklass för dom som man bara extendar som har alla fält osv.
+
+- overrida django tables boolean-rendering
 
 **********************
  ERRORS
