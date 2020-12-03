@@ -29,6 +29,7 @@ def display_in_menu(model):
 def get_main_navigation(request):
     # circular imports ... :|
     from bootleg.templatetags.bootleg import get_changelist_url
+    menu_output = False
     html = '<ul class="nav navbar-nav mr-auto float-left">'
     if request.user.is_staff and request.editable_models:
         html += '<li class="nav-item dropdown">\n'
@@ -41,6 +42,7 @@ def get_main_navigation(request):
                 html += '<a class="dropdown-item" href="%s">%s</a>\n' % (
                 reverse("bootleg:list_view", args=[model["meta"].model_name]),
                 model["meta"].verbose_name_plural)
+                menu_output = True
         html += '</div>'
         html += '</li>'
 
@@ -52,8 +54,12 @@ def get_main_navigation(request):
             if display_in_menu(model):
                 # dicts here - for the templates since they can't access _meta
                 html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
+                menu_output = True
         html += '</div>'
         html += '</li>'
+
+    if not menu_output:
+        html = ""
 
     if request.user.is_superuser:
         html += get_nav_item(reverse("bootleg:system_info"), _("System"))
