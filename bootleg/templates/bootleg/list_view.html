@@ -7,9 +7,11 @@
 
 {% block content %}
     {{ block.super }}
-    <a href="{{ model.create_url }}">
-        <button class="btn btn-primary mt-3 mb-3">{% trans "Create" %} {{ model.meta.verbose_name }}</button>
-    </a>
+    {% if not model.meta.disable_create_update is True %}
+        <a href="{{ model.create_url }}">
+            <button class="btn btn-primary mt-3 mb-3">{% trans "Create" %} {{ model.meta.verbose_name }}</button>
+        </a>
+    {% endif %}
 
 {% if request.GET.q %}
     <div class="mt-4 mb-4">

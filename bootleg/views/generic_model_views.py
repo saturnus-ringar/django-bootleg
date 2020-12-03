@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.urls import reverse
 from django.utils.translation import ugettext as _
@@ -7,6 +8,7 @@ from django_tables2 import SingleTableView, RequestConfig
 
 from bootleg.forms.forms import GenericModelSearchForm
 from bootleg.utils import models, tables
+from bootleg.utils.utils import get_meta_class_value
 from bootleg.views import views
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView
 
@@ -25,6 +27,10 @@ class GenericModelView:
                     self.object = self.model.objects.get(id=kwargs["pk"])
             else:
                 raise Http404("Could not find model.")
+
+        if isinstance(self, GenericModelCreateView):
+            if get_meta_class_value(self.model, "disable_create_update") is True:
+                raise PermissionDenied()
 
         self.fields = self.model._meta.visible_fields
         return super().dispatch(request, *args, **kwargs)
@@ -73,7 +79,12 @@ class GenericListView(GenericModelView, SingleTableView):
             # got args... filter
             return self.model.objects.filter(**args)
 
-        return self.model.objects.all().order_by("id")
+        return self.model.objects.all().order_by(self.get_order_by())
+
+    def get_order_by(self):
+        if hasattr(self.model._meta, "order_by"):
+            return self.model._meta.order_by
+        return "-id"
 
     def get_args(self):
         # dynamic filtering on model properties
@@ -132,6 +143,14 @@ class GenericModelCloneView(GenericModelView, RedirectView):
         self.object.save()
         messages.add_message(self.request, messages.INFO, _("The %s was cloned" % self.model._meta.verbose_name))
         return self.object.get_update_url()
+
+
+class GenericModelDeleteView(GenericModelView, RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        self.object.delete()
+        messages.add_message(self.request, messages.INFO, _("The %s was deleted" % self.model._meta.verbose_name))
+        return self.object.__class__.get_list_url()
 
 
 class GenericModelDetailView(GenericModelView, DetailView):

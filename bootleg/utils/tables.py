@@ -22,10 +22,15 @@ def get_default_table(model):
     else:
         fields = model._meta.fields
 
-    end_fields = ["detail", "update"]
-
     table_class = tables.table_factory(model, fields=fields)
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
+
+    end_fields = ["detail"]
+    if not get_meta_class_value(model, "disable_create_update") is True:
+        end_fields.append("update")
+    if get_meta_class_value(model, "allow_deletion"):
+        end_fields.append("delete")
+
     initial_columns = add_initial_columns(model, table_class)
 
     if get_meta_class_value(model, "cloneable") is True:
@@ -35,7 +40,11 @@ def get_default_table(model):
 
     table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
                                                        orderable=False))])
-    table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
-                                                       orderable=False))])
+    if not get_meta_class_value(model, "disable_create_update") is True:
+        table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
+                                                           orderable=False))])
+    if get_meta_class_value(model, "allow_deletion"):
+        table_class.base_columns.update([("delete", Column(accessor="get_delete_link", verbose_name=_("Delete"),
+                                                           orderable=False))])
     table_class._meta.sequence = (initial_columns + fields + end_fields)
     return table_class

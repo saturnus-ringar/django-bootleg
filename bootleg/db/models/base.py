@@ -61,6 +61,10 @@ class BaseModel(models.Model):
         return reverse('admin:%s_%s_changelist' % (cls._meta.app_label, cls._meta.model_name))
 
     @classmethod
+    def get_list_url(cls):
+        return reverse("bootleg:list_view", args=[cls._meta.model_name])
+
+    @classmethod
     def get_autocomplete_url(self):
         if hasattr(self._meta, "search_fields"):
             return reverse("bootleg:json_autocomplete", args=[self._meta.model_name])
@@ -109,6 +113,9 @@ class BaseModel(models.Model):
     def get_update_url(self):
         return reverse("bootleg:update_model", args=[self._meta.model_name, self.id])
 
+    def get_delete_url(self):
+        return reverse("bootleg:delete_model", args=[self._meta.model_name, self.id])
+
     def get_detail_url(self):
         return reverse("bootleg:model_detail", args=[self._meta.model_name, self.id])
 
@@ -124,6 +131,11 @@ class BaseModel(models.Model):
 
     def get_update_link(self):
         return self.get_button_link(self.get_update_url(), _("Update"))
+
+    def get_delete_link(self):
+        return mark_safe('<a href="%s" class="confirmation-link" data-confirmation-text="%s">'
+                         '<button class ="btn btn-danger btn-sm">%s</button></a>'
+                         % (self.get_delete_url(), _("Are you sure you want to delete this?"), _("Delete")))
 
     def get_clone_link(self):
         return mark_safe('<a href="%s" class="confirmation-link" data-confirmation-text="%s">'
