@@ -55,8 +55,6 @@ class System:
         self.uptime = shell.run_command(["uptime"])
         self.disk_usage = commands.get_disk_usage_h()
         self.disks = self.get_disks()
-        self.load_average_data = commands.get_load_average_cleaned()
-        self.memory_usage_data = commands.get_memory_usage_cleaned()
 
         # sar data
         self.set_sar_data()
@@ -112,6 +110,10 @@ class System:
             self.disk_io = commands.get_disk_io()
         except CommandException:
             self.cpu_usage = sar_failure
+
+        # not used atm.
+        #self.load_average_data = commands.get_load_average_cleaned()
+        #self.memory_usage_data = commands.get_memory_usage_cleaned()
 
     def get_short_python_version(self):
         return self.python_version.split()[0]
