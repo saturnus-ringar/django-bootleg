@@ -105,3 +105,8 @@ def get_attribute(obj, attribute):
 @register.simple_tag()
 def get_many_to_many_fields_values(obj, attribute):
     return getattr(obj, attribute).all()
+
+
+@register.simple_tag()
+def get_class(obj):
+    return obj.__class__.__name__
