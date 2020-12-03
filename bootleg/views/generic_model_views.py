@@ -81,8 +81,8 @@ class GenericListView(GenericModelView, SingleTableView):
         return self.model.objects.all().order_by(self.get_order_by())
 
     def get_order_by(self):
-        if hasattr(self.model._meta, "order_by"):
-            return self.model._meta.order_by
+        if hasattr(self.model._meta, "ordering"):
+            return self.model._meta.ordering
         return "-id"
 
     def get_args(self):
