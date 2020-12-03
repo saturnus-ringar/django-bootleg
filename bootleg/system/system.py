@@ -109,7 +109,7 @@ class System:
         try:
             self.disk_io = commands.get_disk_io()
         except CommandException:
-            self.cpu_usage = sar_failure
+            self.disk_io = sar_failure
 
         # not used atm.
         #self.load_average_data = commands.get_load_average_cleaned()
