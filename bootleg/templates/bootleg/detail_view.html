@@ -1,0 +1,33 @@
+{% load i18n%}
+
+<div class="card mb-4 bg-light">
+    <div class="card-body">
+        <h4>
+            {% if obj.get_model_name == "order" %}
+                #{% get_attribute obj "id" %}
+            {% else %}
+                {% get_attribute obj "name" %}a
+            {% endif %}
+        </h4>
+        {% for field in obj.get_simple_fields_except_id %}
+            {% if field.name != "name" %}
+                <h6 class="mt-4">{{ field.verbose_name }}</h6>
+                {% get_attribute obj field.name %}
+            {% endif %}
+        {% endfor %}
+        {% for many_to_many_field in obj.get_many_to_many_fields %}
+            <h6 class="mt-4">{{ many_to_many_field.verbose_name }}</h6>
+                {% get_many_to_many_fields_values obj many_to_many_field.name as fields %}
+                {% for field in fields %}
+                    {{ field }}<br />
+                {% endfor %}
+        {% endfor %}
+        {% for image_field in obj.get_image_fields %}
+            <h6 class="mt-4">{{ image_field.verbose_name }}</h6>
+            <img src="{% get_attribute obj image_field.name %}" height="200" />
+        {% endfor %}
+        <p>
+            <a href="{{ obj.get_update_url }}"><button type="button" class="btn btn-primary mt-4">{% trans "Update" %}</button></a>
+        </p>
+    </div>
+</div>

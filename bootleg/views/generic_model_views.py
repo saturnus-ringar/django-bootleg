@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, DetailView
 from django_tables2 import SingleTableView, RequestConfig
 
 from bootleg.forms.forms import GenericModelSearchForm
@@ -132,3 +132,7 @@ class GenericModelCloneView(GenericModelView, RedirectView):
         self.object.save()
         messages.add_message(self.request, messages.INFO, _("The %s was cloned" % self.model._meta.verbose_name))
         return self.object.get_update_url()
+
+
+class GenericModelDetailView(GenericModelView, DetailView):
+    template_name = "bootleg/detail_view.html"

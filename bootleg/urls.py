@@ -12,7 +12,7 @@ from bootleg.forms.auth_forms import LoginForm
 from bootleg.views.auth_views import CustomLoginView, LogoutView, change_password, \
     CustomPasswordResetView, PasswordResetBaseView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView, \
-    GenericModelCloneView
+    GenericModelCloneView, GenericModelDetailView
 from bootleg.views.json_views import JSONSuggestView
 from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView
 from bootleg.views.xhr_views import JavascriptErrorView
@@ -50,14 +50,11 @@ urlpatterns = [
     path("list/<model_name>/", GenericListView.as_view(), name="list_view"),
 
     #######################################
-    # generic model create/update views
+    # generic models
     #######################################
     path("create/<model_name>/", GenericModelCreateView.as_view(), name="create_model"),
     path("update/<model_name>/<int:pk>", GenericModelUpdateView.as_view(), name="update_model"),
-
-    #######################################
-    # clone generic models
-    #######################################
+    path("view/<model_name>/<int:pk>", GenericModelDetailView.as_view(), name="model_detail"),
     path("clone/<model_name>/<int:pk>", GenericModelCloneView.as_view(), name="clone_model"),
 
     #######################################
