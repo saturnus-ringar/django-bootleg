@@ -30,6 +30,12 @@ if not settings.is_overridden("DATETIME_FORMAT"):
 if not settings.is_overridden("DATE_FORMAT"):
     DATE_FORMAT = "Y-m-d"
 
+if not settings.is_overridden("SHORT_DATETIME_FORMAT"):
+    SHORT_DATETIME_FORMAT = "Y-m-d H:i"
+
+if not settings.is_overridden("SHORT_DATE_FORMAT"):
+    SHORT_DATE_FORMAT = "Y-m-d"
+
 if not settings.is_overridden("STATIC_ROOT"):
     STATIC_ROOT = "/static/"
 
