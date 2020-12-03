@@ -1,6 +1,10 @@
+from django.utils.safestring import mark_safe
+from django_tables2.utils import AttributeDict
+
 from bootleg.utils.utils import get_meta_class_value
-from django_tables2 import tables, Column
+from django_tables2 import tables, Column, BooleanColumn
 from django.utils.translation import ugettext as _
+from django.utils.html import escape, format_html
 
 
 def add_initial_columns(model, table_class):
@@ -48,3 +52,18 @@ def get_default_table(model):
                                                            orderable=False))])
     table_class._meta.sequence = (initial_columns + fields + end_fields)
     return table_class
+
+
+def render_boolean_colum(self, value, record, bound_column):
+    value = self._get_bool_value(record, value, bound_column)
+    if value:
+        text = _("Yes")
+        css_class = "success"
+    else:
+        text = _("No")
+        css_class = "danger"
+
+    return mark_safe('<span class="label label-%s">%s</span>' % (css_class, text))
+
+# monkey patch Django table 2's boolean column-rendering
+BooleanColumn.render = render_boolean_colum
