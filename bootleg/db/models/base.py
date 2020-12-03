@@ -142,6 +142,10 @@ class BaseModel(models.Model):
                          '<button class ="btn btn-primary btn-sm">%s</button></a>'
                          % (self.get_clone_url(), _("Are you sure you want to clone this?"), _("Clone")))
 
+    def get_absolute_url_link(self):
+        if hasattr(self, "get_absolute_url"):
+            return mark_safe('<a href="%s">%s</a>' % (self.get_absolute_url(), self.get_absolute_url()))
+
     @abstractmethod
     def to_log(self):
         raise NotImplementedError
