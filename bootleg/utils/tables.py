@@ -1,5 +1,5 @@
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utixls.translation import ugettext as _
 from django_tables2 import tables, Column, BooleanColumn
 
 from bootleg.utils.utils import get_meta_class_value
@@ -19,6 +19,7 @@ def add_initial_columns(model, table_class):
 
 
 def get_default_table(model):
+    # get all visible fields
     if hasattr(model._meta, "visible_fields"):
         fields = model._meta.visible_fields
     else:
@@ -27,6 +28,7 @@ def get_default_table(model):
     table_class = tables.table_factory(model, fields=fields)
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
 
+    # set the fields that we want at the end of the table
     end_fields = ["detail"]
     if not get_meta_class_value(model, "disable_create_update") is True:
         end_fields.append("update")
@@ -35,16 +37,20 @@ def get_default_table(model):
 
     initial_columns = add_initial_columns(model, table_class)
 
+    # clone link
     if get_meta_class_value(model, "cloneable") is True:
         table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
                                                           orderable=False))])
         end_fields.append("clone")
 
+    # detail link
     table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
                                                        orderable=False))])
+    # update links
     if not get_meta_class_value(model, "disable_create_update") is True:
         table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
                                                            orderable=False))])
+    # deletion links
     if get_meta_class_value(model, "allow_deletion"):
         table_class.base_columns.update([("delete", Column(accessor="get_delete_link", verbose_name=_("Delete"),
                                                            orderable=False))])
