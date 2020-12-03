@@ -147,6 +147,8 @@ class GenericModelCloneView(GenericModelView, RedirectView):
 class GenericModelDeleteView(GenericModelView, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
+        if hasattr(self.object, "log_delete"):
+            self.object.log_delete(self.request)
         self.object.delete()
         messages.add_message(self.request, messages.INFO, _("The %s was deleted" % self.model._meta.verbose_name))
         return self.object.__class__.get_list_url()
