@@ -122,6 +122,28 @@ def get_foreign_key_field(model, field):
     return foreign_key_model._meta.get_field(parts[1])
 
 
+def get_order_by(model):
+    if hasattr(model._meta, "ordering") and model._meta.ordering:
+        return model._meta.ordering
+    return ["-id"]
+
+
+def search_and_filter(model, query=None, args=None, autocomplete=False):
+    queryset = None
+    if query:
+        queryset = search(model, model._meta.search_fields, query, autocomplete=autocomplete)
+
+    if queryset is None:
+        queryset = model.objects.all()
+
+    if args:
+        # got args... filter
+        queryset = queryset.filter(**args)
+
+    queryset = queryset.order_by(*get_order_by(model))
+    return queryset.select_related(*model.get_foreign_key_field_names())
+
+
 # https://stackoverflow.com/a/1239602/9390372
 def search(model, fields, query, autocomplete=False):
     fields = filter_autocomplete_fields(model, fields)
