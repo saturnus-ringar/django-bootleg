@@ -147,10 +147,16 @@ class GenericModelCloneView(GenericModelView, RedirectView):
 class GenericModelDeleteView(GenericModelView, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
+        if not get_meta_class_value(self.model, "allow_deletion") is True:
+            raise PermissionDenied()
+
         if hasattr(self.object, "log_delete"):
             self.object.log_delete(self.request)
         self.object.delete()
         messages.add_message(self.request, messages.INFO, _("The %s was deleted" % self.model._meta.verbose_name))
+        if "HTTP_REFERER" in self.request.META:
+            return self.request.META["HTTP_REFERER"]
+
         return self.object.__class__.get_list_url()
 
 
