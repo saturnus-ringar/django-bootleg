@@ -18,20 +18,6 @@ def add_columns(model, table_class, method):
     return field_names
 
 
-def get_end_field_list(model):
-    # set the fields that we want at the end of the table
-    end_fields = []
-    if hasattr(model(), "get_absolute_url_link"):
-        end_fields = ["absolute_url"]
-
-    if not get_meta_class_value(model, "disable_create_update") is True:
-        end_fields.append("update")
-    if get_meta_class_value(model, "allow_deletion"):
-        end_fields.append("delete")
-
-    return end_fields
-
-
 def cleanup_fields(inital_fields, fields, additional_fields, end_fields):
     cleaned_fields = inital_fields
     cleaned_fields = lists.add_unique(cleaned_fields, fields)
@@ -41,6 +27,7 @@ def cleanup_fields(inital_fields, fields, additional_fields, end_fields):
 
 
 def get_default_table(model):
+    model_obj = model()
     # get all visible fields
     if hasattr(model._meta, "visible_fields"):
         fields = model._meta.visible_fields
@@ -53,22 +40,16 @@ def get_default_table(model):
     # add initial and additional columns
     initial_fields = ["detail"] + add_columns(model, table_class, "get_initial_columns")
     additional_fields = add_columns(model, table_class, "get_additional_columns")
-    # get end field names
-    end_fields = get_end_field_list(model)
 
     # abolute url link
-    if hasattr(model(), "get_absolute_url_link"):
+    if hasattr(model, "get_absolute_url_link") and hasattr(model_obj, "get_absolute_url"):
         table_class.base_columns.update([("absolute_url", Column(accessor="get_absolute_url_link", verbose_name=_("URL"),
                                                           orderable=False))])
-    # clone link
-    if get_meta_class_value(model, "cloneable") is True:
-        table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
-                                                          orderable=False))])
-        end_fields.append("clone")
-
     # detail link
     table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
-                                                       orderable=False))])
+                                                           orderable=False))])
+
+    end_fields = []
     if hasattr(model(), "get_custom_update_link"):
         table_class.base_columns.update([("update", Column(accessor="get_custom_update_link",
                                                            verbose_name=_("Update"), orderable=False))])
@@ -77,10 +58,18 @@ def get_default_table(model):
         if not get_meta_class_value(model, "disable_create_update") is True:
             table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
                                                            orderable=False))])
+    end_fields.append("update")
+    # clone link
+    if get_meta_class_value(model, "cloneable") is True:
+        table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
+                                                          orderable=False))])
+        end_fields.append("clone")
     # deletion links
     if get_meta_class_value(model, "allow_deletion"):
         table_class.base_columns.update([("delete", Column(accessor="get_delete_link", verbose_name=_("Delete"),
                                                            orderable=False))])
+        end_fields.append("delete")
+
     # set column sequence
     table_class._meta.sequence = cleanup_fields(initial_fields, fields, additional_fields, end_fields)
     return table_class
