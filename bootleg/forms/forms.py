@@ -1,4 +1,5 @@
 from crispy_forms.helper import FormHelper
+from enumfields.forms import EnumChoiceField
 
 from bootleg.forms.base import METHOD_GET, BaseForm, get_default_form_helper
 from django.forms import CharField, modelform_factory, SelectMultiple, Select
@@ -48,3 +49,18 @@ class GenericModelSearchForm(BaseForm):
             self.add_attribute(self.fields["q"], "placeholder", _("Search"))
             self.add_class(self.fields["q"], "generic-autocomplete")
             self.add_class(self.fields["q"], "form-control")
+
+
+# monkey patch EnumChoiceField so it has an emtpy label
+def enum_choice_field_init(self, enum, **kwargs):
+    choices = [("", "--------------")] + enum.choices(blank=not kwargs.get("required", True))
+    kwargs["choices"] = choices
+    kwargs["initial"] = ""
+    kwargs.setdefault(
+        "choices", choices
+    )
+    kwargs.setdefault("coerce", int)
+    super(EnumChoiceField, self).__init__(**kwargs)
+    self.enum = enum
+
+EnumChoiceField.__init__ = enum_choice_field_init
