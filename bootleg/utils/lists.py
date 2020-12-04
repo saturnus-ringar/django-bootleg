@@ -1,5 +1,13 @@
 
 
+def add_unique(li1, li2):
+    for value in li2:
+        if value not in li1:
+            li1.append(value)
+
+    return li1
+
+
 def remove_duplicates(li):
     my_set = set()
     res = []

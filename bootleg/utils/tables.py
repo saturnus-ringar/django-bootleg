@@ -1,3 +1,4 @@
+from bootleg.utils import lists
 from django.utils.safestring import mark_safe
 from django_tables2 import tables, Column, BooleanColumn
 from django.utils.translation import ugettext as _
@@ -5,16 +6,16 @@ from bootleg.utils.utils import get_meta_class_value
 
 
 def add_columns(model, table_class, method):
-    column_names = []
+    field_names = []
     if hasattr(model, method):
         columns = getattr(model, method)()
         for column in columns:
-            column_names.append(column[0])
+            field_names.append(column[0])
         table_class.base_columns.update(columns)
-        for column_name in column_names:
+        for column_name in field_names:
             table_class.base_columns.move_to_end(column_name, last=False)
 
-    return column_names
+    return field_names
 
 
 def get_end_field_list(model):
@@ -31,6 +32,14 @@ def get_end_field_list(model):
     return end_fields
 
 
+def cleanup_fields(inital_fields, fields, additional_fields, end_fields):
+    cleaned_fields = inital_fields
+    cleaned_fields = lists.add_unique(cleaned_fields, fields)
+    cleaned_fields = lists.add_unique(cleaned_fields, additional_fields)
+    cleaned_fields += end_fields
+    return cleaned_fields
+
+
 def get_default_table(model):
     # get all visible fields
     if hasattr(model._meta, "visible_fields"):
@@ -42,8 +51,8 @@ def get_default_table(model):
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
 
     # add initial and additional columns
-    initial_columns = ["detail"] + add_columns(model, table_class, "get_initial_columns")
-    additional_columns = add_columns(model, table_class, "get_additional_columns")
+    initial_fields = ["detail"] + add_columns(model, table_class, "get_initial_columns")
+    additional_fields = add_columns(model, table_class, "get_additional_columns")
     # get end field names
     end_fields = get_end_field_list(model)
 
@@ -72,7 +81,8 @@ def get_default_table(model):
     if get_meta_class_value(model, "allow_deletion"):
         table_class.base_columns.update([("delete", Column(accessor="get_delete_link", verbose_name=_("Delete"),
                                                            orderable=False))])
-    table_class._meta.sequence = (initial_columns + fields + additional_columns + end_fields)
+    # set column sequence
+    table_class._meta.sequence = cleanup_fields(initial_fields, fields, additional_fields, end_fields)
     return table_class
 
 
