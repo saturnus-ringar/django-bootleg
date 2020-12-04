@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
-from enumfields.forms import EnumChoiceField
+from django_enumfield.forms.fields import EnumChoiceField
 
-from bootleg.forms.base import METHOD_GET, BaseForm, get_default_form_helper
+from bootleg.forms.base import METHOD_GET, BaseForm
 from django.forms import CharField, modelform_factory, SelectMultiple, Select
 from django.utils.translation import ugettext as _
 
