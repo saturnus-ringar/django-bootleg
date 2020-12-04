@@ -139,6 +139,11 @@ form li {
     font-size: 100% !important;
 }
 
+/* bootstrap overrides */
+mark {
+    padding: 0 !important;
+}
+
 /* easy autocomplete */
 .easy-autocomplete-container ul li b {
     font-weight: bolder !important;

@@ -1,3 +1,55 @@
+- konstig formatering på datumen:
+    http://localhost:8000/orders/?status=0&q=2
+
+- varför hittar den massa?
+    http://localhost:8000/orders/?status=0&q=shish
+
+- generell filtrering på modeller via specade fält som ligger till höger
+
+- göra alla fält icke-required i filter-form
+
+- få med q-parametern i filtreringen
+
+- resetta-filter-knapp
+
+- fylla i värden i filterformuläret i request
+
+- krasch:
+    http://localhost:8000/json/event/?q=n
+
+- radera modell ska redirecta till där man var
+
+- ordrar:
+    /Users/stefan/Dev/envs/nbcab/lib/python3.7/site-packages/django/views/generic/list.py:88: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'core.models.order.Order'> QuerySet.
+  allow_empty_first_page=allow_empty_first_page, **kwargs)
+
+- hantera det här:
+    bootleg.system.shell.CommandException: The process [['sar', '-rh']] raised an error: Cannot open /var/log/sysstat/sa04: No such file or directory
+    Please check if data collecting is enabled
+    ... finns inte för den fjärde än verkar det som
+
+- tillbaka-knapp i detail-view
+
+- bredare sök i bootstrap 3
+
+- loader på sökformuläret
+
+- skriva ut hur många object som finns i listvyn
+
+- overrida django tables boolean-rendering
+
+- kräva inloggning på listvyer osv.
+    http://localhost:8000/list/dismissedevent/
+
+- dubbla alerts då man ska radera ett objekt
+
+- sökformuläret syns inte för dismissed-event
+
+- autocompleta inte på URL-fält och textfält
+
+- funkar inte:
+    http://localhost:8000/view/dismissedevent/203741
+
 - default-sortering = id, men att kunna välja sortering
 
 - kunna disabla skapande och radering

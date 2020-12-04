@@ -56,12 +56,6 @@ if($("form[id='Forgot password']").length > 0) {
     $("form[id='Forgot password'] button[type=submit]").addClass("loading-button")
 }
 
-// add loader on the search form
-$("#bootleg_q_form").submit(function() {
-    showElement($("#q_loader"));
-});
-
-
 function showElement(element) {
     element.removeClass("hidden");
 }
@@ -116,12 +110,7 @@ function getNavbarOffset() {
     return 0;
 }
 
-function clearActiveInListGroup() {
-     $('.list-group a').each(function() {
-         $(this).removeClass("active");
-     });
-}
-
+// scroll-to-anchor-links
 $("a.anchor").on("click", function() {
     clearActiveInListGroup();
     $(this).addClass("active");
@@ -130,14 +119,63 @@ $("a.anchor").on("click", function() {
     }, 500);
 });
 
+function clearActiveInListGroup() {
+     $('.list-group a').each(function() {
+         $(this).removeClass("active");
+     });
+}
 
+
+// confirmation links
 $("a.confirmation-link").on("click", function() {
-    console.log("SHASH!");
     if(!confirm($(this).data("text"))) {
         return false
     }
 });
 
+// changes on the selects in the generic model filter form
+$("#bootleg_model_filter_form select").change(function() {
+    handleGenericModelFilter();
+});
+
+// generic model search submit
+$("#bootleg_q_form").submit(function(e) {
+    e.preventDefault();
+    handleGenericModelFilter();
+});
+
+function handleGenericModelFilter() {
+    var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form"]);
+    window.location.href = serialized
+}
+
+
+function getSerializedForms(formIds) {
+    var serialized = "?"
+    for(i = 0; i < formIds.length; i++) {
+        var formData = getSerializedFormWithoutEmptyValues(formIds[i]);
+        console.log(formData);
+        if(formData) {
+            if(i > 0) {
+                serialized += "&" + formData
+            } else {
+                serialized += formData
+            }
+        }
+    }
+    return serialized;
+}
+
+function getSerializedFormWithoutEmptyValues(formId) {
+    // http://stackoverflow.com/questions/608730/how-do-i-use-jquerys-form-serialize-but-exclude-empty-fields
+    var form = $(formId);
+    if(form.length > 0) {
+        var serialized = $(formId).serialize();
+        var cleaned = serialized.replace(/[^&]+=\.?(&|$)/g, '');
+        return cleaned.replace(/&$/, ''); // remove traling &
+    }
+    return null;
+}
 
 function getURLParameter(name) {
     return decodeURIComponent((RegExp('[?|&]' + name + '=' + '(.+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;

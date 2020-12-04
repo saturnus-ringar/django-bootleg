@@ -1,6 +1,25 @@
-from bootleg.forms.base import METHOD_GET, BaseForm
-from django.forms import CharField
+from crispy_forms.helper import FormHelper
+
+from bootleg.forms.base import METHOD_GET, BaseForm, get_default_form_helper
+from django.forms import CharField, modelform_factory
 from django.utils.translation import ugettext as _
+
+
+def get_model_filter_form(model, request):
+    form = modelform_factory(model, fields=model._meta.filter_fields)
+    # set initial values ... modelform_factory doesn't accept any initial values
+    for field in form.base_fields:
+        value = request.GET.get(field, None)
+        if value:
+            form.base_fields[field].initial = value
+        # make all fields not-required
+        form.base_fields[field].required = False
+
+    helper = FormHelper()
+    helper.form_method = "GET"
+    helper.form_id = "bootleg_model_filter_form"
+    form.helper = helper
+    return form
 
 
 class GenericModelSearchForm(BaseForm):

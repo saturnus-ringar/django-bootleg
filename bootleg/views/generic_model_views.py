@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.forms import modelform_factory
 from django.http import Http404
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import RedirectView, DetailView
 from django_tables2 import SingleTableView, RequestConfig
 
-from bootleg.forms.forms import GenericModelSearchForm
+from bootleg.forms.forms import GenericModelSearchForm, get_model_filter_form
 from bootleg.utils import models, tables
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
@@ -48,19 +49,12 @@ class GenericListView(GenericModelView, SingleTableView):
     template_name = "bootleg/list_view.html"
 
     def dispatch(self, request, *args, **kwargs):
-        self.set_extra_form(request)
+        self.create_filter_form()
         return super().dispatch(request, *args, **kwargs)
 
-    def set_extra_form(self, request):
-        if hasattr(self, "extra_form_class"):
-            data = self.request.POST
-            if self.extra_form_class.method == "GET":
-                data = self.request.GET
-
-            if self.extra_form_class().has_submitted_value(request):
-                self.extra_form = self.extra_form_class(data)
-            else:
-                self.extra_form = self.extra_form_class()
+    def create_filter_form(self):
+        if get_meta_class_value(self.model, "filter_fields"):
+            self.filter_form = get_model_filter_form(self.model, self.request)
 
     def get_table_class(self):
         return tables.get_default_table(self.model)
@@ -74,15 +68,15 @@ class GenericListView(GenericModelView, SingleTableView):
         if "q" in self.request.GET:
             queryset = models.search(self.model, self.model._meta.search_fields, self.request.GET.get("q"))
 
-        if not queryset:
-            args = self.get_args()
-            if args:
-                # got args... filter
-                queryset = self.model.objects.filter(**args)
+        if queryset is None:
+            queryset = self.model.objects.all()
 
-        if not queryset:
-            queryset = self.model.objects.all().order_by(*self.get_order_by())
+        args = self.get_args()
+        if args:
+            # got args... filter
+            queryset = queryset.filter(**args)
 
+        queryset = queryset.order_by(*self.get_order_by())
         return queryset.select_related(*self.model.get_foreign_key_field_names())
 
     def get_order_by(self):
@@ -104,8 +98,8 @@ class GenericListView(GenericModelView, SingleTableView):
         context = super().get_context_data(**kwargs)
         if hasattr(self.model._meta, "search_fields"):
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
-        if hasattr(self, "extra_form"):
-            context["extra_form"] = self.extra_form
+        if hasattr(self, "filter_form"):
+            context["filter_form"] = self.filter_form
         return context
 
 
