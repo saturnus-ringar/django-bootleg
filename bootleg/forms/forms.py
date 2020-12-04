@@ -4,6 +4,8 @@ from bootleg.forms.base import METHOD_GET, BaseForm, get_default_form_helper
 from django.forms import CharField, modelform_factory, SelectMultiple, Select
 from django.utils.translation import ugettext as _
 
+EMPTY_LABEL = "---------"
+
 
 def get_model_filter_form(model, request):
     form = modelform_factory(model, fields=model._meta.filter_fields)
@@ -17,6 +19,7 @@ def get_model_filter_form(model, request):
         # don't allow any multiple selects
         if isinstance(form.base_fields[field].widget, SelectMultiple):
             form.base_fields[field].widget = Select()
+            form.base_fields[field].empty_label = EMPTY_LABEL
 
     helper = FormHelper()
     helper.form_method = "GET"
