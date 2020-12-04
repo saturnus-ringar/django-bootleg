@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.forms import modelform_factory
 from django.http import Http404
 from django.urls import reverse
 from django.utils.translation import ugettext as _
