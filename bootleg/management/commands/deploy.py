@@ -31,8 +31,10 @@ class Command(UserRequirementCommand):
         management.call_command("collectstatic", interactive=False)
         if not options["soft"]:
             if env.is_apache_from_cli():
+                self.logger.info("Restarting apache")
                 run_command(["sudo", "systemctl", "restart", "apache2"])
             elif env.is_gunicorn_from_cli():
+                self.logger.info("Restarting guincorn")
                 run_command(["sudo", "systemctl", "restart", "gunicorn.socket"])
             else:
                 raise ValueError("Could not determine which server type this is running on. Can't restart.")
