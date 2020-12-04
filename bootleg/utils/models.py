@@ -101,14 +101,27 @@ def filter_autocomplete_fields(model, fields):
     included_types = [CharField]
     filtered_fields = []
     for field_name in fields:
+        dx("field_name: %s" % field_name)
         try:
-            field = model._meta.get_field(field_name)
+            if "__" in field_name:
+                field = get_foreign_key_field(model, field_name)
+                print("field: %s" % field)
+            else:
+                field = model._meta.get_field(field_name)
+            dx(type(field))
             if type(field) in included_types:
                 filtered_fields.append(field_name)
         except FieldDoesNotExist:
             pass
 
     return filtered_fields
+
+
+def get_foreign_key_field(model, field):
+    # must be in model__field_name-format
+    parts = field.split("__")
+    foreign_key_model = model._meta.get_field(parts[0]).related_model
+    return foreign_key_model._meta.get_field(parts[1])
 
 
 # https://stackoverflow.com/a/1239602/9390372
