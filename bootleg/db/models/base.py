@@ -71,6 +71,23 @@ class BaseModel(models.Model):
 
         return None
 
+    @classmethod
+    def get_foreign_key_fields(cls):
+        fields = []
+        for field in cls._meta.fields:
+            if field.get_internal_type() == "ForeignKey":
+                fields.append(field)
+
+        return fields
+
+    @classmethod
+    def get_foreign_key_field_names(cls):
+        field_names = []
+        for field in cls.get_foreign_key_fields():
+            field_names.append(field.name)
+
+        return field_names
+
     def get_simple_fields_except_id(self):
         excluded_field_types = [ImageField]
         fields = []

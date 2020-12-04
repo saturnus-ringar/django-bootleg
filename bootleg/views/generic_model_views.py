@@ -70,15 +70,20 @@ class GenericListView(GenericModelView, SingleTableView):
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
+        queryset = None
         if "q" in self.request.GET:
-            return models.search(self.model, self.model._meta.search_fields, self.request.GET.get("q"))
+            queryset = models.search(self.model, self.model._meta.search_fields, self.request.GET.get("q"))
 
-        args = self.get_args()
-        if args:
-            # got args... filter
-            return self.model.objects.filter(**args)
+        if not queryset:
+            args = self.get_args()
+            if args:
+                # got args... filter
+                queryset = self.model.objects.filter(**args)
 
-        return self.model.objects.all().order_by(*self.get_order_by())
+        if not queryset:
+            queryset = self.model.objects.all().order_by(*self.get_order_by())
+
+        return queryset.select_related(*self.model.get_foreign_key_field_names())
 
     def get_order_by(self):
         if hasattr(self.model._meta, "ordering") and self.model._meta.ordering:
