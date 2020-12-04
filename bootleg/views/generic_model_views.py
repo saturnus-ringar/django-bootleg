@@ -53,8 +53,9 @@ class GenericListView(GenericModelView, SingleTableView):
         return super().dispatch(request, *args, **kwargs)
 
     def create_filter_form(self):
-        if get_meta_class_value(self.model, "filter_fields"):
-            self.filter_form = get_model_filter_form(self.model, self.request)
+        if self.model:
+            if get_meta_class_value(self.model, "filter_fields"):
+                self.filter_form = get_model_filter_form(self.model, self.request)
 
     def get_table_class(self):
         return tables.get_default_table(self.model)
