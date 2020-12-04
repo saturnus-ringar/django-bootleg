@@ -154,9 +154,8 @@ function getSerializedForms(formIds) {
     var serialized = "?"
     for(i = 0; i < formIds.length; i++) {
         var formData = getSerializedFormWithoutEmptyValues(formIds[i]);
-        console.log(formData);
         if(formData) {
-            if(i > 0) {
+            if(i > 0 && serialized.length > 1) {
                 serialized += "&" + formData
             } else {
                 serialized += formData
