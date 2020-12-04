@@ -38,6 +38,11 @@ def strip_html(html):
     return s.get_data()
 
 
+def remove_duplicates(string):
+    strings = string.split()
+    return " ".join(lists.remove_duplicates(strings)).strip()
+
+
 # https://stackoverflow.com/a/50152237/9390372
 def remove_non_printable(string):
     return ''.join(c for c in string if c.isprintable())
