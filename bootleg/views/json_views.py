@@ -2,9 +2,10 @@ from jsonview.views import JsonView
 
 from bootleg.utils import models
 from bootleg.utils.utils import get_attr__
+from bootleg.views.base import StaffRequiredView
 
 
-class JSONAutocompleteView(JsonView):
+class JSONAutocompleteView(StaffRequiredView, JsonView):
     search_limit = 75
     # some error handling/validation should be added here
 
