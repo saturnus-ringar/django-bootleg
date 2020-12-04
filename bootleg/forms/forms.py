@@ -1,7 +1,7 @@
 from crispy_forms.helper import FormHelper
 
 from bootleg.forms.base import METHOD_GET, BaseForm, get_default_form_helper
-from django.forms import CharField, modelform_factory
+from django.forms import CharField, modelform_factory, SelectMultiple, Select
 from django.utils.translation import ugettext as _
 
 
@@ -14,6 +14,9 @@ def get_model_filter_form(model, request):
             form.base_fields[field].initial = value
         # make all fields not-required
         form.base_fields[field].required = False
+        # don't allow any multiple selects
+        if isinstance(form.base_fields[field].widget, SelectMultiple):
+            form.base_fields[field].widget = Select()
 
     helper = FormHelper()
     helper.form_method = "GET"

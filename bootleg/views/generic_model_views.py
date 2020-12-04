@@ -47,15 +47,6 @@ class GenericListView(GenericModelView, SingleTableView):
     paginate_by = 25
     template_name = "bootleg/list_view.html"
 
-    def dispatch(self, request, *args, **kwargs):
-        self.create_filter_form()
-        return super().dispatch(request, *args, **kwargs)
-
-    def create_filter_form(self):
-        if self.model:
-            if get_meta_class_value(self.model, "filter_fields"):
-                self.filter_form = get_model_filter_form(self.model, self.request)
-
     def get_table_class(self):
         return tables.get_default_table(self.model)
 
@@ -92,14 +83,19 @@ class GenericListView(GenericModelView, SingleTableView):
             if param in field_names:
                 args[param] = self.request.GET.get(param)
 
+        for m2m_field in self.model._meta.many_to_many:
+            param = self.request.GET.get(m2m_field.name)
+            if param:
+                args[m2m_field.name + "__id"] = param
+
         return args
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if hasattr(self.model._meta, "search_fields"):
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
-        if hasattr(self, "filter_form"):
-            context["filter_form"] = self.filter_form
+        if get_meta_class_value(self.model, "filter_fields"):
+            context["filter_form"] = get_model_filter_form(self.model, self.request)
         return context
 
 
