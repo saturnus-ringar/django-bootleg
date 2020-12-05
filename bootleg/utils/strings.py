@@ -3,15 +3,19 @@ import json
 import random
 import re
 import unicodedata
+from html.parser import HTMLParser
+from io import StringIO
 from itertools import chain
 from itertools import combinations
 from pprint import pprint
-from io import StringIO
-from html.parser import HTMLParser
+
 from django.utils.safestring import mark_safe
 
-
 from bootleg.utils import lists
+
+
+class TooManyStringsPartsException(Exception):
+    pass
 
 
 # https://stackoverflow.com/a/925630
@@ -97,7 +101,7 @@ def ends_with_slash(string):
 def get_all_string_combinations(string):
     string_parts = string.split(" ")
     if len(string_parts) > 8:
-        raise Exception("Too many string parts")
+        raise TooManyStringsPartsException("Too many string parts")
 
     string_subsets = []
     subsets = chain(*map(lambda x: combinations(string_parts, x), range(0, len(string_parts)+1)))
