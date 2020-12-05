@@ -51,7 +51,6 @@ def service_is_running(service_name):
         return False
 
 
-
 def is_production():
     if settings.DEBUG is False:
         if is_apache():
