@@ -46,19 +46,21 @@ def get_default_table(model):
         table_class.base_columns.update([("absolute_url", Column(accessor="get_absolute_url_link", verbose_name=_("URL"),
                                                           orderable=False))])
     # detail link
-    table_class.base_columns.update([("detail", Column(accessor="get_detail_link", verbose_name=_("View"),
+    table_class.base_columns.update([("detail", Column(accessor="get_xhr_detail_link", verbose_name=_("View"),
                                                            orderable=False))])
 
     end_fields = []
     if hasattr(model(), "get_custom_update_link"):
         table_class.base_columns.update([("update", Column(accessor="get_custom_update_link",
                                                            verbose_name=_("Update"), orderable=False))])
+        end_fields.append("update")
     else:
         # update links
         if not get_meta_class_value(model, "disable_create_update") is True:
             table_class.base_columns.update([("update", Column(accessor="get_update_link", verbose_name=_("Update"),
                                                            orderable=False))])
-    end_fields.append("update")
+            end_fields.append("update")
+
     # clone link
     if get_meta_class_value(model, "cloneable") is True:
         table_class.base_columns.update([("clone", Column(accessor="get_clone_link", verbose_name=_("Clone"),
