@@ -60,7 +60,7 @@ def test_writing_and_get_filename(filename):
 
 def get_log_level(filename):
     level = bootleg_settings.LOG_LEVEL
-    if filename == "debug":
+    if filename == "debug" or filename == "bootleg/debug":
         # always debug, in the debug log
         level = "DEBUG"
     return level
@@ -160,6 +160,10 @@ def debug_log(msg):
     logger.debug(msg)
 
 
+def bootleg_debug_log(msg):
+    get_logger("bootleg/debug").debug(msg)
+
+
 def log_audit(message, request=None):
     if request:
         get_logger("audit").info(get_ip_to_log(request) + get_user_to_log(request.user) + message)
@@ -191,7 +195,6 @@ def add_builtins():
 
     def dp(obj, verbose=False):
         dx(obj, verbose)
-
 
     builtins.dp = dp
     builtins.dx = dx

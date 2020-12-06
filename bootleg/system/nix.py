@@ -3,13 +3,13 @@ import grp
 import os
 import pwd
 
-from bootleg.system.file_system import write_file
-from bootleg.system.shell import run_command
-
-from bootleg.system import shell
-from bootleg.conf import bootleg_settings
 from django.conf import settings
 
+from bootleg.conf import bootleg_settings
+from bootleg.logging.logging import bootleg_debug_log
+from bootleg.system import shell
+from bootleg.system.file_system import write_file
+from bootleg.system.shell import run_command
 from bootleg.utils.env import get_virtual_env_dir
 
 
@@ -33,6 +33,8 @@ def get_home_directory_of_main_user():
 def setup_alias_file():
     home_dir = get_home_directory_of_main_user()
     if home_dir:
+        bootleg_debug_log("writing alias file with virtual env: [%s] alias prefix: [%s]"
+                          % (get_virtual_env_dir(), get_alias_prefix()))
         content = "# !/bin/bash\n"
         content += 'SOURCE_ENV="source %sbin/activate"\n' % get_virtual_env_dir()
         content += 'PROJECT_DIR="%s"\n' % settings.BASE_DIR
