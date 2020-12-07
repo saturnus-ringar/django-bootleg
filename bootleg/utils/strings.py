@@ -18,6 +18,18 @@ class TooManyStringsPartsException(Exception):
     pass
 
 
+def remove_prefix(text, prefix):
+    if text.startswith(prefix):
+        return text[len(prefix):]
+    return text
+
+
+def remove_suffix(text, suffix):
+    if not text.endswith(suffix):
+        return text
+    return text[:len(text)-len(suffix)]
+
+
 # https://stackoverflow.com/a/925630
 class MLStripper(HTMLParser):
 
