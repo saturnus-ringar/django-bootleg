@@ -191,6 +191,12 @@ $("#bootleg_q_form").submit(function(e) {
     handleGenericModelFilter();
 });
 
+// bootleg generic filter form
+$("#bootleg_model_filter_form").submit(function(e) {
+    e.preventDefault();
+    handleGenericModelFilter();
+});
+
 function handleGenericModelFilter() {
     var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form"]);
     window.location.href = serialized
@@ -198,6 +204,7 @@ function handleGenericModelFilter() {
 
 
 function getSerializedForms(formIds) {
+    console.log("getSerializedForms");
     var serialized = "?"
     for(i = 0; i < formIds.length; i++) {
         var formData = getSerializedFormWithoutEmptyValues(formIds[i]);
