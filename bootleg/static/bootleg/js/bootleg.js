@@ -12,6 +12,25 @@ window.onload = function() {
     }
 }
 
+$.ajaxSetup({
+    error : function(x,e) {
+        if(x.status == 0) {
+            alert(Text.unknownError);
+        } else if(x.status == 404) {
+            alert(Text.urlNotFound);
+        } else if(x.status == 500) {
+            alert(Text.internalServerError);
+        } else if(e == 'parsererror') {
+            alert(Text.jsonParseError);
+        } else if(e == 'timeout') {
+            alert(Text.requestTimeout);
+        } else if(x.status != 400) {
+            alert(Text.unknownError);
+        }
+    }
+});
+
+
 $(document).ready(function() {
     initSelect2s();
     highlightSearchResults();
@@ -117,6 +136,14 @@ $("a.anchor").on("click", function() {
     $([document.documentElement, document.body]).animate({
         scrollTop: $($(this).data("target")).offset().top - getNavbarOffset()
     }, 500);
+});
+
+// xhr-content-loaders
+$("a.xhr-loader").on("click", function() {
+    console.log($(this).data("url"));
+    console.log($(this).data("element"));
+    console.log($(this).data("toggle-text"));
+    console.log("SHASH");
 });
 
 function clearActiveInListGroup() {
