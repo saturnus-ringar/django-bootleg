@@ -138,8 +138,8 @@ $("a.anchor").on("click", function() {
     }, 500);
 });
 
-// xhr-content-loaders
-$("a.xhr-loader").on("click", function() {
+// ajax-content-loaders
+$("a.ajax-loader").on("click", function() {
     console.log($(this).data("url"));
     console.log($(this).data("element"));
     console.log($(this).data("toggle-text"));
