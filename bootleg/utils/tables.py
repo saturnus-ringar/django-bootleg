@@ -46,7 +46,7 @@ def get_default_table(model):
         table_class.base_columns.update([("absolute_url", Column(accessor="get_absolute_url_link", verbose_name=_("URL"),
                                                           orderable=False))])
     # detail link
-    table_class.base_columns.update([("detail", Column(accessor="get_xhr_detail_link", verbose_name=_("View"),
+    table_class.base_columns.update([("detail", Column(accessor="get_ajax_detail_link", verbose_name=_("View"),
                                                            orderable=False))])
 
     end_fields = []
@@ -72,6 +72,10 @@ def get_default_table(model):
                                                            orderable=False))])
         end_fields.append("delete")
 
+    # add object-id attr
+    table_class._meta.row_attrs = {
+        "object-id": lambda record: record.pk
+    }
     # set column sequence
     table_class._meta.sequence = cleanup_fields(initial_fields, fields, additional_fields, end_fields)
     return table_class

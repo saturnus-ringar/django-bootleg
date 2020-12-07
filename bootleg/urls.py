@@ -15,7 +15,7 @@ from bootleg.views.generic_model_views import GenericListView, GenericModelCreat
     GenericModelCloneView, GenericModelDetailView, GenericModelDeleteView
 from bootleg.views.json_views import JSONAutocompleteView
 from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView
-from bootleg.views.xhr_views import JavascriptErrorView
+from bootleg.views.ajax_views import JavascriptErrorView
 
 # setup, indeed
 bootleg.setup()
@@ -67,7 +67,7 @@ urlpatterns = [
     # hxr-views
     #######################################
     path("json/<model_name>/", JSONAutocompleteView.as_view(), name="json_autocomplete"),
-    path("xhr/javascript-error/", JavascriptErrorView.as_view(), name="javascript_error"),
+    path("ajax/javascript-error/", JavascriptErrorView.as_view(), name="javascript_error"),
 
     #######################################
     # misc-ish
