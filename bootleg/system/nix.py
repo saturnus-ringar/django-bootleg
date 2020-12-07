@@ -45,8 +45,9 @@ def setup_alias_file():
         content += 'alias %sdeploy="%s; pm deploy"\n' % (get_alias_prefix(), get_alias_prefix())
         content += 'alias %ssoftdeploy="%s; pm deploy -s"\n' % (get_alias_prefix(), get_alias_prefix())
         content += 'alias %srun="%s; pm runserver"\n' % (get_alias_prefix(), get_alias_prefix())
-        content += 'alias %stail="tail -f ${LOG_DIR}debug.log"\n' % get_alias_prefix()
         content += 'alias %slogdir="cd $LOG_DIR"\n' % get_alias_prefix()
+        content += 'alias %stail="tail -f ${LOG_DIR}debug.log"\n' % get_alias_prefix()
+        content += 'alias %scleardebug="cat /dev/null > ${LOG_DIR}debug.log"\n' % get_alias_prefix()
         content += 'alias %sstatus="%s; pm status"\n' % (get_alias_prefix(), get_alias_prefix())
         content += 'alias %scmd="%s; pm cmd"\n' % (get_alias_prefix(), get_alias_prefix())
         # well... write file then
