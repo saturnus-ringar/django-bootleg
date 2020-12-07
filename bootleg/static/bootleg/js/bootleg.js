@@ -129,12 +129,18 @@ function getNavbarOffset() {
     return 0;
 }
 
+function scrollTo(targetId, extraOffset=0) {
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $(targetId).offset().top - getNavbarOffset() + extraOffset
+    }, 500);
+}
+
 // scroll-to-anchor-links
 $("a.anchor").on("click", function() {
     clearActiveInListGroup();
     $(this).addClass("active");
     $([document.documentElement, document.body]).animate({
-        scrollTop: $($(this).data("target")).offset().top - getNavbarOffset()
+        scrollTop: scrollTo($(this).data("target"))
     }, 500);
 });
 
@@ -147,15 +153,18 @@ $(document).on("click", '.element-remover', function(e) {
 // object view loaders in them tables
 $(".object-view-loader").on("click", function(e) {
     e.preventDefault();
-    var tr = $("tr#object_row_" + $(this).data("object-id"));
-    var objectViewID = "object_view_" + $(this).data("object-id");
+    var objectId = $(this).data("object-id");
+    var tr = $("tr#object_row_" + objectId);
+    var objectViewID = "object_view_" + objectId;
     if($("#" + objectViewID).length == 0) {
         var newTR = $('<tr id="' + objectViewID + '"></tr>');
         var newTD = $('<td class="no-border" colspan="100"></td>').hide();
         tr.after(newTR);
         newTR.append(newTD);
-        newTD.load($(this).data("url"), function () {});
-        newTD.fadeIn();
+        newTD.load($(this).data("url"), function () {
+            newTD.fadeIn();
+            scrollTo("#object_top_"+ objectId, extraOffset=-75);
+        });
     } else {
         $("#" + objectViewID).remove();
     }
