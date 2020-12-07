@@ -18,9 +18,10 @@ class JSONAutocompleteView(StaffRequiredView, JsonView):
         query = self.request.GET.get("q")
         for result in models.search(self.model, self.model._meta.search_fields,
                                     query, autocomplete=True)[:self.search_limit]:
+
             for field in self.model._meta.search_fields:
                 value = get_attr__(result, field)
-                if query.lower() in str(value).lower():
-                    if value not in results:
+                if str(value).lower().startswith(query.lower()):
+                    if value and value not in results:
                         results.append(value)
         return results
