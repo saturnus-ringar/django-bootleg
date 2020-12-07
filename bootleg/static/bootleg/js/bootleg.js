@@ -138,12 +138,27 @@ $("a.anchor").on("click", function() {
     }, 500);
 });
 
-// ajax-content-loaders
-$("a.ajax-loader").on("click", function() {
-    console.log($(this).data("url"));
-    console.log($(this).data("element"));
-    console.log($(this).data("toggle-text"));
-    console.log("SHASH");
+// element removers
+$(document).on("click", '.element-remover', function(e) {
+   e.preventDefault();
+   $($(this).data("element-id")).remove();
+});
+
+// object view loaders in them tables
+$(".object-view-loader").on("click", function(e) {
+    e.preventDefault();
+    var tr = $("tr#object_row_" + $(this).data("object-id"));
+    var objectViewID = "object_view_" + $(this).data("object-id");
+    if($("#" + objectViewID).length == 0) {
+        var newTR = $('<tr id="' + objectViewID + '"></tr>');
+        var newTD = $('<td class="no-border" colspan="100"></td>').hide();
+        tr.after(newTR);
+        newTR.append(newTD);
+        newTD.load($(this).data("url"), function () {});
+        newTD.fadeIn();
+    } else {
+        $("#" + objectViewID).remove();
+    }
 });
 
 function clearActiveInListGroup() {

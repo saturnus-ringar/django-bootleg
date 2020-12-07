@@ -26,7 +26,7 @@ def cleanup_fields(inital_fields, fields, additional_fields, end_fields):
     return cleaned_fields
 
 
-def get_default_table(model):
+def get_default_table_class(model):
     model_obj = model()
     # get all visible fields
     if hasattr(model._meta, "visible_fields"):
@@ -74,7 +74,7 @@ def get_default_table(model):
 
     # add object-id attr
     table_class._meta.row_attrs = {
-        "object-id": lambda record: record.pk
+        "id": lambda record: "object_row_%s" % record.pk
     }
     # set column sequence
     table_class._meta.sequence = cleanup_fields(initial_fields, fields, additional_fields, end_fields)

@@ -48,10 +48,11 @@ class GenericListView(GenericModelView, SingleTableView):
     template_name = "bootleg/list_view.html"
 
     def get_table_class(self):
-        return tables.get_default_table(self.model)
+        return tables.get_default_table_class(self.model)
 
     def get_table(self, **kwargs):
         table = super().get_table(**kwargs)
+        table.attrs = {"id": "bootleg_list_table"}
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):

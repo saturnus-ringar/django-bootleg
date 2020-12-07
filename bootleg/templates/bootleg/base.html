@@ -1,4 +1,6 @@
 {% load static i18n bootleg bootstrap_tags compress %}
+
+{% if not request.is_ajax %}
 <!doctype html>
 <html lang="{{ bootleg_settings.html_language_code }}">
 <head>
@@ -33,6 +35,7 @@
     {% get_first_with_value heading view.heading page_title view.page_title %}
 {% endblock %}
 </h1>
+{% endif %}
 
 {% block content %}
     {% if view.page_text %}
@@ -47,6 +50,8 @@
     {% endif %}
 {% endblock %}
 
+{% if not request.is_ajax %}
+
 {% block footer %}
 {% endblock %}
 </main>
@@ -56,3 +61,5 @@
 {% endblock %}
 </body>
 </html>
+
+{% endif %}

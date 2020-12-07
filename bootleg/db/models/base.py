@@ -148,10 +148,13 @@ class BaseModel(models.Model):
 
     def get_ajax_detail_link(self):
         try:
-            return mark_safe('<a href="" class="ajax-loader" data-url="%s" data-element="%s">'
-                             '<button class ="btn btn-primary btn-sm">%s</button></a>'
+            return mark_safe('<a href="" class="object-view-loader" data-url="%s" data-object-id="%s" '
+                             'data-hide-text="%s"><button data-object-id="%s" class="btn btn-primary btn-sm">'
+                             '%s</button></a>'
                      % (reverse("bootleg:model_detail", args=[self._meta.model_name, self.id]),
-                        "bootleg_list_%s" % self.id,
+                        self.id,
+                        _("Hide"),
+                        self.id,
                         _("View")))
         except Exception as e:
             dx(e)

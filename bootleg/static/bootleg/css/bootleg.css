@@ -139,6 +139,10 @@ form li {
     font-size: 100% !important;
 }
 
+.no-border {
+    border: none !important;
+}
+
 /* bootstrap overrides */
 mark {
     padding: 0 !important;
