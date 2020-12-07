@@ -96,8 +96,6 @@ def get_editable_model_verbose_names():
 
 
 def filter_autocomplete_fields(model, fields):
-    # TODO: have to check fields with double underscores, a la: foreign_key__name
-    # ... eventually
     included_types = [CharField]
     filtered_fields = []
     for field_name in fields:
