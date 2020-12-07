@@ -1,4 +1,5 @@
 from crispy_forms.helper import FormHelper
+from django.db.models import ForeignKey, ManyToManyField
 from oscar.apps.catalogue.models import Product
 
 from bootleg.forms.base import METHOD_GET, BaseForm
@@ -19,7 +20,10 @@ def get_model_filter_form(model, request):
         # make all fields not-required
         form.base_fields[field].required = False
         # set queryset
-        form.base_fields[field].queryset = get_queryset_for_field(model, field)
+        queryset = get_queryset_for_field(model, field)
+        if queryset:
+            form.base_fields[field].queryset = queryset
+
         # don't allow any multiple selects
         if isinstance(form.base_fields[field].widget, SelectMultiple):
             form.base_fields[field].widget = Select()
@@ -33,10 +37,16 @@ def get_model_filter_form(model, request):
 
 
 def get_queryset_for_field(model, field_name):
-    # only use "related" (values that actually have been used) models
-    ids = list(model.objects.exclude(**{"%s_id" % field_name: None}).distinct().values_list("%s_id" % field_name,
-                                                                                         flat=True))
-    return model._meta.get_field(field_name).related_model.objects.filter(id__in=ids)
+    field = model._meta.get_field(field_name)
+    if isinstance(field, ForeignKey):
+        # only use "related" (values that actually have been used) models
+        ids = list(model.objects.exclude(**{"%s_id" % field_name: None}).distinct().values_list("%s_id" % field_name,
+                                                                                             flat=True))
+        return field.related_model.objects.filter(id__in=ids)
+
+    if isinstance(field, ManyToManyField):
+        # 2020-12-07: I'm not sure this actually works, in the long run. But it works. As of now.
+        return field.related_model.objects.filter(**{"%s__isnull" % model._meta.model_name: False}).all()
 
 
 class GenericModelSearchForm(BaseForm):
