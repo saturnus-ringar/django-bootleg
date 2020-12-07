@@ -1,4 +1,6 @@
 from crispy_forms.helper import FormHelper
+from oscar.apps.catalogue.models import Product
+
 from bootleg.forms.base import METHOD_GET, BaseForm
 from django.forms import CharField, modelform_factory, SelectMultiple, Select
 from django.utils.translation import ugettext as _
@@ -11,10 +13,13 @@ def get_model_filter_form(model, request):
     # set initial values ... modelform_factory doesn't accept any initial values
     for field in form.base_fields:
         value = request.GET.get(field, None)
+
         if value:
             form.base_fields[field].initial = value
         # make all fields not-required
         form.base_fields[field].required = False
+        # set queryset
+        form.base_fields[field].queryset = get_queryset_for_field(model, field)
         # don't allow any multiple selects
         if isinstance(form.base_fields[field].widget, SelectMultiple):
             form.base_fields[field].widget = Select()
@@ -25,6 +30,13 @@ def get_model_filter_form(model, request):
     helper.form_id = "bootleg_model_filter_form"
     form.helper = helper
     return form
+
+
+def get_queryset_for_field(model, field_name):
+    # only use "related" (values that actually have been used) models
+    ids = list(model.objects.exclude(**{"%s_id" % field_name: None}).distinct().values_list("%s_id" % field_name,
+                                                                                         flat=True))
+    return model._meta.get_field(field_name).related_model.objects.filter(id__in=ids)
 
 
 class GenericModelSearchForm(BaseForm):
