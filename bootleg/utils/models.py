@@ -104,7 +104,6 @@ def filter_autocomplete_fields(model, fields):
         try:
             if "__" in field_name:
                 field = get_foreign_key_field(model, field_name)
-                print("field: %s" % field)
             else:
                 field = model._meta.get_field(field_name)
             if type(field) in included_types:
@@ -159,5 +158,5 @@ def search(model, fields, query, autocomplete=False):
             qr = qr | q
         else:
             qr = q
-
+    dx(qr)
     return model.objects.filter(qr).order_by("id")
