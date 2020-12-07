@@ -156,5 +156,5 @@ def search(model, fields, query, autocomplete=False):
             qr = qr | q
         else:
             qr = q
-    dx(qr)
-    return model.objects.filter(qr).order_by("id")
+
+    return model.objects.filter(qr).distinct().order_by("id")
