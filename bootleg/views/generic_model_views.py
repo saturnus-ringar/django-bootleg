@@ -64,7 +64,9 @@ class GenericListView(GenericModelView, SingleTableView):
         field_names = self.model.get_all_field_names()
         for param in self.request.GET:
             if param in field_names:
-                args[param] = self.request.GET.get(param)
+                value = self.request.GET.get(param)
+                if value:
+                    args[param] = value
 
         for m2m_field in self.model._meta.many_to_many:
             param = self.request.GET.get(m2m_field.name)
