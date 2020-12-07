@@ -163,7 +163,7 @@ $(".object-view-loader").on("click", function(e) {
         newTR.append(newTD);
         newTD.load($(this).data("url"), function () {
             newTD.fadeIn();
-            scrollTo("#object_top_"+ objectId, extraOffset=-75);
+            scrollTo("#object_top_"+ objectId, extraOffset=-50);
         });
     } else {
         $("#" + objectViewID).remove();
