@@ -166,7 +166,7 @@ class BaseModel(models.Model):
 
     def get_clone_link(self):
         return mark_safe('<a href="%s" class="confirmation-link" data-text="%s">'
-                         '<button class ="btn btn-primary btn-sm">%s</button></a>'
+                         '<button class ="btn btn-warning btn-sm">%s</button></a>'
                          % (self.get_clone_url(), _("Are you sure you want to clone this?"), _("Clone")))
 
     def get_absolute_url_link(self):
