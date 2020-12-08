@@ -1,3 +1,4 @@
+from bootleg.utils.models import get_editable_models
 from django.apps import AppConfig
 from django.conf import settings
 from django.contrib.staticfiles import finders
@@ -11,6 +12,7 @@ from bootleg.conf.settings import ConfigurationError, DEFAULT_FAVICON
 from bootleg.system import nix
 from bootleg.system.nix import setup_alias_file
 from bootleg.utils import models, env
+from bootleg.utils.utils import get_attr__
 
 
 def check_sql_logging(errors):
@@ -230,6 +232,56 @@ def check_profile_model(errors):
     return errors
 
 
+def check_visible_fields(errors, models):
+    for model in models:
+        for field in model.get_meta_list("visible_fields"):
+            if not model.has_field(field):
+                errors.append(
+                    Error(
+                        "The visible field: %s is not a valid field for the model: %s" % (field, model._meta.model_name),
+                        hint="Set the field to an existing field of the model",
+                        obj=settings,
+                        id="bootleg.E031"
+                    )
+                )
+    return errors
+
+
+def check_filter_fields(errors, models):
+    for model in models:
+        list = model.get_meta_list("filter_fields")
+        # "__all__" can be used
+        if list != "__all__":
+            for field in model.get_meta_list("filter_fields"):
+                if not model.has_field(field):
+                    errors.append(
+                        Error(
+                            "The visible field: %s is not a valid field for the model: %s" % (field, model._meta.model_name),
+                            hint="Set the field to an existing field of the model",
+                            obj=settings,
+                            id="bootleg.E031"
+                        )
+                    )
+    return errors
+
+
+def check_extra_search_fields(errors, models):
+    for model in models:
+        for field in model.get_meta_list("extra_search_fields"):
+            if not model.has_field(field) and not model.is_valid_foreign_field(field):
+                errors.append(
+                    Error(
+                        "The extra search field: %s is not a valid field for the model: %s"
+                        % (field, model._meta.model_name),
+                        hint="Set the field to an existing field of the model",
+                        obj=settings,
+                        id="bootleg.E031"
+                    )
+                )
+    return errors
+
+
+
 @register()
 def check_settings(app_configs, **kwargs):
     errors = []
@@ -269,6 +321,10 @@ def check_settings(app_configs, **kwargs):
     errors = check_login_redirect_url(errors)
     errors = check_favicon(errors)
     errors = check_profile_model(errors)
+    models = get_editable_models()
+    errors = check_visible_fields(errors, models)
+    errors = check_filter_fields(errors, models)
+    errors = check_extra_search_fields(errors, models)
 
     return errors
 

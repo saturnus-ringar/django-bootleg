@@ -21,6 +21,8 @@ from django.conf import settings
 ##########################################
 # managers
 ##########################################
+from bootleg.utils.models import get_foreign_key_field
+from bootleg.utils.utils import get_meta_class_value
 
 
 class UnhandledStatusModelManager(models.Manager):
@@ -59,12 +61,40 @@ class BaseModel(models.Model):
     ##############################
     # fields
     ##############################
+
+    @classmethod
+    def is_valid_foreign_field(cls, field_name):
+        if get_foreign_key_field(cls, field_name):
+            return True
+
+        return False
+
+    @classmethod
+    def get_meta_value(cls, attr):
+        return get_meta_class_value(cls, attr)
+
+    @classmethod
+    def get_meta_list(cls, attr):
+        list = get_meta_class_value(cls, attr)
+        if list:
+            return list
+
+        return []
+
+    @classmethod
+    def has_field(cls, field_name):
+        if field_name in cls.get_all_field_names():
+            return True
+
+        return False
+
     @classmethod
     def get_all_field_names(cls):
         field_names = []
         for field in cls._meta.fields:
             field_names.append(field.name)
-
+        for many_to_many in cls.get_many_to_many_fields(cls):
+            field_names.append(many_to_many.name)
         return field_names
 
     @classmethod
@@ -247,7 +277,7 @@ class EditableNameAndDescriptionModel(NameAndDescriptionModel, TimeStampedModel)
     class Meta(NameAndDescriptionModel.Meta):
         abstract = True
         #admin_class = TimeStampedNamedAndDescriptionAdmin
-        admin_class = "SHISH"
+        #admin_class = "SHISH"
 
 
 class HandledStatusModel(BaseModel, TimeStampedModel):

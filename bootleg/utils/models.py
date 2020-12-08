@@ -114,9 +114,16 @@ def filter_autocomplete_fields(model, fields):
 
 def get_foreign_key_field(model, field):
     # must be in model__field_name-format
-    parts = field.split("__")
-    foreign_key_model = model._meta.get_field(parts[0]).related_model
-    return foreign_key_model._meta.get_field(parts[1])
+    try:
+        parts = field.split("__")
+        foreign_key_model = model._meta.get_field(parts[0]).related_model
+        if foreign_key_model:
+            return foreign_key_model._meta.get_field(parts[1])
+        else:
+            return None
+    except FieldDoesNotExist as e:
+        dx(e)
+        return None
 
 
 def get_order_by(model):
