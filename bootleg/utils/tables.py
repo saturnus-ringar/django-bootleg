@@ -26,12 +26,13 @@ def cleanup_fields(inital_fields, fields, additional_fields, end_fields):
     return cleaned_fields
 
 
-def add_request_fields(model, request):
+def add_request_fields(model, request, excluded_fields):
     fields = []
     if request:
         for param, value in request.GET.items():
             if param in model.get_all_field_names():
-                fields.append(param)
+                if param not in excluded_fields:
+                    fields.append(param)
 
     return fields
 
@@ -61,13 +62,14 @@ def get_default_table_class(model, request=None):
     table_class = tables.table_factory(model, fields=[])
     table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
 
-    # get fields from request
-    base_fields = add_request_fields(model, request)
     # get all visible fields
     if hasattr(model._meta, "visible_fields"):
-        fields = base_fields + model._meta.visible_fields
+        fields = model._meta.visible_fields
     else:
-        fields = base_fields + model._meta.fields
+        fields = model._meta.fields
+
+    # get fields from request
+    fields += add_request_fields(model, request, fields)
 
     for field in fields:
         add_standard_column(table_class, field)

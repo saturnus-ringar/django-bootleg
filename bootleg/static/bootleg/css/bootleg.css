@@ -162,6 +162,7 @@ form li {
 /* bootstrap overrides */
 mark {
     padding: 0 !important;
+    background-color: yellow !important;
 }
 
 /* easy autocomplete */

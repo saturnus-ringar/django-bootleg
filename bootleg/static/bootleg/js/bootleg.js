@@ -129,12 +129,17 @@ function initGenericAutocompletes() {
 }
 
 function highlightSearchResults() {
+    var query = getURLParameter("q");
+    if(query != "") {
+        $(".table-container").highlight();
+    }
     for(var key in getParams(window.location.href)) {
+        $(this).highlight(getURLParameter(key));
         var value = getURLParameter(key);
         $(".table-container tbody tr").each(function() {
-            $(this).highlight(getURLParameter(key));
             $(this).find("td").each(function() {
                 if($(this).data("field-name") == key && $(this).data("object-id") == value) {
+                    console.log("SHISH!")
                     $(this).highlight($(this).text());
                 }
             })
