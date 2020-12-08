@@ -139,9 +139,9 @@ class BaseModel(models.Model):
     def get_clone_url(self):
         return reverse("bootleg:clone_model", args=[self._meta.model_name, self.id])
 
-    def get_button_link(self, url, text, type="primary"):
-        return mark_safe('<a href="%s"><button class ="btn btn-%s btn-sm">%s</button></a>'
-                         % (url, type, text))
+    def get_button_link(self, url, text):
+        return mark_safe('<a href="%s"><button class ="btn btn-primary btn-sm">%s</button></a>'
+                         % (url, text))
 
     def get_detail_link(self):
         return self.get_button_link(self.get_detail_url(), _("View"))
@@ -157,7 +157,7 @@ class BaseModel(models.Model):
                     _("View")))
 
     def get_update_link(self):
-        return self.get_button_link(self.get_update_url(), _("Update123"), type="success")
+        return self.get_button_link(self.get_update_url(), _("Update"))
 
     def get_delete_link(self):
         return mark_safe('<a href="%s" class="confirmation-link" data-text="%s">'

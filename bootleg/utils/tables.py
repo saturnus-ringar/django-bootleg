@@ -109,6 +109,10 @@ def get_default_table_class(model, request=None):
                                                            orderable=False))])
         end_fields.append("delete")
 
+    # add object-id attr
+    table_class._meta.row_attrs = {
+        "id": lambda record: "object_row_%s" % record.pk
+    }
     # set column sequence
     table_class._meta.sequence = cleanup_fields(initial_fields, fields, additional_fields, end_fields)
     return table_class
