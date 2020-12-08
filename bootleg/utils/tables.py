@@ -36,21 +36,41 @@ def add_request_fields(model, request):
     return fields
 
 
+def get_id_or_blank(record, field):
+    try:
+        object = getattr(record, field)
+        if object and hasattr(object, "id"):
+            return object.id
+        return 0
+    except Exception:
+        return 0
+
+
+def add_standard_column(table_class, field):
+    attrs = {
+        "td": {
+            "data-field-name": field,
+            "data-object-id": lambda record: get_id_or_blank(record, field)
+        }
+    }
+    table_class.base_columns.update([(field, Column(accessor=field, verbose_name=field, attrs=attrs))])
+
+
 def get_default_table_class(model, request=None):
-    add_request_fields(model, request)
     model_obj = model()
+    table_class = tables.table_factory(model, fields=[])
+    table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
 
     # get fields from request
-    request_fields = add_request_fields(model, request)
-
+    base_fields = add_request_fields(model, request)
     # get all visible fields
     if hasattr(model._meta, "visible_fields"):
-        fields = request_fields + model._meta.visible_fields
+        fields = base_fields + model._meta.visible_fields
     else:
-        fields = request_fields + model._meta.fields
+        fields = base_fields + model._meta.fields
 
-    table_class = tables.table_factory(model, fields=fields)
-    table_class._meta.attrs["class"] = "table table-striped table-responsive table-hover w-100 d-block d-md-table"
+    for field in fields:
+        add_standard_column(table_class, field)
 
     # add initial and additional columns
     initial_fields = ["detail"] + add_columns(model, table_class, "get_initial_columns")
@@ -87,10 +107,6 @@ def get_default_table_class(model, request=None):
                                                            orderable=False))])
         end_fields.append("delete")
 
-    # add object-id attr
-    table_class._meta.row_attrs = {
-        "id": lambda record: "object_row_%s" % record.pk
-    }
     # set column sequence
     table_class._meta.sequence = cleanup_fields(initial_fields, fields, additional_fields, end_fields)
     return table_class

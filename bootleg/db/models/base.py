@@ -147,17 +147,14 @@ class BaseModel(models.Model):
         return self.get_button_link(self.get_detail_url(), _("View"))
 
     def get_ajax_detail_link(self):
-        try:
-            return mark_safe('<a href="" class="object-view-loader" data-url="%s" data-object-id="%s" '
-                             'data-hide-text="%s"><button data-object-id="%s" class="btn btn-primary btn-sm">'
-                             '%s</button></a>'
-                     % (reverse("bootleg:model_detail", args=[self._meta.model_name, self.id]),
-                        self.id,
-                        _("Hide"),
-                        self.id,
-                        _("View")))
-        except Exception as e:
-            dx(e)
+        return mark_safe('<a href="" class="object-view-loader" data-url="%s" data-object-id="%s" '
+                         'data-hide-text="%s"><button data-object-id="%s" class="btn btn-primary btn-sm">'
+                         '%s</button></a>'
+                 % (reverse("bootleg:model_detail", args=[self._meta.model_name, self.id]),
+                    self.id,
+                    _("Hide"),
+                    self.id,
+                    _("View")))
 
     def get_update_link(self):
         return self.get_button_link(self.get_update_url(), _("Update"))

@@ -130,8 +130,14 @@ function initGenericAutocompletes() {
 
 function highlightSearchResults() {
     for(var key in getParams(window.location.href)) {
-         $(".table-container tbody tr").each(function() {
-             $(this).highlight(getURLParameter(key));
+        var value = getURLParameter(key);
+        $(".table-container tbody tr").each(function() {
+            $(this).highlight(getURLParameter(key));
+            $(this).find("td").each(function() {
+                if($(this).data("field-name") == key && $(this).data("object-id") == value) {
+                    $(this).highlight($(this).text());
+                }
+            })
          });
     }
 }
