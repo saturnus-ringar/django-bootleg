@@ -130,7 +130,7 @@ function initGenericAutocompletes() {
 
 function highlightSearchResults() {
     for(var key in getParams(window.location.href)) {
-         $(".table-container tr").each(function() {
+         $(".table-container tbody tr").each(function() {
              $(this).highlight(getURLParameter(key));
          });
     }
