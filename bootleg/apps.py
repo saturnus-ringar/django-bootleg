@@ -235,11 +235,11 @@ def check_profile_model(errors):
 def check_visible_fields(errors, models):
     for model in models:
         for field in model.get_meta_list("visible_fields"):
-            if not model.has_field(field):
+            if not hasattr(model, field) and not model.is_valid_foreign_field(field):
                 errors.append(
                     Error(
-                        "The visible field: %s is not a valid field for the model: %s" % (field, model._meta.model_name),
-                        hint="Set the field to an existing field of the model",
+                        "The visible field: %s is not a valid field/attribute for the model: %s" % (field, model._meta.model_name),
+                        hint="Set the field to an existing field/attribute of the model",
                         obj=settings,
                         id="bootleg.E031"
                     )
