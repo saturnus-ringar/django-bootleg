@@ -150,7 +150,7 @@ function getNavbarOffset() {
     return 0;
 }
 
-function scrollTo(targetId, extraOffset=0) {
+function scrollToElement(targetId, extraOffset=0) {
     $([document.documentElement, document.body]).animate({
         scrollTop: $(targetId).offset().top - getNavbarOffset() + extraOffset
     }, 500);
@@ -161,7 +161,7 @@ $("a.anchor").on("click", function() {
     clearActiveInListGroup();
     $(this).addClass("active");
     $([document.documentElement, document.body]).animate({
-        scrollTop: scrollTo($(this).data("target"))
+        scrollTop: scrollToElement($(this).data("target"))
     }, 500);
 });
 
@@ -184,7 +184,7 @@ $(".object-view-loader").on("click", function(e) {
         newTR.append(newTD);
         newTD.load($(this).data("url"), function () {
             newTD.fadeIn();
-            scrollTo("#object_top_"+ objectId, extraOffset=-50);
+            scrollToElement("#object_top_"+ objectId, extraOffset=-50);
         });
     } else {
         $("#" + objectViewID).remove();
