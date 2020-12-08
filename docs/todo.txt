@@ -1,10 +1,20 @@
-// TODO: don't hardcode the URL
-
 - highlighta sök för alla parametrar:
     http://localhost:8000/product-cards/?additional_info=kebab&setting_time=30
+    ... fixa så det highlightar i rätt kolumn bara (måste sätta attrs i tables då...)
 
+- blir dålig highlight:
+    "https://nbc.theflow.se/product-cards/?pre_corona_settings=on&setting_time=30"
+        "on" highlightas
+        ... highlighta inte <thead> tilla att börja med
+        
+- fixa:
+    don't allow textareas
+    ... var något vajsing när jag satte den till CharField
 
+- "Setting time in min" har default värde "30":
+    https://nbc.theflow.se/product-cards/
 
+// TODO: don't hardcode the URL
 
 - olika färger på "View" och "Clone"?
 

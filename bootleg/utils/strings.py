@@ -18,6 +18,14 @@ class TooManyStringsPartsException(Exception):
     pass
 
 
+def replace_from_list(string, li, lowercase=True):
+    for s in li:
+        if lowercase:
+            s = s.lower()
+        string = string.replace(s.lower(), "")
+    return remove_duplicated_spaces(string).strip()
+
+
 def remove_prefix(text, prefix):
     if text.startswith(prefix):
         return text[len(prefix):]

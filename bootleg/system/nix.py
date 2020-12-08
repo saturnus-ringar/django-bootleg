@@ -48,6 +48,7 @@ def setup_alias_file():
         # log aliases
         content += 'alias %slogdir="cd $LOG_DIR"\n' % get_alias_prefix()
         content += 'alias %stail="tail -f ${LOG_DIR}debug.log"\n' % get_alias_prefix()
+        content += 'alias %saccesstail="tail -f ${LOG_DIR}access.log"\n' % get_alias_prefix()
         content += 'alias %scleardebug="cat /dev/null > ${LOG_DIR}debug.log"\n' % get_alias_prefix()
         content += 'alias %sviewdebuglog="less ${LOG_DIR}debug.log"\n' % get_alias_prefix()
         content += 'alias %sstatus="%s; pm status"\n' % (get_alias_prefix(), get_alias_prefix())
