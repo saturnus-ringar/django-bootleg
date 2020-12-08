@@ -32,8 +32,10 @@ def get_model_filter_form(model, request):
     form = modelform_factory(model, fields=model._meta.filter_fields)
     # set initial values ... modelform_factory doesn't accept any initial values
     for field in form.base_fields:
+        # clear initial values (the inputs use the field's default value)
+        form.base_fields[field].initial = None
+        # and set the initial value from the request
         value = request.GET.get(field, None)
-
         if value:
             form.base_fields[field].initial = value
         # make all fields not-required
