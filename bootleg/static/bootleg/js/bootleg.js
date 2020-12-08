@@ -185,14 +185,14 @@ $("#bootleg_model_filter_form select").change(function() {
     handleGenericModelFilter();
 });
 
-// generic model search submit
-$("#bootleg_q_form").submit(function(e) {
+// bootleg generic filter form
+$("#bootleg_model_filter_form").submit(function(e) {
     e.preventDefault();
     handleGenericModelFilter();
 });
 
-// bootleg generic filter form
-$("#bootleg_model_filter_form").submit(function(e) {
+// generic model search submit
+$("#bootleg_q_form").submit(function(e) {
     e.preventDefault();
     handleGenericModelFilter();
 });
