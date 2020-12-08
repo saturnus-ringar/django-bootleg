@@ -24,7 +24,7 @@
 {{ block.super }}
 {% if not model.meta.disable_create_update is True %}
     <a href="{{ model.create_url }}">
-        <button class="btn btn-success mt-3 mb-3">{% trans "Create" %} {{ model.meta.verbose_name }}</button>
+        <button class="btn btn-primary mt-3 mb-3">{% trans "Create" %} {{ model.meta.verbose_name }}</button>
     </a>
 {% endif %}
 
