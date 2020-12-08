@@ -1,12 +1,22 @@
 from crispy_forms.helper import FormHelper
 from django.db.models import ForeignKey, ManyToManyField
-from oscar.apps.catalogue.models import Product
+from django.forms import CharField, modelform_factory, SelectMultiple, Select, DateField, \
+    DateTimeField, IntegerField, ModelChoiceField
+from django.utils.translation import ugettext as _
+from django_enumfield.forms.fields import EnumChoiceField
 
 from bootleg.forms.base import METHOD_GET, BaseForm
-from django.forms import CharField, modelform_factory, SelectMultiple, Select
-from django.utils.translation import ugettext as _
 
 EMPTY_LABEL = "---------"
+
+
+def sort_fields(fields):
+    sort_order = [ModelChoiceField, EnumChoiceField, DateField, DateTimeField, CharField, IntegerField]
+    sorted_fields = sorted(fields.items(), key=lambda pair: sort_order.index(pair[1].__class__))
+    fields = dict()
+    for field in sorted_fields:
+        fields[field[0]] = field[1]
+    return fields
 
 
 def get_model_filter_form(model, request):
@@ -29,6 +39,11 @@ def get_model_filter_form(model, request):
             form.base_fields[field].widget = Select()
             form.base_fields[field].empty_label = EMPTY_LABEL
 
+    #dx(form.base_fields)
+    #dx(type(form.base_fields))
+    form.base_fields = sort_fields(form.base_fields)
+    #dx(form.base_fields)
+    #dx(type(form.base_fields))
     helper = FormHelper()
     helper.form_method = "GET"
     helper.form_id = "bootleg_model_filter_form"
