@@ -82,7 +82,7 @@ class GenericListView(GenericModelView, SingleTableView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if hasattr(self.model._meta, "search_fields"):
+        if self.model.get_search_field_names():
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
         if get_meta_class_value(self.model, "filter_fields"):
             context["filter_form"] = get_model_filter_form(self.model, self.request)

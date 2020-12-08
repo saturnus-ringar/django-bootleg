@@ -128,7 +128,7 @@ def get_order_by(model):
 def search_and_filter(model, query=None, args=None, autocomplete=False):
     queryset = None
     if query:
-        queryset = search(model, model._meta.search_fields, query, autocomplete=autocomplete)
+        queryset = search(model, model.get_search_field_names(), query, autocomplete=autocomplete)
 
     if queryset is None:
         queryset = model.objects.all()

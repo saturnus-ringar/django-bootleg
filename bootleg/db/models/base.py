@@ -5,6 +5,7 @@ from annoying.functions import get_object_or_None
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import CharField, EmailField
 from django.db.models.fields.files import ImageField
 from django.urls import reverse
 from django.utils import formats
@@ -48,6 +49,16 @@ class LoggedExceptionManager(models.Manager):
 
 class BaseModel(models.Model):
 
+    ##############################
+    # basic thingies
+    ##############################
+
+    def get_model_name(self):
+        return self._meta.model_name
+
+    ##############################
+    # fields
+    ##############################
     @classmethod
     def get_all_field_names(cls):
         field_names = []
@@ -57,19 +68,17 @@ class BaseModel(models.Model):
         return field_names
 
     @classmethod
-    def get_changelist_url(cls):
-        return reverse('admin:%s_%s_changelist' % (cls._meta.app_label, cls._meta.model_name))
+    def get_search_field_names(cls):
+        classes = [CharField, EmailField]
+        fields = []
+        for field in cls._meta.fields:
+            if field.__class__ in classes:
+                fields.append(field.name)
 
-    @classmethod
-    def get_list_url(cls):
-        return reverse("bootleg:list_view", args=[cls._meta.model_name])
+        if hasattr(cls._meta, "extra_search_fields"):
+            fields += cls._meta.extra_search_fields
 
-    @classmethod
-    def get_autocomplete_url(self):
-        if hasattr(self._meta, "search_fields"):
-            return reverse("bootleg:json_autocomplete", args=[self._meta.model_name])
-
-        return None
+        return fields
 
     @classmethod
     def get_foreign_key_fields(cls):
@@ -103,20 +112,30 @@ class BaseModel(models.Model):
                 fields.append(field)
         return fields
 
-    def get_model_name(self):
-        return self._meta.model_name
-
     def get_fields(self):
         return self._meta.fields
 
     def get_many_to_many_fields(self):
         return self._meta.many_to_many
 
-    def get_admin_link(self, target_blank=True):
-        if not target_blank:
-            return mark_safe("<a href='%s'>%s</a>" % (self.get_admin_url(), self.get_admin_url()))
-        else:
-            return mark_safe("<a href='%s' target='_blank'>%s</a>" % (self.get_admin_url(), self.get_admin_url()))
+
+    ##############################
+    # urls
+    ##############################
+    @classmethod
+    def get_changelist_url(cls):
+        return reverse('admin:%s_%s_changelist' % (cls._meta.app_label, cls._meta.model_name))
+
+    @classmethod
+    def get_list_url(cls):
+        return reverse("bootleg:list_view", args=[cls._meta.model_name])
+
+    @classmethod
+    def get_autocomplete_url(self):
+        if self.get_search_field_names():
+            return reverse("bootleg:json_autocomplete", args=[self._meta.model_name])
+
+        return None
 
     def get_admin_url(self):
         return reverse('admin:%s_%s_change' % (self._meta.app_label,  self._meta.model_name),  args=[self.id])
@@ -138,6 +157,16 @@ class BaseModel(models.Model):
 
     def get_clone_url(self):
         return reverse("bootleg:clone_model", args=[self._meta.model_name, self.id])
+
+    ##############################
+    # links
+    ##############################
+
+    def get_admin_link(self, target_blank=True):
+        if not target_blank:
+            return mark_safe("<a href='%s'>%s</a>" % (self.get_admin_url(), self.get_admin_url()))
+        else:
+            return mark_safe("<a href='%s' target='_blank'>%s</a>" % (self.get_admin_url(), self.get_admin_url()))
 
     def get_button_link(self, url, text):
         return mark_safe('<a href="%s"><button class ="btn btn-primary btn-sm">%s</button></a>'
@@ -208,7 +237,6 @@ class NameAndDescriptionModel(NameModel):
     class Meta:
         abstract = True
         visible_fields = ["name", "description"]
-        search_fields = ["name", "description"]
 
 
 class EditableNameAndDescriptionModel(NameAndDescriptionModel, TimeStampedModel):

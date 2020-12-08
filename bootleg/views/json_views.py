@@ -19,10 +19,10 @@ class JSONAutocompleteView(ModelAutoCompleteView):
     def get_context_data(self, **kwargs):
         results = []
         query = self.request.GET.get("q")
-        for result in models.search(self.model, self.model._meta.search_fields,
+        for result in models.search(self.model, self.model.get_search_field_names(),
                                     query, autocomplete=True)[:SEARCH_LIMIT]:
 
-            for field in self.model._meta.search_fields:
+            for field in self.model.get_search_field_names():
                 value = get_attr__(result, field)
                 if str(value).lower().startswith(query.lower()):
                     if value and value not in results:
