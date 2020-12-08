@@ -1,6 +1,8 @@
+from django.core.exceptions import FieldDoesNotExist
+
 from bootleg.utils import lists
 from django.utils.safestring import mark_safe
-from django_tables2 import tables, Column, BooleanColumn
+from django_tables2 import tables, Column, BooleanColumn, columns
 from django.utils.translation import ugettext as _
 from bootleg.utils.utils import get_meta_class_value
 
@@ -47,15 +49,21 @@ def get_id_or_blank(record, field):
         return 0
 
 
-def add_standard_column(model, table_class, field):
+def add_standard_column(model, table_class, field_name):
     attrs = {
         "td": {
-            "data-field-name": field,
-            "data-object-id": lambda record: get_id_or_blank(record, field)
+            "data-field-name": field_name,
+            "data-object-id": lambda record: get_id_or_blank(record, field_name)
         }
     }
-    table_class.base_columns.update([(field, Column(accessor=field,
-                                    verbose_name=model._meta.get_field(field).verbose_name, attrs=attrs))])
+
+    try:
+        field = model._meta.get_field(field_name)
+        column_class = columns.library.column_for_field(field=field).__class__
+        table_class.base_columns.update([(field_name, column_class(accessor=field_name,
+                                        verbose_name=field.verbose_name, attrs=attrs))])
+    except FieldDoesNotExist:
+        table_class.base_columns.update([(field_name, Column(accessor=field_name, attrs=attrs))])
 
 
 def get_default_table_class(model, request=None):
