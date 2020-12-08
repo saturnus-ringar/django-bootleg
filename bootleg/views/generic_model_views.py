@@ -53,18 +53,6 @@ class GenericListView(GenericModelView, SingleTableView):
     def get_table(self, **kwargs):
         table = super().get_table(**kwargs)
         table.attrs = {"id": "bootleg_list_table"}
-        '''
-        for column in table.columns:
-            dx(column)
-        for column_name in table.base_columns:
-            attrs = {
-                "td": {
-                    "data-length": lambda value: len(value)
-                }
-            }
-            table.base_columns[column_name].attrs = attrs
-            dx(table.base_columns[column_name].attrs)
-        '''
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
