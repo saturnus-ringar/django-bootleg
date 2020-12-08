@@ -1,7 +1,8 @@
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 from django.db.models import ForeignKey, ManyToManyField
 from django.forms import CharField, modelform_factory, SelectMultiple, Select, DateField, \
-    DateTimeField, IntegerField, ModelChoiceField
+    DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField
 from django.utils.translation import ugettext as _
 from django_enumfield.forms.fields import EnumChoiceField
 
@@ -11,7 +12,8 @@ EMPTY_LABEL = "---------"
 
 
 def sort_fields(fields):
-    sort_order = [ModelChoiceField, EnumChoiceField, DateField, DateTimeField, CharField, IntegerField]
+    sort_order = [ModelChoiceField, ModelMultipleChoiceField, EnumChoiceField, BooleanField, DateField, DateTimeField,
+                  CharField, IntegerField, DecimalField]
     sorted_fields = sorted(fields.items(), key=lambda pair: sort_order.index(pair[1].__class__))
     fields = dict()
     for field in sorted_fields:
@@ -39,14 +41,13 @@ def get_model_filter_form(model, request):
             form.base_fields[field].widget = Select()
             form.base_fields[field].empty_label = EMPTY_LABEL
 
-    #dx(form.base_fields)
-    #dx(type(form.base_fields))
     form.base_fields = sort_fields(form.base_fields)
-    #dx(form.base_fields)
-    #dx(type(form.base_fields))
+    # add form helper
     helper = FormHelper()
     helper.form_method = "GET"
     helper.form_id = "bootleg_model_filter_form"
+    helper.attrs = {"data-model": model._meta.model_name}
+    helper.add_input(Submit('submit', _("Filter")))
     form.helper = helper
     return form
 

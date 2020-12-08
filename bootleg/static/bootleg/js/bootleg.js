@@ -34,7 +34,8 @@ $.ajaxSetup({
 $(document).ready(function() {
     initSelect2s();
     highlightSearchResults();
-    initGenericAutoComplete();
+    initGenericAutocomplete();
+    initGenericAutocompletes();
     autoFocus();
 });
 
@@ -89,7 +90,7 @@ function initSelect2s() {
     $('.select').select2();
 }
 
-function initGenericAutoComplete() {
+function initGenericAutocomplete() {
     var input = $("input#id_q");
     if(!input.hasClass("generic-autocomplete")) {
         return;
@@ -105,6 +106,24 @@ function initGenericAutoComplete() {
     };
     input.easyAutocomplete(options);
     $(".easy-autocomplete").addClass("w-75");
+}
+
+function initGenericAutocompletes() {
+
+    $("#bootleg_model_filter_form input").each(function() {
+        var model = $("#bootleg_model_filter_form").data("model");
+        var field = $(this).attr("name");
+        var options = {
+            url: function(query) {
+                // TODO: don't hardcode the URL
+                return "/json/" + model + "/" + field + "?q=" + encodeURI(query);
+            },
+            list: {
+                maxNumberOfElements: 50,
+            },
+        };
+        $(this).easyAutocomplete(options);
+    });
 }
 
 function highlightSearchResults() {
@@ -185,6 +204,10 @@ $("#bootleg_model_filter_form select").change(function() {
     handleGenericModelFilter();
 });
 
+$("#bootleg_model_filter_form input:checkbox").change(function() {
+    handleGenericModelFilter();
+});
+
 // bootleg generic filter form
 $("#bootleg_model_filter_form").submit(function(e) {
     e.preventDefault();
@@ -198,9 +221,51 @@ $("#bootleg_q_form").submit(function(e) {
 });
 
 function handleGenericModelFilter() {
+    Loader.start();
     var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form"]);
     window.location.href = serialized
 }
+
+var Loader = {
+
+    spinnerOpts: {
+        lines: 13,
+        length: 28,
+        width: 5,
+        radius: 20,
+        scale: 0.5,
+        corners: 1,
+        color: "#000",
+        opacity: 0.25,
+        rotate: 0,
+        direction: 1,
+        speed: 1,
+        trail: 60,
+        fps: 20,
+        zIndex: 2e9,
+        className: "spinner",
+        top: "50%",
+        left: "50%",
+        shadow: false,
+        hwaccel: false,
+        position: "absolute"
+    },
+
+    spinner: new Spinner(this.spinnerOpts),
+
+    start : function() {
+        $('<div id="overlay"></div>').hide().appendTo("body").show(0, function() {
+            Loader.spinner.spin(document.body);
+        });
+    },
+
+    stop : function() {
+        $("#overlay").hide(0, function() {
+            Loader.spinner.stop();
+            $(this).remove();
+        });
+    }
+};
 
 
 function getSerializedForms(formIds) {

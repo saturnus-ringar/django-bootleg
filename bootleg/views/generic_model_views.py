@@ -66,7 +66,7 @@ class GenericListView(GenericModelView, SingleTableView):
             if param in field_names:
                 value = self.request.GET.get(param)
                 if value:
-                    args[param] = value
+                    args[param] = self.fix_arg_value(value)
 
         for m2m_field in self.model._meta.many_to_many:
             param = self.request.GET.get(m2m_field.name)
@@ -74,6 +74,11 @@ class GenericListView(GenericModelView, SingleTableView):
                 args[m2m_field.name + "__id"] = param
 
         return args
+
+    def fix_arg_value(self, value):
+        if value == "on":
+            value = True
+        return value
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

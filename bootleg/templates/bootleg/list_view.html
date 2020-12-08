@@ -10,10 +10,12 @@
     <div class="row">
         <div class="col-2">
             <div class="bg-light border rounded p-4">
+                {% if request.GET %}
+                    <a href=".">
+                        <button type="button" class="btn btn-sm btn-danger mb-2">{% trans "Clear search filter" %}</button>
+                    </a>
+                {% endif %}
                 {% crispy filter_form filter_form.helper %}
-                <a href=".">
-                    <button type="button" class="btn btn-sm btn-danger">{% trans "Clear search filter" %}</button>
-                </a>
             </div>
         </div>
         <div class="col-10">
