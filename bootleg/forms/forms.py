@@ -49,8 +49,10 @@ def get_model_filter_form(model, request):
             form.base_fields[field].empty_label = EMPTY_LABEL
 
         # don't allow textareas
+        '''
         if isinstance(form.base_fields[field].widget, Textarea):
-            form.base_fields[field].widget = CharField()
+            form.base_fields[field].widget = CharField
+        '''
 
     form.base_fields = sort_fields(form.base_fields)
     # add form helper

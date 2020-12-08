@@ -129,7 +129,9 @@ function initGenericAutocompletes() {
 }
 
 function highlightSearchResults() {
-    $(".table-container").highlight(getURLParameter("q"));
+    for(var key in getParams(window.location.href)) {
+        $(".table-container").highlight(getURLParameter(key));
+    }
 }
 
 function hasFixedNavbar() {
@@ -299,3 +301,17 @@ function getSerializedFormWithoutEmptyValues(formId) {
 function getURLParameter(name) {
     return decodeURIComponent((RegExp('[?|&]' + name + '=' + '(.+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
 }
+
+// https://gomakethings.com/getting-all-query-string-values-from-a-url-with-vanilla-js/
+var getParams = function (url) {
+	var params = {};
+	var parser = document.createElement('a');
+	parser.href = url;
+	var query = parser.search.substring(1);
+	var vars = query.split('&');
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split('=');
+		params[pair[0]] = decodeURIComponent(pair[1]);
+	}
+	return params;
+};
