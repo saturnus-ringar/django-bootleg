@@ -47,14 +47,15 @@ def get_id_or_blank(record, field):
         return 0
 
 
-def add_standard_column(table_class, field):
+def add_standard_column(model, table_class, field):
     attrs = {
         "td": {
             "data-field-name": field,
             "data-object-id": lambda record: get_id_or_blank(record, field)
         }
     }
-    table_class.base_columns.update([(field, Column(accessor=field, verbose_name=field, attrs=attrs))])
+    table_class.base_columns.update([(field, Column(accessor=field,
+                                    verbose_name=model._meta.get_field(field).verbose_name, attrs=attrs))])
 
 
 def get_default_table_class(model, request=None):
@@ -72,7 +73,7 @@ def get_default_table_class(model, request=None):
     fields += add_request_fields(model, request, fields)
 
     for field in fields:
-        add_standard_column(table_class, field)
+        add_standard_column(model, table_class, field)
 
     # add initial and additional columns
     initial_fields = ["detail"] + add_columns(model, table_class, "get_initial_columns")
