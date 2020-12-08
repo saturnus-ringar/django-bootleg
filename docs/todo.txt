@@ -1,10 +1,17 @@
+// TODO: don't hardcode the URL
 
-- måste få till blank på första inputten i OrderStatus
+- highlighta sök för alla parametrar:
+    http://localhost:8000/product-cards/?additional_info=kebab&setting_time=30
+
+
+
+
+- olika färger på "View" och "Clone"?
+
+- måste fixa större text på badgarna för varningar etc.
 
 - byta namn på "editable models" ... till "bootleg models" , eller någe
     ... kanske göra en basklass för dom som man bara extendar som har alla fält osv.
-
-- måste fixa större text på badgarna för varningar etc.
 
 **********************
  ERRORS

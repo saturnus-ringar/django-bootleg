@@ -2,9 +2,16 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.db.models import ForeignKey, ManyToManyField
 from django.forms import CharField, modelform_factory, SelectMultiple, Select, DateField, \
-    DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField
+    DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField, Textarea
 from django.utils.translation import ugettext as _
-from django_enumfield.forms.fields import EnumChoiceField
+
+try:
+    from django_enumfield.forms.fields import EnumChoiceField
+    # ncab are using EnumChoiceField ... somewhat tricky to deal with
+    ENUM_FIELD = EnumChoiceField
+except ModuleNotFoundError:
+    ENUM_FIELD_IMPORTED = None
+    pass
 
 from bootleg.forms.base import METHOD_GET, BaseForm
 
@@ -12,7 +19,7 @@ EMPTY_LABEL = "---------"
 
 
 def sort_fields(fields):
-    sort_order = [ModelChoiceField, ModelMultipleChoiceField, EnumChoiceField, BooleanField, DateField, DateTimeField,
+    sort_order = [ModelChoiceField, ModelMultipleChoiceField, ENUM_FIELD, BooleanField, DateField, DateTimeField,
                   CharField, IntegerField, DecimalField]
     sorted_fields = sorted(fields.items(), key=lambda pair: sort_order.index(pair[1].__class__))
     fields = dict()
@@ -40,6 +47,10 @@ def get_model_filter_form(model, request):
         if isinstance(form.base_fields[field].widget, SelectMultiple):
             form.base_fields[field].widget = Select()
             form.base_fields[field].empty_label = EMPTY_LABEL
+
+        # don't allow textareas
+        if isinstance(form.base_fields[field].widget, Textarea):
+            form.base_fields[field].widget = CharField()
 
     form.base_fields = sort_fields(form.base_fields)
     # add form helper

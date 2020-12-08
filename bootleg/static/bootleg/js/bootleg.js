@@ -109,20 +109,22 @@ function initGenericAutocomplete() {
 }
 
 function initGenericAutocompletes() {
-
+    var inputTypes = ["number", "text"]
     $("#bootleg_model_filter_form input").each(function() {
-        var model = $("#bootleg_model_filter_form").data("model");
-        var field = $(this).attr("name");
-        var options = {
-            url: function(query) {
-                // TODO: don't hardcode the URL
-                return "/json/" + model + "/" + field + "?q=" + encodeURI(query);
-            },
-            list: {
-                maxNumberOfElements: 50,
-            },
-        };
-        $(this).easyAutocomplete(options);
+        if(inputTypes.includes($(this).prop('type'))) {
+            var model = $("#bootleg_model_filter_form").data("model");
+            var field = $(this).attr("name");
+            var options = {
+                url: function (query) {
+                    // TODO: don't hardcode the URL
+                    return "/json/" + model + "/" + field + "?q=" + encodeURI(query);
+                },
+                list: {
+                    maxNumberOfElements: 50,
+                },
+            };
+            $(this).easyAutocomplete(options);
+        }
     });
 }
 
@@ -269,7 +271,6 @@ var Loader = {
 
 
 function getSerializedForms(formIds) {
-    console.log("getSerializedForms");
     var serialized = "?"
     for(i = 0; i < formIds.length; i++) {
         var formData = getSerializedFormWithoutEmptyValues(formIds[i]);

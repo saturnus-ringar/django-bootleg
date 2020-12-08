@@ -1,3 +1,38 @@
+- vad har textarean för widget egentligen?
+
+- ajax-ladda "view" i listvyn
+    ... lite svårt att få in elementen i django tables 2
+
+- man borde visa fältet man söker på:
+    http://localhost:8000/orders/?order_volume=60000
+
+- checkboxen checkas inte i i filterformuläret
+    ... det är för att det är en autocomplete
+
+- autocomplete på alla text, integer osv. inputtar
+
+- behöver sökknapp i filterformuläret
+
+- inga resultat:
+    http://localhost:8000/list/customer/?q=mikael.ollas%40nordictextile.se
+
+- flera resultat:
+    http://localhost:8000/list/customer/?q=Nordic%20Textile%20Converting%20AB
+
+- generellt, fånga errors i ajax-requests och visa att det gått fel
+
+- "URL" visas på NBC fast dom inte har några absoluta URLar
+    ... för att BaseModel har:
+        get_absolute_url_link
+
+- blir fel i URLen då man bara söker:
+    http://localhost:8000/list/customer/?&q=ex
+
+- måste få till blank på första inputten i OrderStatus
+
+- Product Cards ska också ha en blank som första i selecten:
+    https://nbc.theflow.se/list/customer/
+
 - konstig formatering på datumen:
     http://localhost:8000/orders/?status=0&q=2
 
