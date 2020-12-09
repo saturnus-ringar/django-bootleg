@@ -6,6 +6,9 @@ from django.forms import CharField, modelform_factory, SelectMultiple, Select, D
     URLField, SlugField, NullBooleanField
 from django.utils.translation import ugettext as _
 
+from bootleg.utils.models import get_order_by
+from bootleg.utils.utils import get_meta_class_value
+
 try:
     from django_enumfield.forms.fields import EnumChoiceField
     # ncab are using EnumChoiceField ... somewhat tricky to deal with
@@ -75,15 +78,18 @@ def get_model_filter_form(model, request):
 
 def get_queryset_for_field(model, field_name):
     field = model._meta.get_field(field_name)
+    ordering = get_meta_class_value(model, "ordering")
+
     if isinstance(field, ForeignKey):
         # only use "related" (values that actually have been used) models
         ids = list(model.objects.exclude(**{"%s_id" % field_name: None}).distinct().values_list("%s_id" % field_name,
                                                                                              flat=True))
-        return field.related_model.objects.filter(id__in=ids)
+        return field.related_model.objects.filter(id__in=ids).order_by(*get_order_by(field.related_model))
 
     if isinstance(field, ManyToManyField):
         # 2020-12-07: I'm not sure this actually works, in the long run. But it works. As of now.
-        return field.related_model.objects.filter(**{"%s__isnull" % model._meta.model_name: False}).all()
+        return field.related_model.objects.filter(**{"%s__isnull" % model._meta.model_name: False})\
+            .all().order_by(*get_order_by(field.related_model))
 
 
 class GenericModelSearchForm(BaseForm):
