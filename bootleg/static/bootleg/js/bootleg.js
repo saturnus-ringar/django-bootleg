@@ -111,7 +111,10 @@ function initGenericAutocomplete() {
 function initGenericAutocompletes() {
     var inputTypes = ["number", "text"]
     $("#bootleg_model_filter_form input").each(function() {
-        if(inputTypes.includes($(this).prop('type'))) {
+        if(inputTypes.includes($(this).prop("type"))) {
+            if($(this).hasClass("datetimeinput")) {
+                return;
+            }
             var model = $("#bootleg_model_filter_form").data("model");
             var field = $(this).attr("name");
             var options = {
