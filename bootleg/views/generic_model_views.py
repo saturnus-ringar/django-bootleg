@@ -9,6 +9,7 @@ from django_tables2 import SingleTableView, RequestConfig
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory
 from bootleg.utils import models, tables
 from bootleg.utils.http import cast_param, get_model_args_from_request
+from bootleg.utils.tables import TableFactory
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
 
@@ -49,7 +50,7 @@ class GenericListView(GenericModelView, SingleTableView):
     template_name = "bootleg/list_view.html"
 
     def get_table_class(self):
-        return tables.get_default_table_class(self.model, request=self.request)
+        return TableFactory(self.model, self.request).table_class
 
     def get_table(self, **kwargs):
         table = super().get_table(**kwargs)
