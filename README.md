@@ -248,8 +248,11 @@ STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else 
 
 ### Error templates
 ERROR_400_TEMPLATE - default **"bootleg/error/400.html"**
+
 ERROR_403_TEMPLATE - default **"bootleg/error/403.html"**
+
 ERROR_404_TEMPLATE - default **"bootleg/error/404.html"**
+
 ERROR_500_TEMPLATE - default **"bootleg/error/500.html"**
 
 ### Javascript
