@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+{% load static i18n compress %}
+{% block extrastyle %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static bootleg_settings.FAVICON_FILE %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "bootleg/css/django-admin/django-admin.css" %}">
+    {% if request.is_iframe %}
+        <link rel="stylesheet" type="text/css" href="{% static "bootleg/css/django-admin/django-admin-iframe.css" %}">
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block branding %}
+<div id="branding" {% if "localhost" in request.get_host %}class="local-admin-branding"{% endif %}>
+    <a href="{% url 'admin:index' %}">
+        {% if bootleg_settings.BRANDING_LOGO %}
+            <img src="{% static bootleg_settings.BRANDING_LOGO %}" />
+        {% endif %}
+    </a>
+</div>
+
+{% endblock %}
+{% block footer %}
+    {% compress js %}
+        <script type="text/javascript" src="{% static "bootleg/js/django-admin/jquery-fix.js" %}"></script>
+        <script type="text/javascript" src="{% static "bootleg/js/django-admin.js" %}"></script>
+        <script type="text/javascript" src="{% static "bootleg/js/vendor/jquery.doubleScroll.js" %}"></script>
+        <script type="text/javascript" src="{% static "bootleg/js/vendor/linkify.js" %}"></script>
+        <script type="text/javascript" src="{% static "bootleg/js/vendor/linkify-element.js" %}"></script>
+    {% endcompress %}
+{{ block.super }}
+{% endblock %}

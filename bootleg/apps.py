@@ -281,6 +281,19 @@ def check_extra_search_fields(errors, models):
     return errors
 
 
+def check_branding_logo(errors):
+    if bootleg_settings.BRANDING_LOGO:
+        if not finders.find(bootleg_settings.BRANDING_LOGO):
+            errors.append(
+                Error(
+                    "Could not find BRANDING_LOGO: %s" % bootleg_settings.BRANDING_LOGO,
+                    hint="Set BRANDING_LOGO to an existing file",
+                    obj=settings,
+                    id="bootleg.E032"
+                )
+            )
+    return errors
+
 
 @register()
 def check_settings(app_configs, **kwargs):
@@ -325,7 +338,7 @@ def check_settings(app_configs, **kwargs):
     errors = check_visible_fields(errors, models)
     errors = check_filter_fields(errors, models)
     errors = check_extra_search_fields(errors, models)
-
+    errors = check_branding_logo(errors)
     return errors
 
 

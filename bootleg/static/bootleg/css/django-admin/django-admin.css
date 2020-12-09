@@ -1,0 +1,39 @@
+* {
+	font-family: 'Open Sans', tahoma,verdana,arial,sans-serif;
+}
+
+#header {
+    background-color: #000 !important;
+}
+
+#toggle-nav-sidebar {
+    display: none !important;
+}
+
+#nav-sidebar {
+    display: none !important;
+}
+
+.added-property {
+    color: #4bb023;
+}
+
+.removed-property {
+    color: #d43a2f;
+}
+
+.text-muted {
+    color: #aaa;
+}
+
+.local-admin-branding {
+    border: 5px solid #b33b3b;
+}
+
+.hidden {
+    display: none;
+}
+
+tr:hover {
+    background: #eee;
+}

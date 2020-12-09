@@ -1,0 +1,51 @@
+#header {
+    display: none;
+}
+
+h1 {
+    display: none;
+}
+
+.breadcrumbs {
+    display: none;
+}
+
+.xfull {
+    display: none;
+}
+
+.actions {
+    display: none;
+}
+
+#changelist-filter {
+    display: none;
+}
+
+#djDebug {
+    display: none;
+}
+
+#changelist-search {
+    display: none;
+}
+
+#toolbar {
+    display: none;
+}
+
+.action-checkbox-column {
+    display: none;
+}
+
+.action-checkbox {
+    display: none;
+}
+
+.paginator:first-of-type {
+    display: none;
+}
+
+#changelist {
+    min-height: 0px !important;
+}
