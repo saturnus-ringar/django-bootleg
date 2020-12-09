@@ -7,13 +7,15 @@ from django.utils.translation import ugettext as _
 from bootleg.utils.utils import get_meta_class_value
 
 
-def get_id_or_blank(record, field):
+def get_id_or_zero(record, field):
     try:
         object = getattr(record, field)
         if object and hasattr(object, "id"):
             return object.id
+        if object and hasattr(object, "value"):
+            return object.value
         return 0
-    except Exception:
+    except Exception as e:
         return 0
 
 
@@ -124,7 +126,7 @@ class TableFactory:
         attrs = {
             "td": {
                 "data-field-name": field_name,
-                "data-object-id": lambda record: get_id_or_blank(record, field_name)
+                "data-object-id": lambda record: get_id_or_zero(record, field_name)
             }
         }
 

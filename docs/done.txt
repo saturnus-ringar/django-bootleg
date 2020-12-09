@@ -1,3 +1,55 @@
+- http://localhost:8000/product-cards/?coated_side_material=1
+    ... "Inside" highlightas inte
+
+http://localhost:8000/product-cards/?pre_corona_settings=on&setting_time=30
+    ... "run pre corona?" ska vara boolean
+    ... varför visas "Additional info"-kolumnen?
+
+- http://localhost:8000/product-cards/?additional_info=kebab&setting_time=30
+    ... krasch
+
+- om det är med bland standardfälten, lägg inte till via request:
+    http://localhost:8000/list/customer/?reference=2
+
+- highlighta sök för alla parametrar:
+    http://localhost:8000/product-cards/?additional_info=kebab&setting_time=30
+    ... fixa så det highlightar i rätt kolumn bara (måste sätta attrs i tables då...)
+
+- blir dålig highlight:
+    "https://nbc.theflow.se/product-cards/?pre_corona_settings=on&setting_time=30"
+        "on" highlightas
+        ... highlighta inte <thead> tilla att börja med
+
+- validera alla såna här vid uppstart
+        visible_fields = ["name", "vat_number", "label_text", "payment_terms", "reference"]
+        create_url = reverse_lazy("customer_create")
+        search_fields = ["name", "contact_name", "email_address", "vat_number", "reference__username",
+                         "reference_firstname", "reference_lastname", "product_cards__name"]
+        filter_fields = ["payment_terms", "reference", "product_cards"]
+
+- tror inte produkkortfiltreringen fungerar:
+    https://nbc.theflow.se/list/customer/?product_cards=5
+    ...jo, funkar
+
+- kontrollera sökfält, att det inte är en ForeignKey, går ju inte att söka på ändå
+
+Exception Value:
+'date_created' cannot be specified for DismissedEvent model form as it is a non-editable field
+
+- filtreringen funkar inte?
+
+- filtreringen på "okänt" på funkar inte
+
+- alias för django-log-tail
+
+- lägg till BRANDING_LOGO i base_site.html
+    + i dokumentationen
+
+- lägg till FAVICON_FILE i base.html
+
+add_standard_column
+    ... får inte in typerna av kolumner... inte bra
+
 - vad har textarean för widget egentligen?
 
 - ajax-ladda "view" i listvyn
