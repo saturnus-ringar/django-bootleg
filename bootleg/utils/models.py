@@ -121,7 +121,7 @@ def get_foreign_key_field(model, field):
             return foreign_key_model._meta.get_field(parts[1])
         else:
             return None
-    except FieldDoesNotExist as e:
+    except FieldDoesNotExist:
         return None
 
 
