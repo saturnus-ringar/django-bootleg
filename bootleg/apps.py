@@ -249,19 +249,16 @@ def check_visible_fields(errors, models):
 
 def check_filter_fields(errors, models):
     for model in models:
-        list = model.get_meta_list("filter_fields")
-        # "__all__" can be used
-        if list != "__all__":
-            for field in model.get_meta_list("filter_fields"):
-                if not model.has_field(field):
-                    errors.append(
-                        Error(
-                            "The filter field: %s is not a valid field for the model: %s" % (field, model._meta.model_name),
-                            hint="Set the field to an existing field of the model",
-                            obj=settings,
-                            id="bootleg.E031"
-                        )
+        for field in model.get_filter_field_names():
+            if not model.has_field(field):
+                errors.append(
+                    Error(
+                        "The filter field: %s is not a valid field for the model: %s" % (field, model._meta.model_name),
+                        hint="Set the field to an existing field of the model",
+                        obj=settings,
+                        id="bootleg.E031"
                     )
+                )
     return errors
 
 

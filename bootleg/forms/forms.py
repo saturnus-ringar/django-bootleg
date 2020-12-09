@@ -55,7 +55,7 @@ class ModelFilterFormFactory:
         self.sort_fields()
 
     def make_all_fields_editable(self):
-        for field_name in self.model._meta.filter_fields:
+        for field_name in self.model.get_filter_field_names():
             field = self.model._meta.get_field(field_name)
             field.editable = True
 

@@ -138,6 +138,14 @@ class BaseModel(models.Model):
 
         return field_names
 
+    @classmethod
+    def get_filter_field_names(cls):
+        fields = cls.get_meta_list("filter_fields")
+        if fields == "__all__":
+            return cls.get_all_field_names()
+
+        return fields
+
     def get_simple_fields_except_id(self):
         excluded_field_types = [ImageField]
         fields = []
@@ -158,6 +166,7 @@ class BaseModel(models.Model):
 
     def get_many_to_many_fields(self):
         return self._meta.many_to_many
+
 
 
     ##############################
