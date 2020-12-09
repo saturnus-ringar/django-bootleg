@@ -122,7 +122,6 @@ def get_foreign_key_field(model, field):
         else:
             return None
     except FieldDoesNotExist as e:
-        dx(e)
         return None
 
 
