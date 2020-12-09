@@ -240,12 +240,12 @@ $("#bootleg_q_form").submit(function(e) {
 });
 
 function handleGenericModelFilter() {
-    Loader.start();
+    MainLoader.start();
     var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form"]);
     window.location.href = serialized
 }
 
-var Loader = {
+var MainLoader = {
 
     spinnerOpts: {
         lines: 13,
@@ -274,13 +274,13 @@ var Loader = {
 
     start : function() {
         $('<div id="overlay"></div>').hide().appendTo("body").show(0, function() {
-            Loader.spinner.spin(document.body);
+            MainLoader.spinner.spin(document.body);
         });
     },
 
     stop : function() {
         $("#overlay").hide(0, function() {
-            Loader.spinner.stop();
+            MainLoader.spinner.stop();
             $(this).remove();
         });
     }
