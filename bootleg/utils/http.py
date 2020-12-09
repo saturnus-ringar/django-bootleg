@@ -1,7 +1,7 @@
 
 def cast_param(request_data, param):
     value = request_data.get(param, None)
-    ret_value = None
+    ret_value = value
     if value:
         if value == "on" or value == "true":
             ret_value = True
