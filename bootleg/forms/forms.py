@@ -48,27 +48,30 @@ class ModelFilterFormFactory:
     def __init__(self, model, request):
         self.model = model
         self.request = request
+        self.make_all_fields_editable()
         self.form = modelform_factory(model, fields=model._meta.filter_fields)
         self.fix_fields()
         self.add_form_helper()
         self.sort_fields()
 
+    def make_all_fields_editable(self):
+        for field_name in self.model._meta.filter_fields:
+            field = self.model._meta.get_field(field_name)
+            field.editable = True
+
     def fix_fields(self):
         for field_name in self.form.base_fields:
+            # make all fields not-required
+            self.form.base_fields[field_name].required = False
             # clear initial values (the inputs use the field's default value)
             self.form.base_fields[field_name].initial = None
             # and set the initial value from the request
             value = self.request.GET.get(field_name, None)
             if value:
                 self.form.base_fields[field_name].initial = value
-            # make all fields not-required
-            self.form.base_fields[field_name].required = False
             # set queryset
-            queryset = get_queryset_for_field(self.model, field_name)
-            if queryset:
-                self.form.base_fields[field_name].queryset = queryset
+            self.form.base_fields[field_name].queryset = get_queryset_for_field(self.model, field_name)
 
-            field = self.model._meta.get_field(field_name)
             # don't allow any multiple selects
             if isinstance(self.form.base_fields[field_name].widget, SelectMultiple):
                 self.form.base_fields[field_name].widget = Select()
