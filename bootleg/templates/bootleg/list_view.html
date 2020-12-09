@@ -8,7 +8,7 @@
 {% block content %}
 {% if filter_form %}
     <div class="row">
-        <div class="col-2">
+        <div class="col-lg-2">
             <div class="bg-light border rounded p-4">
                 {% if request.GET %}
                     <a href=".">
@@ -18,7 +18,7 @@
                 {% crispy filter_form filter_form.helper %}
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-lg-10">
 {% endif %}
 
 {{ block.super }}

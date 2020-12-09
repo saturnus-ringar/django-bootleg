@@ -8,6 +8,7 @@ from django_tables2 import SingleTableView, RequestConfig
 
 from bootleg.forms.forms import GenericModelSearchForm, get_model_filter_form
 from bootleg.utils import models, tables
+from bootleg.utils.http import cast_param
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
 
@@ -64,9 +65,9 @@ class GenericListView(GenericModelView, SingleTableView):
         field_names = self.model.get_all_field_names()
         for param in self.request.GET:
             if param in field_names:
-                value = self.request.GET.get(param)
-                if value:
-                    args[param] = self.fix_arg_value(value)
+                value = cast_param(self.request.GET, param)
+                if value or value is None:
+                    args[param] = value
 
         for m2m_field in self.model._meta.many_to_many:
             param = self.request.GET.get(m2m_field.name)
@@ -76,7 +77,7 @@ class GenericListView(GenericModelView, SingleTableView):
         return args
 
     def fix_arg_value(self, value):
-        if value == "on":
+        if value == "on" or value == "true":
             value = True
         return value
 

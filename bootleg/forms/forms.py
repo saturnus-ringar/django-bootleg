@@ -2,7 +2,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.db.models import ForeignKey, ManyToManyField
 from django.forms import CharField, modelform_factory, SelectMultiple, Select, DateField, \
-    DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField, Textarea
+    DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField, Textarea, \
+    URLField, SlugField, NullBooleanField
 from django.utils.translation import ugettext as _
 
 try:
@@ -10,7 +11,7 @@ try:
     # ncab are using EnumChoiceField ... somewhat tricky to deal with
     ENUM_FIELD = EnumChoiceField
 except ModuleNotFoundError:
-    ENUM_FIELD_IMPORTED = None
+    ENUM_FIELD = None
     pass
 
 from bootleg.forms.base import METHOD_GET, BaseForm
@@ -19,8 +20,13 @@ EMPTY_LABEL = "---------"
 
 
 def sort_fields(fields):
-    sort_order = [ModelChoiceField, ModelMultipleChoiceField, ENUM_FIELD, BooleanField, DateField, DateTimeField,
-                  CharField, IntegerField, DecimalField]
+    sort_order = []
+    if ENUM_FIELD:
+        sort_order = [ENUM_FIELD]
+
+    sort_order += [ModelChoiceField, ModelMultipleChoiceField, BooleanField, NullBooleanField, DateField, DateTimeField,
+                  CharField, IntegerField, DecimalField, URLField, SlugField]
+
     sorted_fields = sorted(fields.items(), key=lambda pair: sort_order.index(pair[1].__class__))
     fields = dict()
     for field in sorted_fields:

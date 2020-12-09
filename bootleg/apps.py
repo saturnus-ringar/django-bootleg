@@ -256,7 +256,7 @@ def check_filter_fields(errors, models):
                 if not model.has_field(field):
                     errors.append(
                         Error(
-                            "The visible field: %s is not a valid field for the model: %s" % (field, model._meta.model_name),
+                            "The filter field: %s is not a valid field for the model: %s" % (field, model._meta.model_name),
                             hint="Set the field to an existing field of the model",
                             obj=settings,
                             id="bootleg.E031"
