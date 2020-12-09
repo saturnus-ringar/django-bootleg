@@ -18,11 +18,33 @@ class TooManyStringsPartsException(Exception):
     pass
 
 
-def replace_from_list(string, li, lowercase=True):
+def remove_isolated_string(text, string):
+    match = " " + string + " "
+    dx("text: %s" % text)
+    dx("match: |%s|" % match)
+    if match in text:
+        text = text.replace(match, " ")
+
+    match = string + " "
+    if text.startswith(match):
+        text = remove_prefix(text, match)
+
+    match = " " + string
+    if text.endswith(match):
+        text = remove_suffix(text, match)
+
+    return text
+
+
+def replace_from_list(string, li, lowercase=True, isolated=False):
     for s in li:
         if lowercase:
             s = s.lower()
-        string = string.replace(s.lower(), "")
+        if isolated:
+            string = remove_isolated_string(string, s.lower())
+        else:
+            string = string.replace(s.lower(), "")
+
     return remove_duplicated_spaces(string).strip()
 
 
