@@ -3,7 +3,7 @@ from abc import abstractmethod
 
 from annoying.functions import get_object_or_None
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, FieldDoesNotExist
 from django.db import models
 from django.db.models import CharField, EmailField
 from django.db.models.fields.files import ImageField
@@ -71,11 +71,14 @@ class BaseModel(models.Model):
 
     @classmethod
     def is_valid_foreign_search_field(cls, field_name):
-        field = cls._meta.get_field(field_name)
-        if hasattr(field, "related_model"):
-            return False
+        try:
+            field = cls._meta.get_field(field_name)
+            if hasattr(field, "related_model"):
+                return False
+        except FieldDoesNotExist:
+            pass
 
-        return get_foreign_key_field(cls, field_name)
+        return cls.is_valid_foreign_field(field_name)
 
     @classmethod
     def get_meta_value(cls, attr):
