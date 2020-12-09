@@ -78,7 +78,6 @@ def get_model_filter_form(model, request):
 
 def get_queryset_for_field(model, field_name):
     field = model._meta.get_field(field_name)
-    ordering = get_meta_class_value(model, "ordering")
 
     if isinstance(field, ForeignKey):
         # only use "related" (values that actually have been used) models
