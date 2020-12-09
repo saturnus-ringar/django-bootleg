@@ -241,7 +241,8 @@ $("#bootleg_q_form").submit(function(e) {
 
 function handleGenericModelFilter() {
     MainLoader.start();
-    var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form"]);
+    var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form", "bootleg_q_bs3_form"]);
+    console.log("serialized: " + serialized);
     window.location.href = serialized
 }
 
