@@ -232,6 +232,10 @@ CSS_FILES = default **['bootleg/css/vendor/bootstrap.css']**
 FAVICON_FILE = default **'bootleg/img/favicon.ico'**
 > Example: 'website/img/favicon.png'
 
+BRANDING_LOGO = default **None**
+> Used in Django admin - Example: 'website/img/logo.png'
+
+
 WRAP_FORMS = default **True**
 > Will wrap the forms with bg-light
 
@@ -244,8 +248,11 @@ STORE_DJANGO_LOG_EXCEPTIONS - default **True** if **DEBUG** is **False** - else 
 
 ### Error templates
 ERROR_400_TEMPLATE - default **"bootleg/error/400.html"**
+
 ERROR_403_TEMPLATE - default **"bootleg/error/403.html"**
+
 ERROR_404_TEMPLATE - default **"bootleg/error/404.html"**
+
 ERROR_500_TEMPLATE - default **"bootleg/error/500.html"**
 
 ### Javascript
