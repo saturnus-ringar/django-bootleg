@@ -8,7 +8,7 @@ from django_tables2 import SingleTableView, RequestConfig
 
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory
 from bootleg.utils import models, tables
-from bootleg.utils.http import cast_param
+from bootleg.utils.http import cast_param, get_model_args_from_request
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
 
@@ -57,29 +57,8 @@ class GenericListView(GenericModelView, SingleTableView):
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
-        return models.search_and_filter(self.model, query=self.request.GET.get("q", None), args=self.get_args())
-
-    def get_args(self):
-        # dynamic filtering on model properties
-        args = dict()
-        field_names = self.model.get_all_field_names()
-        for param in self.request.GET:
-            if param in field_names:
-                value = cast_param(self.request.GET, param)
-                if value or value is None:
-                    args[param] = value
-
-        for m2m_field in self.model._meta.many_to_many:
-            param = self.request.GET.get(m2m_field.name)
-            if param:
-                args[m2m_field.name + "__id"] = param
-
-        return args
-
-    def fix_arg_value(self, value):
-        if value == "on" or value == "true":
-            value = True
-        return value
+        return models.search_and_filter(self.model, query=self.request.GET.get("q", None),
+                                        args=get_model_args_from_request(self.model, self.request))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
