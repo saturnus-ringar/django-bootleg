@@ -20,8 +20,6 @@ class TooManyStringsPartsException(Exception):
 
 def remove_isolated_string(text, string):
     match = " " + string + " "
-    dx("text: %s" % text)
-    dx("match: |%s|" % match)
     if match in text:
         text = text.replace(match, " ")
 
