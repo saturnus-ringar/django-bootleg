@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import RedirectView, DetailView
 from django_tables2 import SingleTableView, RequestConfig
 
-from bootleg.forms.forms import GenericModelSearchForm, get_model_filter_form
+from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory
 from bootleg.utils import models, tables
 from bootleg.utils.http import cast_param
 from bootleg.utils.utils import get_meta_class_value
@@ -86,7 +86,7 @@ class GenericListView(GenericModelView, SingleTableView):
         if self.model.get_search_field_names():
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
         if get_meta_class_value(self.model, "filter_fields"):
-            context["filter_form"] = get_model_filter_form(self.model, self.request)
+            context["filter_form"] = ModelFilterFormFactory(self.model, self.request).form
         return context
 
 
