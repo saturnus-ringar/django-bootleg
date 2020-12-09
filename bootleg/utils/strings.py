@@ -398,8 +398,9 @@ def split_string_by_non_alpha_numeric(string):
 
 
 def truncate(string, max_length=50):
+    suffix = '...'
     if string:
-        return (string[:max_length] + '...') if len(string) > max_length else string
+        return (string[:max_length - len(suffix)] + suffix) if len(string) > max_length else string
     else:
         return None
 
