@@ -232,6 +232,10 @@ CSS_FILES = default **['bootleg/css/vendor/bootstrap.css']**
 FAVICON_FILE = default **'bootleg/img/favicon.ico'**
 > Example: 'website/img/favicon.png'
 
+BRANDING_LOGO = default **None**
+> Used in Django admin - Example: 'website/img/logo.png'
+
+
 WRAP_FORMS = default **True**
 > Will wrap the forms with bg-light
 
