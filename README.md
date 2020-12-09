@@ -29,6 +29,9 @@ INSTALLED_APPS = (
     'django_user_agents',
     'django_tables2',
     'bootleg',
+    # django admin - must be after bootleg (for template-overriding)
+    'django.contrib.admin',
+
 )
 
 MIDDLEWARE = [
