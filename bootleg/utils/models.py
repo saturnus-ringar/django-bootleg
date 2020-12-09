@@ -151,9 +151,11 @@ def search_and_filter(model, query=None, args=None, autocomplete=False):
 
 # https://stackoverflow.com/a/1239602/9390372
 def search(model, fields, query, autocomplete=False):
-    fields = filter_autocomplete_fields(model, fields)
+    if autocomplete:
+        fields = filter_autocomplete_fields(model, fields)
     qr = None
     for field in fields:
+        dx(field)
         if not autocomplete:
             q = Q(**{"%s__icontains" % field: query})
         else:

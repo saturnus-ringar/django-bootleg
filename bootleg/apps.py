@@ -268,12 +268,13 @@ def check_filter_fields(errors, models):
 def check_extra_search_fields(errors, models):
     for model in models:
         for field in model.get_meta_list("extra_search_fields"):
-            if not model.has_field(field) and not model.is_valid_foreign_field(field):
+            if not model.has_field(field) or not model.is_valid_foreign_search_field(field):
                 errors.append(
                     Error(
-                        "The extra search field: %s is not a valid field for the model: %s"
+                        "The extra search field: %s is not a valid search field for the model: %s"
                         % (field, model._meta.model_name),
-                        hint="Set the field to an existing field of the model",
+                        hint="Set the field to an existing field, or foreign key field, of the model. "
+                             "ForeignKey-fields can't be searched",
                         obj=settings,
                         id="bootleg.E031"
                     )

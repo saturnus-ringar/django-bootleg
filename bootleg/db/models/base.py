@@ -70,6 +70,16 @@ class BaseModel(models.Model):
         return False
 
     @classmethod
+    def is_valid_foreign_search_field(cls, field_name):
+        dx("is_valid_foreign_search_field")
+        field = cls._meta.get_field(field_name)
+        dx(dir(field))
+        if hasattr(field, "related_model"):
+            return False
+
+        return get_foreign_key_field(cls, field_name)
+
+    @classmethod
     def get_meta_value(cls, attr):
         return get_meta_class_value(cls, attr)
 
