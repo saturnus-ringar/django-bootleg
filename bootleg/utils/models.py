@@ -7,6 +7,7 @@ from django.db.models import Q, CharField
 from django.urls import reverse
 
 from bootleg.conf import bootleg_settings
+from bootleg.utils.utils import get_meta_class_value
 
 
 def is_valid_profile_model():
@@ -126,8 +127,9 @@ def get_foreign_key_field(model, field):
 
 
 def get_order_by(model):
-    if hasattr(model._meta, "ordering") and model._meta.ordering:
-        return model._meta.ordering
+    ordering = get_meta_class_value(model, "ordering")
+    if ordering:
+        return ordering
     return ["-id"]
 
 
