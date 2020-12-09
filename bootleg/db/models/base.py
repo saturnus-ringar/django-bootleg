@@ -71,9 +71,7 @@ class BaseModel(models.Model):
 
     @classmethod
     def is_valid_foreign_search_field(cls, field_name):
-        dx("is_valid_foreign_search_field")
         field = cls._meta.get_field(field_name)
-        dx(dir(field))
         if hasattr(field, "related_model"):
             return False
 
