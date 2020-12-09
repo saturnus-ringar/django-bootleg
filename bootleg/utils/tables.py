@@ -128,13 +128,16 @@ def get_default_table_class(model, request=None):
 
 
 def render_boolean_colum(self, value, record, bound_column):
-    value = self._get_bool_value(record, value, bound_column)
-    if value:
+    value = getattr(record, bound_column.column.accessor)
+    if value is True:
         text = _("Yes")
         css_class = "success"
-    else:
+    elif value is False:
         text = _("No")
         css_class = "danger"
+    else:
+        text = _("Unknown")
+        css_class = "warning"
 
     return mark_safe('<span class="label label-%s">%s</span>' % (css_class, text))
 
