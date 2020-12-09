@@ -137,7 +137,7 @@ class TableFactory:
             self.table_class.base_columns.update([(field_name, Column(accessor=field_name, attrs=attrs))])
 
 
-def render_boolean_colum(self, value, record, bound_column):
+def render_boolean_column(self, value, record, bound_column):
     value = getattr(record, bound_column.column.accessor)
     if value is True:
         text = _("Yes")
@@ -149,7 +149,9 @@ def render_boolean_colum(self, value, record, bound_column):
         text = _("Unknown")
         css_class = "warning"
 
-    return mark_safe('<span class="label label-%s">%s</span>' % (css_class, text))
+    # labels for bootstrap 3
+    return mark_safe('<span class="badge label label-%s badge-%s">%s</span>'
+                     % (css_class, css_class, text))
 
 # monkey patch Django table 2's boolean column-rendering
-BooleanColumn.render = render_boolean_colum
+BooleanColumn.render = render_boolean_column
