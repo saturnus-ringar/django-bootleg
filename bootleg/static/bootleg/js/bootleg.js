@@ -215,7 +215,6 @@ function clearActiveInListGroup() {
      });
 }
 
-
 // confirmation links
 $("a.confirmation-link").on("click", function() {
     if(!confirm($(this).data("text"))) {
@@ -256,6 +255,11 @@ function handleGenericModelFilter(e) {
     var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form", "#bootleg_dql_form"]);
     window.location.href = serialized
 }
+
+/* add some loaders */
+$(document).on('click', 'th.orderable, a.page-link', function () {
+    MainLoader.start()
+});
 
 var MainLoader = {
 
