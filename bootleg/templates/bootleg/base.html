@@ -50,6 +50,9 @@
     {% endif %}
 {% endblock %}
 
+{% block page_content %}
+{% endblock %}
+
 {% if not request.is_ajax %}
 
 {% block footer %}
@@ -58,6 +61,8 @@
 
 {% include "bootleg/includes/js.html" %}
 {% block extra_js %}
+{% endblock %}
+{% block extra_body %}
 {% endblock %}
 </body>
 </html>

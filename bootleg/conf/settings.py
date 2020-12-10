@@ -122,6 +122,7 @@ class Settings:
         ####################################################
         self.add_setting("JS_DATE_FORMAT", "yyyy-MM-DD")
         self.add_setting("JS_DATETIME_FORMAT", "yyyy-MM-DD hh:ss")
+        self.add_setting("EXCLUDE_JQUERY", False)
 
         ####################################################
         # URLs
