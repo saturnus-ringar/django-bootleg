@@ -115,7 +115,6 @@ class Settings:
         self.add_setting("BRANDING_LOGO", None)
         self.add_setting("CONTAINER_CSS_CLASS", "container-fluid bg-dark")
         self.add_setting("WRAP_FORMS", True)
-        self.add_setting("BOOTSTRAP_3", False)
 
         ####################################################
         # javascript
