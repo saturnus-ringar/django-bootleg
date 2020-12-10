@@ -1,17 +1,11 @@
 {% load i18n crispy_forms_tags bootstrap_tags %}
 
-            <form id="bootleg_dql_form">
-                <div class="input-group w-50 mt-3">
-                    {{ dql_form.dql }}
-                </div>
-            </form>
 {% if form.is_search_form %}
+    {% if not bootleg_settings.BOOTSTRAP_3 %}
         <form id="bootleg_q_form">
             <div class="input-group w-50">
                 {{ form.q }}
-                {% if not bootleg_settings.BOOTSTRAP_3 %}
-                    {% render_search_append %}
-                {% endif %}
+                {% render_search_append %}
             </div>
         </form>
         <p class="mt-2">
@@ -24,12 +18,18 @@
             <form id="bootleg_dql_form">
                 <div class="input-group w-50 mt-3">
                     {{ dql_form.dql }}
-                    {% if not bootleg_settings.BOOTSTRAP_3 %}
-                        {% render_search_append %}
-                    {% endif %}
+                    {% render_search_append %}
                 </div>
             </form>
         </div>
+    {% else %}
+        <form class="form-inline" id="bootleg_q_form">
+            <div class="form-group">
+                {{ form.q }}
+            </div>
+            <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
+        </form>
+    {% endif %}
 {% else %}
     {% if forms or form %}
         {% if bootleg_settings.WRAP_FORMS %}
