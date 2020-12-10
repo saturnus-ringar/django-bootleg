@@ -1,3 +1,9 @@
+- det går inte att toggla "Advanced search", den försvinner direkt
+
+- sökikonen ligger fel:
+
+- filtrering funkar inte på foreign key
+
 - någon bugg i highlighten:
     http://localhost:8000/list/customer/?q=test&dql=billing_address.city.name%20~%20%22stock%22
     "test§"
