@@ -151,8 +151,8 @@ def render_boolean_column(self, value, record, bound_column):
         text = _("Unknown")
         css_class = "warning"
 
-    # labels for bootstrap 3
-    return mark_safe('<span class="badge label label-%s badge-%s">%s</span>'
+    # progress-bar for bootstrap 3
+    return mark_safe('<span class="badge progress-bar-%s badge-%s">%s</span>'
                      % (css_class, css_class, text))
 
 # monkey patch Django table 2's boolean column-rendering
