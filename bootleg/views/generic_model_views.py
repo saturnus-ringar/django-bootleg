@@ -15,6 +15,7 @@ from djangoql.serializers import DjangoQLSchemaSerializer
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory, DQLSearchForm
 from bootleg.utils import models
 from bootleg.utils.http import get_model_args_from_request
+from bootleg.utils.models import ModelSearcher
 from bootleg.utils.tables import TableFactory
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
@@ -64,9 +65,9 @@ class GenericListView(GenericModelView, SingleTableView):
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
-        return models.search_and_filter(self.model, query=self.request.GET.get("q", None),
+        return ModelSearcher(self.model, query=self.request.GET.get("q", None),
                                 dql_query=self.request.GET.get("dql", None),
-                                args=get_model_args_from_request(self.model, self.request))
+                                args=get_model_args_from_request(self.model, self.request)).get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

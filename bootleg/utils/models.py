@@ -12,6 +12,60 @@ from bootleg.conf import bootleg_settings
 from bootleg.utils.utils import get_meta_class_value
 
 
+class ModelSearcher:
+
+    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False):
+        self.model = model
+        self.query = query
+        self.dql_query = dql_query
+        self.args = args
+        self.autocomplete = autocomplete
+        self.queryset = self.model.objects.all()
+        self.dql_search()
+        self.query_search()
+        self.filter_by_args()
+
+    def get_queryset(self):
+        return self.queryset.select_related(*self.model.get_foreign_key_field_names())
+
+    def dql_search(self):
+        try:
+            if self.dql_query:
+                self.queryset = apply_search(self.model.objects.all(), self.dql_query)
+        except DjangoQLError:
+            pass
+
+    # https://stackoverflow.com/a/1239602/9390372
+    def query_search(self):
+        if not self.query:
+            # ugly return, indeed!
+            return
+
+        if self.autocomplete:
+            fields = filter_autocomplete_fields(self.model, self.model.get_search_field_names())
+        else:
+            fields = self.model.get_search_field_names()
+
+        qr = None
+        for field in fields:
+            if not self.autocomplete:
+                q = Q(**{"%s__icontains" % field: self.query})
+            else:
+                q = Q(**{"%s__istartswith" % field: self.query})
+
+            if qr:
+                qr = qr | q
+            else:
+                qr = q
+
+        return self.queryset.filter(qr).distinct().order_by("id")
+
+    def filter_by_args(self):
+        if self.args:
+            self.queryset = self.queryset.filter(**self.args)
+
+
+
 def is_valid_profile_model():
     try:
         model = get_profile_model()
@@ -137,50 +191,3 @@ def get_order_by(model):
         return ordering
     return ["-id"]
 
-
-def dql_search(model, query):
-    try:
-        return apply_search(model.objects.all(), query)
-    except DjangoQLError:
-        return None
-
-
-def search_and_filter(model, query=None, dql_query=None, args=None, autocomplete=False):
-    queryset = None
-    if dql_query:
-        queryset = dql_search(model, dql_query)
-
-    if query:
-        queryset = search(model, model.get_search_field_names(), query, autocomplete=autocomplete, queryset=queryset)
-
-    if queryset is None:
-        queryset = model.objects.all()
-
-    if args:
-        # got args... filter
-        queryset = queryset.filter(**args)
-
-    queryset = queryset.order_by(*get_order_by(model))
-    return queryset.select_related(*model.get_foreign_key_field_names())
-
-
-# https://stackoverflow.com/a/1239602/9390372
-def search(model, fields, query, autocomplete=False, queryset=None):
-    if autocomplete:
-        fields = filter_autocomplete_fields(model, fields)
-    qr = None
-    for field in fields:
-        if not autocomplete:
-            q = Q(**{"%s__icontains" % field: query})
-        else:
-            q = Q(**{"%s__istartswith" % field: query})
-
-        if qr:
-            qr = qr | q
-        else:
-            qr = q
-
-    if not queryset:
-        queryset = model.objects.all()
-
-    return queryset.filter(qr).distinct().order_by("id")

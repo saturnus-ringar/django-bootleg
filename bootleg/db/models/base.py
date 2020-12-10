@@ -81,7 +81,7 @@ class BaseModel(models.Model):
         if field_name in cls.get_search_field_names():
             return True
 
-        if cls.is_valid_foreign_field(field_name):
+        if cls.is_valid_foreign_search_field(field_name):
             return True
 
         return False
@@ -91,7 +91,7 @@ class BaseModel(models.Model):
         try:
             field = cls._meta.get_field(field_name)
             if hasattr(field, "related_model"):
-                return False
+                return True
         except FieldDoesNotExist:
             pass
 
