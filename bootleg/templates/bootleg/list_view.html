@@ -1,6 +1,11 @@
 {% extends bootleg_settings.ADMIN_TEMPLATE %}
-{% load i18n crispy_forms_tags humanize %}
+{% load i18n static crispy_forms_tags humanize compress %}
 {% load render_table from django_tables2 %}
+{% block extra_head %}
+    {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'djangoql/css/completion.css' %}" />
+    {% endcompress %}
+{% endblock %}
 {% block title %}{{ heading }}{% endblock title %}
 
 {% block h1 %}{{ model.meta.verbose_name_plural }}{% endblock %}
@@ -41,3 +46,22 @@
         </div>
     </div>
 {% endif %}
+
+{% block extra_js %}
+    {% compress js %}
+              <script src="{% static 'djangoql/js/lib/lexer.js' %}"></script>
+              <script src="{% static 'djangoql/js/lib/LRUCache.js' %}"></script>
+              <script src="{% static 'djangoql/js/completion.js' %}"></script>
+        <script>
+        DjangoQL.DOMReady(function () {
+            new DjangoQL({
+                introspections: {{ introspections|safe }},
+                selector: 'textarea[name=dql]',
+                syntaxHelp: null,
+                autoResize: false,
+                syntaxHelp: "{% url 'bootleg:djangoql_help' %}",
+            });
+        });
+        </script>
+    {% endcompress %}
+{% endblock %}

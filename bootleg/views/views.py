@@ -53,3 +53,7 @@ class ErrorTestView(StaffRequiredTemplateView):
             raise Exception("500 test.")
 
         return super().dispatch(request, *args, **kwargs)
+
+
+class DjangoQLHelpView(BaseTemplateView):
+    template_name = "bootleg/djangoql_help.html"

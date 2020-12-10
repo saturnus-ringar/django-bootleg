@@ -5,6 +5,8 @@ from django.core.exceptions import FieldDoesNotExist
 from django.db import ProgrammingError, OperationalError
 from django.db.models import Q, CharField
 from django.urls import reverse
+from djangoql.exceptions import DjangoQLError
+from djangoql.queryset import apply_search
 
 from bootleg.conf import bootleg_settings
 from bootleg.utils.utils import get_meta_class_value
@@ -117,9 +119,12 @@ def get_foreign_key_field(model, field):
     # must be in model__field_name-format
     try:
         parts = field.split("__")
-        foreign_key_model = model._meta.get_field(parts[0]).related_model
-        if foreign_key_model:
-            return foreign_key_model._meta.get_field(parts[1])
+        if len(parts) > 1:
+            foreign_key_model = model._meta.get_field(parts[0]).related_model
+            if foreign_key_model:
+                return foreign_key_model._meta.get_field(parts[1])
+            else:
+                return None
         else:
             return None
     except FieldDoesNotExist:
@@ -133,10 +138,20 @@ def get_order_by(model):
     return ["-id"]
 
 
-def search_and_filter(model, query=None, args=None, autocomplete=False):
+def dql_search(model, query):
+    try:
+        return apply_search(model.objects.all(), query)
+    except DjangoQLError:
+        return None
+
+
+def search_and_filter(model, query=None, dql_query=None, args=None, autocomplete=False):
     queryset = None
+    if dql_query:
+        queryset = dql_search(model, dql_query)
+
     if query:
-        queryset = search(model, model.get_search_field_names(), query, autocomplete=autocomplete)
+        queryset = search(model, model.get_search_field_names(), query, autocomplete=autocomplete, queryset=queryset)
 
     if queryset is None:
         queryset = model.objects.all()
@@ -150,12 +165,11 @@ def search_and_filter(model, query=None, args=None, autocomplete=False):
 
 
 # https://stackoverflow.com/a/1239602/9390372
-def search(model, fields, query, autocomplete=False):
+def search(model, fields, query, autocomplete=False, queryset=None):
     if autocomplete:
         fields = filter_autocomplete_fields(model, fields)
     qr = None
     for field in fields:
-        dx(field)
         if not autocomplete:
             q = Q(**{"%s__icontains" % field: query})
         else:
@@ -166,4 +180,7 @@ def search(model, fields, query, autocomplete=False):
         else:
             qr = q
 
-    return model.objects.filter(qr).distinct().order_by("id")
+    if not queryset:
+        queryset = model.objects.all()
+
+    return queryset.filter(qr).distinct().order_by("id")

@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -5,10 +7,14 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import RedirectView, DetailView
 from django_tables2 import SingleTableView, RequestConfig
+from djangoql.exceptions import DjangoQLError
+from djangoql.queryset import apply_search
+from djangoql.schema import DjangoQLSchema
+from djangoql.serializers import DjangoQLSchemaSerializer
 
-from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory
-from bootleg.utils import models, tables
-from bootleg.utils.http import cast_param, get_model_args_from_request
+from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory, DQLSearchForm
+from bootleg.utils import models
+from bootleg.utils.http import get_model_args_from_request
 from bootleg.utils.tables import TableFactory
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
@@ -59,12 +65,18 @@ class GenericListView(GenericModelView, SingleTableView):
 
     def get_queryset(self):
         return models.search_and_filter(self.model, query=self.request.GET.get("q", None),
-                                        args=get_model_args_from_request(self.model, self.request))
+                                dql_query=self.request.GET.get("dql", None),
+                                args=get_model_args_from_request(self.model, self.request))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        introspections = DjangoQLSchemaSerializer().serialize(
+            DjangoQLSchema(self.model),
+        )
+        context["introspections"] = json.dumps(introspections)
         if self.model.get_search_field_names():
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
+            context["dql_form"] = DQLSearchForm(self.request)
         if get_meta_class_value(self.model, "filter_fields"):
             context["filter_form"] = ModelFilterFormFactory(self.model, self.request).form
         return context

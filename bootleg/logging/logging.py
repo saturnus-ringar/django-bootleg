@@ -188,7 +188,10 @@ def add_builtins():
             debug_log("Class: %s Base class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
             debug_log("dir: %s" % dir(obj))
 
-        debug_log(pformat(obj))
+        if verbose:
+            debug_log(pformat(obj))
+        else:
+            debug_log(obj)
 
     def dxv(obj):
         dx(obj, True)

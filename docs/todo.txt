@@ -1,4 +1,12 @@
+
+- det blir inte länkar i admin:
+    http://localhost:8000/django-admin/core/event/
+
 - datum-range-filter på datum
+    ... problem med att sätta initial-värdet för base_field
+        self.form.base_fields[new_field_name].initial = self.request.GET.get(new_field_name, None)
+        dx(new_field_name)
+        dx(self.form.base_fields[new_field_name].initial)
 
 - fixa:
     don't allow textareas

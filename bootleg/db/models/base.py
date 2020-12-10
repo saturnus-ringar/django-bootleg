@@ -7,11 +7,13 @@ from django.core.exceptions import ValidationError, FieldDoesNotExist
 from django.db import models
 from django.db.models import CharField, EmailField
 from django.db.models.fields.files import ImageField
+from django.db.models.manager import BaseManager, Manager
 from django.urls import reverse
 from django.utils import formats
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django_extensions.db.models import TimeStampedModel
+from djangoql.queryset import DjangoQLQuerySet
 
 from bootleg.logging import logging
 from bootleg.utils import strings
@@ -51,6 +53,11 @@ class LoggedExceptionManager(models.Manager):
 
 class BaseModel(models.Model):
 
+    dql_objects = DjangoQLQuerySet.as_manager()
+    # adding a default manager here - if I don't I get "type object '<Class>' has no attribute 'objects'"
+    # when I added the dql_objects-manager
+    objects = Manager()
+
     ##############################
     # basic thingies
     ##############################
@@ -65,6 +72,16 @@ class BaseModel(models.Model):
     @classmethod
     def is_valid_foreign_field(cls, field_name):
         if get_foreign_key_field(cls, field_name):
+            return True
+
+        return False
+
+    @classmethod
+    def is_valid_search_field(cls, field_name):
+        if field_name in cls.get_search_field_names():
+            return True
+
+        if cls.is_valid_foreign_field(field_name):
             return True
 
         return False

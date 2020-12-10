@@ -3,8 +3,9 @@ from crispy_forms.layout import Submit
 from django.db.models import ForeignKey, ManyToManyField
 from django.forms import CharField, modelform_factory, SelectMultiple, Select, DateField, \
     DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField, URLField, \
-    SlugField, NullBooleanField
+    SlugField, NullBooleanField, Textarea
 from django.utils.translation import ugettext as _
+from django_extensions.db.fields import ModificationDateTimeField, CreationDateTimeField
 
 from bootleg.utils.models import get_order_by
 
@@ -19,10 +20,10 @@ except ModuleNotFoundError:
 from bootleg.forms.base import METHOD_GET, BaseForm
 
 EMPTY_LABEL = "---------"
+DATE_FIELDS = [CreationDateTimeField, ModificationDateTimeField, DateField]
 
 
-class GenericModelSearchForm(BaseForm):
-    q = CharField(label="", max_length=150, required=False)
+class SearchForm(BaseForm):
     submit_text = _("Search")
     inline = True
     method = METHOD_GET
@@ -33,6 +34,21 @@ class GenericModelSearchForm(BaseForm):
             super().__init__(request.GET or None)
         else:
             super().__init__()
+
+
+class DQLSearchForm(SearchForm):
+    dql = CharField(label="", max_length=150, required=False, widget=Textarea)
+
+    def __init__(self, request=None, model=None):
+        super().__init__(request, model)
+        self.add_class(self.fields["dql"], "form-control")
+
+
+class GenericModelSearchForm(SearchForm):
+    q = CharField(label="", max_length=150, required=False)
+
+    def __init__(self, request=None, model=None):
+        super().__init__(request, model)
         self.fix_autocomplete()
 
     def fix_autocomplete(self):
@@ -48,11 +64,13 @@ class ModelFilterFormFactory:
     def __init__(self, model, request):
         self.model = model
         self.request = request
+        self.date_field_names = []
         self.make_all_fields_editable()
         self.form = modelform_factory(model, fields=model._meta.filter_fields)
         self.fix_fields()
-        self.add_form_helper()
+        self.fix_date_fields()
         self.sort_fields()
+        self.add_form_helper()
 
     def make_all_fields_editable(self):
         for field_name in self.model.get_filter_field_names():
@@ -63,15 +81,13 @@ class ModelFilterFormFactory:
         for field_name in self.form.base_fields:
             # make all fields not-required
             self.form.base_fields[field_name].required = False
-            # clear initial values (the inputs use the field's default value)
-            self.form.base_fields[field_name].initial = None
-            # and set the initial value from the request
-            value = self.request.GET.get(field_name, None)
-            if value:
-                self.form.base_fields[field_name].initial = value
+            # set the initial value from the request
+            self.form.base_fields[field_name].initial = self.request.GET.get(field_name, None)
             # set queryset
             self.form.base_fields[field_name].queryset = get_queryset_for_field(self.model, field_name)
-
+            field = self.model._meta.get_field(field_name)
+            if type(field) in DATE_FIELDS:
+                self.date_field_names.append(field_name)
             # don't allow any multiple selects
             if isinstance(self.form.base_fields[field_name].widget, SelectMultiple):
                 self.form.base_fields[field_name].widget = Select()
@@ -82,6 +98,21 @@ class ModelFilterFormFactory:
             if isinstance(form.base_fields[field].widget, Textarea):
                 form.base_fields[field].widget = CharField
             '''
+
+    def fix_date_fields(self):
+        for field_name in self.date_field_names:
+            self.add_field_from_field(field_name, field_name + "__gte")
+            self.add_field_from_field(field_name, field_name + "__lte")
+            del self.form.base_fields[field_name]
+
+    def add_field_from_field(self, field_name, new_field_name):
+        self.form.base_fields[new_field_name] = self.form.base_fields[field_name]
+        #dx("field_name: %s" % field_name)
+        #dx("new_field_name: %s" % new_field_name)
+        #dx(self.request.GET.get(new_field_name, None))
+        self.form.base_fields[new_field_name].initial = self.request.GET.get(new_field_name, None)
+        dx(new_field_name)
+        dx(self.form.base_fields[new_field_name].initial)
 
     def add_form_helper(self):
         helper = FormHelper()

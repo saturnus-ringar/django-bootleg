@@ -1,3 +1,28 @@
+- någon bugg i highlighten:
+    http://localhost:8000/list/customer/?q=test&dql=billing_address.city.name%20~%20%22stock%22
+    "test§"
+    ... nä, det var inlagt så
+
+- krasch: http://localhost:8000/list/customer/?payment_terms=1
+
+- toggling av avancerad sök
+
+- fixa höjden på avancerad sök
+
+- länka till syntax för avancerad sök
+
+- större text i avancerad sök
+
+- annan färg på highligh i avancerad sök
+        introspections = DjangoQLSchemaSerializer().serialize(
+            DjangoQLSchema(query.model),
+
+element.style {
+}
+.djangoql-completion .active
+        )
+djangoql-completion
+
 - http://localhost:8000/product-cards/?coated_side_material=1
     ... "Inside" highlightas inte
 

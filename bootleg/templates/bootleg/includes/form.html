@@ -1,51 +1,7 @@
 {% load i18n crispy_forms_tags bootstrap_tags %}
 
-{% if form.is_search_form %}
-    {% if not bootleg_settings.BOOTSTRAP_3 %}
-        <form id="bootleg_q_form">
-            <div class="input-group w-50">
-                {{ form.q }}
-                    <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button">
-                                <i id="bootleg_search_icon" class="fa fa-search"></i>
-                            </button>
-                    </div>
-            </div>
-        </form>
-    {% else %}
-        <form class="form-inline" id="bootleg_q_form">
-            <div class="form-group">
-                {{ form.q }}
-            </div>
-            <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
-        </form>
-    {% endif %}
-{% else %}
-    {% if forms or form %}
-        {% if bootleg_settings.WRAP_FORMS %}
-            <div class="w-50 bg-light border rounded p-4">
-        {% else %}
-            <div class="w-50">
-        {% endif %}
-    {% endif %}
-{% endif %}
-
-{% if forms %}
-    {# TODO: don't always use multipart #}
-    <form method="post" action="" enctype="multipart/form-data">
-        {% crispy form helper %}
-        {% for inner_form in forms %}
-            <h5 class="mb-3 mt-3">{{ inner_form.heading }}</h5>
-            {% crispy inner_form helper %}
-        {% endfor %}
-        <input type="submit" name="submit" value="{{ view.submit_button_text }}" class="btn btn-primary loading-button" id="submit-id-submit">
-    </form>
-{% else %}
-    {% if form and not form.is_search_form %}
-        {% crispy form form.helper %}
-    {% endif %}
-{% endif %}
-
-{% if forms or form and not form.is_search_form %}
-    </div>
-{% endif %}
+            <form id="bootleg_dql_form">
+                <div class="input-group w-50 mt-3">
+                    {{ dql_form.dql }}
+                </div>
+            </form>

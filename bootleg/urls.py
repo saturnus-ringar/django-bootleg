@@ -14,7 +14,7 @@ from bootleg.views.auth_views import CustomLoginView, LogoutView, change_passwor
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView, \
     GenericModelCloneView, GenericModelDetailView, GenericModelDeleteView
 from bootleg.views.json_views import JSONAutocompleteView, JSONFieldAutocompleteView
-from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView
+from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView, DjangoQLHelpView
 from bootleg.views.ajax_views import JavascriptErrorView
 
 # setup, indeed
@@ -74,6 +74,11 @@ urlpatterns = [
     # misc-ish
     #######################################
     path("favicon.ico", RedirectView.as_view(url=staticfiles_storage.url(bootleg_settings.FAVICON_FILE))),
+
+    #######################################
+    # djangoql syntax help
+    #######################################
+    path("djangoql/", DjangoQLHelpView.as_view(page_title=_("DjangoQL")), name="djangoql_help"),
 
     #######################################
     # deploy/system info

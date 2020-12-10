@@ -173,3 +173,12 @@ mark {
 .easy-autocomplete-container ul li, .easy-autocomplete-container ul .eac-category {
   font-size: 100% !important;
 }
+
+/* djangoql tweaks */
+.djangoql-completion .active {
+    background-color: var(--primary) !important;
+}
+
+.djangoql-completion {
+    font-size: 100% !important;
+}

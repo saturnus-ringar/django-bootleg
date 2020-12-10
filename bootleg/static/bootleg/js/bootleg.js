@@ -106,6 +106,8 @@ function initGenericAutocomplete() {
     };
     input.easyAutocomplete(options);
     $(".easy-autocomplete").addClass("w-75");
+    // set the dql-input to the same height as the q-input
+    $('textarea[name ="dql"]').height(input.height());
 }
 
 function initGenericAutocompletes() {
@@ -222,7 +224,7 @@ $("a.confirmation-link").on("click", function() {
 });
 
 // changes on the selects in the generic model filter form
-$("#bootleg_model_filter_form select").change(function() {
+$("#bootleg_model_filter_form select").change(function(e) {
     handleGenericModelFilter();
 });
 
@@ -232,19 +234,26 @@ $("#bootleg_model_filter_form input:checkbox").change(function() {
 
 // bootleg generic filter form
 $("#bootleg_model_filter_form").submit(function(e) {
-    e.preventDefault();
-    handleGenericModelFilter();
+    handleGenericModelFilter(e);
 });
 
 // generic model search submit
 $("#bootleg_q_form").submit(function(e) {
-    e.preventDefault();
-    handleGenericModelFilter();
+    handleGenericModelFilter(e);
 });
 
-function handleGenericModelFilter() {
+// generic model search submit
+$("#bootleg_dql_form").submit(function(e) {
+    handleGenericModelFilter(e);
+});
+
+function handleGenericModelFilter(e) {
+    console.l
+    if(e != null) {
+        e.preventDefault();
+    }
     MainLoader.start();
-    var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form"]);
+    var serialized = getSerializedForms(["#bootleg_model_filter_form", "#bootleg_q_form", "#bootleg_dql_form"]);
     window.location.href = serialized
 }
 

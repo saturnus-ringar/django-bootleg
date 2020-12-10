@@ -50,3 +50,13 @@ def sar_warning():
     if not SAR_COMMAND_EXISTS:
         return get_alert("warning", _("The SAR command doesn't exist on this system. This is not real data."))
     return ""
+
+
+@register.simple_tag
+def render_search_append():
+    html = '<div class="input-group-append">\n'
+    html += '<button class="btn btn-secondary" type="button">\n'
+    html += '<i class="fa fa-search"></i>\n'
+    html += '</button>'
+    html += '</div>'
+    return mark_safe(html)
