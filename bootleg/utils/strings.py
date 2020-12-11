@@ -18,7 +18,7 @@ class TooManyStringsPartsException(Exception):
     pass
 
 
-def remove_isolated_string(text, string):
+def strip_isolated_string(text, string):
     match = " " + string + " "
     if match in text:
         text = text.replace(match, " ")
@@ -31,7 +31,14 @@ def remove_isolated_string(text, string):
     if text.endswith(match):
         text = remove_suffix(text, match)
 
-    return text
+    if not string[-1].isalnum():
+        # last char is not alphanumeric, replace as prefix then
+        text = remove_prefix(text, string)
+    if not string[0].isalnum():
+        # first char is not alphanumeric, replace as suffix then
+        text = remove_suffix(text, string)
+
+    return text.strip()
 
 
 def replace_from_list(string, li, lowercase=True, isolated=False):
@@ -39,7 +46,7 @@ def replace_from_list(string, li, lowercase=True, isolated=False):
         if lowercase:
             s = s.lower()
         if isolated:
-            string = remove_isolated_string(string, s.lower())
+            string = strip_isolated_string(string, s.lower())
         else:
             string = string.replace(s.lower(), "")
 
