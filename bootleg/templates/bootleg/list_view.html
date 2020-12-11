@@ -49,9 +49,9 @@
 
 {% block extra_body %}
     {% compress js %}
-              <script src="{% static 'djangoql/js/lib/lexer.js' %}"></script>
-              <script src="{% static 'djangoql/js/lib/LRUCache.js' %}"></script>
-              <script src="{% static 'djangoql/js/completion.js' %}"></script>
+        <script src="{% static 'djangoql/js/lib/lexer.js' %}"></script>
+        <script src="{% static 'djangoql/js/lib/LRUCache.js' %}"></script>
+        <script src="{% static 'djangoql/js/completion.js' %}"></script>
         <script>
         DjangoQL.DOMReady(function () {
             new DjangoQL({
