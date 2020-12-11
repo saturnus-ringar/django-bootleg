@@ -241,7 +241,7 @@ $("#bootleg_q_form").submit(function(e) {
     handleGenericModelFilter(e);
 });
 
-// generic model search submit
+// dql search submit
 $("#bootleg_dql_form").submit(function(e) {
     handleGenericModelFilter(e);
 });
