@@ -82,7 +82,7 @@ class ModelSearcher:
             else:
                 qr = q
 
-        return self.queryset.filter(qr).distinct().order_by("id")
+        self.queryset = self.queryset.filter(qr).distinct().order_by("id")
 
     def filter_by_args(self):
         if self.args:

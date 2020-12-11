@@ -111,8 +111,6 @@ class ModelFilterFormFactory:
         #dx("new_field_name: %s" % new_field_name)
         #dx(self.request.GET.get(new_field_name, None))
         self.form.base_fields[new_field_name].initial = self.request.GET.get(new_field_name, None)
-        dx(new_field_name)
-        dx(self.form.base_fields[new_field_name].initial)
 
     def add_form_helper(self):
         helper = FormHelper()
