@@ -1,3 +1,14 @@
+- filtrera fälten i djangosql, ta bara textfält + datum
+    CharField, TextField, URLField, DateTimeField, DateField
+
+- hur är det med säkerheten och djangoql, kan det bli publik sökning av alla modeller?
+    ... nä, det inkluderas ju i introspections i js
+
+- autocompleten har gått sönder
+
+- det blir inte länkar i admin:
+    http://localhost:8000/django-admin/core/event/
+
 - det går inte att toggla "Advanced search", den försvinner direkt
 
 - sökikonen ligger fel:

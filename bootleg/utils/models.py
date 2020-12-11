@@ -50,7 +50,7 @@ class ModelSearcher:
         self.filter_by_args()
 
     def get_queryset(self):
-        return self.queryset.select_related(*self.model.get_foreign_key_field_names())
+        return self.queryset.select_related(*self.model.get_foreign_key_field_names()).order_by(*get_order_by(self.model))
 
     def dql_search(self):
         try:
@@ -87,7 +87,6 @@ class ModelSearcher:
     def filter_by_args(self):
         if self.args:
             self.queryset = self.queryset.filter(**self.args)
-
 
 
 def is_valid_profile_model():

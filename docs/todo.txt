@@ -1,6 +1,19 @@
+- 500 då jag bytte lösenord
 
-- det blir inte länkar i admin:
-    http://localhost:8000/django-admin/core/event/
+- sökningen funkar icke:
+    https://gigguide.se/list/event/?q=Jubileumskonsert
+
+- sökningen funkar inte alls:
+    https://gigguide.se/list/artist/?q=Thomas+J%C3%A4rvheden
+
+- sorterar nog inte rätt som default på dismissade event
+
+
+- dql-sökningen tar inte med fälten från filtreringen till vänster då man söker, är väl ok iofs?
+    $("#bootleg_dql_form").submit(function(e) {
+        handleGenericModelFilter(e);
+    });
+    ... funkar icke. Den detekterar inte submit
 
 - datum-range-filter på datum
     ... problem med att sätta initial-värdet för base_field
