@@ -1,6 +1,7 @@
 from jsonview.views import JsonView
 
 from bootleg.utils import models
+from bootleg.utils.models import ModelSearcher
 from bootleg.utils.utils import get_attr__
 from bootleg.views.base import StaffRequiredView
 
@@ -18,10 +19,8 @@ class JSONAutocompleteView(ModelAutoCompleteView):
 
     def get_context_data(self, **kwargs):
         results = []
-        query = self.request.GET.get("q")
-        for result in models.search(self.model, self.model.get_search_field_names(),
-                                    query, autocomplete=True)[:SEARCH_LIMIT]:
-
+        for result in ModelSearcher(self.model, self.model.get_search_field_names(), self.request.GET.get("q", ""),
+                                 autocomplete=True).get_queryset()[:SEARCH_LIMIT]:
             for field in self.model.get_search_field_names():
                 value = get_attr__(result, field)
                 if str(value).lower().startswith(query.lower()):
