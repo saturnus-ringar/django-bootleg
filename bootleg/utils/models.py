@@ -2,14 +2,38 @@ import django
 from django.apps import apps
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
-from django.db import ProgrammingError, OperationalError
+from django.db import ProgrammingError, OperationalError, models
 from django.db.models import Q, CharField
 from django.urls import reverse
 from djangoql.exceptions import DjangoQLError
 from djangoql.queryset import apply_search
+from djangoql.schema import DjangoQLSchema
 
 from bootleg.conf import bootleg_settings
 from bootleg.utils.utils import get_meta_class_value
+
+
+def get_text_type_fields():
+    return (models.CharField,
+        models.DateField,
+        models.EmailField,
+        models.GenericIPAddressField,
+        models.TextField,
+        models.TimeField,
+        models.URLField)
+
+
+class GenericDjangoQLSchema(DjangoQLSchema):
+
+    def get_fields(self, model):
+        fields = []
+        for field in model._meta.fields:
+            if "password" in field.name:
+                continue
+            if field.__class__ in get_text_type_fields() or field.related_model:
+                fields.append(field.name)
+
+        return sorted(fields)
 
 
 class ModelSearcher:
