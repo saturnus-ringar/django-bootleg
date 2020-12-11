@@ -19,6 +19,7 @@ class JSONAutocompleteView(ModelAutoCompleteView):
 
     def get_context_data(self, **kwargs):
         results = []
+        query = self.request.GET.get("q", "")
         for result in ModelSearcher(self.model, self.model.get_search_field_names(), self.request.GET.get("q", ""),
                                  autocomplete=True).get_queryset()[:SEARCH_LIMIT]:
             for field in self.model.get_search_field_names():
