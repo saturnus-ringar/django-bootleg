@@ -6,6 +6,8 @@ install_requires = [
     "automodinit >= 0.16",
     "colorama >= 0.4",
     "django >= 3.0",
+    "django-annoying >= 0.10.6"
+    "django_compressor >= 2.4",
     "django_compressor >= 2.4",
     "django-crispy-forms >= 1.9",
     "django-debug-toolbar >= =3.1",
