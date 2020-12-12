@@ -168,10 +168,11 @@ def check_login_redirect_url(errors):
         # not the default URL
         try:
             reverse(settings.LOGIN_REDIRECT_URL)
-        except NoReverseMatch:
+        except NoReverseMatch as e:
+            print(e)
             errors.append(
                 Error(
-                    "LOGIN_REDIRECT_URL %s could not be reversed" % settings.LOGIN_REDIRECT_URL,
+                    "LOGIN_REDIRECT_URL '%s' could not be reversed" % settings.LOGIN_REDIRECT_URL,
                     hint="Set LOGIN_REDIRECT_URL to a valid url name",
                     obj=settings,
                     id="bootleg.E029"
@@ -293,13 +294,28 @@ def check_branding_logo(errors):
     return errors
 
 
+def check_home_url(errors):
+    try:
+        reverse(settings.LOGIN_REDIRECT_URL)
+    except NoReverseMatch as e:
+        print(e)
+        errors.append(
+            Error(
+                "HOME_URL '%s' could not be reversed" % settings.LOGIN_REDIRECT_URL,
+                hint="Set HOME to a valid url name",
+                obj=settings,
+                id="bootleg.E032"
+            )
+        )
+
+    return errors
+
 @register()
 def check_settings(app_configs, **kwargs):
     errors = []
     errors = check_required_setting(errors, "SITE_DOMAIN", 4)
     errors = check_required_setting(errors, "SITE_DOMAIN", 4)
     errors = check_required_setting(errors, "SITE_NAME", 4)
-    errors = check_required_setting(errors, "HOME_URL", 4)
     errors = check_required_setting(errors, "HOME_URL", 4)
 
     if env.is_production():
@@ -337,6 +353,7 @@ def check_settings(app_configs, **kwargs):
     errors = check_filter_fields(errors, models)
     errors = check_extra_search_fields(errors, models)
     errors = check_branding_logo(errors)
+    errors = check_home_url(errors)
     return errors
 
 
