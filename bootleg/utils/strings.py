@@ -18,6 +18,38 @@ class TooManyStringsPartsException(Exception):
     pass
 
 
+def match_with_non_alnum_prefix(original_string, string_to_match):
+    # this will match if the string starts with a non alnum-prefix/suffix, including a space
+    # such as: "-shish kebab" "- shish kebab"
+    # also matches if the strings are identical
+
+    if original_string == string_to_match:
+        return True
+
+    first_char = original_string[:1]
+    if not first_char.isalnum():
+        if remove_prefix(original_string, first_char).strip() == string_to_match:
+            return True
+
+    return False
+
+
+def match_with_non_alnum_suffix(original_string, string_to_match):
+    # this will match if the string ends with a non alnum-prefix/suffix
+    # such as: "shish kebab:", "sish kebab!"
+    # also matches if the strings are identical
+
+    if original_string == string_to_match:
+        return True
+
+    last_char = original_string[-1]
+    if not last_char.isalnum():
+        if remove_suffix(original_string, last_char).strip() == string_to_match:
+            return True
+
+    return False
+
+
 def strip_isolated_string(text, string):
     match = " " + string + " "
     if match in text:
