@@ -84,6 +84,7 @@ from bootleg.settings import *
 # urls.py
 
 from bootleg.add_error_handlers import *
+from django.urls import include
 
 urlpatterns = [
     # ...
@@ -103,7 +104,7 @@ import logging
 #...
 try:
     execute_from_command_line(sys.argv)
-except Exception as e:
+except Exception:
     logging.getLogger("django").error('manage.py error: %s', ' '.join(sys.argv), exc_info=sys.exc_info())
 ```
 
