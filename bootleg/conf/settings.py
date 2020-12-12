@@ -85,6 +85,8 @@ class Settings:
         self.add_setting("BASE_TEMPLATE", "bootleg/base.html")
         self.add_setting("ADMIN_TEMPLATE", self.BASE_TEMPLATE)
         self.add_setting("NAVIGATION_TEMPLATE", None)
+        self.add_setting("HEAD_TEMPLATE", None)
+        self.add_setting("FOOT_TEMPLATE", None)
         self.add_setting("SYSTEM_TEMPLATE", "bootleg/system/system.html")
         self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system/deployment.html")
         self.add_setting("ERROR_400_TEMPLATE", "bootleg/error/400.html")
@@ -111,9 +113,11 @@ class Settings:
         ####################################################
         self.add_setting("HTML_LANGUAGE_CODE", get_setting("LANGUAGE_CODE", "en")[:2])
         self.add_setting("CSS_FILES", ["bootleg/css/vendor/bootstrap.css"])
+        # if CSS_FILES is empty it's possible to use the default css + these EXTRA_CSS_FILES
+        self.add_setting("EXTRA_CSS_FILES", None)
         self.add_setting("FAVICON_FILE", DEFAULT_FAVICON)
         self.add_setting("BRANDING_LOGO", None)
-        self.add_setting("CONTAINER_CSS_CLASS", "container-fluid bg-dark")
+        self.add_setting("CONTAINER_CSS_CLASS", "container-fluid")
         self.add_setting("WRAP_FORMS", True)
 
         ####################################################
@@ -122,6 +126,7 @@ class Settings:
         self.add_setting("JS_DATE_FORMAT", "yyyy-MM-DD")
         self.add_setting("JS_DATETIME_FORMAT", "yyyy-MM-DD hh:ss")
         self.add_setting("EXCLUDE_JQUERY", False)
+        self.add_setting("JS_FILES", [])
 
         ####################################################
         # URLs

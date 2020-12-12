@@ -7,4 +7,7 @@
     {% for css_file in bootleg_settings.CSS_FILES %}
         <link rel="stylesheet" type="text/css" href="{% static css_file %}" />
     {% endfor %}
+    {% for css_file in bootleg_settings.EXTRA_CSS_FILES %}
+        <link rel="stylesheet" type="text/css" href="{% static css_file %}" />
+    {% endfor %}
 {% endcompress %}

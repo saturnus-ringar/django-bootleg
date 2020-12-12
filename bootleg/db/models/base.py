@@ -278,7 +278,7 @@ class BaseModel(models.Model):
 
 
 class NameModel(BaseModel):
-    name = models.CharField(max_length=255, unique=True, null=False, blank=False, verbose_name=_("Name"))
+    name = models.CharField(max_length=255, db_index=True, unique=True, null=False, blank=False, verbose_name=_("Name"))
 
     def fix_clone_data(self):
         self.name = _("Cloned %s - %s" % (self._meta.verbose_name,

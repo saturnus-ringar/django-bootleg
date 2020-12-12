@@ -5,7 +5,10 @@ body {
 }
 
 #main {
-    margin-top: 20px;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-bottom: 3em;
+    margin-top: 2em;
 }
 
 /* helpers */
@@ -17,12 +20,13 @@ body {
 h1 {
     margin-bottom: 20px;
     font-weight: bolder;
-    color: var(--dark);
+    color: var(--blue);
 }
 
 h2, h3, h4, h5, h6 {
     color: var(--primary);
 }
+
 legend {
     font-size: 2.6575rem;
     margin-top: 1.0rem;

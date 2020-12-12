@@ -22,6 +22,9 @@
           gtag('config', '{{ bootleg_settings.google_analytics_account }}');
     </script>
 {% endif %}
+{% if bootleg_settings.HEAD_TEMPLATE %}
+    {% include bootleg_settings.HEAD_TEMPLATE %}
+{% endif %}
 </head>
 
 <body>
@@ -62,6 +65,10 @@
 {% include "bootleg/includes/js.html" %}
 {% block extra_body %}
 {% endblock %}
+{% if bootleg_settings.FOOT_TEMPLATE %}
+    {% include bootleg_settings.HEAD_TEMPLATE %}
+{% endif %}
+
 </body>
 </html>
 
