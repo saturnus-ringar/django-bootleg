@@ -310,6 +310,7 @@ def check_home_url(errors):
 
     return errors
 
+
 @register()
 def check_settings(app_configs, **kwargs):
     errors = []
