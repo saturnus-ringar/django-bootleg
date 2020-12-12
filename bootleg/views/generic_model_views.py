@@ -74,7 +74,7 @@ class GenericListView(GenericModelView, SingleTableView):
         context["introspections"] = json.dumps(introspections)
         if self.model.get_search_field_names():
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
-            context["dql_form"] = GenericModelSearchForm(self.request,model=self.model)
+            context["dql_form"] = DQLSearchForm(self.request,model=self.model)
         if get_meta_class_value(self.model, "filter_fields"):
             context["filter_form"] = ModelFilterFormFactory(self.model, self.request).form
         return context
