@@ -41,7 +41,7 @@ MIDDLEWARE = [
     # optional - if you want access-logging
     'bootleg.middleware.logging.LoggingMiddleware',
     # optional - if you want to use the login-restriction bits
-    'bootleg.middleware.LoginMiddleware',
+    'bootleg.middleware.login.LoginMiddleware',
 ]
 
 TEMPLATES = [
