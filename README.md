@@ -172,6 +172,12 @@ So add this block to your templates:**
 {% endblock %}
 ```
 
+HEAD_TEMPLATE - default **None** 
+> Example: 'website/includes/head.html' - will be included within the <head></head>-tag
+
+FOOT_TEMPLATE - default **None** 
+> Example: 'website/includes/foot.html' - will be included just before the </body>-tag
+
 NAVIGATION_TEMPLATE - default **None** 
 > Example: 'website/includes/navigation.html'
 
