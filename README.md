@@ -84,6 +84,7 @@ from bootleg.settings import *
 # urls.py
 
 from bootleg.add_error_handlers import *
+from django.urls import include
 
 urlpatterns = [
     # ...
