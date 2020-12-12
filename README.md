@@ -9,7 +9,7 @@ Django additions, tools and ...stuff...
 
 ## Installation
 ```sh
-$ git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/django-bootleg.git
+$ pip install git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/django-bootleg.git
 ```
 
 ## Configure
