@@ -66,7 +66,7 @@ def get_log_level(filename):
     return level
 
 
-def get_logger(filename, name=None):
+def get_logger(filename, name=None, stream_handler=True):
     extension = os.path.splitext(filename)[1]
     logger_name = name or filename
     if extension:
@@ -92,7 +92,7 @@ def get_logger(filename, name=None):
         handler.setLevel(level)
         handler.setFormatter(get_formatter())
         logger.addHandler(handler)
-        if bootleg_settings.LOG_TO_STDOUT:
+        if bootleg_settings.LOG_TO_STDOUT and stream_handler:
             # add stream handler ... indeed
             add_stream_handler(logger)
 
