@@ -41,7 +41,7 @@ MIDDLEWARE = [
     # optional - if you want access-logging
     'bootleg.middleware.logging.LoggingMiddleware',
     # optional - if you want to use the login-restriction bits
-    'bootleg.middleware.LoginMiddleware',
+    'bootleg.middleware.login.LoginMiddleware',
 ]
 
 TEMPLATES = [
@@ -171,6 +171,12 @@ So add this block to your templates:**
 {# bootleg content will be rendered here #}
 {% endblock %}
 ```
+
+HEAD_TEMPLATE - default **None** 
+> Example: 'website/includes/head.html' - will be included within the <head></head>-tag
+
+FOOT_TEMPLATE - default **None** 
+> Example: 'website/includes/foot.html' - will be included just before the </body>-tag
 
 NAVIGATION_TEMPLATE - default **None** 
 > Example: 'website/includes/navigation.html'
@@ -310,7 +316,7 @@ SETTINGS_TO_PRINT = {
 ## Bash aliases
 bootleg generates an <project_name>aliases.sh-file in the users home directory. Source that file in your .bashrc to use the aliases. The alias file is only created when manage.py is run. So in case you want to update/create the alias files, just run any manage.py command.
 
-Use the PROJECT_ABBR-setting to prefix the aliases and, for development, set your local user account to MAIN_USER to generate the alias files.
+Use the **PROJECT_ABBR**-setting to prefix the aliases and, for development, set your local user account to **MAIN_USER** to generate the alias files.
 
 PROJECT_ABBR - default **None**
 
