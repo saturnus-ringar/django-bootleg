@@ -1,5 +1,6 @@
 import json
 
+from bootleg.utils.html import get_default_table_class_string
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -10,7 +11,7 @@ from django_tables2 import SingleTableView, RequestConfig
 from djangoql.serializers import DjangoQLSchemaSerializer
 
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory, DQLSearchForm
-from bootleg.utils import models
+from bootleg.utils import models, html
 from bootleg.utils.http import get_model_args_from_request
 from bootleg.utils.models import ModelSearcher, GenericDjangoQLSchema
 from bootleg.utils.tables import TableFactory
@@ -58,7 +59,10 @@ class GenericListView(GenericModelView, SingleTableView):
 
     def get_table(self, **kwargs):
         table = super().get_table(**kwargs)
-        table.attrs = {"id": "bootleg_list_table"}
+        table.attrs = {
+            "id": "bootleg_list_table",
+            "class": get_default_table_class_string()
+        }
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
