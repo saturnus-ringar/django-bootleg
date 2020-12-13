@@ -105,9 +105,8 @@ import logging
 try:
     execute_from_command_line(sys.argv)
 except Exception as e:
-    print(e)
     logging.getLogger("django").error('manage.py error: %s', ' '.join(sys.argv), exc_info=sys.exc_info())
-
+    raise e
 ```
 
 ### Include javascript in your template (if you're not extending bootleg/base.html) - jquery is required
