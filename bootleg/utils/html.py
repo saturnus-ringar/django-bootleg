@@ -4,6 +4,8 @@ import re
 
 from django.utils.translation import ugettext as _
 
+from bootleg.utils.utils import get_meta_class_value
+
 
 def strip_tags(html):
     return re.sub('<[^<]+?>', '', html)
@@ -21,7 +23,10 @@ def get_nav_item(url, text):
     return mark_safe(html)
 
 
-def display_in_menu(model):
+def display_in_menu(model, create=False):
+    if create and get_meta_class_value("disable_create_update") is True:
+        return False
+
     if not hasattr(model["meta"], "exclude_from_menu") and not model["meta"] is False:
         return True
 
@@ -57,7 +62,7 @@ def get_main_navigation(request):
         create_html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("Create")
         create_html += '<div class="dropdown-menu" aria-labelledby="editable_models_create">\n'
         for model in request.editable_models:
-            if display_in_menu(model):
+            if display_in_menu(model, create=True):
                 # dicts here - for the templates since they can't access _meta
                 create_html += '<a class="dropdown-item" href="%s">%s</a>\n' % (model["create_url"], model["meta"].verbose_name)
                 create_output = True
