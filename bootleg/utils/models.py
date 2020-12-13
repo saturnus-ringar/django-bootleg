@@ -84,6 +84,7 @@ class ModelSearcher:
                 qr = qr | q
             else:
                 qr = q
+
         self.queryset = self.queryset.filter(qr).distinct().order_by("id")
 
     def filter_by_args(self):

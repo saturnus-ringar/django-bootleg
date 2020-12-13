@@ -105,7 +105,9 @@ class BaseModel(models.Model):
     def get_visible_fields(cls):
         fields = cls.get_meta_list("visible_fields")
         if fields == "__all__":
-            return cls.get_all_field_names()
+            fields = cls.get_all_field_names()
+            fields.remove("id")
+            return fields
         return fields
 
     @classmethod
