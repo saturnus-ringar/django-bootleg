@@ -31,8 +31,6 @@ def display_in_menu(model, create=False):
 
 
 def get_main_navigation(request):
-    # circular imports ... :|
-    from bootleg.templatetags.bootleg import get_changelist_url
     html = '<ul class="nav navbar-nav mr-auto float-left">'
     if request.user.is_staff and request.editable_models:
         list_output = False
@@ -85,22 +83,24 @@ def get_main_navigation(request):
 
         html += create_html
 
-    if request.user.is_superuser:
-        html += get_nav_item(reverse("bootleg:system_info"), _("System"))
-        html += get_nav_item(reverse("bootleg:deploy_info"), _("Deployment"))
-        html += get_nav_item(get_changelist_url('bootleg', 'LoggedException') + "?handled__exact=0",
-            _("Logged exceptions"), request.unhandled_logged_exceptions_count, True)
-        html += get_nav_item(get_changelist_url('bootleg', 'DjangoLogEntry') + "?handled__exact=0",
-            _("Log entries"), request.unhandled_django_log_entry_count, True)
-        html += get_nav_item(get_changelist_url('bootleg', 'JavascriptError') + "?handled__exact=0",
-            _("JS-errors"), request.unhandled_javascript_error_count, True)
-
     html += "</ul>"
     return mark_safe(html)
 
 
 def get_right_navigation(request):
+    # circular imports ... :|
+    from bootleg.templatetags.bootleg import get_changelist_url
     html = '<ul class="nav navbar-nav navbar-right">\n'
+
+    if request.user.is_superuser:
+        html += get_nav_item(get_changelist_url('bootleg', 'LoggedException') + "?handled__exact=0",
+            _("[Logged exceptions"), request.unhandled_logged_exceptions_count, True)
+        html += get_nav_item(get_changelist_url('bootleg', 'DjangoLogEntry') + "?handled__exact=0",
+            _("Log entries"), request.unhandled_django_log_entry_count, True)
+        html += get_nav_item(get_changelist_url('bootleg', 'JavascriptError') + "?handled__exact=0",
+            _("JS-errors"), request.unhandled_javascript_error_count, True)
+        html += get_nav_item(reverse("bootleg:system_info"), _("System"))
+        html += get_nav_item(reverse("bootleg:deploy_info"), _("Deployment]"))
 
     if not request.user.is_authenticated:
         html += get_nav_item(reverse("bootleg:login"), _("Login"))

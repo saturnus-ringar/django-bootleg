@@ -26,7 +26,7 @@ def get_email_address(string):
     # ... they are probably junk anyway
     match = re.search(r'[\w\.-]+@[\w\.-]+', string)
     if match:
-        return match.group(0)
+        return match.group(0).lower()
     return None
 
 
