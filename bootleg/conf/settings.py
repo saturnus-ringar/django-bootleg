@@ -117,7 +117,7 @@ class Settings:
         # css/html/images/layout
         ####################################################
         self.add_setting("HTML_LANGUAGE_CODE", get_setting("LANGUAGE_CODE", "en")[:2])
-        self.add_setting("CSS_FILES", ["bootleg/css/vendor/bootstrap.css"])
+        self.add_setting("CSS_FILES", ["bootleg/css/vendor/bootstrap.css", "bootleg/css/theme-patches.css"])
         # if CSS_FILES is empty it's possible to use the default css + these EXTRA_CSS_FILES
         self.add_setting("EXTRA_CSS_FILES", None)
         self.add_setting("FAVICON_FILE", DEFAULT_FAVICON)
