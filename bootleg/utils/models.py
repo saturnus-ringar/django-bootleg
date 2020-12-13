@@ -163,7 +163,7 @@ def get_editable_models():
     for model in django.apps.apps.get_models():
         if hasattr(model._meta, "visible_fields"):
             models.append(model)
-    models.sort(key=lambda x: x._meta.model_name, reverse=True)
+    models.sort(key=lambda x: x._meta.model_name)
     return models
 
 
