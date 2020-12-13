@@ -117,7 +117,7 @@ class Settings:
         self.add_setting("EXTRA_CSS_FILES", None)
         self.add_setting("FAVICON_FILE", DEFAULT_FAVICON)
         self.add_setting("BRANDING_LOGO", None)
-        self.add_setting("CONTAINER_CSS_CLASS", "container-fluid")
+        self.add_setting("CONTAINER_CSS_CLASS", "container-fluid bg-dark")
         self.add_setting("WRAP_FORMS", True)
 
         ####################################################
