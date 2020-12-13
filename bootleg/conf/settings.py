@@ -109,7 +109,7 @@ class Settings:
         self.add_setting("WEBSERVER_USER_GROUP", "www-data")
 
         ####################################################
-        # css/html/images
+        # css/html/images/layout
         ####################################################
         self.add_setting("HTML_LANGUAGE_CODE", get_setting("LANGUAGE_CODE", "en")[:2])
         self.add_setting("CSS_FILES", ["bootleg/css/vendor/bootstrap.css"])
@@ -119,6 +119,7 @@ class Settings:
         self.add_setting("BRANDING_LOGO", None)
         self.add_setting("CONTAINER_CSS_CLASS", "container-fluid bg-dark")
         self.add_setting("WRAP_FORMS", True)
+        self.add_setting("EDITABLE_IN_DROPDOWN", True)
 
         ####################################################
         # javascript

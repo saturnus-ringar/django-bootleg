@@ -3,8 +3,7 @@ from django.utils.safestring import mark_safe
 import re
 
 from django.utils.translation import ugettext as _
-
-from bootleg.utils.utils import get_meta_class_value
+from bootleg.conf import bootleg_settings
 
 
 def strip_tags(html):
@@ -37,19 +36,31 @@ def get_main_navigation(request):
     html = '<ul class="nav navbar-nav mr-auto float-left">'
     if request.user.is_staff and request.editable_models:
         list_output = False
-        list_html = '<li class="nav-item dropdown">\n'
-        list_html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
-        list_html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
-        list_html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
+        list_html = ""
+        if bootleg_settings.EDITABLE_IN_DROPDOWN:
+            list_html = '<li class="nav-item dropdown">\n'
+            list_html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
+            list_html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
+            list_html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
         for model in request.editable_models:
+            if not bootleg_settings.EDITABLE_IN_DROPDOWN:
+                # no dropdown, indeed
+                list_html += '<li class="nav-item">'
             # dicts here - for the templates since they can't access _meta
             if display_in_menu(model):
-                list_html += '<a class="dropdown-item" href="%s">%s</a>\n' % (
+                css_class = "dropdown-item"
+                if not bootleg_settings.EDITABLE_IN_DROPDOWN:
+                    css_class = "nav-link"
+                list_html += '<a class="%s" href="%s">%s</a>\n' % (css_class,
                 reverse("bootleg:list_view", args=[model["meta"].model_name]),
                 model["meta"].verbose_name_plural)
                 list_output = True
-        list_html += '</div>'
-        list_html += '</li>'
+            if not bootleg_settings.EDITABLE_IN_DROPDOWN:
+                list_html += '</li>'
+
+        if bootleg_settings.EDITABLE_IN_DROPDOWN:
+            list_html += '</div>'
+            list_html += '</li>'
 
         if not list_output:
             list_html = ""
