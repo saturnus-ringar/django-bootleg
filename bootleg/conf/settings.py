@@ -80,6 +80,11 @@ class Settings:
         self.add_setting("DJANGO_LOG_LEVEL", get_debug_settings_value("ERROR", "INFO"))
 
         ####################################################
+        # models
+        ####################################################
+        self.add_setting("USE_RELATED_ONLY_FILTERS", False)
+
+        ####################################################
         # templates
         ####################################################
         self.add_setting("BASE_TEMPLATE", "bootleg/base.html")
