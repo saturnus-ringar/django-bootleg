@@ -101,7 +101,11 @@ class TableFactory:
                                                 verbose_name=_("View"), orderable=False))])
 
     def set_sequence(self):
-        self.table_class._meta.sequence = self.cleanup_fields()
+        sequence = get_meta_class_value(self.model, "sequence")
+        if sequence:
+            self.table_class._meta.sequence = self.initial_fields + sequence
+        else:
+            self.table_class._meta.sequence = self.cleanup_fields()
 
     def add_columns(self, method):
         field_names = []
