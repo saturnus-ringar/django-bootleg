@@ -16,6 +16,8 @@ from bootleg.system.system import System
 from bootleg.utils import html as bootleg_html
 from bootleg.utils import strings
 from bootleg.utils.humanize import humanize_bytes as hb
+from bootleg.conf import bootleg_settings
+
 
 register = template.Library()
 
@@ -53,6 +55,17 @@ def render_main_navigation(request):
 @register.simple_tag
 def render_right_navigation(request):
     return mark_safe(bootleg_html.get_right_navigation(request))
+
+
+@register.simple_tag
+def get_page_title(model, page_title_1, page_title_2):
+    title = get_first_with_value(*[page_title_1, page_title_2])
+    if not title:
+        title = bootleg_settings.SITE_NAME
+        if model:
+            title += " - " + model["meta"].verbose_name_plural
+
+    return title
 
 
 @register.simple_tag
