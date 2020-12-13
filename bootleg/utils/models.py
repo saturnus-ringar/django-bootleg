@@ -3,7 +3,7 @@ from django.apps import apps
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
 from django.db import ProgrammingError, OperationalError, models
-from django.db.models import Q, CharField
+from django.db.models import Q, CharField, EmailField
 from django.urls import reverse
 from djangoql.exceptions import DjangoQLError
 from djangoql.queryset import apply_search
@@ -69,7 +69,7 @@ class ModelSearcher:
             return
 
         if self.autocomplete:
-            fields = filter_autocomplete_fields(self.model, self.model.get_search_field_names())
+            fields = filter_autocomplete_fields(self.model, self.model.get_autocomplete_fields())
         else:
             fields = self.model.get_search_field_names()
 
@@ -84,7 +84,6 @@ class ModelSearcher:
                 qr = qr | q
             else:
                 qr = q
-
         self.queryset = self.queryset.filter(qr).distinct().order_by("id")
 
     def filter_by_args(self):
@@ -179,7 +178,7 @@ def get_editable_model_verbose_names():
 
 
 def filter_autocomplete_fields(model, fields):
-    included_types = [CharField]
+    included_types = [CharField, EmailField]
     filtered_fields = []
     for field_name in fields:
         try:

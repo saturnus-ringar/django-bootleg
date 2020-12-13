@@ -150,6 +150,14 @@ class BaseModel(models.Model):
         return fields
 
     @classmethod
+    def get_autocomplete_fields(cls):
+        autocomplete_fields = get_meta_class_value(cls, "autocomplete_fields")
+        if autocomplete_fields:
+            return autocomplete_fields
+
+        return cls.get_search_field_names()
+
+    @classmethod
     def get_foreign_key_fields(cls):
         fields = []
         for field in cls._meta.fields:
