@@ -25,13 +25,11 @@
                 {% get_attribute object field.name %}
             {% endif %}
         {% endfor %}
-        {% for many_to_many_field in object.get_many_to_many_fields %}
-            <h4 class="mt-4">{{ many_to_many_field.verbose_name }}</h4>
-                {% get_many_to_many_fields_values object many_to_many_field.name as fields %}
-                {% for field in fields %}
-                    {{ field }}<br />
-                {% endfor %}
+        {% for many_to_one_field in object.get_many_to_one_fields %}
+            <h4 class="mt-4">{{ many_to_one_field.verbose_name }}</h4>
+            {{ many_to_one_field }}
         {% endfor %}
+        {% render_many_to_one_objects object %}
         {% for image_field in object.get_image_fields %}
             <h4 class="mt-4">{{ image_field.verbose_name }}</h4>
             <img src="{% get_attribute object image_field.name %}" height="200" />

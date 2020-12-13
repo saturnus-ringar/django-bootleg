@@ -1,5 +1,6 @@
 import datetime
 from abc import abstractmethod
+from pprint import pprint
 
 from annoying.functions import get_object_or_None
 from django.contrib.auth.models import User
@@ -210,7 +211,24 @@ class BaseModel(models.Model):
     def get_many_to_many_fields(self):
         return self._meta.many_to_many
 
+    def get_many_to_one_objects(self):
+        objects = dict()
+        for related_object in self._meta.related_objects:
+            verbose_name_plural = related_object.remote_field.model._meta.verbose_name_plural
+            if verbose_name_plural not in objects:
+                objects[verbose_name_plural] = dict()
+                objects[verbose_name_plural]["objects"] = []
+            accessor = related_object.get_accessor_name()
+            for object in getattr(self, accessor).all():
+                objects[verbose_name_plural]["objects"].append(object)
+        return objects
 
+    def get_many_to_one_accessors(self):
+        accessors = []
+        for field in self._meta.related_objects:
+            accessors.append(field.get_accessor_name())
+
+        return accessors
 
     ##############################
     # urls
