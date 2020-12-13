@@ -124,6 +124,10 @@ class BaseModel(models.Model):
         return False
 
     @classmethod
+    def get_prefetch_related(cls):
+        return cls.get_meta_value("prefetch_related")
+
+    @classmethod
     def get_all_field_names(cls):
         field_names = []
         for field in cls._meta.fields:

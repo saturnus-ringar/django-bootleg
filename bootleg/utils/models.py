@@ -50,6 +50,9 @@ class ModelSearcher:
         self.filter_by_args()
 
     def get_queryset(self):
+        prefetch_related = self.model.get_prefetch_related()
+        if prefetch_related:
+            self.queryset = self.queryset.prefetch_related(*prefetch_related)
         return self.queryset.order_by(*get_order_by(self.model))
 
     def dql_search(self):
