@@ -107,9 +107,6 @@ class ModelFilterFormFactory:
 
     def add_field_from_field(self, field_name, new_field_name):
         self.form.base_fields[new_field_name] = self.form.base_fields[field_name]
-        #dx("field_name: %s" % field_name)
-        #dx("new_field_name: %s" % new_field_name)
-        #dx(self.request.GET.get(new_field_name, None))
         self.form.base_fields[new_field_name].initial = self.request.GET.get(new_field_name, None)
 
     def add_form_helper(self):
