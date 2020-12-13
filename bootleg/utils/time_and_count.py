@@ -5,6 +5,8 @@ import humanize
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.utils.translation import ugettext as _
 
+from bootleg.utils.humanize import get_humanized_memory_usage
+
 
 class TimeAndCount:
 
@@ -41,6 +43,8 @@ class TimeAndCount:
                                                                         format="%0.0f")
         # hmmm... weird calculations here
         msg += " - " + _("Average time per entry") + ": " + str(round(average_time, 5)) + "s"
+        msg += " - " + _("Memory usage") + ": " + get_humanized_memory_usage()
+
         if self.logger:
             self.logger.info(msg)
         else:
