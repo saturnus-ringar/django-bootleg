@@ -112,6 +112,9 @@ def get_attribute(obj, attribute):
     if isinstance(value, ImageFieldFile):
         return value.url
 
+    if value is None:
+        value = "-"
+
     return value
 
 
