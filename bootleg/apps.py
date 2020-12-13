@@ -1,4 +1,3 @@
-from bootleg.utils.models import get_editable_models
 from django.apps import AppConfig
 from django.conf import settings
 from django.contrib.staticfiles import finders
@@ -12,7 +11,7 @@ from bootleg.conf.settings import ConfigurationError, DEFAULT_FAVICON
 from bootleg.system import nix
 from bootleg.system.nix import setup_alias_file
 from bootleg.utils import models, env
-from bootleg.utils.utils import get_attr__
+from bootleg.utils.models import get_editable_models
 
 
 def check_sql_logging(errors):
@@ -235,7 +234,7 @@ def check_profile_model(errors):
 
 def check_visible_fields(errors, models):
     for model in models:
-        for field in model.get_meta_list("visible_fields"):
+        for field in model.get_visible_fields():
             if not hasattr(model, field) and not model.is_valid_foreign_field(field):
                 errors.append(
                     Error(

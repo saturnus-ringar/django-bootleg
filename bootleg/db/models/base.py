@@ -102,6 +102,13 @@ class BaseModel(models.Model):
         return get_meta_class_value(cls, attr)
 
     @classmethod
+    def get_visible_fields(cls):
+        fields = cls.get_meta_list("visible_fields")
+        if fields == "__all__":
+            return cls.get_all_field_names()
+        return fields
+
+    @classmethod
     def get_meta_list(cls, attr):
         list = get_meta_class_value(cls, attr)
         if list:

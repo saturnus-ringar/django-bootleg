@@ -18,6 +18,14 @@ class TooManyStringsPartsException(Exception):
     pass
 
 
+# https://stackoverflow.com/a/17681902
+def get_email_address(string):
+    match = re.search(r'[\w\.-]+@[\w\.-]+', string)
+    if match:
+        return match.group(0)
+    return None
+
+
 def match_with_non_alnum_prefix(original_string, string_to_match):
     # this will match if the string starts with a non alnum-prefix/suffix, including a space
     # such as: "-shish kebab" "- shish kebab"

@@ -19,6 +19,7 @@ install_requires = [
     "djangoql >= 0.14.2",
     "GitPython >= 3.1",
     "giturlparse >= 0.9",
+    "humanize >= 3.2.0",
     "psutil >= 5.7",
 ]
 

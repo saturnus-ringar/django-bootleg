@@ -48,8 +48,9 @@ class TableFactory:
 
     def set_base_fields(self):
         # get all visible fields
-        if hasattr(self.model._meta, "visible_fields"):
-            self.base_fields = self.model._meta.visible_fields
+        visible_fields = self.model.get_visible_fields()
+        if visible_fields:
+            self.base_fields = visible_fields
         else:
             self.base_fields = self.model._meta.fields
 
