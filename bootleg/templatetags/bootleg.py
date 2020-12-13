@@ -132,13 +132,16 @@ def get_class(obj):
 def render_many_to_one_objects(obj):
     html = ""
     objects_data = obj.get_many_to_one_objects()
-    has_objects = False
     for key in objects_data.keys():
-        html += '<h4 class="mt-4">%s</h4>\n' % key
+        has_objects = False
+        object_html = ""
+        object_html += '<h4 class="mt-4">%s</h4>\n' % key
         for many_to_one_obj in objects_data[key]["objects"]:
-            html += str(many_to_one_obj) + '\n'
+            object_html += str(many_to_one_obj) + '\n'
             has_objects = True
-    if not has_objects:
-        html = ""
+        if not has_objects:
+            object_html = ""
+        html += object_html
+
     return mark_safe(html)
 
