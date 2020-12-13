@@ -107,6 +107,11 @@ class BaseModel(models.Model):
         if fields == "__all__":
             fields = cls.get_all_field_names()
             fields.remove("id")
+            if "modified" in fields:
+                # a special case for modified auto_now-fields... hmmm
+                field = cls._meta.get_field("modified")
+                if field.auto_now:
+                    fields.remove("modified")
             return fields
         return fields
 
