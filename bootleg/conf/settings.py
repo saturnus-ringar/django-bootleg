@@ -125,6 +125,7 @@ class Settings:
         self.add_setting("CONTAINER_CSS_CLASS", "container-fluid bg-dark")
         self.add_setting("WRAP_FORMS", True)
         self.add_setting("EDITABLE_IN_DROPDOWN", True)
+        self.add_setting("SPINNER_CSS_CLASS", None)
 
         ####################################################
         # javascript

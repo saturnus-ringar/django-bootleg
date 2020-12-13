@@ -247,7 +247,6 @@ $("#bootleg_dql_form").submit(function(e) {
 });
 
 function handleGenericModelFilter(e) {
-    console.l
     if(e != null) {
         e.preventDefault();
     }
@@ -289,12 +288,22 @@ var MainLoader = {
     spinner: new Spinner(this.spinnerOpts),
 
     start : function() {
-        $('<div id="overlay"></div>').hide().appendTo("body").show(0, function() {
-            MainLoader.spinner.spin(document.body);
-        });
+        if(Context.spinnerClass) {
+            $('<div id="overlay"></div>').hide().appendTo("body").show(0, function() {
+                $("." + Context.spinnerClass).fadeIn("slow");
+            });
+        } else {
+            $('<div id="overlay"></div>').hide().appendTo("body").show(0, function() {
+                MainLoader.spinner.spin(document.body);
+            });
+        }
     },
 
     stop : function() {
+        if(Context.spinnerClass) {
+            console.log("STOPPING!");
+            $("." + Context.spinnerClass).fadeOut("slow");
+        };
         $("#overlay").hide(0, function() {
             MainLoader.spinner.stop();
             $(this).remove();
