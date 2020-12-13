@@ -13,6 +13,8 @@
     <a href="{% url 'admin:index' %}">
         {% if bootleg_settings.BRANDING_LOGO %}
             <img src="{% static bootleg_settings.BRANDING_LOGO %}" />
+        {% else %}
+            <h1>{{ bootleg_settings.SITE_NAME }}</h1>
         {% endif %}
     </a>
 </div>
