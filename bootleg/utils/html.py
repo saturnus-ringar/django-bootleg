@@ -24,7 +24,7 @@ def get_nav_item(url, text):
 
 
 def display_in_menu(model, create=False):
-    if create and get_meta_class_value(model, "disable_create_update") is True:
+    if create and hasattr(model["meta"], "disable_create_update") and model["meta"].disable_create_update:
         return False
 
     if not hasattr(model["meta"], "exclude_from_menu") and not model["meta"] is False:
