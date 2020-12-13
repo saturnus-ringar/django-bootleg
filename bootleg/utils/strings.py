@@ -20,6 +20,10 @@ class TooManyStringsPartsException(Exception):
 
 # https://stackoverflow.com/a/17681902
 def get_email_address(string):
+    # this one fails on at least these email addresses:
+    # !safer.elhob!@yahoo.com
+    # +@hotmail.com
+    # ... they are probably junk anyway
     match = re.search(r'[\w\.-]+@[\w\.-]+', string)
     if match:
         return match.group(0)
