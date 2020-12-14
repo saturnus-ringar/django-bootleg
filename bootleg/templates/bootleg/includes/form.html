@@ -1,5 +1,4 @@
 {% load i18n crispy_forms_tags bootstrap_tags %}
-
 {% if form.is_search_form %}
     <form id="bootleg_q_form">
         <div class="input-group w-50">
@@ -43,7 +42,9 @@
     </form>
 {% else %}
     {% if form and not form.is_search_form %}
-        {% crispy form form.helper %}
+        {% if form.helper %}
+            {% crispy form form.helper %}
+        {% endif %}
     {% endif %}
 {% endif %}
 
