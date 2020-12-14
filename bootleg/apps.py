@@ -9,7 +9,7 @@ from django.urls import reverse, NoReverseMatch
 from bootleg.conf import bootleg_settings
 from bootleg.conf.settings import ConfigurationError, DEFAULT_FAVICON
 from bootleg.system import nix
-from bootleg.system.nix import setup_alias_file
+from bootleg.system.nix import setup_alias_file, get_home_directory_of_main_user
 from bootleg.utils import models, env
 from bootleg.utils.models import get_editable_models
 
@@ -297,7 +297,6 @@ def check_home_url(errors):
     try:
         reverse(settings.LOGIN_REDIRECT_URL)
     except NoReverseMatch as e:
-        print(e)
         errors.append(
             Error(
                 "HOME_URL '%s' could not be reversed" % settings.LOGIN_REDIRECT_URL,
@@ -309,6 +308,21 @@ def check_home_url(errors):
 
     return errors
 
+
+def check_home_dir(errors):
+    home_dir = get_home_directory_of_main_user()
+    if not home_dir:
+        errors.append(
+            Warning(
+                "Could not find the home dir of user '%s'" % bootleg_settings.MAIN_USER,
+                hint="Set MAIN_USER to a valid user account. "
+                     "Don't forget to set PROJECT_ABBR if you want to prefix the alias",
+                obj=settings,
+                id="bootleg.E033"
+            )
+        )
+
+    return errors
 
 @register()
 def check_settings(app_configs, **kwargs):
@@ -354,6 +368,7 @@ def check_settings(app_configs, **kwargs):
     errors = check_extra_search_fields(errors, models)
     errors = check_branding_logo(errors)
     errors = check_home_url(errors)
+    errors = check_home_dir(errors)
     return errors
 
 
