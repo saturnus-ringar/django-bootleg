@@ -41,7 +41,6 @@ class TimeAndCount:
                                                                                    minimum_unit="minutes", format="%0.0f")
         msg += " - " + _("Running time") + ": " + humanize.precisedelta(delta_running_time, minimum_unit="minutes",
                                                                         format="%0.0f")
-        # hmmm... weird calculations here
         msg += " - " + _("Average time per entry") + ": " + str(round(average_time, 5)) + "s"
         msg += " - " + _("Memory usage") + ": " + get_humanized_memory_usage()
 
