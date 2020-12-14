@@ -1,3 +1,10 @@
+from itertools import groupby
+
+
+# https://stackoverflow.com/a/3844832/9390372
+def all_equal(iterable):
+    g = groupby(iterable)
+    return next(g, True) and not next(g, False)
 
 
 def add_unique(li1, li2):
