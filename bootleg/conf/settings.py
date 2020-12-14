@@ -54,6 +54,8 @@ class Settings:
         return collections.OrderedDict(sorted(self.__settings__.items()))
 
     def setup(self):
+        self.add_setting("BOOTLEG_DEBUG", False)
+
         ####################################################
         # project stuff
         ####################################################
