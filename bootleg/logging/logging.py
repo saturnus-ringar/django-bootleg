@@ -228,7 +228,7 @@ def add_builtins():
 
 
     builtins.dx = dx
-    builtins.dxv = dxv
+    builtins.dp = dp
     builtins.dxv = dxv
     builtins.dxd = dxd
     builtins.dxf = dxf
