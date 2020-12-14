@@ -23,6 +23,12 @@ register = template.Library()
 
 
 @register.simple_tag
+def debug(string):
+    if bootleg_settings.BOOTLEG_DEBUG:
+        return mark_safe('<div class="text-muted"><small>%s</small></div>' % string)
+
+
+@register.simple_tag
 def get_changelist_url(app, model):
     return apps.get_model(app_label=app, model_name=model).get_changelist_url()
 

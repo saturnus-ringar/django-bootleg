@@ -1,4 +1,6 @@
-{% load i18n crispy_forms_tags bootstrap_tags %}
+{% load i18n crispy_forms_tags bootstrap_tags bootleg %}
+{% debug "-> bootleg/form.html" %}
+
 {% if form.is_search_form %}
     <form id="bootleg_q_form">
         <div class="input-group w-50">

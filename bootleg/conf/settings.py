@@ -55,6 +55,8 @@ class Settings:
 
     def setup(self):
         self.add_setting("BOOTLEG_DEBUG", False)
+        # :P
+        self.add_setting("BOOTLEG_DISCRETE_DEBUG", False)
 
         ####################################################
         # project stuff
