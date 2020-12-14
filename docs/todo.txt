@@ -1,13 +1,36 @@
+- bugg:
+<Settings "twentyfoursecurity.settings">: (bootleg.E031) The filter field: paswordless  is not a valid field for the model: vpnconfig
+	HINT: Set the field to an existing field of the model
+
+- check på head och foot template, att dom finns
+    ... gör en väldig generell template-kontroll
+
+- lägga till testalias
+
+*********************
+ NBC
+*********************
+
+- kolla hur fan det här kan funka egentligen?
+    filter_fields = "__all__"
+    ... sätter filter på allt, men jag vet inte hur
+    ... funkade för nbc? eller?
+
+*********************
+ DJANGO ADMIN
+*********************
+    - registrera alla subklasser av BaseModel i admin
+        - sökfält automagiskt
+        - kunna göra dom readonly (ReadOnlyModelAdmin)
+        - kunna göra så bara vissa fält är redigerbara (SelectableEditableModelAdmin)
+        - kunna göra dom oraderbara (UndeletableModelAdmin)
+        - dom som är TimestampedModel ska få TimeStampedModelAdmin
+        - kunna sätta en custom-admin-class också (tror det var svårt, har en tråd på stackoverflow om det)
+
+- registrera alla modeller automatiskt med djangoql:
+    https://github.com/ivelum/djangoql#add-it-to-your-django-admin
+
 - 500 då jag bytte lösenord
-
-- sökningen funkar icke:
-    https://gigguide.se/list/event/?q=Jubileumskonsert
-
-- sökningen funkar inte alls:
-    https://gigguide.se/list/artist/?q=Thomas+J%C3%A4rvheden
-
-- sorterar nog inte rätt som default på dismissade event
-
 
 - dql-sökningen tar inte med fälten från filtreringen till vänster då man söker, är väl ok iofs?
     $("#bootleg_dql_form").submit(function(e) {
