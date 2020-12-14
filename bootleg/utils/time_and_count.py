@@ -15,10 +15,12 @@ class TimeAndCount:
     tac_total_count = 0
     logger = None
 
-    def init_tac(self, total_count, logger=None, print_every_th=10):
+    def init_tac(self, total_count, logger=None, print_every_th=10, start_count=None, identifier=None):
+        self.print_every_th = print_every_th
+        self.start_count = start_count
+        self.identifier = identifier
         self.tac_total_count = total_count
         self.tac_start_time = time.time()
-        self.print_every_th = print_every_th
         if logger:
             self.logger = logger
 
@@ -36,6 +38,8 @@ class TimeAndCount:
         msg = _("Done: ")
         msg += intcomma(self.tac_number_run) + "/" + intcomma(self.tac_total_count)
         msg += " (" + str(percent_done) + "%)"
+        if self.start_count:
+            msg += " - Started at: [%s]" % intcomma(self.start_count)
         if expected_time_left > 0:
             msg += " - " + _("Expected to be done in") + ": " + humanize.precisedelta(expected_time_left,
                                                                                    minimum_unit="minutes", format="%0.0f")
@@ -43,6 +47,9 @@ class TimeAndCount:
                                                                         format="%0.0f")
         msg += " - " + _("Average time per entry") + ": " + str(round(average_time, 5)) + "s"
         msg += " - " + _("Memory usage") + ": " + get_humanized_memory_usage()
+
+        if self.identifier:
+            msg += " Running: %s" % self.identifier
 
         if self.logger:
             self.logger.info(msg)
