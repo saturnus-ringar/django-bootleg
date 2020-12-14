@@ -40,7 +40,7 @@
 {% endif %}
 
 {% block content %}
-    {% debug "-> bootleg/base.html" %}
+    {% debug_bl "-> bootleg/base.html" %}
     {% if view.page_text %}
         {{ view.page_text }}
     {% endif %}
@@ -73,7 +73,7 @@
     <div class="text-muted text-center">
         <small>⌒°(❛ᴗ❛)°⌒ {{ bootleg_settings.SITE_NAME }}  ⌒°(❛ᴗ❛)°⌒</small>
     </div>
-{% endif %}}
+{% endif %}
 </body>
 </html>
 {% endif %}

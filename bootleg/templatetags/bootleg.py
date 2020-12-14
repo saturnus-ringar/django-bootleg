@@ -23,7 +23,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def debug(string):
+def debug_bl(string):
     if bootleg_settings.BOOTLEG_DEBUG:
         return mark_safe('<div class="text-muted"><small>%s</small></div>' % string)
 
