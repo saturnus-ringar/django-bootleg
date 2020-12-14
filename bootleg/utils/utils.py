@@ -27,8 +27,7 @@ def get_meta_class_value(clazz, value):
 
 
 def get_class(module, clazz):
-    my_module = importlib.import_module(module)
-    return getattr(my_module, clazz)
+    return getattr(importlib.import_module(module), clazz)
 
 
 def get_non_abstract_subclasses(klazz):
