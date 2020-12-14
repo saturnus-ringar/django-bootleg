@@ -4,7 +4,7 @@ import os
 import sys
 import traceback
 import warnings
-from pprint import pformat
+from pprint import pformat, pprint
 
 from ipware import get_client_ip
 
@@ -151,13 +151,31 @@ def save_logged_exception(e):
     LoggedException.objects.create(utils.get_full_class_name(e), traceback.format_exc(), str(e.args)[:1024])
 
 
-def debug_log(msg):
+#################################
+# debug logger
+#################################
+def get_debug_logger():
     if DEBUG_LOGGER:
         logger = DEBUG_LOGGER
     else:
         logger = get_logger("debug")
 
-    logger.debug(msg)
+    return logger
+
+
+def debug_log(msg):
+    get_debug_logger().debug(msg)
+
+
+def get_debug_file_handler():
+    return get_first_file_handler(get_debug_logger())
+
+
+def get_first_file_handler(logger):
+    for handler in logger.handlers:
+        if isinstance(handler, FileHandler):
+            return handler
+    return None
 
 
 def bootleg_debug_log(msg):
@@ -183,22 +201,34 @@ def get_user_to_log(user):
 def add_builtins():
     # hack, hack..... .... ... .. .!
 
-    def dx(obj, verbose=False):
+    def dx(obj, verbose=False, do_dir=False):
         if verbose:
-            debug_log("Class: %s Base class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
-            debug_log("dir: %s" % dir(obj))
+            debug_log("Class:\n%s\nBase class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
 
         if verbose:
-            debug_log(pformat(obj))
+            with open(get_debug_file_handler().baseFilename, "w") as file:
+                pprint(obj, file)
+        if do_dir:
+            with open(get_debug_file_handler().baseFilename, "w") as file:
+                pprint(dir(obj), file)
         else:
             debug_log(obj)
 
     def dxv(obj):
-        dx(obj, True)
+        dx(obj)
 
     def dp(obj, verbose=False):
         dx(obj, verbose)
 
-    builtins.dp = dp
+    def dxd(obj):
+        dx(obj, do_dir=True)
+
+    def dxf(obj):
+        dx(obj, verbose=True, do_dir=True)
+
+
     builtins.dx = dx
     builtins.dxv = dxv
+    builtins.dxv = dxv
+    builtins.dxd = dxd
+    builtins.dxf = dxf
