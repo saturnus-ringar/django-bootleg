@@ -55,6 +55,7 @@ def setup_alias_file():
         content += 'alias %sviewdebuglog="less ${LOG_DIR}debug.log"\n' % get_alias_prefix()
         content += 'alias %sstatus="%s; pm status"\n' % (get_alias_prefix(), get_alias_prefix())
         content += 'alias %scmd="%s; pm cmd"\n' % (get_alias_prefix(), get_alias_prefix())
+        content += 'alias %svenv="cd %s"\n' % (get_alias_prefix(), get_virtual_env_dir())
         # well... write file then
         filename = "%saliases_%s.sh" % (home_dir, bootleg_settings.PROJECT_NAME)
         write_file(filename, content)
