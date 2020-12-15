@@ -190,6 +190,7 @@ class System:
         except OperationalError:
             return None
 
+    # this doesn't work very well on large tables, it seems
     def get_number_of_db_rows(self):
         try:
             with connection.cursor() as cursor:
