@@ -1,6 +1,5 @@
 import json
 
-from bootleg.utils.html import get_default_table_class_string
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -11,7 +10,9 @@ from django_tables2 import SingleTableView, RequestConfig
 from djangoql.serializers import DjangoQLSchemaSerializer
 
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory, DQLSearchForm
-from bootleg.utils import models, html
+from bootleg.utils import models
+from bootleg.utils.env import use_elastic_search
+from bootleg.utils.html import get_default_table_class_string
 from bootleg.utils.http import get_model_args_from_request
 from bootleg.utils.models import ModelSearcher, GenericDjangoQLSchema, SearchResults
 from bootleg.utils.tables import TableFactory
@@ -58,13 +59,16 @@ class GenericListView(GenericModelView, SingleTableView):
         return TableFactory(self.model, self.request).table_class
 
     def get_paginator(self, *args, **kwargs):
-        doc = self.model.get_search_document()
-        if self.model_searcher.search_results:
-            return self.paginator_class(self.model_searcher.search_results, self.paginate_by)
-        elif doc and not self.model_searcher.is_search():
-            return self.paginator_class(SearchResults(self.model.get_search_index_total_count_results()),
-                                        self.paginate_by)
-        else:
+        paginator = None
+        if use_elastic_search():
+            doc = self.model.get_search_document()
+            if self.model_searcher.search_results:
+                paginator = self.paginator_class(self.model_searcher.search_results, self.paginate_by)
+            elif doc and not self.model_searcher.is_search():
+                # no query args, but got a document
+                paginator = self.paginator_class(SearchResults(self.model.get_search_index_total_count_results()),
+                                            self.paginate_by)
+        if not paginator:
             return super().get_paginator(*args, **kwargs)
 
     def get_table(self, **kwargs):

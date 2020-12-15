@@ -3,6 +3,7 @@ import sys
 
 from bootleg.system.shell import run_command
 from django.conf import settings
+from bootleg.conf import bootleg_settings
 
 
 def is_testing():
@@ -67,6 +68,12 @@ def is_github():
 
     return False
 
+
+def use_elastic_search():
+    if bootleg_settings.DISABLE_ELASTIC_SEARCH is True:
+        return False
+
+    return True
 
 # https://stackoverflow.com/a/42580137
 def is_venv():

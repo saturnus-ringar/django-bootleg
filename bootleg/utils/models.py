@@ -11,6 +11,7 @@ from djangoql.queryset import apply_search
 from djangoql.schema import DjangoQLSchema
 
 from bootleg.conf import bootleg_settings
+from bootleg.utils.env import use_elastic_search
 from bootleg.utils.search import QueryBuilder
 from bootleg.utils.utils import get_meta_class_value
 from django_elasticsearch_dsl.registries import registry
@@ -103,7 +104,7 @@ class ModelSearcher:
             # ugly return, indeed!
             return
 
-        if bootleg_settings.DISABLE_ELASTIC_SEARCH is False:
+        if not use_elastic_search():
             self.document = self.model.get_search_document()
             if self.document:
                 return self.elastic_search()
