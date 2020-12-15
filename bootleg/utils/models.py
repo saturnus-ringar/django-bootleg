@@ -5,12 +5,31 @@ from django.core.exceptions import FieldDoesNotExist
 from django.db import ProgrammingError, OperationalError, models
 from django.db.models import Q, CharField, EmailField
 from django.urls import reverse
+from django.utils.functional import LazyObject
 from djangoql.exceptions import DjangoQLError
 from djangoql.queryset import apply_search
 from djangoql.schema import DjangoQLSchema
 
 from bootleg.conf import bootleg_settings
 from bootleg.utils.utils import get_meta_class_value
+
+
+# https://stackoverflow.com/a/48264821/9390372
+class SearchResults(LazyObject):
+
+    def __init__(self, search_object):
+        self._wrapped = search_object
+
+    def __len__(self):
+        dx("SearchResults.__len___")
+        return self._wrapped.count()
+
+    def __getitem__(self, index):
+        dx("SearchResults.__getitem__")
+        search_results = self._wrapped[index]
+        if isinstance(index, slice):
+            search_results = list(search_results)
+        return search_results
 
 
 def get_text_type_fields():
@@ -38,20 +57,34 @@ class GenericDjangoQLSchema(DjangoQLSchema):
 
 class ModelSearcher:
 
-    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False, limit=None):
+    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False, es_limit=None):
         self.model = model
-        self.limit = limit
+        self.es_limit = es_limit
         self.query = query
         self.dql_query = dql_query
         self.document = None
         self.args = args
         self.autocomplete = autocomplete
         self.queryset = self.model.objects.all()
+        self.search_results = None
+
+    def is_search(self):
+        if self.query:
+            return True
+        elif self.dql_query:
+            return True
+        elif self.args:
+            return True
+
+        return False
+
+    def search(self):
         self.dql_search()
         self.query_search()
         self.filter_by_args()
+        self.queryset = self._get_queryset()
 
-    def get_queryset(self):
+    def _get_queryset(self):
         prefetch_related = self.model.get_prefetch_related()
         if prefetch_related:
             self.queryset = self.queryset.prefetch_related(*prefetch_related)
@@ -97,11 +130,12 @@ class ModelSearcher:
         return qr
 
     def elastic_search(self):
-        if not self.limit:
-            raise ValueError("Can't (elastic) search without a search limit.")
-        search_results = self.document.search().filter("multi_match", query=self.query,
-                                                       fields=self.document.Django.fields)
-        self.queryset = search_results.to_queryset()
+        if not self.es_limit:
+            raise ValueError("Can't (elastic) search without a search limit (es_limit).")
+        results = self.document.search().filter("multi_match", query=self.query,
+                                                       fields=self.document.Django.fields)[:self.es_limit]
+        self.search_results = SearchResults(results)
+        self.queryset = results.to_queryset()
 
     def filter_by_args(self):
         if self.args:

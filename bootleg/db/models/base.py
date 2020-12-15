@@ -14,17 +14,16 @@ from django.utils import formats
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django_elasticsearch_dsl import TextField, ObjectField
-from django_elasticsearch_dsl.exceptions import RedeclaredFieldError
+from django_elasticsearch_dsl.registries import registry
+from django_elasticsearch_dsl.search import Search
 from django_extensions.db.models import TimeStampedModel
 from djangoql.queryset import DjangoQLQuerySet
-from elasticsearch_dsl import AttrDict
 
 from bootleg.logging import logging
 from bootleg.utils import strings
 from bootleg.utils.lists import add_unique
 from bootleg.utils.models import get_foreign_key_field
-from bootleg.utils.utils import get_meta_class_value, get_attr__
-from django_elasticsearch_dsl.registries import registry
+from bootleg.utils.utils import get_meta_class_value
 
 
 ##########################################
@@ -265,6 +264,22 @@ class BaseModel(models.Model):
             # works, I guess, I had some trouble with type() comparisons
             if str(doc.Django.model) == str(cls):
                 return doc
+
+        return None
+
+    @classmethod
+    def get_search_index_total_count_results(cls):
+        doc = cls.get_search_document()
+        if doc:
+            return Search(index=doc._index._name)
+
+        return None
+
+    @classmethod
+    def get_search_index_total_count(cls):
+        sr = cls.get_search_index_results()
+        if sr:
+            return sr.count()
 
         return None
 

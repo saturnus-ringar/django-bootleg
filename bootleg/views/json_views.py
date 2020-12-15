@@ -19,9 +19,11 @@ class JSONAutocompleteView(ModelAutoCompleteView):
     def get_context_data(self, **kwargs):
         results = []
         query = self.request.GET.get("q", "")
-        for result in ModelSearcher(self.model, query,
-                                    autocomplete=True,
-                                    limit=bootleg_settings.AUTOCOMPLETE_LIMIT).get_queryset()[:bootleg_settings.AUTOCOMPLETE_LIMIT]:
+        model_searcher = ModelSearcher(self.model, query=query, autocomplete=True,
+                                       es_limit=bootleg_settings.AUTOCOMPLETE_LIMIT)
+        model_searcher.search()
+        # this bit could be improved ... ... .. .
+        for result in model_searcher.queryset[:bootleg_settings.AUTOCOMPLETE_LIMIT]:
             for field in self.model.get_autocomplete_fields():
                 value = get_attr__(result, field)
                 if str(value).lower().startswith(query.lower()):

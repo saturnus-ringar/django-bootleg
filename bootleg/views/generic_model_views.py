@@ -13,7 +13,7 @@ from djangoql.serializers import DjangoQLSchemaSerializer
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory, DQLSearchForm
 from bootleg.utils import models, html
 from bootleg.utils.http import get_model_args_from_request
-from bootleg.utils.models import ModelSearcher, GenericDjangoQLSchema
+from bootleg.utils.models import ModelSearcher, GenericDjangoQLSchema, SearchResults
 from bootleg.utils.tables import TableFactory
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
@@ -57,6 +57,16 @@ class GenericListView(GenericModelView, SingleTableView):
     def get_table_class(self):
         return TableFactory(self.model, self.request).table_class
 
+    def get_paginator(self, *args, **kwargs):
+        doc = self.model.get_search_document()
+        if self.model_searcher.search_results:
+            return self.paginator_class(self.model_searcher.search_results, self.paginate_by)
+        elif doc and not self.model_searcher.is_search():
+            return self.paginator_class(SearchResults(self.model.get_search_index_total_count_results()),
+                                        self.paginate_by)
+        else:
+            return super().get_paginator(*args, **kwargs)
+
     def get_table(self, **kwargs):
         table = super().get_table(**kwargs)
         table.attrs = {
@@ -66,10 +76,12 @@ class GenericListView(GenericModelView, SingleTableView):
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
-        return ModelSearcher(self.model, query=self.request.GET.get("q", None),
+        self.model_searcher = ModelSearcher(self.model, query=self.request.GET.get("q", None),
                                 dql_query=self.request.GET.get("dql", None),
                                 args=get_model_args_from_request(self.model, self.request),
-                                limit=self.paginate_by).get_queryset()
+                                es_limit=self.paginate_by)
+        self.model_searcher.search()
+        return self.model_searcher.queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
