@@ -147,6 +147,11 @@ class Settings:
         self.add_setting("LOGIN_REDIRECT_URL", get_setting("LOGIN_REDIRECT_URL"), required=True)
 
         ####################################################
+        # search
+        ####################################################
+        self.add_setting("DISABLE_ELASTIC_SEARCH", False)
+
+        ####################################################
         # misch-ish
         ####################################################
         self.add_setting("PRINT_AT_STARTUP", True)

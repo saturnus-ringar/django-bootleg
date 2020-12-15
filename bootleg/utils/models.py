@@ -103,9 +103,10 @@ class ModelSearcher:
             # ugly return, indeed!
             return
 
-        self.document = self.model.get_search_document()
-        if self.document:
-            return self.elastic_search()
+        if bootleg_settings.DISABLE_ELASTIC_SEARCH is False:
+            self.document = self.model.get_search_document()
+            if self.document:
+                return self.elastic_search()
 
         if self.autocomplete:
             fields = filter_autocomplete_fields(self.model, self.model.get_autocomplete_fields())
