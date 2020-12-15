@@ -20,14 +20,20 @@ $ pip install git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturn
 
 INSTALLED_APPS = (
     # ...
-    'django.contrib.sites',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     'django.contrib.humanize',
+    # 3rd party apps
     'compressor',
     'crispy_forms',
     'debug_toolbar',
     'django_extensions',
     'django_user_agents',
     'django_tables2',
+    # bootleg
     'bootleg',
     # django admin - must be after bootleg (for template-overriding)
     'django.contrib.admin',
@@ -57,7 +63,7 @@ TEMPLATES = [
 
 AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
 
-# a Django settings that's used
+# a Django setting that's used
 LOGIN_REDIRECT_URL = 'url-string-that-will-be-reversed'
 
 # just the domain, without http/https
