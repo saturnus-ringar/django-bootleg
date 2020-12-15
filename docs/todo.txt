@@ -1,14 +1,25 @@
-- få in limit till elasticsarch
-    ... trixigt
+**************************************
+ ENKLA SAKER
+**************************************
 
-- ta total-counten från elastic search?
-    ... någon debug-sida för elastic search. Finns kanske?
+- defaulta LOG_DIR till /var/log/<projektnamn>
 
-- varför fick jag inte upp error-alerts då autocompleten failade, eller fick jag det?
+- statuskommandot, visa elasticsearch-info
 
-- bugg:
-<Settings "twentyfoursecurity.settings">: (bootleg.E031) The filter field: paswordless  is not a valid field for the model: vpnconfig
-	HINT: Set the field to an existing field of the model
+- varna om man kör med BOOTLEG_DEBUG True och DEBUG False
+
+- om elastic search är disablat ska inte den här proxy-paginator-grejen användas
+
+- dålig formatering:
+        http://localhost:8000/ (at.)
+
+- highlightar inte:
+    http://localhost:8000/?dql=text+%21%7E+%22mantis%22
+    ... lite svårt att fixa
+
+- göra en check på att man satt verbose_name och verbose_name_plural på modellerna
+
+- txt-filerna i dev-data kommer inte med... skit i det det där, visa inget istället
 
 - den söker två gånger då man trycker på enter i huvudsöken
 
@@ -17,25 +28,11 @@
 - check på head och foot template, att dom finns
     ... gör en väldig generell template-kontroll
 
-- dynamiska klasser för ElasticSearch?
-
-def get_index_class():
-    return type('SearchDocument', (Document,),
-              {'Django': type('Django', (),
-                              {'model': Password,
-                               'fields': ["password"]}
-                              ),
-               'Index': type('Index', (),
-                             {'name': "passwords"})
-               },
-
-              )
-
-
-- lägga till testalias
+// TODO: don't hardcode the URL
+    bootleg.js
 
 *********************
- NBC
+ __all__
 *********************
 
 - kolla hur fan det här kan funka egentligen?
@@ -46,6 +43,7 @@ def get_index_class():
 *********************
  DJANGO ADMIN
 *********************
+
     - registrera alla subklasser av BaseModel i admin
         - sökfält automagiskt
         - kunna göra dom readonly (ReadOnlyModelAdmin)
@@ -54,38 +52,39 @@ def get_index_class():
         - dom som är TimestampedModel ska få TimeStampedModelAdmin
         - kunna sätta en custom-admin-class också (tror det var svårt, har en tråd på stackoverflow om det)
 
-- registrera alla modeller automatiskt med djangoql:
-    https://github.com/ivelum/djangoql#add-it-to-your-django-admin
+    - registrera alla modeller automatiskt med djangoql:
+        https://github.com/ivelum/djangoql#add-it-to-your-django-admin
 
-- 500 då jag bytte lösenord
+    - dql-sökningen tar inte med fälten från filtreringen till vänster då man söker, är väl ok iofs?
+        $("#bootleg_dql_form").submit(function(e) {
+            handleGenericModelFilter(e);
+        });
+        ... funkar icke. Den detekterar inte submit
 
-- dql-sökningen tar inte med fälten från filtreringen till vänster då man söker, är väl ok iofs?
-    $("#bootleg_dql_form").submit(function(e) {
-        handleGenericModelFilter(e);
-    });
-    ... funkar icke. Den detekterar inte submit
 
-- datum-range-filter på datum
-    ... problem med att sätta initial-värdet för base_field
-        self.form.base_fields[new_field_name].initial = self.request.GET.get(new_field_name, None)
-        dx(new_field_name)
-        dx(self.form.base_fields[new_field_name].initial)
+*********************
+ BUGGAR
+*********************
 
-- fixa:
-    don't allow textareas
-    ... var något vajsing när jag satte den till CharField
+*********************
+ KLURIGA SAKER
+*********************
 
-- "Setting time in min" har default värde "30":
-    https://nbc.theflow.se/product-cards/
+    - byta namn på "editable models" ... till "bootleg models" , eller någe
+        ... kanske göra en basklass för dom som man bara extendar som har alla fält osv.
 
-// TODO: don't hardcode the URL
+    - datum-range-filter på datum
+        ... problem med att sätta initial-värdet för base_field
+            self.form.base_fields[new_field_name].initial = self.request.GET.get(new_field_name, None)
+            dx(new_field_name)
+            dx(self.form.base_fields[new_field_name].initial)
 
-- olika färger på "View" och "Clone"?
+    - fixa:
+        don't allow textareas
+        ... var något vajsing när jag satte den till CharField
 
-- måste fixa större text på badgarna för varningar etc.
-
-- byta namn på "editable models" ... till "bootleg models" , eller någe
-    ... kanske göra en basklass för dom som man bara extendar som har alla fält osv.
+    - "Setting time in min" har default värde "30":
+        https://nbc.theflow.se/product-cards/
 
 **********************
  ERRORS

@@ -148,7 +148,7 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_search_field_names(cls):
-        classes = [CharField, EmailField]
+        classes = [CharField, EmailField, models.TextField]
         fields = []
         for field in cls._meta.fields:
             if field.__class__ in classes:

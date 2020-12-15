@@ -1,0 +1,14 @@
+- testa rättigheterna på:
+    - system (super user)
+    - deploy info (super user)
+    - modellinfo (super user)
+    - vad som syns i menyn med exception osv. (super user)
+    - modeller (is staff)
+
+    ... lite trixigt då det inte finns en manage.py ens. Runserver?
+
+- testa att det inte går att browsa media/static (om debug False)
+
+- testa att autocomplete funkar
+
+- testa att sök funkar som förväntat
