@@ -20,7 +20,11 @@ $ pip install git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturn
 
 INSTALLED_APPS = (
     # ...
-    'django.contrib.sites',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     'django.contrib.humanize',
     'compressor',
     'crispy_forms',
