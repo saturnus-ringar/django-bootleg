@@ -22,11 +22,9 @@ class SearchResults(LazyObject):
         self._wrapped = search_object
 
     def __len__(self):
-        dx("SearchResults.__len___")
         return self._wrapped.count()
 
     def __getitem__(self, index):
-        dx("SearchResults.__getitem__")
         search_results = self._wrapped[index]
         if isinstance(index, slice):
             search_results = list(search_results)
