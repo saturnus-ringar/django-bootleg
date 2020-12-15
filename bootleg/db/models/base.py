@@ -277,11 +277,15 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_search_index_total_count(cls):
-        sr = cls.get_search_index_results()
+        sr = cls.get_search_index_total_count_results()
         if sr:
             return sr.count()
 
         return None
+
+    @classmethod
+    def get_count(cls):
+        return cls.objects.all().count()
 
     ##############################
     # urls
@@ -321,6 +325,14 @@ class BaseModel(models.Model):
 
     def get_clone_url(self):
         return reverse("bootleg:clone_model", args=[self._meta.model_name, self.id])
+
+    ##############################
+    # miscish.... for templates
+    ##############################
+
+    @classmethod
+    def get_verbose_name(cls):
+        return cls._meta.verbose_name
 
     ##############################
     # links

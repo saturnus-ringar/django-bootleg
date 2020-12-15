@@ -1,4 +1,4 @@
-from bootleg.views.system_views import DeployInfoView, SystemInfoView
+from bootleg.views.system_views import DeployInfoView, SystemInfoView, ModelsInfoView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -90,6 +90,11 @@ urlpatterns = [
     # error page test
     #######################################
     path("obscurity-by-test/error/<error_code>/", ErrorTestView.as_view(), name="error_test"),
+
+    #######################################
+    # elastic search info
+    #######################################
+    path("models/info/", ModelsInfoView.as_view(), name="models_info"),
 
     #######################################
     # crash-url - to test errors

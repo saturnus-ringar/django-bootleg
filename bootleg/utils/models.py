@@ -12,6 +12,7 @@ from djangoql.schema import DjangoQLSchema
 
 from bootleg.conf import bootleg_settings
 from bootleg.utils.utils import get_meta_class_value
+from django_elasticsearch_dsl.registries import registry
 
 
 # https://stackoverflow.com/a/48264821/9390372
@@ -182,6 +183,14 @@ def setup_default_site():
         site.name = bootleg_settings.SITE_NAME
         site.domain = bootleg_settings.SITE_DOMAIN
         site.save()
+
+
+def get_search_models():
+    models = []
+    for doc in registry.get_documents():
+        models.append(doc.Django.model)
+
+    return models
 
 
 def get_editable_by_name(model_name):

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
@@ -14,6 +15,13 @@ from bootleg.forms.base import get_default_form_helper
 class StaffRequiredView:
 
     @method_decorator(staff_member_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+
+class SuperUserRequiredView:
+
+    @user_passes_test(lambda u: u.is_superuser)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
@@ -33,7 +41,11 @@ class BaseTemplateView(BaseView, TemplateView):
         return self.extra_text
 
 
-class StaffRequiredTemplateView(StaffRequiredView, TemplateView):
+class StaffRequiredTemplateView(StaffRequiredView, BaseTemplateView):
+    pass
+
+
+class SuperuserRequiredTemplateView(StaffRequiredView, BaseTemplateView):
     pass
 
 

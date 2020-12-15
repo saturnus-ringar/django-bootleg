@@ -87,6 +87,18 @@ def get_main_navigation(request):
     return mark_safe(html)
 
 
+def get_dropdown_header(id, title):
+    html = '<li class="nav-item dropdown float-right">\n'
+    html += '<a class ="nav-link dropdown-toggle" href="#" id="profile_dropdown" data-toggle="%s"' % id
+    html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % title
+    html += '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="%s">\n' %id
+    return mark_safe(html)
+
+
+def get_dropdown_item(url, text):
+    return mark_safe('<a class ="dropdown-item" href="%s">%s</a>\n' % (url, text))
+
+
 def get_right_navigation(request):
     # circular imports ... :|
     from bootleg.templatetags.bootleg import get_changelist_url
@@ -99,19 +111,21 @@ def get_right_navigation(request):
             _("Log entries"), request.unhandled_django_log_entry_count, True)
         html += get_nav_item(get_changelist_url('bootleg', 'JavascriptError') + "?handled__exact=0",
             _("JS-errors"), request.unhandled_javascript_error_count, True)
-        html += get_nav_item(reverse("bootleg:system_info"), _("System"))
-        html += get_nav_item(reverse("bootleg:deploy_info"), _("Deployment]"))
+
+        dropdown_name = "superuser_tools"
+        html += get_dropdown_header(dropdown_name, _("Tools"))
+        html += get_dropdown_item(reverse("bootleg:system_info"), _("System"))
+        html += get_dropdown_item(reverse("bootleg:deploy_info"), _("Deployment"))
+        html += get_dropdown_item(reverse("bootleg:models_info"), _("Models"))
 
     if not request.user.is_authenticated:
         html += get_nav_item(reverse("bootleg:login"), _("Login"))
 
     if request.user.is_authenticated:
-        html += '<li class="nav-item dropdown float-right">\n'
-        html += '<a class ="nav-link dropdown-toggle" href="#" id="profile_dropdown" data-toggle="dropdown"'
-        html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % request.user.username
-        html += '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="profile_dropdown">\n'
-        html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("bootleg:change_password"), _("Change password"))
-        html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("bootleg:logout"), _("Log out"))
+        dropdown_id = "profile_dropdown"
+        html += get_dropdown_header(dropdown_id, request.user.username)
+        html += get_dropdown_item(reverse("bootleg:change_password"), _("Change password"))
+        html += get_dropdown_item(reverse("bootleg:logout"), _("Log out"))
 
     if request.user.is_staff:
         html += '<a class ="dropdown-item" href="%s">%s</a>\n' % (reverse("admin:index"), _("Django-admin"))
