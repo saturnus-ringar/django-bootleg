@@ -36,17 +36,19 @@ if not settings.is_overridden("SHORT_DATETIME_FORMAT"):
 if not settings.is_overridden("SHORT_DATE_FORMAT"):
     SHORT_DATE_FORMAT = "Y-m-d"
 
-if not settings.is_overridden("STATIC_ROOT"):
-    STATIC_ROOT = "/static/"
+if settings.DEBUG:
+    if not settings.is_overridden("STATIC_ROOT"):
+        STATIC_ROOT = "static/"
+
+    if not settings.is_overridden("MEDIA_ROOT"):
+        MEDIA_ROOT = "media/"
 
 if not settings.is_overridden("STATIC_URL"):
     STATIC_URL = "/static/"
 
-if not settings.is_overridden("MEDIA_ROOT"):
-    MEDIA_ROOT = "/media/"
-
 if not settings.is_overridden("MEDIA_URL"):
     MEDIA_URL = "/media/"
+
 
 if not settings.is_overridden("ELASTICSEARCH_DSL"):
     ELASTICSEARCH_DSL = {
