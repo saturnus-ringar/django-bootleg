@@ -17,7 +17,7 @@ class Command(BaseCommand):
         print_key_value("Python version", system.get_short_python_version())
         print_key_value("MySQL version", system.mysql_version)
         print_key_value("DB size", humanize.humanize_bytes(system.get_db_size()))
-        print_key_value("DB rows", intcomma(system.get_number_of_db_rows()))
+        print_key_value("DB rows (not 100% accurate)", intcomma(system.get_number_of_db_rows()))
         print(Fore.LIGHTBLUE_EX + "Disk usage")
         print(Fore.LIGHTCYAN_EX + system.disk_usage)
         print(Fore.LIGHTBLUE_EX + "Uptime")
