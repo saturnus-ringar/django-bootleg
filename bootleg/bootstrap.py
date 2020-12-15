@@ -12,11 +12,6 @@ from bootleg.utils.printer import print_key_value, print_heading
 def startup_print():
     print_heading(Fore.LIGHTMAGENTA_EX + "Running django bootleg version: " + Fore.LIGHTGREEN_EX + bootleg.__version__)
 
-    if getattr(settings, "DEBUG"):
-        print(Fore.LIGHTBLUE_EX + "We're running in " + Fore.LIGHTGREEN_EX + "DEBUG")
-    else:
-        print(Fore.LIGHTBLUE_EX + "We're NOT running in " + Fore.RED + "DEBUG")
-
     print_key_value("Database Backend", connection.vendor)
     print_key_value("Database", connection.settings_dict['NAME'])
     print_key_value("Log Dir", bootleg_settings.LOG_DIR)
@@ -51,5 +46,10 @@ def startup_print():
     if custom_settings_to_print:
         for setting, value in custom_settings_to_print.items():
             print_key_value(setting, value)
+
+    if getattr(settings, "DEBUG"):
+        print(Fore.LIGHTBLUE_EX + "We're running in " + Fore.LIGHTGREEN_EX + "DEBUG")
+    else:
+        print(Fore.LIGHTBLUE_EX + "We're NOT running in " + Fore.RED + "DEBUG")
 
     print(Style.RESET_ALL)
