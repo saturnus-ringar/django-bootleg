@@ -324,6 +324,20 @@ def check_home_dir(errors):
 
     return errors
 
+
+def check_debug_settings(errors):
+    if settings.DEBUG is False and bootleg_settings.BOOTLEG_DEBUG is True:
+        errors.append(
+            Warning(
+                "DEBUG is False and BOOTLEG_DEBUG is True. Might be in order?",
+                obj=settings,
+                id="bootleg.E034"
+            )
+        )
+
+    return errors
+
+
 @register()
 def check_settings(app_configs, **kwargs):
     errors = []
@@ -369,6 +383,7 @@ def check_settings(app_configs, **kwargs):
     errors = check_branding_logo(errors)
     errors = check_home_url(errors)
     errors = check_home_dir(errors)
+    errors = check_debug_settings(errors)
     return errors
 
 
