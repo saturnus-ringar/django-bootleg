@@ -136,7 +136,6 @@ class ModelFilterFormFactory:
 
 def get_queryset_for_field(model, field_name):
     field = model._meta.get_field(field_name)
-
     if bootleg_settings.USE_RELATED_ONLY_FILTERS:
         if isinstance(field, ForeignKey):
             # only use "related" (values that actually have been used) models
@@ -148,5 +147,5 @@ def get_queryset_for_field(model, field_name):
             # 2020-12-07: I'm not sure this actually works, in the long run. But it works. As of now.
             return field.related_model.objects.filter(**{"%s__isnull" % model._meta.model_name: False})\
                 .all().order_by(*get_order_by(field.related_model))
-    else:
+    elif field.related_model:
         return field.related_model.objects.all().order_by(*get_order_by(field.related_model))
