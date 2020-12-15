@@ -26,12 +26,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    # 3rd party apps
     'compressor',
     'crispy_forms',
     'debug_toolbar',
     'django_extensions',
     'django_user_agents',
     'django_tables2',
+    # bootleg
     'bootleg',
     # django admin - must be after bootleg (for template-overriding)
     'django.contrib.admin',
