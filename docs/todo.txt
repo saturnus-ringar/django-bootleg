@@ -1,9 +1,36 @@
+- få in limit till elasticsarch
+    ... trixigt
+
+- ta total-counten från elastic search?
+    ... någon debug-sida för elastic search. Finns kanske?
+
+- varför fick jag inte upp error-alerts då autocompleten failade, eller fick jag det?
+
 - bugg:
 <Settings "twentyfoursecurity.settings">: (bootleg.E031) The filter field: paswordless  is not a valid field for the model: vpnconfig
 	HINT: Set the field to an existing field of the model
 
+- den söker två gånger då man trycker på enter i huvudsöken
+
+- sökikonen på generisk textsök submittar inte formuläret
+
 - check på head och foot template, att dom finns
     ... gör en väldig generell template-kontroll
+
+- dynamiska klasser för ElasticSearch?
+
+def get_index_class():
+    return type('SearchDocument', (Document,),
+              {'Django': type('Django', (),
+                              {'model': Password,
+                               'fields': ["password"]}
+                              ),
+               'Index': type('Index', (),
+                             {'name': "passwords"})
+               },
+
+              )
+
 
 - lägga till testalias
 

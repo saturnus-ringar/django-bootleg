@@ -3,7 +3,7 @@ from crispy_forms.layout import Submit
 from django.db.models import ForeignKey, ManyToManyField
 from django.forms import CharField, modelform_factory, SelectMultiple, Select, DateField, \
     DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField, URLField, \
-    SlugField, NullBooleanField, Textarea
+    SlugField, NullBooleanField, Textarea, TypedChoiceField
 from django.utils.translation import ugettext as _
 from django_extensions.db.fields import ModificationDateTimeField, CreationDateTimeField
 
@@ -123,9 +123,9 @@ class ModelFilterFormFactory:
         sort_order = []
         if ENUM_FIELD:
             sort_order = [ENUM_FIELD]
-        sort_order += [ModelChoiceField, ModelMultipleChoiceField, BooleanField, NullBooleanField, DateField,
-                       DateTimeField,
-                      CharField, IntegerField, DecimalField, URLField, SlugField]
+        sort_order += [ModelChoiceField, ModelMultipleChoiceField, TypedChoiceField, BooleanField,
+                       NullBooleanField, DateField, DateTimeField, CharField, IntegerField, DecimalField,
+                       URLField, SlugField]
 
         sorted_fields = sorted(self.form.base_fields.items(), key=lambda pair: sort_order.index(pair[1].__class__))
         fields = dict()
