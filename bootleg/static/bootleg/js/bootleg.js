@@ -288,7 +288,7 @@ var MainLoader = {
     spinner: new Spinner(this.spinnerOpts),
 
     start : function() {
-        if(Context.spinnerClass) {
+        if(Context.spinnerClass != null) {
             $('<div id="overlay"></div>').hide().appendTo("body").show(0, function() {
                 $("." + Context.spinnerClass).fadeIn("slow");
             });
@@ -300,8 +300,7 @@ var MainLoader = {
     },
 
     stop : function() {
-        if(Context.spinnerClass) {
-            console.log("STOPPING!");
+        if(Context.spinnerClass != null) {
             $("." + Context.spinnerClass).fadeOut("slow");
         };
         $("#overlay").hide(0, function() {
