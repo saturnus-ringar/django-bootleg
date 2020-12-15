@@ -86,6 +86,10 @@ LOG_DIR = '/var/log/project-name?/'
 from bootleg.settings import *
 ```
 
+**NOTE**: 
+the django admin URLs doesn't have to be included since they are included in bootleg, using:
+path('django-admin/', admin.site.urls),
+
 ```python
 
 # urls.py
