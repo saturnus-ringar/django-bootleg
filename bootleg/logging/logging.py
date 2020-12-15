@@ -203,14 +203,13 @@ def add_builtins():
 
     def dx(obj, verbose=False, do_dir=False):
         if verbose:
-            debug_log("\nClass: %s\nBase class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
-
-        if verbose:
             with open(get_debug_file_handler().baseFilename, "w") as file:
                 pprint(obj, file)
         if do_dir:
             with open(get_debug_file_handler().baseFilename, "w") as file:
                 pprint(dir(obj), file)
+        if verbose:
+            debug_log("\nClass: %s\nBase class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
         else:
             debug_log(obj)
 
