@@ -106,14 +106,14 @@ def get_right_navigation(request):
 
     if request.user.is_superuser:
         html += get_nav_item(get_changelist_url('bootleg', 'LoggedException') + "?handled__exact=0",
-            _("[Logged exceptions"), request.unhandled_logged_exceptions_count, True)
+            _("[ Logged exceptions"), request.unhandled_logged_exceptions_count, True)
         html += get_nav_item(get_changelist_url('bootleg', 'DjangoLogEntry') + "?handled__exact=0",
             _("Log entries"), request.unhandled_django_log_entry_count, True)
         html += get_nav_item(get_changelist_url('bootleg', 'JavascriptError') + "?handled__exact=0",
             _("JS-errors"), request.unhandled_javascript_error_count, True)
 
         dropdown_name = "superuser_tools"
-        html += get_dropdown_header(dropdown_name, _("Tools"))
+        html += get_dropdown_header(dropdown_name, _("Tools ]"))
         html += get_dropdown_item(reverse("bootleg:system_info"), _("System"))
         html += get_dropdown_item(reverse("bootleg:deploy_info"), _("Deployment"))
         html += get_dropdown_item(reverse("bootleg:models_info"), _("Models"))
