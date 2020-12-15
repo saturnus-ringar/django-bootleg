@@ -16,6 +16,7 @@ install_requires = [
     "django-jsonview >= 2.0.0",
     "django-tables2 >= 2.2",
     "django-user-agents >= 0.4.0",
+    "elasticsearch-dsl >= 7.3.0",
     "djangoql >= 0.14.2",
     "GitPython >= 3.1",
     "giturlparse >= 0.9",

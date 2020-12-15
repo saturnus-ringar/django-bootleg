@@ -48,6 +48,13 @@ if not settings.is_overridden("MEDIA_ROOT"):
 if not settings.is_overridden("MEDIA_URL"):
     MEDIA_URL = "/media/"
 
+if not settings.is_overridden("ELASTICSEARCH_DSL"):
+    ELASTICSEARCH_DSL = {
+        'default': {
+            'hosts': 'localhost:9200'
+        },
+    }
+
 if not settings.is_overridden("STATICFILES_FINDERS"):
     STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',

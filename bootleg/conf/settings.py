@@ -153,6 +153,7 @@ class Settings:
         self.add_setting("ADD_BUILTINS", True)
         self.add_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
         self.add_setting("PROJECT_ABBR", None)
+        self.add_setting("AUTOCOMPLETE_LIMIT", 50)
 
     def add_setting(self, attribute, default=None, required=False):
         value = get_setting(attribute, default, required=required)

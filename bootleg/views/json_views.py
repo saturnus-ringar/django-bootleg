@@ -4,8 +4,7 @@ from bootleg.utils import models
 from bootleg.utils.models import ModelSearcher
 from bootleg.utils.utils import get_attr__
 from bootleg.views.base import StaffRequiredView
-
-SEARCH_LIMIT = 75
+from bootleg.conf import bootleg_settings
 
 
 class ModelAutoCompleteView(StaffRequiredView, JsonView):
@@ -20,7 +19,9 @@ class JSONAutocompleteView(ModelAutoCompleteView):
     def get_context_data(self, **kwargs):
         results = []
         query = self.request.GET.get("q", "")
-        for result in ModelSearcher(self.model, query, autocomplete=True).get_queryset()[:SEARCH_LIMIT]:
+        for result in ModelSearcher(self.model, query,
+                                    autocomplete=True,
+                                    limit=bootleg_settings.AUTOCOMPLETE_LIMIT).get_queryset()[:bootleg_settings.AUTOCOMPLETE_LIMIT]:
             for field in self.model.get_autocomplete_fields():
                 value = get_attr__(result, field)
                 if str(value).lower().startswith(query.lower()):

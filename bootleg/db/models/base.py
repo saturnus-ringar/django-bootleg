@@ -1,32 +1,35 @@
 import datetime
 from abc import abstractmethod
-from pprint import pprint
 
 from annoying.functions import get_object_or_None
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, FieldDoesNotExist
 from django.db import models
 from django.db.models import CharField, EmailField
 from django.db.models.fields.files import ImageField
-from django.db.models.manager import BaseManager, Manager
+from django.db.models.manager import Manager
 from django.urls import reverse
 from django.utils import formats
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from django_elasticsearch_dsl import TextField, ObjectField
+from django_elasticsearch_dsl.exceptions import RedeclaredFieldError
 from django_extensions.db.models import TimeStampedModel
 from djangoql.queryset import DjangoQLQuerySet
+from elasticsearch_dsl import AttrDict
 
 from bootleg.logging import logging
 from bootleg.utils import strings
-from django.conf import settings
+from bootleg.utils.lists import add_unique
+from bootleg.utils.models import get_foreign_key_field
+from bootleg.utils.utils import get_meta_class_value, get_attr__
+from django_elasticsearch_dsl.registries import registry
 
 
 ##########################################
 # managers
 ##########################################
-from bootleg.utils.models import get_foreign_key_field
-from bootleg.utils.utils import get_meta_class_value
-
 
 class UnhandledStatusModelManager(models.Manager):
 
@@ -159,9 +162,15 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_autocomplete_fields(cls):
+        fields = []
         autocomplete_fields = get_meta_class_value(cls, "autocomplete_fields")
         if autocomplete_fields:
-            return autocomplete_fields
+              fields += autocomplete_fields
+
+        # add (uniqe) search document fields, if any
+        fields = add_unique(fields, cls.get_search_document_field_names())
+        if fields:
+            return fields
 
         return cls.get_search_field_names()
 
@@ -229,6 +238,35 @@ class BaseModel(models.Model):
             accessors.append(field.get_accessor_name())
 
         return accessors
+
+    ##############################
+    # elastic search
+    ##############################
+    @classmethod
+    def get_search_document_field_names(cls):
+        field_names = []
+        document = cls.get_search_document()
+        if document:
+            for field_name, field in document._doc_type.mapping.properties.properties.to_dict().items():
+                if isinstance(field, TextField):
+                    field_names.append(field_name)
+                elif isinstance(field, ObjectField):
+                    # this was the first way I found how to get the properties :|
+                    for property in field.to_dict()["properties"]:
+                        remote_field_name = field_name + "__" + property
+                        if get_foreign_key_field(cls, remote_field_name):
+                            field_names.append(remote_field_name)
+
+        return field_names
+
+    @classmethod
+    def get_search_document(cls):
+        for doc in registry.get_documents():
+            # works, I guess, I had some trouble with type() comparisons
+            if str(doc.Django.model) == str(cls):
+                return doc
+
+        return None
 
     ##############################
     # urls

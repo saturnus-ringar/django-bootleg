@@ -203,7 +203,7 @@ def add_builtins():
 
     def dx(obj, verbose=False, do_dir=False):
         if verbose:
-            debug_log("Class:\n%s\nBase class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
+            debug_log("\nClass: %s\nBase class: %s" % (obj.__class__.__name__, obj.__class__.__bases__))
 
         if verbose:
             with open(get_debug_file_handler().baseFilename, "w") as file:
@@ -215,7 +215,7 @@ def add_builtins():
             debug_log(obj)
 
     def dxv(obj):
-        dx(obj)
+        dx(obj, verbose=True)
 
     def dp(obj, verbose=False):
         dx(obj, verbose)
@@ -225,7 +225,6 @@ def add_builtins():
 
     def dxf(obj):
         dx(obj, verbose=True, do_dir=True)
-
 
     builtins.dx = dx
     builtins.dp = dp

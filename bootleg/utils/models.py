@@ -38,10 +38,12 @@ class GenericDjangoQLSchema(DjangoQLSchema):
 
 class ModelSearcher:
 
-    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False):
+    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False, limit=None):
         self.model = model
+        self.limit = limit
         self.query = query
         self.dql_query = dql_query
+        self.document = None
         self.args = args
         self.autocomplete = autocomplete
         self.queryset = self.model.objects.all()
@@ -68,11 +70,18 @@ class ModelSearcher:
             # ugly return, indeed!
             return
 
+        self.document = self.model.get_search_document()
+        if self.document:
+            return self.elastic_search()
+
         if self.autocomplete:
             fields = filter_autocomplete_fields(self.model, self.model.get_autocomplete_fields())
         else:
             fields = self.model.get_search_field_names()
 
+        self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
+
+    def get_qr(self, fields):
         qr = None
         for field in fields:
             if not self.autocomplete:
@@ -85,7 +94,14 @@ class ModelSearcher:
             else:
                 qr = q
 
-        self.queryset = self.queryset.filter(qr).distinct().order_by("id")
+        return qr
+
+    def elastic_search(self):
+        if not self.limit:
+            raise ValueError("Can't (elastic) search without a search limit.")
+        search_results = self.document.search().filter("multi_match", query=self.query,
+                                                       fields=self.document.Django.fields)
+        self.queryset = search_results.to_queryset()
 
     def filter_by_args(self):
         if self.args:

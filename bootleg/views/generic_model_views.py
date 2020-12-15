@@ -68,7 +68,8 @@ class GenericListView(GenericModelView, SingleTableView):
     def get_queryset(self):
         return ModelSearcher(self.model, query=self.request.GET.get("q", None),
                                 dql_query=self.request.GET.get("dql", None),
-                                args=get_model_args_from_request(self.model, self.request)).get_queryset()
+                                args=get_model_args_from_request(self.model, self.request),
+                                limit=self.paginate_by).get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

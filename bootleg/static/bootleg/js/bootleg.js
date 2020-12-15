@@ -101,7 +101,7 @@ function initGenericAutocomplete() {
             return input.data("autocomplete-url") + "?q=" + encodeURI(query);
         },
         list: {
-            maxNumberOfElements: 50,
+            maxNumberOfElements: Context.autoCompleteLimit,
         },
     };
     input.easyAutocomplete(options);
