@@ -5,6 +5,7 @@ from django.db import connection
 import bootleg
 from bootleg.conf import bootleg_settings
 from bootleg.utils import models
+from bootleg.utils.env import use_elastic_search
 from bootleg.utils.printer import print_key_value, print_heading
 
 
@@ -26,18 +27,25 @@ def startup_print():
     print_key_value("Media Root", getattr(settings, "MEDIA_ROOT"))
     print_key_value("Media URL", getattr(settings, "MEDIA_URL"))
 
-    editable_models = models.get_editable_model_verbose_names()
+    editable_models = models.get_editable_models_verbose_names()
     if editable_models:
         print_key_value("Editable models", str(editable_models))
 
+    search_models = models.get_search_models_verbose_names()
+    if search_models:
+        if use_elastic_search():
+            print_key_value("Search models", str(search_models))
+        else:
+            print(Fore.LIGHTYELLOW_EX + "Elastic search is disabled.")
+
     if bootleg_settings.LOG_SQL:
-        print(Fore.LIGHTGREEN_EX + "* Logging SQL")
+        print(Fore.LIGHTGREEN_EX + "Logging SQL")
 
     if bootleg_settings.STORE_LOGGED_EXCEPTIONS:
-        print(Fore.LIGHTGREEN_EX + "* Storing internal log exceptions")
+        print(Fore.LIGHTGREEN_EX + "Storing internal log exceptions")
 
     if bootleg_settings.STORE_DJANGO_LOG_EXCEPTIONS:
-        print(Fore.LIGHTGREEN_EX + "* Storing Django log exceptions")
+        print(Fore.LIGHTGREEN_EX + "Storing Django log exceptions")
 
     custom_settings_to_print = getattr(settings, "SETTINGS_TO_PRINT", None)
     if custom_settings_to_print:

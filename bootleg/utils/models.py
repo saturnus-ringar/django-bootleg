@@ -229,12 +229,20 @@ def get_editable_models():
     return models
 
 
-def get_editable_model_verbose_names():
+def get_verbose_names(models):
     model_names = []
-    for model in get_editable_models():
+    for model in models:
         model_names.append(model._meta.verbose_name)
     model_names.sort()
     return model_names
+
+
+def get_editable_models_verbose_names():
+    return get_verbose_names(get_editable_models())
+
+
+def get_search_models_verbose_names():
+    return get_verbose_names(get_search_models())
 
 
 def filter_autocomplete_fields(model, fields):
