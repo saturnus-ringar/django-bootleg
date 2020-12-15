@@ -3,7 +3,7 @@
 
 <h3>{{ git_data.parsed_git_url.repo }} - {% trans "git/repo" %}</h3>
 
-<p class="mb-4"><a href="{{ git_data.github_url }}">{{ git_data.github_url }}</a>
+<p class="mb-4"><a href="{{ view.git_data.github_url }}">{{ view.git_data.github_url }}</a>
 
 <table class="{% get_default_table_classes %}">
 <tbody>
@@ -15,19 +15,19 @@
     {% endif %}
     <tr>
         <td>{% trans "Active branch" %}</td>
-        <td>{{ git_data.repo.active_branch }}</td>
+        <td>{{ view.git_data.repo.active_branch }}</td>
     </tr>
     <tr>
         <td>{% trans "Branches" %}</td>
         <td>
-            {% for branch in git_data.repo.branches %}
+            {% for branch in view.git_data.repo.branches %}
                 {{ branch }} {% if not forloop.last %}, {% endif %}
             {% endfor %}
         </td>
     </tr>
    <tr>
         <td>{% trans "git dir" %}</td>
-        <td>{{ git_data.repo.git_dir }}</td>
+        <td>{{ view.git_data.repo.git_dir }}</td>
     </tr>
 </tbody>
 </table>
@@ -42,8 +42,8 @@
         <th>{% trans "Type" %}</th>
         <th></th>
     </tr>
-    {% for commit in git_data.repo.iter_commits %}
-        {% if git_data.repo.head.object == commit %}
+    {% for commit in view.git_data.repo.iter_commits %}
+        {% if view.git_data.repo.head.object == commit %}
             <tr class="table-success">
         {% else %}
             <tr>

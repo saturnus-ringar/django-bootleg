@@ -25,14 +25,14 @@
             <h3 class="mt-4" id="system_uptime">{% trans "Uptime" %}</h3>
             <table class="{% get_default_table_classes %} overflow-auto">
                     <tr>
-                            <td>{{ system.uptime }}</td>
+                            <td>{{ view.system.uptime }}</td>
                     </tr>
             </table>
 
             <h3 class="mt-4">{% trans "Disk usage" %}</h3>
             {% get_card_top %}
             <pre>
-            {{ system.disk_usage }}
+            {{ view.system.disk_usage }}
             </pre>
             {% get_card_bottom %}
 
@@ -42,13 +42,13 @@
                     <tbody>
                             <tr>
                                     <td>{% trans "Version" %}</td>
-                                    <td><code>{{ system.mysql_version }}</code></td>
+                                    <td><code>{{ view.system.mysql_version }}</code></td>
                             </tr>
                             <tr>
                                     <td>{% trans "DB-size" %}</td>
                                     <td>
                                             <a class="anchor" data-target="#system_db_tables" href="#">
-                                                    {{ system.db_size|humanize_bytes }}
+                                                    {{ view.system.db_size|humanize_bytes }}
                                             </a>
                                     </td>
                             </tr>
@@ -56,7 +56,7 @@
                                     <td>{% trans "Number of rows" %}</td>
                                     <td>
                                             <a class="anchor" data-target="#system_db_tables" href="#">
-                                                    {{ system.get_number_of_db_rows|intcomma }}
+                                                    {{ view.system.get_number_of_db_rows|intcomma }}
                                             </a>
                                     </td>
                             </tr>
@@ -65,15 +65,15 @@
 
             <h3 class="mt-4" id="system_log_dirs" >{% trans "Log dirs" %}</h3>
             {% get_card_top %}
-            {% if system.apache_log_dir_info %}
+            {% if view.system.apache_log_dir_info %}
                     <strong>{% trans "Apache" %}</strong>
                     <pre>
-                        {{ system.apache_log_dir_info }}
+                        {{ view.system.apache_log_dir_info }}
                     </pre>
             {% endif %}
             <stronsystem_packagesg>{% trans "Log dir" %}</stronsystem_packagesg>
                     <pre>
-                        {{ system.log_dir_info }}
+                        {{ view.system.log_dir_info }}
                     </pre>
             {% get_card_bottom %}
 
@@ -82,12 +82,12 @@
                     <tbody>
                             <tr>
                                     <td>{% trans "Platform " %}</td>
-                                    <td><code>{{ system.platform }}</code></td>
+                                    <td><code>{{ view.system.platform }}</code></td>
                             </tr>
-                            {% if system.ubuntu_information %}
+                            {% if view.system.ubuntu_information %}
                                     <tr>
                                             <td>{% trans "Ubuntu " %}</td>
-                                            <td>{{ system.ubuntu_information|nl2br }}</td>
+                                            <td>{{ view.system.ubuntu_information|nl2br }}</td>
                                     </tr>
                             {% endif %}
                     </tbody>
@@ -98,26 +98,26 @@
                     <tbody>
                             <tr>
                                     <td>{% trans "Version " %}</td>
-                                    <td><code>{{ system.python_version }}</code></td>
+                                    <td><code>{{ view.system.python_version }}</code></td>
                             </tr>
                             <tr>
                                     <td>{% trans "Executable " %}</td>
-                                    <td><code>{{ system.executable }}</code></td>
+                                    <td><code>{{ view.system.executable }}</code></td>
                             </tr>
                             <tr>
                                     <td>{% trans "Virtual env" %}</td>
                                     <td>
-                                            <code>{{ system.virtual_env_path }}</code>
-                                            {% render_last_modified_file system.env_dir_last_modified_file %}
+                                            <code>{{ view.system.virtual_env_path }}</code>
+                                            {% render_last_modified_file view.system.env_dir_last_modified_file %}
                                     </td>
                             </tr>
                             <tr>
                                     <td>{% trans "Django version " %}</td>
-                                    <td><code>{{ system.django_version }}</code></td>
+                                    <td><code>{{ view.system.django_version }}</code></td>
                             </tr>
                             <tr>
                                     <td>{% trans "bootleg version " %}</td>
-                                    <td><code>{{ system.bootleg_version }}</code></td>
+                                    <td><code>{{ view.system.bootleg_version }}</code></td>
                             </tr>
                     </tbody>
             </table>
@@ -128,22 +128,22 @@
                             <tr>
                                     <td>{% trans "Project path" %}</td>
                                     <td>
-                                            <code>{{ system.project_path }}</code>
-                                            {% render_last_modified_file system.project_dir_last_modified_file %}
+                                            <code>{{ view.system.project_path }}</code>
+                                            {% render_last_modified_file view.system.project_dir_last_modified_file %}
                                     </td>
                             </tr>
                             <tr>
                                     <td>{% trans "MEDIA_ROOT" %}</td>
                                     <td>
-                                            <code>{{ system.media_root }}</code>
-                                            {% render_last_modified_file system.media_dir_last_modified_file %}
+                                            <code>{{ view.system.media_root }}</code>
+                                            {% render_last_modified_file view.system.media_dir_last_modified_file %}
                                     </td>
                             </tr>
                             <tr>
                                     <td>{% trans "STATIC_ROOT" %}</td>
                                     <td>
-                                            <code>{{ system.static_root }}</code>
-                                            {% render_last_modified_file system.static_dir_last_modified_file %}
+                                            <code>{{ view.system.static_root }}</code>
+                                            {% render_last_modified_file view.system.static_dir_last_modified_file %}
                                     </td>
                             </tr>
                     </tbody>
@@ -152,7 +152,7 @@
             <h3 class="mt-4" id="system_packages">{% trans "Installed packages" %}</h3>
             <table class="{% get_default_table_classes %}">
                     <tbody>
-                            {% for package in system.installed_packages %}
+                            {% for package in view.system.installed_packages %}
                             <tr>
                                     <td>{{ package.project_name }}</td>
                                     <td><code>{{ package.parsed_version }}</code></td>
@@ -165,13 +165,13 @@
             <table class="{% get_default_table_classes %} overflow-auto">
                     <tbody>
                     <tr>
-                            {% for status in system.mysql_table_status|slice:":1" %}
+                            {% for status in view.system.mysql_table_status|slice:":1" %}
                                     {% for key, value in status.items %}
                                             <th>{{ key }}</th>
                                     {% endfor %}
                             {% endfor %}
                     </tr>
-                    {% for status in system.mysql_table_status %}
+                    {% for status in view.system.mysql_table_status %}
                             <tr>
                                     {% for key, value in status.items %}
                                             <td>
@@ -206,7 +206,7 @@
             <h3 class="mt-4" id="system_django_settings">{% trans "Django settings" %}</h3>
             <table class="{% get_default_table_classes %} overflow-auto">
                     <tbody>
-                        {% for name, value in system.django_settings.items %}
+                        {% for name, value in view.system.django_settings.items %}
                             <tr>
                                     <td>{{ name }}</td>
                                     <td><code>{{ value }}</code></td>
@@ -218,7 +218,7 @@
             <h3 class="mt-4" id="system_env">{% trans "Environment variables" %}</h3>
             <table class="{% get_default_table_classes %} overflow-auto">
                     <tbody>
-                    {% for env in system.env %}
+                    {% for env in view.system.env %}
                             <tr>
                                     <td>{{ env.key }}</td>
                                     <td class="word-wrap"><code>{{ env.value }}</code></td>
@@ -236,7 +236,7 @@
                             <th>{% trans "Logger" %}</th>
                             <th>{% trans "Handlers" %}</th>
                     </tr>
-                    {% for logger in system.loggers %}
+                    {% for logger in view.system.loggers %}
                             <tr>
                                     <td>{{ logger.name }} </td>
                                     <td><code>{{ logger }}</code></td>
@@ -253,7 +253,7 @@
             {% sar_warning %}
             {% get_card_top %}
             <pre>
-            {{ system.load_average }}
+            {{ view.system.load_average }}
             </pre>
             {% get_card_bottom %}
 
@@ -261,7 +261,7 @@
             {% sar_warning %}
             {% get_card_top %}
             <pre>
-            {{ system.memory_usage }}
+            {{ view.system.memory_usage }}
             </pre>
             {% get_card_bottom %}
 
@@ -269,7 +269,7 @@
             {% sar_warning %}
             {% get_card_top %}
             <pre>
-            {{ system.cpu_usage }}
+            {{ view.system.cpu_usage }}
             </pre>
             {% get_card_bottom %}
 
@@ -277,7 +277,7 @@
             {% sar_warning %}
             {% get_card_top %}
             <pre>
-            {{ system.disk_io }}
+            {{ view.system.disk_io }}
             </pre>
             {% get_card_bottom %}
     </div>
