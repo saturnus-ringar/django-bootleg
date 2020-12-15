@@ -11,13 +11,13 @@ from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+from bootleg.conf import bootleg_settings
 from bootleg.system.git import GitData
 from bootleg.system.system import System
 from bootleg.utils import html as bootleg_html
 from bootleg.utils import strings
 from bootleg.utils.humanize import humanize_bytes as hb
-from bootleg.conf import bootleg_settings
-
+from bootleg.utils.utils import get_meta_class_value
 
 register = template.Library()
 
@@ -152,3 +152,11 @@ def render_many_to_one_objects(obj):
 
     return mark_safe(html)
 
+
+@register.simple_tag()
+def render_model_meta_value(model, attr):
+    value = get_meta_class_value(model, attr)
+    if value:
+        return value
+
+    return "-"

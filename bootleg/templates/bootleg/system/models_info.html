@@ -1,6 +1,22 @@
 {% extends bootleg_settings.ADMIN_TEMPLATE %}
-{% load i18n humanize %}
+{% load i18n humanize bootleg %}
 {% block content %}
+{% if view.editable_models %}
+    <h2>{% trans "Bootleg models" %}</h2>
+    {% for model in view.editable_models %}
+        <h4>{{ model.get_verbose_name }}</h4>
+        {# todo? list ALL Meta properties? #}
+        <h6>{% trans "Visible fields" %}</h6>
+        <code>{{ model.get_visible_fields }}</code>
+        <h6>{% trans "Autocomplete fields" %}</h6>
+        <code>{{ model.get_autocomplete_fields }}</code>
+        <h6>{% trans "Filter fields" %}</h6>
+        <code>{{ model.get_filter_field_names }}</code>
+        <h6>{% trans "Extra search fields" %}</h6>
+        <code>{% render_model_meta_value model "extra_search_fields" %}</code>
+    {% endfor %}
+{% endif %}
+
 {% if view.search_models %}
     <h2>{% trans "Searchable models" %}</h2>
     {% for model in view.search_models %}

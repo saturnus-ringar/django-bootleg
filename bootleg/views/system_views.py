@@ -4,7 +4,7 @@ from bootleg.system.system import System
 from django.utils.translation import ugettext as _
 
 from bootleg.system.git import GitData
-from bootleg.utils.models import get_search_models
+from bootleg.utils.models import get_search_models, get_editable_models
 from bootleg.views.base import StaffRequiredTemplateView, SuperuserRequiredTemplateView
 from bootleg.conf import bootleg_settings
 
@@ -33,3 +33,7 @@ class ModelsInfoView(SuperuserRequiredTemplateView):
 
     def search_models(self):
         return get_search_models()
+
+    def editable_models(self):
+        return get_editable_models()
+
