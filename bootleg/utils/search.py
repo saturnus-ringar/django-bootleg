@@ -1,7 +1,5 @@
 from elasticsearch_dsl import Q
 
-from bootleg.utils.models import get_search_models
-
 
 # an initial start ... to be ... improved
 class QueryBuilder:
@@ -23,6 +21,9 @@ class QueryBuilder:
 
 
 def get_document_by_index(index):
+    # circular imports :|
+    from bootleg.utils.models import get_search_models
+
     for model in get_search_models():
         doc = model.get_search_document()
         if doc and doc._index._name == index:

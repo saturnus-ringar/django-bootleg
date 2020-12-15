@@ -1,5 +1,4 @@
 from django.core.management import BaseCommand
-from elasticsearch_dsl import Q
 
 from bootleg.utils.search import get_document_by_index, QueryBuilder
 

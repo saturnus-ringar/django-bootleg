@@ -11,6 +11,7 @@ from djangoql.queryset import apply_search
 from djangoql.schema import DjangoQLSchema
 
 from bootleg.conf import bootleg_settings
+from bootleg.utils.search import QueryBuilder
 from bootleg.utils.utils import get_meta_class_value
 from django_elasticsearch_dsl.registries import registry
 
@@ -131,8 +132,7 @@ class ModelSearcher:
     def elastic_search(self):
         if not self.es_limit:
             raise ValueError("Can't (elastic) search without a search limit (es_limit).")
-        results = self.document.search().filter("multi_match", query=self.query,
-                                                       fields=self.document.Django.fields)[:self.es_limit]
+        results = self.document.search().query(QueryBuilder(self.model, self.query).get_filter())[:self.es_limit]
         self.search_results = SearchResults(results)
         self.queryset = results.to_queryset()
 
