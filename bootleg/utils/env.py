@@ -75,6 +75,7 @@ def use_elastic_search():
 
     return True
 
+
 # https://stackoverflow.com/a/42580137
 def is_venv():
     return (hasattr(sys, 'real_prefix') or
