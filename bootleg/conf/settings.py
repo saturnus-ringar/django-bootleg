@@ -3,6 +3,7 @@ import logging
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.db import connection
 
 from bootleg.system import file_system
 
@@ -159,6 +160,7 @@ class Settings:
         self.add_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
         self.add_setting("PROJECT_ABBR", None)
         self.add_setting("AUTOCOMPLETE_LIMIT", 50)
+        self.add_setting("DB_BACKEND", connection.vendor)
 
     def add_setting(self, attribute, default=None, required=False):
         value = get_setting(attribute, default, required=required)
