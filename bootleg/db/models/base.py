@@ -23,7 +23,7 @@ from bootleg.logging import logging
 from bootleg.utils import strings
 from bootleg.utils.lists import add_unique
 from bootleg.utils.models import get_foreign_key_field
-from bootleg.utils.utils import get_meta_class_value
+from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
 
 
 ##########################################
@@ -99,6 +99,10 @@ class BaseModel(models.Model):
             pass
 
         return cls.is_valid_foreign_field(field_name)
+
+    @classmethod
+    def is_publicly_listed(cls):
+        return meta_class_value_is_true(cls, "public_listing")
 
     @classmethod
     def get_meta_value(cls, attr):

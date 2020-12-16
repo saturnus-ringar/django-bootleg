@@ -1,16 +1,19 @@
+from django.core.exceptions import PermissionDenied
 from jsonview.views import JsonView
 
+from bootleg.conf import bootleg_settings
 from bootleg.utils import models
 from bootleg.utils.models import ModelSearcher
 from bootleg.utils.utils import get_attr__
-from bootleg.views.base import StaffRequiredView
-from bootleg.conf import bootleg_settings
 
 
-class ModelAutoCompleteView(StaffRequiredView, JsonView):
+class ModelAutoCompleteView(JsonView):
 
     def dispatch(self, request, *args, **kwargs):
         self.model = models.get_editable_by_name(kwargs["model_name"])
+        if not self.model.is_publicly_listed() and not self.request.user.is_staff:
+            # this one is not public... no good
+            raise PermissionDenied()
         return super().dispatch(request, *args, **kwargs)
 
 
