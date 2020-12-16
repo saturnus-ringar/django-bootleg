@@ -4,6 +4,7 @@ import re
 
 from django.utils.translation import ugettext as _
 from bootleg.conf import bootleg_settings
+from bootleg.utils.utils import meta_class_value_is_true
 
 
 def strip_tags(html):
@@ -30,9 +31,16 @@ def display_in_menu(model, create=False):
         return True
 
 
+def display_model(request, model):
+    if request.user.is_staff or getattr(model["meta"], "public_listing", None) is True:
+        return True
+
+    return False
+
+
 def get_main_navigation(request):
     html = '<ul class="nav navbar-nav mr-auto float-left">'
-    if request.user.is_staff and request.editable_models:
+    if request.editable_models:
         list_output = False
         list_html = ""
         if bootleg_settings.EDITABLE_IN_DROPDOWN:
@@ -40,31 +48,35 @@ def get_main_navigation(request):
             list_html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_list" data-toggle="dropdown"'
             list_html += ' aria-haspopup="true" aria-expanded="false">%s</a>\n' % _("List")
             list_html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
+
         for model in request.editable_models:
-            if not bootleg_settings.EDITABLE_IN_DROPDOWN:
-                # no dropdown, indeed
-                list_html += '<li class="nav-item">'
-            # dicts here - for the templates since they can't access _meta
-            if display_in_menu(model):
-                css_class = "dropdown-item"
+            dx(model)
+            if display_model(request, model):
                 if not bootleg_settings.EDITABLE_IN_DROPDOWN:
-                    css_class = "nav-link"
-                list_html += '<a class="%s" href="%s">%s</a>\n' % (css_class,
-                reverse("bootleg:list_view", args=[model["meta"].model_name]),
-                model["meta"].verbose_name_plural)
-                list_output = True
-            if not bootleg_settings.EDITABLE_IN_DROPDOWN:
+                    # no dropdown, indeed
+                    list_html += '<li class="nav-item">'
+                # dicts here - for the templates since they can't access _meta
+                if display_in_menu(model):
+                    css_class = "dropdown-item"
+                    if not bootleg_settings.EDITABLE_IN_DROPDOWN:
+                        css_class = "nav-link"
+                    list_html += '<a class="%s" href="%s">%s</a>\n' % (css_class,
+                    reverse("bootleg:list_view", args=[model["meta"].model_name]),
+                    model["meta"].verbose_name_plural)
+                    list_output = True
+                if not bootleg_settings.EDITABLE_IN_DROPDOWN:
+                    list_html += '</li>'
+
+            if bootleg_settings.EDITABLE_IN_DROPDOWN:
+                list_html += '</div>'
                 list_html += '</li>'
 
-        if bootleg_settings.EDITABLE_IN_DROPDOWN:
-            list_html += '</div>'
-            list_html += '</li>'
-
-        if not list_output:
-            list_html = ""
+            if not list_output:
+                list_html = ""
 
         html += list_html
 
+    if request.user.is_staff:
         create_output = False
         create_html = '<li class="nav-item dropdown">\n'
         create_html += '<a class="nav-link dropdown-toggle" href="#" id="editable_models_create" data-toggle="dropdown"'
