@@ -148,6 +148,11 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_search_field_names(cls):
+        # if we have explicit search_fields, just return them
+        search_fields = get_meta_class_value(cls, "search_fields")
+        if search_fields:
+            return search_fields
+
         classes = [CharField, EmailField, models.TextField]
         fields = []
         for field in cls._meta.fields:

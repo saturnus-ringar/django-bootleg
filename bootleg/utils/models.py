@@ -17,6 +17,14 @@ from bootleg.utils.utils import get_meta_class_value
 from django_elasticsearch_dsl.registries import registry
 
 
+# https://stackoverflow.com/a/44206637/9390372
+def lazy_bulk_fetch(max_obj, max_count, fetch_func, start=0):
+    counter = start
+    while counter < max_count:
+        yield fetch_func()[counter:counter + max_obj]
+        counter += max_obj
+
+
 # https://stackoverflow.com/a/48264821/9390372
 class SearchResults(LazyObject):
 
