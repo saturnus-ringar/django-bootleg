@@ -1,4 +1,5 @@
 import os
+from pprint import pprint
 
 from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level, ConfigurationError
 from django.conf import settings
@@ -19,7 +20,6 @@ BOOTLEG_SETTINGS_IMPORTED = True
 
 if not settings.is_overridden("AUTHENTICATION_BACKENDS"):
     AUTHENTICATION_BACKENDS = ("bootleg.backends.EmailOrUsernameModelBackend",)
-
 
 #####################################################
 # django settings
@@ -61,22 +61,16 @@ if not settings.is_overridden("STATIC_URL"):
 if not settings.is_overridden("MEDIA_URL"):
     MEDIA_URL = "/media/"
 
+#####################################################
+# elastic search
+#####################################################
 
-settings.INSTALLED_APPS += [
-    # bootleg requirements
-    'compressor',
-    'crispy_forms',
-    'debug_toolbar',
-    'django_extensions',
-    'djangoql',
-    'django_user_agents',
-    'django_tables2',
-    'bootleg',
-    # elastic search
-    'django_elasticsearch_dsl',
-    # django admin - must be after bootleg (for template-overriding)
-    'django.contrib.admin',
-]
+if not settings.is_overridden("ELASTICSEARCH_DSL"):
+    ELASTICSEARCH_DSL = {
+        'default': {
+            'hosts': 'localhost:9200'
+        },
+    }
 
 #####################################################
 # static files
@@ -92,17 +86,6 @@ if not settings.is_overridden("STATICFILES_FINDERS"):
         # django compress
         'compressor.finders.CompressorFinder',
     )
-
-#####################################################
-# elastic search
-#####################################################
-
-if not settings.is_overridden("ELASTICSEARCH_DSL"):
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': 'localhost:9200'
-        },
-    }
 
 
 #####################################################
