@@ -10,24 +10,25 @@ def error_handler(request, template, status_code):
     return response
 
 
-def log(status_code, request):
+def log(status_code, request, exception):
     logger_name = "bootleg.errors_%s" % str(status_code)
-    logging.get_logger("errors/%s" % str(status_code), logger_name).error("%s on the URL: %s" %
-                                                             (str(status_code), request.get_full_path()))
+    logger = logging.get_logger("errors/%s" % str(status_code), logger_name)
+    logger.error("%s on the URL: %s" % (str(status_code), request.get_full_path()))
+    logger.exception(exception)
 
 
 def handler400(request, exception):
-    log(400, request)
+    log(400, request, exception)
     return error_handler(request, bootleg_settings.ERROR_400_TEMPLATE, 400)
 
 
 def handler403(request, exception):
-    log(403, request)
+    log(403, request, exception)
     return error_handler(request, bootleg_settings.ERROR_403_TEMPLATE, 403)
 
 
 def handler404(request, exception):
-    log(404, request)
+    log(404, request, exception)
     return error_handler(request, bootleg_settings.ERROR_404_TEMPLATE, 404)
 
 
