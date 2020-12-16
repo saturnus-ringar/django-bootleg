@@ -62,8 +62,6 @@ TEMPLATES = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = ('bootleg.backends.EmailOrUsernameModelBackend',)
-
 # a Django setting that's used
 LOGIN_REDIRECT_URL = 'url-string-that-will-be-reversed'
 
