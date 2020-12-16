@@ -27,8 +27,10 @@ def display_in_menu(model, create=False):
     if create and getattr(model["meta"], "disable_create_update", None) is not True:
         return False
 
-    if not getattr(model["meta"], "exclude_from_menu", None) is True:
+    if getattr(model["meta"], "exclude_from_menu", None) is True:
         return False
+
+    return True
 
 
 def display_model(request, model):
