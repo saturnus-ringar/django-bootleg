@@ -1,6 +1,13 @@
 from itertools import groupby
 
 
+def is_empty_list(var):
+    if isinstance(var, list) and len(var) == 0:
+        return True
+
+    return False
+
+
 # https://stackoverflow.com/a/3844832/9390372
 def all_equal(iterable):
     g = groupby(iterable)

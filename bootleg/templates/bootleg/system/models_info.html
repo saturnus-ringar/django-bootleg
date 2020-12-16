@@ -7,11 +7,11 @@
         <h4>{{ model.get_verbose_name }}</h4>
         {# todo? list ALL Meta properties? #}
         <h6>{% trans "Visible fields" %}</h6>
-        <code>{{ model.get_visible_fields }}</code>
+        <code>{% render_value model.get_visible_fields %}</code>
         <h6>{% trans "Autocomplete fields" %}</h6>
-        <code>{{ model.get_autocomplete_fields }}</code>
+        <code>{% render_value model.get_autocomplete_fields %}</code>
         <h6>{% trans "Filter fields" %}</h6>
-        <code>{{ model.get_filter_field_names }}</code>
+        <code>{% render_value model.get_filter_field_names %}</code>
         <h6>{% trans "Extra search fields" %}</h6>
         <code>{% render_model_meta_value model "extra_search_fields" %}</code>
     {% endfor %}

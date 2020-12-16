@@ -17,10 +17,12 @@ from bootleg.system.system import System
 from bootleg.utils import html as bootleg_html
 from bootleg.utils import strings
 from bootleg.utils.humanize import humanize_bytes as hb
+from bootleg.utils.lists import is_empty_list
 from bootleg.utils.utils import get_meta_class_value
 
 register = template.Library()
 
+BLANK_VALUE = "-"
 
 @register.simple_tag
 def debug_bl(string):
@@ -154,9 +156,16 @@ def render_many_to_one_objects(obj):
 
 
 @register.simple_tag()
+def render_value(value):
+    if not value:
+        return BLANK_VALUE
+    return value
+
+
+@register.simple_tag()
 def render_model_meta_value(model, attr):
     value = get_meta_class_value(model, attr)
-    if value:
-        return value
+    if not value:
+        return BLANK_VALUE
 
-    return "-"
+    return value
