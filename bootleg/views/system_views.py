@@ -37,3 +37,7 @@ class ModelsInfoView(SuperuserRequiredTemplateView):
     def editable_models(self):
         return get_editable_models()
 
+
+class DebugView(SuperuserRequiredTemplateView):
+    page_title = _("Debug")
+    template_name = "bootleg/system/debug.html"

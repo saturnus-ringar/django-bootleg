@@ -3,6 +3,7 @@
 <div class="row">
     <div class="col-2">
         <div class="list-group fixed-menu">
+            <a class="list-group-item list-group-item-action anchor" data-target="#current_time" href="#">{% trans "Current time" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_uptime" href="#">{% trans "Uptime" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_mysql" href="#">{% trans "MySQL" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_log_dirs" href="#">{% trans "Log dirs" %}</a>
@@ -22,6 +23,8 @@
         </div>
     </div>
     <div class="col-10">
+            <h3 class="mt-4" id="system_uptime">{% trans "Current time" %}</h3>
+            {% now "DATETIME_FORMAT" %}
             <h3 class="mt-4" id="system_uptime">{% trans "Uptime" %}</h3>
             <table class="{% get_default_table_classes %} overflow-auto">
                     <tr>

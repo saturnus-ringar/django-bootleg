@@ -1,0 +1,12 @@
+{% extends bootleg_settings.ADMIN_TEMPLATE %}
+{% load static i18n %}
+{% block content %}
+    <h4 class="mt-4">DATETIME_FORMAT</h4>
+    {% now "DATETIME_FORMAT" %}
+    <h4>SHORT_DATETIME_FORMAT</h4>
+    {% now "SHORT_DATETIME_FORMAT" %}
+    <h4>SHORT_DATETIME_FORMAT</h4>
+    {% now "SHORT_DATETIME_FORMAT" %}
+    <h4>SHORT_DATE_FORMAT</h4>
+    {% now "SHORT_DATE_FORMAT" %}
+{% endblock %}

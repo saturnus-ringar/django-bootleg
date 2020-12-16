@@ -128,6 +128,7 @@ def get_right_navigation(request):
         html += get_dropdown_item(reverse("bootleg:system_info"), _("System"))
         html += get_dropdown_item(reverse("bootleg:deploy_info"), _("Deployment"))
         html += get_dropdown_item(reverse("bootleg:models_info"), _("Models"))
+        html += get_dropdown_item(reverse("bootleg:debug"), _("Debug"))
 
     if not request.user.is_authenticated:
         html += get_nav_item(reverse("bootleg:login"), _("Login"))

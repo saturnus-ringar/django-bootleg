@@ -1,4 +1,4 @@
-from bootleg.views.system_views import DeployInfoView, SystemInfoView, ModelsInfoView
+from bootleg.views.system_views import DeployInfoView, SystemInfoView, ModelsInfoView, DebugView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -81,10 +81,11 @@ urlpatterns = [
     path("djangoql/", DjangoQLHelpView.as_view(page_title=_("DjangoQL")), name="djangoql_help"),
 
     #######################################
-    # deploy/system info
+    # deploy/system/debug info
     #######################################
     path("deploy/info/", DeployInfoView.as_view(), name="deploy_info"),
     path("system/info/", SystemInfoView.as_view(), name="system_info"),
+    path("system/debug/", DebugView.as_view(), name="debug"),
 
     #######################################
     # error page test
