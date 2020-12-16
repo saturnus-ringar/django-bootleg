@@ -28,7 +28,7 @@ def display_in_menu(model, create=False):
         return False
 
     if not getattr(model["meta"], "exclude_from_menu", None) is True:
-        return True
+        return False
 
 
 def display_model(request, model):
