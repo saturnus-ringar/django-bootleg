@@ -112,7 +112,7 @@ class ModelSearcher:
             # ugly return, indeed!
             return
 
-        if not use_elastic_search():
+        if use_elastic_search():
             self.document = self.model.get_search_document()
             if self.document:
                 return self.elastic_search()
