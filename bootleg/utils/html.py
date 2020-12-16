@@ -50,7 +50,6 @@ def get_main_navigation(request):
             list_html += '<div class="dropdown-menu" aria-labelledby="editable_models_list">\n'
 
         for model in request.editable_models:
-            dx(model)
             if display_model(request, model):
                 if not bootleg_settings.EDITABLE_IN_DROPDOWN:
                     # no dropdown, indeed
