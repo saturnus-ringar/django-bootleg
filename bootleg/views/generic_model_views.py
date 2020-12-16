@@ -16,11 +16,12 @@ from bootleg.utils.html import get_default_table_class_string
 from bootleg.utils.http import get_model_args_from_request
 from bootleg.utils.models import ModelSearcher, GenericDjangoQLSchema, SearchResults
 from bootleg.utils.tables import TableFactory
-from bootleg.utils.utils import get_meta_class_value
+from bootleg.utils.users import user_is_staff
+from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
 
 
-class GenericModelView(StaffRequiredView):
+class GenericModelView:
     # set this so django doesn't crash with a ... "without the 'fields' attribute is prohibited."
     fields = ["id"]
 
@@ -38,6 +39,9 @@ class GenericModelView(StaffRequiredView):
         if isinstance(self, GenericModelCreateView) or isinstance(self, GenericModelUpdateView):
             if get_meta_class_value(self.model, "disable_create_update") is True:
                 raise PermissionDenied()
+
+        if not meta_class_value_is_true(self.model, "public_listing") and not user_is_staff(self.request):
+            raise PermissionDenied()
 
         self.fields = self.model._meta.visible_fields
         return super().dispatch(request, *args, **kwargs)

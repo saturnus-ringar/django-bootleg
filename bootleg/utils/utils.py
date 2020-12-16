@@ -26,6 +26,14 @@ def get_meta_class_value(clazz, value):
     return None
 
 
+def meta_class_value_is_true(clazz, value):
+    value = get_meta_class_value(clazz, value)
+    if value and value is True:
+        return True
+
+    return False
+
+
 def get_class(module, clazz):
     return getattr(importlib.import_module(module), clazz)
 
