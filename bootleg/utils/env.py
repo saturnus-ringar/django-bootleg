@@ -1,6 +1,8 @@
 import os
 import sys
 
+from django.db import connection
+
 from bootleg.system.shell import run_command
 from django.conf import settings
 from bootleg.conf import bootleg_settings
@@ -74,6 +76,13 @@ def use_elastic_search():
         return False
 
     return True
+
+
+def is_mysql():
+    if connection.vendor == "mysql":
+        return True
+
+    return False
 
 
 # https://stackoverflow.com/a/42580137

@@ -23,7 +23,7 @@ from django.db import connection, OperationalError
 from bootleg.db import db
 from bootleg.logging import logging
 from bootleg.system import shell, file_system, commands, nix
-from bootleg.utils import humanize
+from bootleg.utils import humanize, env
 
 
 class Disk:
@@ -164,41 +164,40 @@ class System:
         return cleaned_data
 
     def get_mysql_table_status(self):
-        try:
+        if env.is_mysql():
             with connection.cursor() as cursor:
                 cursor.execute("SHOW TABLE STATUS")
                 return db.dictfetchall(cursor)
-        except OperationalError:
-            return None
+        return None
 
     def get_mysql_version(self):
-        try:
+        if env.is_mysql():
             with connection.cursor() as cursor:
                 cursor.execute("SELECT VERSION()")
                 row = cursor.fetchone()
             return "MySQL %s" % row
-        except OperationalError:
-            return None
+
+        return None
 
     def get_db_size(self):
-        try:
+        if env.is_mysql():
             with connection.cursor() as cursor:
                 cursor.execute("SELECT sum(round(data_length + index_length)) as 'bytes' FROM "
                                "information_schema.TABLES WHERE table_schema = '%s'" %
                                getattr(settings, "DATABASES")["default"]["NAME"])
                 return int(cursor.fetchone()[0])
-        except OperationalError:
-            return None
+
+        return None
 
     # this doesn't work very well on large tables, it seems
     def get_number_of_db_rows(self):
-        try:
+        if env.is_mysql():
             with connection.cursor() as cursor:
                 cursor.execute("SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '%s'" %
                                getattr(settings, "DATABASES")["default"]["NAME"])
                 return int(cursor.fetchone()[0])
-        except OperationalError:
-            return None
+
+        return None
 
     def get_project_path(self):
         try:

@@ -14,15 +14,27 @@ class NotWritableError(Exception):
 BOOTLEG_SETTINGS_IMPORTED = True
 
 #####################################################
+# custom thingies
+#####################################################
+
+if not settings.is_overridden("AUTHENTICATION_BACKENDS"):
+    AUTHENTICATION_BACKENDS = ("bootleg.backends.EmailOrUsernameModelBackend",)
+
+
+#####################################################
 # django settings
 #####################################################
+
+SITE_ID = 1
 
 if not settings.is_overridden("INTERNAL_IPS"):
     INTERNAL_IPS = [
         "127.0.0.1",
     ]
 
-SITE_ID = 1
+if not settings.is_overridden("ALLOWED_HOSTS"):
+    ALLOWED_HOSTS = ["*"]
+
 
 if not settings.is_overridden("DATETIME_FORMAT"):
     DATETIME_FORMAT = "Y-m-d H:i:s"
@@ -50,12 +62,25 @@ if not settings.is_overridden("MEDIA_URL"):
     MEDIA_URL = "/media/"
 
 
-if not settings.is_overridden("ELASTICSEARCH_DSL"):
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': 'localhost:9200'
-        },
-    }
+settings.INSTALLED_APPS += [
+    # bootleg requirements
+    'compressor',
+    'crispy_forms',
+    'debug_toolbar',
+    'django_extensions',
+    'djangoql',
+    'django_user_agents',
+    'django_tables2',
+    'bootleg',
+    # elastic search
+    'django_elasticsearch_dsl',
+    # django admin - must be after bootleg (for template-overriding)
+    'django.contrib.admin',
+]
+
+#####################################################
+# static files
+#####################################################
 
 if not settings.is_overridden("STATICFILES_FINDERS"):
     STATICFILES_FINDERS = (
@@ -67,6 +92,18 @@ if not settings.is_overridden("STATICFILES_FINDERS"):
         # django compress
         'compressor.finders.CompressorFinder',
     )
+
+#####################################################
+# elastic search
+#####################################################
+
+if not settings.is_overridden("ELASTICSEARCH_DSL"):
+    ELASTICSEARCH_DSL = {
+        'default': {
+            'hosts': 'localhost:9200'
+        },
+    }
+
 
 #####################################################
 # django tables 2

@@ -5,13 +5,17 @@
         <div class="list-group fixed-menu">
             <a class="list-group-item list-group-item-action anchor" data-target="#current_time" href="#">{% trans "Current time" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_uptime" href="#">{% trans "Uptime" %}</a>
-            <a class="list-group-item list-group-item-action anchor" data-target="#system_mysql" href="#">{% trans "MySQL" %}</a>
+            {% if bootleg_setttings.DB_BACKEND == "mysql" %}
+                <a class="list-group-item list-group-item-action anchor" data-target="#system_mysql" href="#">{% trans "MySQL" %}</a>
+            {% endif %}
             <a class="list-group-item list-group-item-action anchor" data-target="#system_log_dirs" href="#">{% trans "Log dirs" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_platform" href="#">{% trans "Platform" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_python" href="#">{% trans "Python/libs" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_file_and_dirs" href="#">{% trans "Files and dirs" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_packages" href="#">{% trans "Packages" %}</a>
-            <a class="list-group-item list-group-item-action anchor" data-target="#system_db_tables" href="#">{% trans "DB Tables" %}</a>
+            {% if bootleg_setttings.DB_BACKEND == "mysql" %}
+                <a class="list-group-item list-group-item-action anchor" data-target="#system_db_tables" href="#">{% trans "DB Tables" %}</a>
+            {% endif %}
             <a class="list-group-item list-group-item-action anchor" data-target="#system_bootleg_settings" href="#">{% trans "bootleg settings" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_django_settings" href="#">{% trans "Django settings" %}</a>
             <a class="list-group-item list-group-item-action anchor" data-target="#system_env" href="#">{% trans "Env. variables" %}</a>
@@ -39,33 +43,33 @@
             </pre>
             {% get_card_bottom %}
 
-            <h3 class="mt-4" id="system_mysql">{% trans "MySQL info" %}</h3>
-
-            <table class="{% get_default_table_classes %} overflow-auto">
-                    <tbody>
-                            <tr>
-                                    <td>{% trans "Version" %}</td>
-                                    <td><code>{{ view.system.mysql_version }}</code></td>
-                            </tr>
-                            <tr>
-                                    <td>{% trans "DB-size" %}</td>
-                                    <td>
-                                            <a class="anchor" data-target="#system_db_tables" href="#">
-                                                    {{ view.system.db_size|humanize_bytes }}
-                                            </a>
-                                    </td>
-                            </tr>
-                            <tr>
-                                    <td>{% trans "Number of rows (not 100% accurate)" %}</td>
-                                    <td>
-                                            <a class="anchor" data-target="#system_db_tables" href="#">
-                                                    {{ view.system.get_number_of_db_rows|intcomma }}
-                                            </a>
-                                    </td>
-                            </tr>
-                    </tbody>
-            </table>
-
+            {% if bootleg_setttings.DB_BACKEND == "mysql" %}
+                    <h3 class="mt-4" id="system_mysql">{% trans "MySQL info" %}</h3>
+                    <table class="{% get_default_table_classes %} overflow-auto">
+                            <tbody>
+                                    <tr>
+                                            <td>{% trans "Version" %}</td>
+                                            <td><code>{{ view.system.mysql_version }}</code></td>
+                                    </tr>
+                                    <tr>
+                                            <td>{% trans "DB-size" %}</td>
+                                            <td>
+                                                    <a class="anchor" data-target="#system_db_tables" href="#">
+                                                            {{ view.system.db_size|humanize_bytes }}
+                                                    </a>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                            <td>{% trans "Number of rows (not 100% accurate)" %}</td>
+                                            <td>
+                                                    <a class="anchor" data-target="#system_db_tables" href="#">
+                                                            {{ view.system.get_number_of_db_rows|intcomma }}
+                                                    </a>
+                                            </td>
+                                    </tr>
+                            </tbody>
+                    </table>
+            {% endif %}
             <h3 class="mt-4" id="system_log_dirs" >{% trans "Log dirs" %}</h3>
             {% get_card_top %}
             {% if view.system.apache_log_dir_info %}
@@ -164,34 +168,35 @@
                     </tbody>
             </table>
 
-            <h4 class="mt-4" id="system_db_tables">{% trans "DB Tables (not 100% accurate counts)" %}</h4>
-            <table class="{% get_default_table_classes %} overflow-auto">
-                    <tbody>
-                    <tr>
-                            {% for status in view.system.mysql_table_status|slice:":1" %}
-                                    {% for key, value in status.items %}
-                                            <th>{{ key }}</th>
-                                    {% endfor %}
-                            {% endfor %}
-                    </tr>
-                    {% for status in view.system.mysql_table_status %}
+            {% if bootleg_setttings.DB_BACKEND == "mysql" %}
+                            <h4 class="mt-4" id="system_db_tables">{% trans "DB Tables (not 100% accurate counts)" %}</h4>
+                    <table class="{% get_default_table_classes %} overflow-auto">
+                            <tbody>
                             <tr>
-                                    {% for key, value in status.items %}
-                                            <td>
-                                                    {% if key != "Rows" %}
-                                                            {{ value|humanize_bytes }}
-                                                    {% elif key == "Rows" %}
-                                                            {{ value|intcomma }}
-                                                    {% else %}
-                                                            {{ value }}
-                                                    {% endif %}
-                                            </td>
+                                    {% for status in view.system.mysql_table_status|slice:":1" %}
+                                            {% for key, value in status.items %}
+                                                    <th>{{ key }}</th>
+                                            {% endfor %}
                                     {% endfor %}
                             </tr>
-                    {% endfor %}
-                    </tbody>
-            </table>
-
+                            {% for status in view.system.mysql_table_status %}
+                                    <tr>
+                                            {% for key, value in status.items %}
+                                                    <td>
+                                                            {% if key != "Rows" %}
+                                                                    {{ value|humanize_bytes }}
+                                                            {% elif key == "Rows" %}
+                                                                    {{ value|intcomma }}
+                                                            {% else %}
+                                                                    {{ value }}
+                                                            {% endif %}
+                                                    </td>
+                                            {% endfor %}
+                                    </tr>
+                            {% endfor %}
+                            </tbody>
+                    </table>
+            {% endif %}
             <h3 class="mt-4" id="system_bootleg_settings">{% trans "bootleg settings" %}</h3>
             <table class="{% get_default_table_classes %} overflow-auto">
                     <tbody>
