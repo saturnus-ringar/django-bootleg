@@ -133,11 +133,29 @@ function initGenericAutocompletes() {
     });
 }
 
-function highlightSearchResults() {
+function getQueryHighlightValue() {
     var query = getURLParameter("q");
+    if(query != null) {
+        return query;
+    }
+
+    query = getURLParameter("dql");
+    if(query != null) {
+        return extractQuery(query);
+
+    }
+    return null;
+}
+
+function highlightSearchResults() {
+    var query = getQueryHighlightValue();
+    if(query == null) {
+        return;
+    }
+
     for(var key in getParams(window.location.href)) {
         $(this).highlight(getURLParameter(key));
-        var value = getURLParameter(key);
+        var value = extractQuery(getURLParameter(key));
         $(".table-container tbody tr").each(function() {
             $(this).find("td").each(function() {
                 var fieldName = $(this).data("field-name");
@@ -324,6 +342,15 @@ function getSerializedForms(formIds) {
         }
     }
     return serialized;
+}
+
+// https://stackoverflow.com/a/19793440/9390372
+function extractQuery(string) {
+    var match = string.match(/"((?:\\.|[^"\\])*)"/);
+    if(match != null) {
+        return match[0].replaceAll('"', "");
+    }
+    return string;
 }
 
 function getSerializedFormWithoutEmptyValues(formId) {
