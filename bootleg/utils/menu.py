@@ -1,13 +1,8 @@
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-
-from bootleg.conf import bootleg_settings
 from django.utils.translation import ugettext as _
 
-############################################
-# dropdowns
-############################################
-from bootleg.logging.logging import log_exception
+from bootleg.conf import bootleg_settings
 from bootleg.utils.models import display_model_in_menu
 
 

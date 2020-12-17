@@ -4,10 +4,9 @@ import os
 import sys
 import traceback
 import warnings
-from pprint import pformat, pprint
+from pprint import pprint
 
 from ipware import get_client_ip
-
 from bootleg.conf import bootleg_settings
 from bootleg.conf.settings import check_log_level
 from bootleg.logging.handlers import StreamHandler, FileHandler

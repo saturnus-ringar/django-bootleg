@@ -1,11 +1,11 @@
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext as _
 
 from bootleg.system.system import System
-from django.utils.translation import ugettext as _
 
 from bootleg.system.git import GitData
 from bootleg.utils.models import get_search_models, get_editable_models
-from bootleg.views.base import StaffRequiredTemplateView, SuperuserRequiredTemplateView
+from bootleg.views.base import SuperuserRequiredTemplateView
 from bootleg.conf import bootleg_settings
 
 
