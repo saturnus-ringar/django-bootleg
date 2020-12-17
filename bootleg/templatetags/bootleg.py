@@ -14,10 +14,9 @@ from django.utils.translation import ugettext as _
 from bootleg.conf import bootleg_settings
 from bootleg.system.git import GitData
 from bootleg.system.system import System
-from bootleg.utils import html as bootleg_html
 from bootleg.utils import strings
 from bootleg.utils.humanize import humanize_bytes as hb
-from bootleg.utils.lists import is_empty_list
+from bootleg.utils.menu import get_right_navigation, get_main_navigation
 from bootleg.utils.utils import get_meta_class_value
 
 register = template.Library()
@@ -51,19 +50,19 @@ def humanize_bytes(value):
 
 @register.simple_tag
 def render_navigation(request):
-    html = bootleg_html.get_main_navigation(request)
-    html += bootleg_html.get_right_navigation(request)
+    html = get_main_navigation(request)
+    #html += get_right_navigation(request)
     return mark_safe(html)
 
 
 @register.simple_tag()
 def render_main_navigation(request):
-    return mark_safe(bootleg_html.get_main_navigation(request))
+    return mark_safe(get_main_navigation(request))
 
 
 @register.simple_tag
 def render_right_navigation(request):
-    return mark_safe(bootleg_html.get_right_navigation(request))
+    return mark_safe(get_right_navigation(request))
 
 
 @register.simple_tag

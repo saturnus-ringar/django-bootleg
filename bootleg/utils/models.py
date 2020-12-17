@@ -13,7 +13,7 @@ from djangoql.schema import DjangoQLSchema
 from bootleg.conf import bootleg_settings
 from bootleg.utils.env import use_elastic_search
 from bootleg.utils.search import QueryBuilder
-from bootleg.utils.utils import get_meta_class_value
+from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
 from django_elasticsearch_dsl.registries import registry
 
 
@@ -220,6 +220,7 @@ def get_editable_models_dict():
 def get_model_dict(model):
     model_dict = dict()
     model_dict["meta"] = model._meta
+    model_dict["class"] = model
     if hasattr(model._meta, "create_url"):
         model_dict["create_url"] = model._meta.create_url
     else:
@@ -292,3 +293,19 @@ def get_order_by(model):
         return ordering
     return ["-id"]
 
+
+def display_model_in_menu(model, request, create=False):
+    # the model is a dict here since it's used in templates
+    if meta_class_value_is_true(model["class"], "exclude_from_menu"):
+        # this one is configured to be excluded from the menu
+        return False
+
+    if create and not model["class"].is_allowed_to_edit(request.user):
+        # creation and the user is not allowed to edit
+        return False
+
+    if not create and not model["class"].is_allowed_to_view(request.user):
+        # listing and the user is not allowed to view this
+        return False
+
+    return True

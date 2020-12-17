@@ -16,9 +16,8 @@ from bootleg.utils.html import get_default_table_class_string
 from bootleg.utils.http import get_model_args_from_request
 from bootleg.utils.models import ModelSearcher, GenericDjangoQLSchema, SearchResults
 from bootleg.utils.tables import TableFactory
-from bootleg.utils.users import user_is_staff
-from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
-from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView, StaffRequiredView
+from bootleg.utils.utils import get_meta_class_value
+from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView
 
 
 class GenericModelView:
@@ -37,11 +36,11 @@ class GenericModelView:
                 raise Http404("Could not find model.")
 
         if isinstance(self, GenericModelCreateView) or isinstance(self, GenericModelUpdateView):
-            if get_meta_class_value(self.model, "disable_create_update") is True:
-                raise PermissionDenied()
+            if not self.model.is_allowed_to_edit(self.request.user):
+                raise PermissionDenied("You don't have permission to edit this.")
 
-        if not meta_class_value_is_true(self.model, "public_listing") and not user_is_staff(self.request):
-            raise PermissionDenied()
+        if not self.model.is_allowed_to_view(self.request.user):
+            raise PermissionDenied(_("You don't have permission to view this."))
 
         self.fields = self.model._meta.visible_fields
         return super().dispatch(request, *args, **kwargs)

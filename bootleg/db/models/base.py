@@ -23,6 +23,7 @@ from bootleg.logging import logging
 from bootleg.utils import strings
 from bootleg.utils.lists import add_unique
 from bootleg.utils.models import get_foreign_key_field
+from bootleg.utils.users import user_is_staff
 from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
 
 
@@ -103,6 +104,23 @@ class BaseModel(models.Model):
     @classmethod
     def is_publicly_listed(cls):
         return meta_class_value_is_true(cls, "public_listing")
+
+    @classmethod
+    def is_allowed_to_view(cls, user):
+        if not meta_class_value_is_true(cls, "public_listing") and not user.is_staff:
+            return False
+
+        return True
+
+    @classmethod
+    def is_allowed_to_edit(cls, user):
+        if meta_class_value_is_true(cls, "disable_create_update"):
+            return False
+
+        if not user.is_staff:
+            return False
+
+        return True
 
     @classmethod
     def get_meta_value(cls, attr):
@@ -306,6 +324,10 @@ class BaseModel(models.Model):
     @classmethod
     def get_list_url(cls):
         return reverse("bootleg:list_view", args=[cls._meta.model_name])
+
+    @classmethod
+    def get_create_url(cls):
+        return reverse("bootleg:create_model", args=[cls._meta.model_name])
 
     @classmethod
     def get_autocomplete_url(self):

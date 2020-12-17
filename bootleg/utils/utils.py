@@ -1,5 +1,23 @@
 import importlib
 import inspect
+from io import StringIO
+
+from django.core.handlers.wsgi import WSGIRequest
+
+
+# https://gist.github.com/majgis/4164503
+
+
+def get_fake_request(path="/", user=None):
+    from bootleg.utils import models
+    from django.contrib.auth.models import AnonymousUser
+    req = WSGIRequest({
+          'REQUEST_METHOD': 'GET',
+          'PATH_INFO': path,
+          'wsgi.input': StringIO()})
+    req.user = AnonymousUser() if user is None else user
+    req.editable_models = models.get_editable_models_dict()
+    return req
 
 
 # there are probably easier ways of doing this?!
