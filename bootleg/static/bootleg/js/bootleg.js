@@ -211,6 +211,12 @@ $(document).on("click", '.element-remover', function(e) {
    $($(this).data("element-id")).remove();
 });
 
+// main search button
+$(document).on("click", '#main_search_button', function(e) {
+   e.preventDefault();
+   $("#bootleg_q_form").submit();
+});
+
 // object view loaders in them tables
 $(".object-view-loader").on("click", function(e) {
     e.preventDefault();

@@ -53,9 +53,12 @@ def sar_warning():
 
 
 @register.simple_tag
-def render_search_append():
+def render_search_append(id=None):
+    id_out = "main_search_button"
+    if id:
+        id_out = id
     html = '<div class="input-group-append">\n'
-    html += '<button class="btn btn-secondary" type="button">\n'
+    html += '<button class="btn btn-secondary" id="%s" type="button">\n' % id_out
     html += '<i class="fa fa-search"></i>\n'
     html += '</button>'
     html += '</div>'
