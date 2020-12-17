@@ -43,8 +43,8 @@ def get_nav_item(url, text, dropdown=False, count=None, target_blank=False):
     html += '<a class="nav-link" href="%s"%s>%s\n' % (url, target, text)
     if count:
         html += '<sup><span class="badge badge-pill badge-danger progress-bar-danger">%s</span></sup>' % count
-    html += '</li>\n'
     html += '</a>\n'
+    html += '</li>\n'
     return mark_safe(html)
 
 
