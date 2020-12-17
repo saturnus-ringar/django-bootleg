@@ -5,4 +5,4 @@ options.DEFAULT_NAMES = options.DEFAULT_NAMES + ("visible_fields", "filter_field
                                                  "extra_search_fields", "create_url", "exclude_from_menu",
                                                  "cloneable", "disable_create_update", "allow_deletion",
                                                  "prefetch_related", "autocomplete_fields", "sequence",
-                                                 "public_listing")
+                                                 "public_listing", "big_table")

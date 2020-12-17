@@ -91,6 +91,10 @@ function initSelect2s() {
 }
 
 function initGenericAutocomplete() {
+    if(Context.isBigTable != null && Context.isBigTable == "True") {
+        return;
+    }
+
     var input = $("input#id_q");
     if(!input.hasClass("generic-autocomplete")) {
         return;

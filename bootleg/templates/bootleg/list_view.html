@@ -52,16 +52,18 @@
         <script src="{% static 'djangoql/js/lib/lexer.js' %}"></script>
         <script src="{% static 'djangoql/js/lib/LRUCache.js' %}"></script>
         <script src="{% static 'djangoql/js/completion.js' %}"></script>
-        <script>
-        DjangoQL.DOMReady(function () {
-            new DjangoQL({
-                introspections: {{ introspections|safe }},
-                selector: 'textarea[name=dql]',
-                syntaxHelp: null,
-                autoResize: false,
-                syntaxHelp: "{% url 'bootleg:djangoql_help' %}",
+        {% if not model_class.is_big_table %}
+            <script>
+            DjangoQL.DOMReady(function () {
+                new DjangoQL({
+                    introspections: {{ introspections|safe }},
+                    selector: 'textarea[name=dql]',
+                    syntaxHelp: null,
+                    autoResize: false,
+                    syntaxHelp: "{% url 'bootleg:djangoql_help' %}",
+                });
             });
-        });
-        </script>
+            </script>
+        {% endif %}
     {% endcompress %}
 {% endblock %}

@@ -52,6 +52,7 @@ class GenericModelView:
         context = super().get_context_data(**kwargs)
         # can't access _meta in them templates...
         context["model"] = models.get_model_dict(self.model)
+        context["model_class"] = self.model
         return context
 
 
@@ -93,15 +94,21 @@ class GenericListView(GenericModelView, SingleTableView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        introspections = DjangoQLSchemaSerializer().serialize(
-            GenericDjangoQLSchema(self.model),
-        )
-        context["introspections"] = json.dumps(introspections)
         if self.model.get_search_field_names():
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
+
+        if not self.model.is_big_table():
+            # djangoql
+            introspections = DjangoQLSchemaSerializer().serialize(
+                GenericDjangoQLSchema(self.model),
+            )
+            context["introspections"] = json.dumps(introspections)
             context["dql_form"] = DQLSearchForm(self.request,model=self.model)
+
         if get_meta_class_value(self.model, "filter_fields"):
+            # filter forms
             context["filter_form"] = ModelFilterFormFactory(self.model, self.request).form
+
         return context
 
 

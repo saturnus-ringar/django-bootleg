@@ -8,20 +8,22 @@
             {% render_search_append %}
         </div>
     </form>
-    <p class="mt-2">
-        <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse"
-                data-target="#dql_search" aria-expanded="false" aria-controls="dql_search">
-        {% trans "Advanced search" %}
-        </button>
-    </p>
-    <div class="collapse {% if request.GET.dql %}show{% endif %}" id="dql_search">
-        <form id="bootleg_dql_form">
-            <div class="input-group w-50 mt-3">
-                {{ dql_form.dql }}
-                {% render_search_append %}
-            </div>
-        </form>
-    </div>
+    {% if dql_form %}}
+        <p class="mt-2">
+            <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse"
+                    data-target="#dql_search" aria-expanded="false" aria-controls="dql_search">
+            {% trans "Advanced search" %}
+            </button>
+        </p>
+        <div class="collapse {% if request.GET.dql %}show{% endif %}" id="dql_search">
+            <form id="bootleg_dql_form">
+                <div class="input-group w-50 mt-3">
+                    {{ dql_form.dql }}
+                    {% render_search_append %}
+                </div>
+            </form>
+        </div>
+    {% endif %}
 {% else %}
     {% if forms or form %}
         {% if bootleg_settings.WRAP_FORMS %}

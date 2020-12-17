@@ -23,7 +23,6 @@ from bootleg.logging import logging
 from bootleg.utils import strings
 from bootleg.utils.lists import add_unique
 from bootleg.utils.models import get_foreign_key_field
-from bootleg.utils.users import user_is_staff
 from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
 
 
@@ -69,6 +68,10 @@ class BaseModel(models.Model):
     def get_model_name(self):
         return self._meta.model_name
 
+    @classmethod
+    def is_big_table(cls):
+        return meta_class_value_is_true(cls, "big_table")
+
     ##############################
     # fields
     ##############################
@@ -102,31 +105,6 @@ class BaseModel(models.Model):
         return cls.is_valid_foreign_field(field_name)
 
     @classmethod
-    def is_publicly_listed(cls):
-        return meta_class_value_is_true(cls, "public_listing")
-
-    @classmethod
-    def is_allowed_to_view(cls, user):
-        if not meta_class_value_is_true(cls, "public_listing") and not user.is_staff:
-            return False
-
-        return True
-
-    @classmethod
-    def is_allowed_to_edit(cls, user):
-        if meta_class_value_is_true(cls, "disable_create_update"):
-            return False
-
-        if not user.is_staff:
-            return False
-
-        return True
-
-    @classmethod
-    def get_meta_value(cls, attr):
-        return get_meta_class_value(cls, attr)
-
-    @classmethod
     def get_visible_fields(cls):
         fields = cls.get_meta_list("visible_fields")
         if fields == "__all__":
@@ -140,24 +118,6 @@ class BaseModel(models.Model):
             return fields
         return fields
 
-    @classmethod
-    def get_meta_list(cls, attr):
-        list = get_meta_class_value(cls, attr)
-        if list:
-            return list
-
-        return []
-
-    @classmethod
-    def has_field(cls, field_name):
-        if field_name in cls.get_all_field_names():
-            return True
-
-        return False
-
-    @classmethod
-    def get_prefetch_related(cls):
-        return cls.get_meta_value("prefetch_related")
 
     @classmethod
     def get_all_field_names(cls):
@@ -188,6 +148,9 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_autocomplete_fields(cls):
+        if meta_class_value_is_true(cls, "big_table"):
+            return []
+
         fields = []
         autocomplete_fields = get_meta_class_value(cls, "autocomplete_fields")
         if autocomplete_fields:
@@ -246,6 +209,62 @@ class BaseModel(models.Model):
     def get_many_to_many_fields(self):
         return self._meta.many_to_many
 
+    @classmethod
+    def has_field(cls, field_name):
+        if field_name in cls.get_all_field_names():
+            return True
+
+        return False
+
+    ##############################
+    # permissions
+    ##############################
+
+    @classmethod
+    def is_publicly_listed(cls):
+        return meta_class_value_is_true(cls, "public_listing")
+
+    @classmethod
+    def is_allowed_to_view(cls, user):
+        if not meta_class_value_is_true(cls, "public_listing") and not user.is_staff:
+            return False
+
+        return True
+
+    @classmethod
+    def is_allowed_to_edit(cls, user):
+        if meta_class_value_is_true(cls, "disable_create_update"):
+            return False
+
+        if not user.is_staff:
+            return False
+
+        return True
+
+    ##############################
+    # meta
+    ##############################
+
+    @classmethod
+    def get_meta_value(cls, attr):
+        return get_meta_class_value(cls, attr)
+
+    @classmethod
+    def get_meta_list(cls, attr):
+        list = get_meta_class_value(cls, attr)
+        if list:
+            return list
+
+        return []
+
+    ##############################
+    # db-ish ...thingies...
+    ##############################
+
+    @classmethod
+    def get_prefetch_related(cls):
+        return cls.get_meta_value("prefetch_related")
+
     def get_many_to_one_objects(self):
         objects = dict()
         for related_object in self._meta.related_objects:
@@ -268,6 +287,7 @@ class BaseModel(models.Model):
     ##############################
     # elastic search
     ##############################
+
     @classmethod
     def get_search_document_field_names(cls):
         field_names = []
@@ -317,6 +337,7 @@ class BaseModel(models.Model):
     ##############################
     # urls
     ##############################
+
     @classmethod
     def get_changelist_url(cls):
         return reverse('admin:%s_%s_changelist' % (cls._meta.app_label, cls._meta.model_name))
