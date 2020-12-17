@@ -71,9 +71,9 @@ def get_models_dropdown(request, create=False):
     for model in request.editable_models:
         if display_model_in_menu(model, request, create=create):
             if create:
-                html += get_dropdown_item(model["class"].get_create_url(), model["meta"].verbose_name)
+                html += get_dropdown_item(model["class"].get_create_url(), model["meta"].verbose_name_plural)
             else:
-                html += get_dropdown_item(model["class"].get_list_url(), model["meta"].verbose_name)
+                html += get_dropdown_item(model["class"].get_list_url(), model["meta"].verbose_name_plural)
             output = True
 
     if not output:
@@ -89,6 +89,11 @@ def get_main_navigation(request):
         html = '<ul class="nav navbar-nav mr-auto float-left">\n'
         if bootleg_settings.EDITABLE_IN_DROPDOWN:
             html += get_models_dropdown(request, create=False)
+        else:
+            # not in dropdowns
+            for model in request.editable_models:
+                if display_model_in_menu(model, request):
+                    html += get_nav_item(model["class"].get_list_url(), model["meta"].verbose_name_plural)
         html += get_models_dropdown(request, create=True)
         html += '</ul>'
     html += get_right_navigation(request)
