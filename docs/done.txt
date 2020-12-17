@@ -1,3 +1,43 @@
+- sökikonen på generisk textsök submittar inte formuläret
+
+- den söker två gånger då man trycker på enter i huvudsöken
+    ... tror jag?!
+    ... nä
+
+- "big_table":
+    - stäng av autocomplete
+    - stäng av advanced search
+
+- statuskommandot, visa elasticsearch-info
+    ... eget kommando för det
+
+- 2020-12-16 23:10:13 ERROR 403 on the URL: /
+    ... man skulle vilja ha vart det kommer ifrån
+
+- autocompleten kräver inloggning
+
+- check på head och foot template, att dom finns
+    ... äh, någon måtta får det vara. Man fattar felet ändå.
+
+- highlightar inte:
+    http://localhost:8000/?dql=text+%21%7E+%22mantis%22
+    ... lite svårt att fixa
+
+- dålig formatering av datum:
+        http://localhost:8000/ (at.)
+
+- nuvarande servertid i system-info
+
+- kunna göra så det inte krävs login på diverse sidor
+    ... sätt på modellen att den inte kräver login för listning
+
+- om elastic search är disablat ska inte den här proxy-paginator-grejen användas
+
+- varna om man kör med BOOTLEG_DEBUG True och DEBUG False
+
+- defaulta LOG_DIR till /var/log/<projektnamn>
+    ... orkar inte, man får fan ange det
+
 - lägga till testalias
 
 - dynamiska klasser för ElasticSearch?

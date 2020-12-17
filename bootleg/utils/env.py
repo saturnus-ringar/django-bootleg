@@ -79,10 +79,11 @@ def use_elastic_search():
 
 
 def is_mysql():
-    if connection.vendor == "mysql":
-        return True
+    return connection.vendor == "mysql"
 
-    return False
+
+def is_postgres():
+    return connection.vendor == "postgresql"
 
 
 # https://stackoverflow.com/a/42580137

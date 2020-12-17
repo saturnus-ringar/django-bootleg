@@ -1,16 +1,53 @@
+from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 from djangoql.exceptions import DjangoQLError
 from djangoql.queryset import apply_search
 
+from bootleg.utils import env
 from bootleg.utils.env import use_elastic_search
 from bootleg.utils.models import SearchResults, get_order_by, filter_autocomplete_fields
-from bootleg.utils.search import QueryBuilder
+
+
+class QueryBuilder:
+    # an initial start ... to be ... improved
+
+    def __init__(self, model, query):
+        self.model = model
+        self.query = query
+
+    def get_filter(self):
+        filter = None
+        for field in self.model.get_search_document_field_names():
+            f = Q("match", **{"%s" % field: self.query})
+            if filter:
+                filter = filter | f
+            else:
+                filter = f
+
+        return filter
+    # an initial start ... to be ... improved
+
+    def __init__(self, model, query):
+        self.model = model
+        self.query = query
+
+    def get_filter(self):
+        filter = None
+        for field in self.model.get_search_document_field_names():
+            f = Q("match", **{"%s" % field: self.query})
+            if filter:
+                filter = filter | f
+            else:
+                filter = f
+
+        return filter
 
 
 class ModelSearcher:
 
-    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False, es_limit=None):
+    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False, es_limit=None, force_es=False):
         self.model = model
+        self.force_es = force_es
         self.es_limit = es_limit
         self.query = query
         self.dql_query = dql_query
@@ -34,9 +71,9 @@ class ModelSearcher:
         self.dql_search()
         self.query_search()
         self.filter_by_args()
-        self.queryset = self._get_queryset()
+        return self
 
-    def _get_queryset(self):
+    def get_queryset(self):
         prefetch_related = self.model.get_prefetch_related()
         if prefetch_related:
             self.queryset = self.queryset.prefetch_related(*prefetch_related)
@@ -55,7 +92,7 @@ class ModelSearcher:
             # ugly return, indeed!
             return
 
-        if use_elastic_search():
+        if self.force_es or use_elastic_search():
             self.document = self.model.get_search_document()
             if self.document:
                 return self.elastic_search()
@@ -65,7 +102,10 @@ class ModelSearcher:
         else:
             fields = self.model.get_search_field_names()
 
-        self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
+        if env.is_mysql():
+            self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
+        elif env.is_postgres():
+            self.queryset = self.postgres_text_search()
 
     def get_qr(self, fields):
         qr = None
@@ -82,12 +122,19 @@ class ModelSearcher:
 
         return qr
 
+    def postgres_text_search(self):
+        return self.model.objects.annotate(search=SearchVector("email_address__email_address")).filter(search=self.query)
+
     def elastic_search(self):
         if not self.es_limit:
             raise ValueError("Can't (elastic) search without a search limit (es_limit).")
-        results = self.document.search().query(QueryBuilder(self.model, self.query).get_filter())[:self.es_limit]
+        get_filter_method = getattr(self.document, "get_filter")
+        if get_filter_method:
+            filter = get_filter_method(self.query)
+        else:
+            filter = QueryBuilder(self.model, self.query)
+        results = self.document.search().query(filter)[:self.es_limit]
         self.search_results = SearchResults(results)
-        self.queryset = results.to_queryset()
 
     def filter_by_args(self):
         if self.args:

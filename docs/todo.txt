@@ -1,32 +1,50 @@
 **************************************
+ SÖK
+**************************************
+
+- det verkar inte sökas på Q då man klickar runt på kolumner:
+    http://localhost:8000/?q=nisse&page=2&sort=created
+- lista total count i search-kommandot
+    ... sök inte om det är disablat? - vill ju iofs. kunna testa, utan att alla databas-inserts åker in
+        ... registrera dom med en funktion kanske?
+
+**************************************
+ SMÅTT OCH GOTT - OSORTERAT
+**************************************
+
+- konvertera print i några till self.std.out, hade problem att extenda där
+- dql-sökningen tar inte med fälten från filtreringen till vänster då man söker, är väl ok iofs?
+    $("#bootleg_dql_form").submit(function(e) {
+        handleGenericModelFilter(e);
+    });
+    ... funkar icke. Den detekterar inte submit
+
+- krasch:
+    http://localhost:8000/create/transcript/
+
+- 404 loggas inte
+
+- vad har hänt med djangos runserver-log?
+
+**************************************
+ CHECKAR
+**************************************
+
+    - validera search_fields i checken
+
+    - check på att 'bootleg.context_processors.globals' är installerad
+
+    - kontrollera att errorhandlers är installerade
+        modulename = 'datetime'
+        if modulename not in sys.modules:
+            print 'You have not imported the {} module'.format(modulename)
+
+**************************************
  ENKLA SAKER
 **************************************
 
-- defaulta LOG_DIR till /var/log/<projektnamn>
-
-- statuskommandot, visa elasticsearch-info
-
-- varna om man kör med BOOTLEG_DEBUG True och DEBUG False
-
-- om elastic search är disablat ska inte den här proxy-paginator-grejen användas
-
-- dålig formatering:
-        http://localhost:8000/ (at.)
-
-- highlightar inte:
-    http://localhost:8000/?dql=text+%21%7E+%22mantis%22
-    ... lite svårt att fixa
-
-- göra en check på att man satt verbose_name och verbose_name_plural på modellerna
-
-- txt-filerna i dev-data kommer inte med... skit i det det där, visa inget istället
-
-- den söker två gånger då man trycker på enter i huvudsöken
-
-- sökikonen på generisk textsök submittar inte formuläret
-
-- check på head och foot template, att dom finns
-    ... gör en väldig generell template-kontroll
+- txt-filerna i dev-data kommer inte med i site-packages
+    ... kraschade i status i at? - det är för att bootleg inte var symlänkat utan körde från site-packages
 
 // TODO: don't hardcode the URL
     bootleg.js
@@ -55,13 +73,6 @@
     - registrera alla modeller automatiskt med djangoql:
         https://github.com/ivelum/djangoql#add-it-to-your-django-admin
 
-    - dql-sökningen tar inte med fälten från filtreringen till vänster då man söker, är väl ok iofs?
-        $("#bootleg_dql_form").submit(function(e) {
-            handleGenericModelFilter(e);
-        });
-        ... funkar icke. Den detekterar inte submit
-
-
 *********************
  BUGGAR
 *********************
@@ -69,6 +80,8 @@
 *********************
  KLURIGA SAKER
 *********************
+
+    - ajax-requests ska inte redirecta i login-grejerna
 
     - byta namn på "editable models" ... till "bootleg models" , eller någe
         ... kanske göra en basklass för dom som man bara extendar som har alla fält osv.
