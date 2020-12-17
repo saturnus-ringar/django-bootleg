@@ -1,7 +1,7 @@
 from jsonview.views import JsonView
 
 from bootleg.conf import bootleg_settings
-from bootleg.utils.models import ModelSearcher
+from bootleg.search.model_searcher import ModelSearcher
 from bootleg.utils.utils import get_attr__
 from bootleg.views.generic_model_views import GenericModelView
 

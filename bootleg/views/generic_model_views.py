@@ -10,11 +10,12 @@ from django_tables2 import SingleTableView, RequestConfig
 from djangoql.serializers import DjangoQLSchemaSerializer
 
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory, DQLSearchForm
+from bootleg.search.model_searcher import ModelSearcher
 from bootleg.utils import models
 from bootleg.utils.env import use_elastic_search
 from bootleg.utils.html import get_default_table_class_string
 from bootleg.utils.http import get_model_args_from_request
-from bootleg.utils.models import ModelSearcher, GenericDjangoQLSchema, SearchResults
+from bootleg.utils.models import GenericDjangoQLSchema, SearchResults
 from bootleg.utils.tables import TableFactory
 from bootleg.utils.utils import get_meta_class_value
 from bootleg.views.base import BaseCreateUpdateView, BaseCreateView, BaseUpdateView
