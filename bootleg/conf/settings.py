@@ -1,11 +1,13 @@
 import collections
 import logging
+import threading
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 
 from bootleg.system import file_system
+from bootleg.utils.utils import Singleton
 
 DEFAULT_FAVICON = "bootleg/img/favicon.png"
 
@@ -37,7 +39,7 @@ def get_debug_settings_value(default, debug_value):
     return default
 
 
-class Settings:
+class Settings(Singleton):
 
     __settings__ = {}
 

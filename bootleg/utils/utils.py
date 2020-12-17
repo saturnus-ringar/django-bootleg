@@ -5,9 +5,17 @@ from io import StringIO
 from django.core.handlers.wsgi import WSGIRequest
 
 
+class Singleton:
+
+    instance = None
+
+    def __new__(cls):
+        if cls.instance is None:
+            cls.instance = super().__new__(cls)
+        return cls.instance
+
+
 # https://gist.github.com/majgis/4164503
-
-
 def get_fake_request(path="/", user=None):
     from bootleg.utils import models
     from django.contrib.auth.models import AnonymousUser
