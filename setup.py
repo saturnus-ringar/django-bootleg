@@ -8,7 +8,6 @@ install_requires = [
     "django >= 3.0",
     "django-annoying >= 0.10.6",
     "django_compressor >= 2.4",
-    "django_compressor >= 2.4",
     "django-crispy-forms >= 1.9",
     "django-debug-toolbar >= =3.1",
     "django-extensions >= 3.0",
