@@ -1,3 +1,9 @@
+- ta bort det där font-awesome, verkar B
+
+- bara WARNING för 403 och 404 i loggarna?
+
+- flytta strip_tags till strings
+
 **************************************
  SÖK
 **************************************
