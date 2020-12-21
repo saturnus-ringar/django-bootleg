@@ -19,7 +19,7 @@ install_requires = [
     "elasticsearch-dsl == 7.3.0",
     "djangoql == 0.14.2",
     "GitPython == 3.1",
-    "giturlparse == 0.9",
+    "giturlparse == 0.9.2",
     "humanize == 3.2.0",
     "psutil == 5.7",
 ]
