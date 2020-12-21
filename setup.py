@@ -9,7 +9,7 @@ install_requires = [
     "django-annoying == 0.10.6",
     "django_compressor == 2.4",
     "django-crispy-forms == 1.9",
-    "django-debug-toolbar == =3.1",
+    "django-debug-toolbar ==3.1",
     "django-extensions == 3.0",
     "django-elasticsearch-dsl == 7.1.4",
     "django-ipware == 3.0",
