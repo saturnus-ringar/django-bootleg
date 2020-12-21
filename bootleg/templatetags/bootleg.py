@@ -144,11 +144,15 @@ def render_many_to_one_objects(obj):
         has_objects = False
         object_html = ""
         object_html += '<h4 class="mt-4">%s</h4>\n' % key
+        object_html += '<ul class="list-unstyled">'
         for many_to_one_obj in objects_data[key]["objects"]:
-            object_html += str(many_to_one_obj) + '\n'
+            object_html += '<li>%s</li>' % str(many_to_one_obj) + '\n'
             has_objects = True
         if not has_objects:
             object_html = ""
+        else:
+            object_html += '</ul>'
+
         html += object_html
 
     return mark_safe(html)
