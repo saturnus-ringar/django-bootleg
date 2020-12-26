@@ -38,7 +38,7 @@ class SearchIndexer(TimeAndCount):
         for doc in registry.get_documents():
             count = doc.django.model.objects.count()
             # init time and count
-            start_id = 0 or self.get_start_id(doc)
+            start_id = self.get_start_id(doc)
             self.init_tac(count, self.logger, print_every_th=1000, start_count=start_id)
             self.logger.info("Indexing model: [%s]. Batch size: [%s]. Parallel: [%s]. Total count: [%s]"
                              % (doc.django.model.__name__, batch_size, parallel, intcomma(count)))
@@ -52,8 +52,10 @@ class SearchIndexer(TimeAndCount):
 
     def get_start_id(self, doc):
         if hasattr(doc, "get_start_index_id"):
-            return doc.get_start_index_id()
-        return None
+            start_id = doc.get_start_index_id()
+            if start_id:
+                return start_id
+        return 0
 
 
 def get_document_by_index(index):
