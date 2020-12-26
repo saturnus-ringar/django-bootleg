@@ -13,7 +13,7 @@ from bootleg.conf import bootleg_settings
 
 try:
     from django_enumfield.forms.fields import EnumChoiceField
-    # ncab are using EnumChoiceField ... somewhat tricky to deal with
+    # using EnumChoiceField ... somewhat tricky to deal with
     ENUM_FIELD = EnumChoiceField
 except ModuleNotFoundError:
     ENUM_FIELD = None
