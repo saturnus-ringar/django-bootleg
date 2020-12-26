@@ -102,10 +102,7 @@ class ModelSearcher:
         else:
             fields = self.model.get_search_field_names()
 
-        if env.is_mysql():
-            self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
-        elif env.is_postgres():
-            self.queryset = self.postgres_text_search()
+        self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
 
     def get_qr(self, fields):
         qr = None
@@ -121,9 +118,6 @@ class ModelSearcher:
                 qr = q
 
         return qr
-
-    def postgres_text_search(self):
-        return self.model.objects.annotate(search=SearchVector("email_address__email_address")).filter(search=self.query)
 
     def elastic_search(self):
         if not self.es_limit:
