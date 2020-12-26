@@ -75,6 +75,8 @@ class GenericListView(GenericModelView, SingleTableView):
                                             self.paginate_by)
         if not paginator:
             return super().get_paginator(*args, **kwargs)
+        else:
+            return paginator
 
     def get_table(self, **kwargs):
         table = super().get_table(**kwargs)
