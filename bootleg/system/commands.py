@@ -26,8 +26,12 @@ def get_disk_usage():
 
 def get_sar_command(command, filename):
     if not SAR_COMMAND_EXISTS:
-        with open(get_sar_file_path(filename), 'r') as file:
-            return file.read()
+        try:
+            with open(get_sar_file_path(filename), 'r') as file:
+                return file.read()
+        except FileNotFoundError:
+            # the txt-files are not included in the install-package, have to fix that
+            return ""
     else:
         return run_command(command)
 
