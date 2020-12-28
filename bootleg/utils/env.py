@@ -5,7 +5,6 @@ from django.db import connection
 
 from bootleg.system.shell import run_command
 from django.conf import settings
-from bootleg.conf import bootleg_settings
 
 
 def is_testing():
@@ -72,6 +71,8 @@ def is_github():
 
 
 def use_elastic_search():
+    # do a local import here. For some reason it breaks the django settings if env is imported early on :|
+    from bootleg.conf import bootleg_settings
     if bootleg_settings.DISABLE_ELASTIC_SEARCH is True:
         return False
 
