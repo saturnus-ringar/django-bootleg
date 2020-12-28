@@ -14,7 +14,7 @@ install_requires = [
     "django-elasticsearch-dsl == 7.1.4",
     "django-ipware == 3.0",
     "django-jsonview == 2.0.0",
-    "django-tables2 == 2.3.3",
+    "django-tables2 == 2.2",
     "django-user-agents == 0.4.0",
     "elasticsearch-dsl == 7.3.0",
     "djangoql == 0.14.2",
