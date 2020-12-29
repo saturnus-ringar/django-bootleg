@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, UpdateView, TemplateView, FormView
+from django.views.generic import CreateView, UpdateView, TemplateView, FormView, DetailView
 
 from bootleg.conf import bootleg_settings
 from bootleg.forms.base import get_default_form_helper
@@ -30,18 +30,20 @@ class BaseView:
     template_name = bootleg_settings.BASE_TEMPLATE
     page_title = None
     heading = None
-    template_name = None
     extra_text = None
 
 
 class BaseTemplateView(BaseView, TemplateView):
-    template_name = bootleg_settings.BASE_TEMPLATE
 
     def get_extra_text(self):
         return self.extra_text
 
 
 class BaseFormView(BaseTemplateView, FormView):
+    pass
+
+
+class BaseDetailView(BaseView, DetailView):
     pass
 
 
