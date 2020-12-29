@@ -61,14 +61,23 @@ $("input.datetimeinput").each(function() {
     }
 });
 
+function createLoadingSpinner(button) {
+    button.prop("disabled", true);
+    if(button.hasClass("loading-button")) {
+        button.html(button.after('<span class="spinner-border text-primary spinner-border-sm ml-2" ' +
+            'role="status" aria-hidden="true"></span>'));
+    }
+}
+
 // create loading-spinners on buttons when forms are submitted
 $("form").submit(function() {
     var submitButton = $(this).find("input[type=\'submit\']");
-    submitButton.prop("disabled", true);
-    if(submitButton.hasClass("loading-button")) {
-        submitButton.html(submitButton.after('<span class="spinner-border text-primary spinner-border-sm ml-2" ' +
-            'role="status" aria-hidden="true"></span>'));
-    }
+    createLoadingSpinner(submitButton);
+});
+
+// create loading-spinners on buttons they are clicked
+$("input.loading-button").on("click", function() {
+    createLoadingSpinner($(this));
 });
 
 // add a loader-button on the password reset button
