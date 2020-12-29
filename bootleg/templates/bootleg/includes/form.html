@@ -46,8 +46,12 @@
     </form>
 {% else %}
     {% if form and not form.is_search_form %}
-        {% if form.helper %}
-            {% crispy form form.helper %}
+        {% if view.form_template %}
+            {% include view.form_template %}
+        {% else %}
+            {% if form.helper %}
+                {% crispy form form.helper %}
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endif %}
