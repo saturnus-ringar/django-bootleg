@@ -51,6 +51,8 @@
         {% else %}
             {% if form.helper %}
                 {% crispy form form.helper %}
+            {% else %}
+                {% crispy form %}
             {% endif %}
         {% endif %}
     {% endif %}
