@@ -63,7 +63,7 @@ $("input.datetimeinput").each(function() {
 
 function createLoadingSpinner(button) {
     button.prop("disabled", true);
-    if(button.hasClass("loading-button")) {
+    if(button.hasClass("loading-button") || button.hasClass("ajax-loading-button")) {
         button.html(button.after('<span class="spinner-border text-primary spinner-border-sm ml-2" ' +
             'role="status" aria-hidden="true"></span>'));
     }
@@ -71,12 +71,11 @@ function createLoadingSpinner(button) {
 
 // create loading-spinners on buttons when forms are submitted
 $("form").submit(function() {
-    var submitButton = $(this).find("input[type=\'submit\']");
-    createLoadingSpinner(submitButton);
+    createLoadingSpinner($(this).find("input[type=\'submit\']"));
 });
 
 // create loading-spinners on buttons they are clicked
-$("input.loading-button").on("click", function() {
+$("input.ajax-loading-button").on("click", function() {
     createLoadingSpinner($(this));
 });
 

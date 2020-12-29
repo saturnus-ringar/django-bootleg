@@ -25,7 +25,7 @@ def get_button(text, id=None):
         id_output = ' id="%s" ' % id
 
     return mark_safe('<input type="submit" name="submit" value="%s" '
-                     'class="btn btn-primary loading-button mb-2"%s>' % (text, id_output))
+                     'class="btn btn-primary ajax-loading-button mb-2"%s>' % (text, id_output))
 
 
 @register.simple_tag
