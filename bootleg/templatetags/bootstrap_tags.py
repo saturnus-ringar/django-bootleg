@@ -19,6 +19,16 @@ def translate_django_type(type):
 
 
 @register.simple_tag
+def get_button(text, id=None):
+    id_output = ""
+    if id:
+        id_output = ' id="%s" ' % id
+
+    return mark_safe('<input type="submit" name="submit" value="%s" '
+                     'class="btn btn-primary loading-button">' % (text, id_output))
+
+
+@register.simple_tag
 def get_alert(type, text):
     type = translate_django_type(type)
     if type not in ALERT_TYPES:

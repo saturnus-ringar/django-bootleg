@@ -1,4 +1,6 @@
 - ta bort det där font-awesome, verkar B
+    ... tror man kan använda det här istället?
+        https://django-crispy-forms.readthedocs.io/en/latest/layouts.html#bootstrap-layout-objects
 
 - bara WARNING för 403 och 404 i loggarna?
 
