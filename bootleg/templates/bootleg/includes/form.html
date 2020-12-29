@@ -46,15 +46,7 @@
     </form>
 {% else %}
     {% if form and not form.is_search_form %}
-        {% if inlines %}
-            <form method="post">
-            {% crispy form form.helper %}
-            {% for formset in inlines %}
-                {% crispy formset form.helper %}
-            {% endfor %}
-            <input type="submit" name="submit" value="{{ form.submit_button_text }}" class="btn btn-primary loading-button">
-            </form>
-        {% else %}
+        {% if form.helper %}
             {% crispy form form.helper %}
         {% endif %}
     {% endif %}
