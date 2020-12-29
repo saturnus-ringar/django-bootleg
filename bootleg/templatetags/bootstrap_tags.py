@@ -22,7 +22,7 @@ def translate_django_type(type):
 def get_button(text, id=None):
     id_output = ""
     if id:
-        id_output = ' id="%s" ' % id
+        id_output = ' id="%s"' % id
 
     return mark_safe('<input type="submit" name="submit" value="%s" '
                      'class="btn btn-primary ajax-loading-button mb-2"%s>' % (text, id_output))
