@@ -61,22 +61,14 @@ $("input.datetimeinput").each(function() {
     }
 });
 
-function createLoadingSpinner(button) {
-    button.prop("disabled", true);
-    if(button.hasClass("loading-button") || button.hasClass("ajax-loading-button")) {
-        button.html(button.after('<span class="spinner-border text-primary spinner-border-sm ml-2" ' +
-            'role="status" aria-hidden="true"></span>'));
-    }
-}
-
 // create loading-spinners on buttons when forms are submitted
 $("form").submit(function() {
-    createLoadingSpinner($(this).find("input[type=\'submit\']"));
-});
-
-// create loading-spinners on buttons they are clicked
-$("input.ajax-loading-button").on("click", function() {
-    createLoadingSpinner($(this));
+    var submitButton = $(this).find("input[type=\'submit\']");
+    submitButton.prop("disabled", true);
+    if(submitButton.hasClass("loading-button")) {
+        submitButton.html(submitButton.after('<span class="spinner-border text-primary spinner-border-sm ml-2" ' +
+            'role="status" aria-hidden="true"></span>'));
+    }
 });
 
 // add a loader-button on the password reset button
