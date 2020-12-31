@@ -97,12 +97,28 @@ class ModelSearcher:
             if self.document:
                 return self.elastic_search()
 
-        if self.autocomplete:
-            fields = filter_autocomplete_fields(self.model, self.model.get_autocomplete_fields())
+        if self.model.get_exact_match_field_names():
+            # searching by exact matches only
+            self.queryset = self.queryset.filter(self.get_qr_exact(self.model.get_exact_match_field_names())).distinct()\
+                .order_by("id")
         else:
-            fields = self.model.get_search_field_names()
+            if self.autocomplete:
+                fields = filter_autocomplete_fields(self.model, self.model.get_autocomplete_fields())
+            else:
+                fields = self.model.get_search_field_names()
 
-        self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
+            self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
+
+    def get_qr_exact(self, fields):
+        qr = None
+        for field in fields:
+            q = Q(**{"%s" % field: self.query})
+            if qr:
+                qr = qr | q
+            else:
+                qr = q
+        dx(qr)
+        return qr
 
     def get_qr(self, fields):
         qr = None

@@ -147,6 +147,15 @@ class BaseModel(models.Model):
         return fields
 
     @classmethod
+    def get_exact_match_field_names(cls):
+        exact_match_fields = get_meta_class_value(cls, "exact_match_fields")
+        dx("exact_match_fields: %s" % exact_match_fields)
+        if exact_match_fields:
+            return exact_match_fields
+
+        return None
+
+    @classmethod
     def get_autocomplete_fields(cls):
         if meta_class_value_is_true(cls, "big_table"):
             return []
