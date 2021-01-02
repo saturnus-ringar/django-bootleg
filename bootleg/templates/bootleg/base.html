@@ -44,7 +44,9 @@
     {% if view.page_text %}
         {{ view.page_text }}
     {% endif %}
-    {% include "bootleg/includes/form.html" %}
+    {% if not model.meta.wide_table %}
+        {% include "bootleg/includes/form.html" %}
+    {% endif %}
     {% if view.get_extra_text %}
         {{ view.get_extra_text|safe }}
     {% endif %}
