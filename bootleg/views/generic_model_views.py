@@ -64,6 +64,9 @@ class GenericListView(GenericModelView, SingleTableView):
         return TableFactory(self.model, self.request).table_class
 
     def get_paginator(self, *args, **kwargs):
+        if hasattr(self.model, "get_paginator_class"):
+            self.paginator_class = getattr(self.model, "get_paginator_class")
+
         paginator = None
         if use_elastic_search():
             doc = self.model.get_search_document()
