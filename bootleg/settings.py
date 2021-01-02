@@ -1,8 +1,8 @@
 import os
-from pprint import pprint
+
+from django.conf import settings
 
 from bootleg.conf.settings import get_setting, get_debug_settings_value, check_log_level, ConfigurationError
-from django.conf import settings
 
 LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
 LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
