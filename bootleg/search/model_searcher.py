@@ -45,11 +45,13 @@ class QueryBuilder:
 
 class ModelSearcher:
 
-    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False, es_limit=None, force_es=False):
+    def __init__(self, model, query=None, dql_query=None, args=None, autocomplete=False, es_limit=None, force_es=False,
+                 forced_query=None):
         self.model = model
         self.force_es = force_es
         self.es_limit = es_limit
         self.query = query
+        self.forced_query = forced_query
         self.dql_query = dql_query
         self.document = None
         self.args = args
@@ -83,12 +85,13 @@ class ModelSearcher:
         try:
             if self.dql_query:
                 self.queryset = apply_search(self.model.objects.all(), self.dql_query)
-        except DjangoQLError:
+        except DjangoQLError as e:
+            print(e)
             pass
 
     # https://stackoverflow.com/a/1239602/9390372
     def query_search(self):
-        if not self.query:
+        if not self.query and not self.forced_query:
             # ugly return, indeed!
             return
 
@@ -97,7 +100,7 @@ class ModelSearcher:
             if self.document:
                 return self.elastic_search()
 
-        if self.model.get_exact_match_field_names():
+        if not self.autocomplete and self.model.get_exact_match_field_names() and not self.forced_query:
             # searching by exact matches only
             self.queryset = self.queryset.filter(self.get_qr_exact(self.model.get_exact_match_field_names())).distinct()\
                 .order_by("id")
@@ -117,16 +120,18 @@ class ModelSearcher:
                 qr = qr | q
             else:
                 qr = q
-        dx(qr)
         return qr
 
     def get_qr(self, fields):
+        query = self.query
+        if self.forced_query:
+            query = self.forced_query
         qr = None
         for field in fields:
             if not self.autocomplete:
-                q = Q(**{"%s__icontains" % field: self.query})
+                q = Q(**{"%s__icontains" % field: query})
             else:
-                q = Q(**{"%s__istartswith" % field: self.query})
+                q = Q(**{"%s__istartswith" % field: query})
 
             if qr:
                 qr = qr | q

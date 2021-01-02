@@ -33,6 +33,7 @@ $.ajaxSetup({
 
 $(document).ready(function() {
     initSelect2s();
+    fixSelects();
     highlightSearchResults();
     initGenericAutocomplete();
     initGenericAutocompletes();
@@ -90,11 +91,15 @@ function initSelect2s() {
     $('.select').select2();
 }
 
-function initGenericAutocomplete() {
-    if(Context.isBigTable != null && Context.isBigTable == "True") {
-        return;
-    }
+function fixSelects() {
+    // Django NullBooleanField seems to be a bit buggy, ugly fix here
+    $("select.nullbooleanselect").each(function() {
+        var param = getURLParameter($(this).attr("name"));
+        $(this).val(param);
+    });
+}
 
+function initGenericAutocomplete() {
     var input = $("input#id_q");
     if(!input.hasClass("generic-autocomplete")) {
         return;

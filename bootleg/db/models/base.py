@@ -68,10 +68,6 @@ class BaseModel(models.Model):
     def get_model_name(self):
         return self._meta.model_name
 
-    @classmethod
-    def is_big_table(cls):
-        return meta_class_value_is_true(cls, "big_table")
-
     ##############################
     # fields
     ##############################
@@ -149,7 +145,6 @@ class BaseModel(models.Model):
     @classmethod
     def get_exact_match_field_names(cls):
         exact_match_fields = get_meta_class_value(cls, "exact_match_fields")
-        dx("exact_match_fields: %s" % exact_match_fields)
         if exact_match_fields:
             return exact_match_fields
 
@@ -157,9 +152,6 @@ class BaseModel(models.Model):
 
     @classmethod
     def get_autocomplete_fields(cls):
-        if meta_class_value_is_true(cls, "big_table"):
-            return []
-
         fields = []
         autocomplete_fields = get_meta_class_value(cls, "autocomplete_fields")
         if autocomplete_fields:
@@ -413,14 +405,11 @@ class BaseModel(models.Model):
         return self.get_button_link(self.get_detail_url(), _("View"))
 
     def get_ajax_detail_link(self):
-        return mark_safe('<a href="" class="object-view-loader" data-url="%s" data-object-id="%s" '
+        url = reverse("bootleg:model_detail", args=[self._meta.model_name, self.id])
+        return mark_safe('<a href="%s" class="object-view-loader" data-url="%s" data-object-id="%s" '
                          'data-hide-text="%s"><button data-object-id="%s" class="btn btn-primary btn-sm">'
                          '%s</button></a>'
-                 % (reverse("bootleg:model_detail", args=[self._meta.model_name, self.id]),
-                    self.id,
-                    _("Hide"),
-                    self.id,
-                    _("View")))
+                 % (url, url, self.id, _("Hide"), self.id, _("View")))
 
     def get_update_link(self):
         return self.get_button_link(self.get_update_url(), _("Update"))

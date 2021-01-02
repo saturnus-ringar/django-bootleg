@@ -87,10 +87,13 @@ class GenericListView(GenericModelView, SingleTableView):
         return RequestConfig(self.request, paginate=self.get_table_pagination(table)).configure(table)
 
     def get_queryset(self):
+        forced_query = self.request.GET.get("fq", None)
+        if forced_query:
+            self.paginate_by = 250
         self.model_searcher = ModelSearcher(self.model, query=self.request.GET.get("q", None),
                                 dql_query=self.request.GET.get("dql", None),
                                 args=get_model_args_from_request(self.model, self.request),
-                                es_limit=self.paginate_by)
+                                es_limit=self.paginate_by, forced_query=forced_query)
         self.model_searcher.search()
         return self.model_searcher.queryset
 
@@ -99,13 +102,12 @@ class GenericListView(GenericModelView, SingleTableView):
         if self.model.get_search_field_names():
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
 
-        if not self.model.is_big_table():
-            # djangoql
-            introspections = DjangoQLSchemaSerializer().serialize(
-                GenericDjangoQLSchema(self.model),
-            )
-            context["introspections"] = json.dumps(introspections)
-            context["dql_form"] = DQLSearchForm(self.request,model=self.model)
+        # djangoql
+        introspections = DjangoQLSchemaSerializer().serialize(
+            GenericDjangoQLSchema(self.model),
+        )
+        context["introspections"] = json.dumps(introspections)
+        context["dql_form"] = DQLSearchForm(self.request,model=self.model)
 
         if get_meta_class_value(self.model, "filter_fields"):
             # filter forms

@@ -1,7 +1,6 @@
 {% load compress static %}
 <script>
     var Context = {
-        isBigTable: "{{ model_class.is_big_table }}",
         jsErrorURL: "{% url 'bootleg:javascript_error' %}",
         dateFormat: "{{ bootleg_settings.JS_DATE_FORMAT }}",
         dateTimeFormat: "{{ bootleg_settings.JS_DATETIME_FORMAT }}",

@@ -1,3 +1,7 @@
+- om man har "created" i visible_fields för en model krachar uppdateringen:
+    django.core.exceptions.FieldError: 'created' cannot be specified for File model form as it is a non-editable field
+    ... "modified" med
+
 - ta bort det där font-awesome, verkar B
     ... tror man kan använda det här istället?
         https://django-crispy-forms.readthedocs.io/en/latest/layouts.html#bootstrap-layout-objects

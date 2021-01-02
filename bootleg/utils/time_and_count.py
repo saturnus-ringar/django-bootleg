@@ -21,6 +21,8 @@ class TimeAndCount:
         self.identifier = identifier
         self.tac_total_count = total_count
         self.tac_start_time = time.time()
+        self.average_time_per_entry = None
+        self.tac_message = ""
         if logger:
             self.logger = logger
 
@@ -55,3 +57,6 @@ class TimeAndCount:
             self.logger.info(msg)
         else:
             print(msg)
+
+        self.tac_message = msg
+        self.average_time_per_entry = average_time

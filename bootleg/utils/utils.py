@@ -3,6 +3,7 @@ import inspect
 from io import StringIO
 
 from django.core.handlers.wsgi import WSGIRequest
+from django.utils.functional import classproperty
 
 
 class Singleton:
@@ -13,6 +14,24 @@ class Singleton:
         if cls.instance is None:
             cls.instance = super().__new__(cls)
         return cls.instance
+
+
+# https://stackoverflow.com/a/62139534
+class cached_classproperty(classproperty):
+    def get_result_field_name(self):
+        return self.fget.__name__ + "_property_result" if self.fget else None
+
+    def __get__(self, instance, cls=None):
+        result_field_name = self.get_result_field_name()
+
+        if hasattr(cls, result_field_name):
+            return getattr(cls, result_field_name)
+
+        if not cls or not result_field_name:
+            return self.fget(cls)
+
+        setattr(cls, result_field_name, self.fget(cls))
+        return getattr(cls, result_field_name)
 
 
 # https://gist.github.com/majgis/4164503

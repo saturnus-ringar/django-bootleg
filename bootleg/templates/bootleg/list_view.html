@@ -11,6 +11,8 @@
 {% block h1 %}{{ model.meta.verbose_name_plural }}{% endblock %}
 
 {% block content %}
+{{ model.class.get_extra_page_content }}
+
 {% if filter_form %}
     <div class="row">
         <div class="col-lg-2">

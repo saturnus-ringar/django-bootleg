@@ -1,9 +1,11 @@
 from django.core.exceptions import FieldDoesNotExist
+from django.db.models import IntegerField
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
+from django_tables2 import tables, Column, BooleanColumn, columns
+from humanize import intcomma
 
 from bootleg.utils import lists
-from django.utils.safestring import mark_safe
-from django_tables2 import tables, Column, BooleanColumn, columns
-from django.utils.translation import ugettext as _
 from bootleg.utils.utils import get_meta_class_value
 
 
@@ -17,6 +19,12 @@ def get_id_or_zero(record, field):
         return 0
     except Exception as e:
         return 0
+
+
+class IntegerColumn(Column):
+
+    def render(self, value):
+        return intcomma(value)
 
 
 class TableFactory:
@@ -137,9 +145,15 @@ class TableFactory:
 
         try:
             field = self.model._meta.get_field(field_name)
-            column_class = columns.library.column_for_field(field=field).__class__
+            if isinstance(field, IntegerField):
+                column_class = IntegerColumn
+            else:
+                column_class = columns.library.column_for_field(field=field).__class__
+            name = None
+            if hasattr(field, "verbose_name"):
+                name = field.verbose_name
             self.table_class.base_columns.update([(field_name, column_class(accessor=field_name,
-                                            verbose_name=field.verbose_name, attrs=attrs))])
+                                            verbose_name=name, attrs=attrs))])
         except FieldDoesNotExist:
             self.table_class.base_columns.update([(field_name, Column(accessor=field_name, attrs=attrs))])
 

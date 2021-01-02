@@ -2,7 +2,7 @@ from jsonview.views import JsonView
 
 from bootleg.conf import bootleg_settings
 from bootleg.search.model_searcher import ModelSearcher
-from bootleg.utils.utils import get_attr__
+from bootleg.utils.utils import get_attr__, meta_class_value_is_true
 from bootleg.views.generic_model_views import GenericModelView
 
 
@@ -14,6 +14,9 @@ class JSONAutocompleteView(ModelAutoCompleteView):
 
     def get_context_data(self, **kwargs):
         results = []
+        if meta_class_value_is_true(self.model, "disable_autocomplete"):
+            return results
+
         query = self.request.GET.get("q", "")
         model_searcher = ModelSearcher(self.model, query=query, autocomplete=True,
                                        es_limit=bootleg_settings.AUTOCOMPLETE_LIMIT)

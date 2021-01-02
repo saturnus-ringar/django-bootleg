@@ -3,7 +3,7 @@ from crispy_forms.layout import Submit
 from django.db.models import ForeignKey, ManyToManyField
 from django.forms import CharField, modelform_factory, SelectMultiple, Select, DateField, \
     DateTimeField, IntegerField, ModelChoiceField, DecimalField, BooleanField, ModelMultipleChoiceField, URLField, \
-    SlugField, NullBooleanField, Textarea, TypedChoiceField
+    SlugField, NullBooleanField, Textarea, TypedChoiceField, NullBooleanSelect
 from django.utils.translation import ugettext as _
 from django_extensions.db.fields import ModificationDateTimeField, CreationDateTimeField
 
@@ -81,6 +81,10 @@ class ModelFilterFormFactory:
 
     def fix_fields(self):
         for field_name in self.form.base_fields:
+            # add blank to NullBooleanSelect
+            if isinstance(self.form.base_fields[field_name].widget, NullBooleanSelect):
+                self.form.base_fields[field_name].widget.choices.insert(0, ("", EMPTY_LABEL))
+
             # make all fields not-required
             self.form.base_fields[field_name].required = False
             # set the initial value from the request
