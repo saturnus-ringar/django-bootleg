@@ -98,13 +98,12 @@ class GenericListView(GenericModelView, SingleTableView):
                                 args=get_model_args_from_request(self.model, self.request),
                                 es_limit=self.paginate_by, forced_query=forced_query)
         self.model_searcher.search()
-        return self.model_searcher.queryset
+        return self.model_searcher.get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.model.get_search_field_names():
             context["form"] = GenericModelSearchForm(self.request, model=self.model)
-
         # djangoql
         introspections = DjangoQLSchemaSerializer().serialize(
             GenericDjangoQLSchema(self.model),

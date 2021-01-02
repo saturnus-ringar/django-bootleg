@@ -2,11 +2,11 @@ from django.db.models import Q
 from djangoql.exceptions import DjangoQLError
 from djangoql.queryset import apply_search
 
-from bootleg.utils import env
 from bootleg.utils.env import use_elastic_search, is_postgres
 from bootleg.utils.models import SearchResults, get_order_by, filter_autocomplete_fields
+
 if is_postgres():
-    from django.contrib.postgres.search import SearchVector
+    pass
 
 
 class QueryBuilder:
@@ -86,7 +86,6 @@ class ModelSearcher:
             if self.dql_query:
                 self.queryset = apply_search(self.model.objects.all(), self.dql_query)
         except DjangoQLError as e:
-            print(e)
             pass
 
     # https://stackoverflow.com/a/1239602/9390372
