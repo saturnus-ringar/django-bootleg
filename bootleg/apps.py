@@ -167,8 +167,7 @@ def check_login_redirect_url(errors):
         # not the default URL
         try:
             reverse(settings.LOGIN_REDIRECT_URL)
-        except NoReverseMatch as e:
-            print(e)
+        except NoReverseMatch:
             errors.append(
                 Error(
                     "LOGIN_REDIRECT_URL '%s' could not be reversed" % settings.LOGIN_REDIRECT_URL,

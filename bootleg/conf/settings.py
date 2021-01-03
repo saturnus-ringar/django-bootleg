@@ -99,6 +99,7 @@ class Settings(Singleton):
         self.add_setting("NAVIGATION_TEMPLATE", None)
         self.add_setting("HEAD_TEMPLATE", None)
         self.add_setting("FOOT_TEMPLATE", None)
+        self.add_setting("JS_TEMPLATE", None)
         self.add_setting("SYSTEM_TEMPLATE", "bootleg/system/system.html")
         self.add_setting("DEPLOYMENT_TEMPLATE", "bootleg/system/deployment.html")
         self.add_setting("ERROR_400_TEMPLATE", "bootleg/error/400.html")

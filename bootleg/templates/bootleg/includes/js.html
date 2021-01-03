@@ -37,3 +37,7 @@
 {% for js_file in bootleg_settings.JS_FILES %}
     <script src="{% static js_file %}"></script>
 {% endfor %}
+
+{% if bootleg_settings.JS_TEMPLATE %}
+    {% include bootleg_settings.JS_TEMPLATE %}
+{% endif %}
