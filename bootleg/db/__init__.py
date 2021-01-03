@@ -6,4 +6,4 @@ options.DEFAULT_NAMES = options.DEFAULT_NAMES + ("visible_fields", "filter_field
                                                  "exclude_from_menu", "cloneable", "disable_create_update",
                                                  "allow_deletion", "prefetch_related", "autocomplete_fields",
                                                  "sequence", "public_listing", "disable_autocomplete", "wide_table",
-                                                 "paginator")
+                                                 "paginator", "input_ordering")

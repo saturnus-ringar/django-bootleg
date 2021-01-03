@@ -196,6 +196,14 @@ def get_foreign_key_field(model, field):
         return None
 
 
+def get_input_order_by(model):
+    ordering = get_meta_class_value(model, "input_ordering")
+    if ordering:
+        return ordering
+
+    return get_order_by(model)
+
+
 def get_order_by(model):
     ordering = get_meta_class_value(model, "ordering")
     if ordering:

@@ -1,5 +1,3 @@
-- sätta sekvens på editable_models
-
 http://localhost:8000/list/file/
 ... sorteringen i Source är knepig
 

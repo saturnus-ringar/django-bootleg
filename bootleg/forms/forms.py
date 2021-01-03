@@ -7,9 +7,8 @@ from django.forms import CharField, modelform_factory, SelectMultiple, Select, D
 from django.utils.translation import ugettext as _
 from django_extensions.db.fields import ModificationDateTimeField, CreationDateTimeField
 
-from bootleg.utils.models import get_order_by
 from bootleg.conf import bootleg_settings
-
+from bootleg.utils.models import get_input_order_by
 
 try:
     from django_enumfield.forms.fields import EnumChoiceField
@@ -145,11 +144,11 @@ def get_queryset_for_field(model, field_name):
             # only use "related" (values that actually have been used) models
             ids = list(model.objects.exclude(**{"%s_id" % field_name: None}).distinct().values_list("%s_id" % field_name,
                                                                                                  flat=True))
-            return field.related_model.objects.filter(id__in=ids).order_by(*get_order_by(field.related_model))
+            return field.related_model.objects.filter(id__in=ids).order_by(*get_input_order_by(field.related_model))
 
         if isinstance(field, ManyToManyField):
             # 2020-12-07: I'm not sure this actually works, in the long run. But it works. As of now.
             return field.related_model.objects.filter(**{"%s__isnull" % model._meta.model_name: False})\
-                .all().order_by(*get_order_by(field.related_model))
+                .all().order_by(*get_input_order_by(field.related_model))
     elif field.related_model:
-        return field.related_model.objects.all().order_by(*get_order_by(field.related_model))
+        return field.related_model.objects.all().order_by(*get_input_order_by(field.related_model))
