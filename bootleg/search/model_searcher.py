@@ -92,11 +92,6 @@ class ModelSearcher:
             elif self.forced_query and non_allowed_string.lower in self.forced_query:
                 self.forced_query = str(uuid.uuid4())
 
-        print("self.query: %s" % self.query)
-        print("self.dql_query: %s" % self.dql_query)
-        print("self.forced_query: %s" % self.forced_query)
-
-
     def get_queryset(self):
         prefetch_related = self.model.get_prefetch_related()
         if prefetch_related:
@@ -104,11 +99,8 @@ class ModelSearcher:
         return self.queryset.order_by(*get_order_by(self.model))
 
     def dql_search(self):
-        try:
-            if self.dql_query:
-                self.queryset = apply_search(self.model.objects.all(), self.dql_query)
-        except DjangoQLError as e:
-            pass
+        if self.dql_query:
+            self.queryset = apply_search(self.model.objects.all(), self.dql_query)
 
     # https://stackoverflow.com/a/1239602/9390372
     def query_search(self):

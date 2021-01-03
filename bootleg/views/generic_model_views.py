@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import RedirectView, DetailView
 from django_tables2 import SingleTableView, RequestConfig
+from djangoql.exceptions import DjangoQLError
 from djangoql.serializers import DjangoQLSchemaSerializer
 
 from bootleg.forms.forms import GenericModelSearchForm, ModelFilterFormFactory, DQLSearchForm
@@ -98,7 +99,12 @@ class GenericListView(GenericModelView, SingleTableView):
                                 dql_query=self.request.GET.get("dql", None),
                                 args=get_model_args_from_request(self.model, self.request),
                                 es_limit=self.paginate_by, forced_query=forced_query)
-        self.model_searcher.search()
+        try:
+            self.model_searcher.search()
+        except DjangoQLError as e:
+            messages.add_message(self.request, messages.ERROR,
+                                 _("Could not execute the advanced search. Error: %s" % str(e)))
+            return self.model.objects.none()
         return self.model_searcher.get_queryset()
 
     def get_context_data(self, **kwargs):

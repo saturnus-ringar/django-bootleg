@@ -1,6 +1,8 @@
 {% load bootstrap_tags %}
 {% if messages %}
-    {% for message in messages %}
-        {% get_alert message.tags message %}
-    {% endfor %}
+    <div class="mb-4 mt-4">
+        {% for message in messages %}
+            {% get_alert message.tags message %}
+        {% endfor %}
+    </div>
 {% endif %}
