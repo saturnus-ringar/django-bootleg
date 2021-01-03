@@ -159,6 +159,7 @@ class Settings(Singleton):
         # misch-ish
         ####################################################
         self.add_setting("PRINT_AT_STARTUP", True)
+        self.add_setting("NON_ALLOWED_QUERY_STRINGS", [])
         self.add_setting("ADD_BUILTINS", True)
         self.add_setting("GOOGLE_ANALYTICS_ACCOUNT", None)
         self.add_setting("PROJECT_ABBR", None)

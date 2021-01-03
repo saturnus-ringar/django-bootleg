@@ -1,11 +1,15 @@
+import uuid
+
 from django.db.models import Q
 from djangoql.exceptions import DjangoQLError
 from djangoql.queryset import apply_search
-
+from django.conf import settings
 from bootleg.utils.env import use_elastic_search, is_postgres
 from bootleg.utils.models import SearchResults, get_order_by, filter_autocomplete_fields
 
+
 if is_postgres():
+    # to...fix
     pass
 
 
@@ -70,10 +74,28 @@ class ModelSearcher:
         return False
 
     def search(self):
+        self.cleanup_queries()
         self.dql_search()
         self.query_search()
         self.filter_by_args()
         return self
+
+    def cleanup_queries(self):
+        non_allowed_strings = getattr(settings, "NON_ALLOWED_QUERY_STRINGS", None)
+        for non_allowed_string in non_allowed_strings:
+            print(self.dql_query)
+            # set the queries to something that will never be found: uuid.uuid4()
+            if self.query and non_allowed_string.lower() in self.query.lower():
+                self.query = str(uuid.uuid4())
+            elif self.dql_query and non_allowed_string.lower() in self.dql_query:
+                self.dql_query = self.dql_query.lower().replace(non_allowed_string.lower(), str(uuid.uuid4()))
+            elif self.forced_query and non_allowed_string.lower in self.forced_query:
+                self.forced_query = str(uuid.uuid4())
+
+        print("self.query: %s" % self.query)
+        print("self.dql_query: %s" % self.dql_query)
+        print("self.forced_query: %s" % self.forced_query)
+
 
     def get_queryset(self):
         prefetch_related = self.model.get_prefetch_related()
