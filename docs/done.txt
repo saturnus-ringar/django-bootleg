@@ -1,3 +1,6 @@
+- det här triggar "Clear search filter":
+    http://localhost:8000/***/?sort=average_time_per_entry
+
 - sökikonen på generisk textsök submittar inte formuläret
 
 - den söker två gånger då man trycker på enter i huvudsöken

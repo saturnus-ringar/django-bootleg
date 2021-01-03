@@ -1,4 +1,9 @@
-- om man har "created" i visible_fields för en model krachar uppdateringen:
+- sätta sekvens på editable_models
+
+http://localhost:8000/list/file/
+... sorteringen i Source är knepig
+
+- om man har "created" i visible_fields för en model kraschar uppdateringen:
     django.core.exceptions.FieldError: 'created' cannot be specified for File model form as it is a non-editable field
     ... "modified" med
 
