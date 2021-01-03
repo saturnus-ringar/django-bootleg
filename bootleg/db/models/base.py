@@ -244,6 +244,18 @@ class BaseModel(models.Model):
         return True
 
     ##############################
+    # sorting
+    ##############################
+
+    @classmethod
+    def get_order(cls):
+        order = cls.get_meta_value("order")
+        if order is not None:
+            return str(order)
+
+        return cls._meta.model_name
+
+    ##############################
     # meta
     ##############################
 

@@ -50,7 +50,7 @@
 {% endif %}
 
 <div class="mt-4 mb-4">
-    <strong>{{ paginator.count|intcomma }}</strong> {{ model.meta.verbose_name_plural }} {% trans "found" %}
+    <strong id="model_count">{{ paginator.count|intcomma }}</strong> {{ model.meta.verbose_name_plural }} {% trans "found" %}
 </div>
 
 {% if object_list %}
