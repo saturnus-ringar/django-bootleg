@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, FieldDoesNotExist
 from django.db import models
-from django.db.models import CharField, EmailField, FilePathField
+from django.db.models import CharField, EmailField
 from django.db.models.fields.files import ImageField
 from django.db.models.manager import Manager
 from django.urls import reverse
@@ -132,7 +132,7 @@ class BaseModel(models.Model):
         if search_fields:
             return search_fields
 
-        classes = [CharField, EmailField, TextField, FilePathField]
+        classes = [CharField, EmailField, models.TextField]
         fields = []
         for field in cls._meta.fields:
             if field.__class__ in classes:
@@ -461,7 +461,7 @@ class NameModel(BaseModel):
 
     class Meta:
         abstract = True
-        ordering = ["name"]
+        visible_fields = ["name"]
 
 
 class NameAndDescriptionModel(NameModel):
@@ -476,6 +476,8 @@ class NameAndDescriptionModel(NameModel):
     class Meta:
         abstract = True
         visible_fields = ["name", "description"]
+        ordering = ["name"]
+        search_fields = ["name"]
 
 
 class EditableNameAndDescriptionModel(NameAndDescriptionModel, TimeStampedModel):
@@ -522,4 +524,3 @@ def clean_user(self):
 
 
 User.clean = clean_user
-

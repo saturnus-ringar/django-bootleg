@@ -19,6 +19,18 @@ def register_admin_model(model, admin_class):
     admin.site.register(model, admin_class)
 
 
+def get_default_admin_class(model):
+    from bootleg.admin import ReadOnlyModelAdmin
+    properties = {}
+    if hasattr(model._meta, "visible_fields"):
+        properties = {
+            "list_display": model.get_visible_fields(),
+            "search_fields": model.get_search_field_names(),
+            "list_filter": model.get_filter_field_names()
+        }
+    return type("AdminClass%s" % model._meta.model_name, (ReadOnlyModelAdmin, ), properties)
+
+
 # https://stackoverflow.com/a/44206637/9390372
 def lazy_bulk_fetch(max_obj, max_count, fetch_func, start=0):
     counter = start

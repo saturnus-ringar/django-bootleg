@@ -11,7 +11,7 @@ from bootleg.conf.settings import ConfigurationError, DEFAULT_FAVICON
 from bootleg.system import nix
 from bootleg.system.nix import setup_alias_file, get_home_directory_of_main_user
 from bootleg.utils import models, env
-from bootleg.utils.models import get_editable_models
+from bootleg.utils.models import get_editable_models, get_default_admin_class
 
 
 def check_sql_logging(errors):
@@ -389,13 +389,12 @@ def check_settings(app_configs, **kwargs):
 def register_models_in_admin():
     from django.apps import apps
     from django.contrib import admin
-    from bootleg.admin import ReadOnlyModelAdmin
     models = apps.get_models()
     for model in models:
-        admin_class = type("AdminClass", (ReadOnlyModelAdmin, admin.ModelAdmin), {})
+        clazz = get_default_admin_class(model)
         try:
             if model._meta.app_label in settings.AUTO_ADMIN_APPS:
-                admin.site.register(model, admin_class)
+                admin.site.register(model, clazz)
         except admin.sites.AlreadyRegistered:
             pass
 
@@ -410,4 +409,5 @@ class BootlegConfig(AppConfig):
         models.setup_default_site()
         if env.is_manage():
             setup_alias_file()
+
         register_models_in_admin()
