@@ -122,7 +122,8 @@ class ModelSearcher:
             else:
                 fields = self.model.get_search_field_names()
 
-            self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
+            if fields:
+                self.queryset = self.queryset.filter(self.get_qr(fields)).distinct().order_by("id")
 
     def get_qr_exact(self, fields):
         qr = None
