@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, FieldDoesNotExist
 from django.db import models
-from django.db.models import CharField, EmailField
+from django.db.models import CharField, EmailField, FilePathField
 from django.db.models.fields.files import ImageField
 from django.db.models.manager import Manager
 from django.urls import reverse
@@ -132,7 +132,7 @@ class BaseModel(models.Model):
         if search_fields:
             return search_fields
 
-        classes = [CharField, EmailField, models.TextField]
+        classes = [CharField, EmailField, TextField, FilePathField]
         fields = []
         for field in cls._meta.fields:
             if field.__class__ in classes:
