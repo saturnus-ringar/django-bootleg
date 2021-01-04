@@ -159,6 +159,8 @@ def get_model_dict(model):
 def get_editable_models():
     models = []
     for model in django.apps.apps.get_models():
+        if model._meta.app_label == "bootleg":
+            continue
         if hasattr(model._meta, "visible_fields"):
             models.append(model)
     models.sort(key=lambda x: x.get_order())
