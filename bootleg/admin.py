@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from bootleg.db.models.django_log_entry import DjangoLogEntry
 from bootleg.db.models.javascript_error import JavascriptError
 from bootleg.db.models.javascript_error_message import JavascriptErrorMessage
+from bootleg.db.models.key_value import KeyValue
 from bootleg.db.models.logged_exception import LoggedException
 from bootleg.utils import strings
 
@@ -174,3 +175,8 @@ class JavascriptErrorAdmin(TimeStampedModelAdmin, ReadOnlyHandleAdmin):
 @admin.register(JavascriptErrorMessage)
 class JavascriptErrorMessageAdmin(ReadOnlyModelAdmin):
     list_display = ("message",)
+
+
+@admin.register(KeyValue)
+class KeyValueAdmin(ReadOnlyModelAdmin):
+    list_display = ("key", "value")
