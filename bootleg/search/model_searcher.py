@@ -83,7 +83,6 @@ class ModelSearcher:
     def cleanup_queries(self):
         non_allowed_strings = getattr(settings, "NON_ALLOWED_QUERY_STRINGS", None)
         for non_allowed_string in non_allowed_strings:
-            print(self.dql_query)
             # set the queries to something that will never be found: uuid.uuid4()
             if self.query and non_allowed_string.lower() in self.query.lower():
                 self.query = str(uuid.uuid4())
