@@ -386,6 +386,20 @@ def check_settings(app_configs, **kwargs):
     return errors
 
 
+def register_models_in_admin():
+    from django.apps import apps
+    from django.contrib import admin
+    from bootleg.admin import ReadOnlyModelAdmin
+    models = apps.get_models()
+    for model in models:
+        admin_class = type("AdminClass", (ReadOnlyModelAdmin, admin.ModelAdmin), {})
+        try:
+            if model._meta.app_label in settings.AUTO_ADMIN_APPS:
+                admin.site.register(model, admin_class)
+        except admin.sites.AlreadyRegistered:
+            pass
+
+
 class BootlegConfig(AppConfig):
     name = 'bootleg'
 
@@ -396,3 +410,4 @@ class BootlegConfig(AppConfig):
         models.setup_default_site()
         if env.is_manage():
             setup_alias_file()
+        register_models_in_admin()

@@ -1,6 +1,7 @@
 import django
 from django.apps import apps
 from django.conf import settings
+from django.contrib import admin
 from django.core.exceptions import FieldDoesNotExist
 from django.db import ProgrammingError, OperationalError, models
 from django.db.models import CharField, EmailField
@@ -11,6 +12,11 @@ from djangoql.schema import DjangoQLSchema
 
 from bootleg.conf import bootleg_settings
 from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
+
+
+def register_admin_model(model, admin_class):
+    admin.site.unregister(model)
+    admin.site.register(model, admin_class)
 
 
 # https://stackoverflow.com/a/44206637/9390372
