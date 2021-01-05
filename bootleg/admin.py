@@ -179,4 +179,4 @@ class JavascriptErrorMessageAdmin(ReadOnlyModelAdmin):
 
 @admin.register(KeyValue)
 class KeyValueAdmin(ReadOnlyModelAdmin):
-    list_display = ("key", "value")
+    list_display = ("created", "modified", "key", "value")
