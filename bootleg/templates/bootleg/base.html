@@ -41,6 +41,11 @@
 
 {% block content %}
     {% debug_bl "-> bootleg/base.html" %}
+    {% if view.right_template_name %}
+        <div class="container">
+            <div class="row">
+                <div class="col-7">
+    {% endif %}
     {% if view.page_text %}
         {{ view.page_text }}
     {% endif %}
@@ -52,6 +57,14 @@
     {% endif %}
     {% if extra_text %}
         {{ extra_text|safe }}
+    {% endif %}
+    {% if view.right_template_name %}
+            </div>
+            <div class="col-5">
+                {% include view.right_template_name %}
+            </div>
+        </div>
+    </div>
     {% endif %}
 {% endblock %}
 

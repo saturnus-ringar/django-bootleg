@@ -25,6 +25,11 @@ BLANK_VALUE = "-"
 
 
 @register.simple_tag
+def setvar(val=None):
+  return val
+
+
+@register.simple_tag
 def debug_bl(string):
     if bootleg_settings.BOOTLEG_DEBUG:
         return mark_safe('<div class="text-muted"><small>%s</small></div>' % string)

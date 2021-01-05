@@ -1,9 +1,15 @@
 {% load i18n crispy_forms_tags bootstrap_tags bootleg %}
 {% debug_bl "-> bootleg/form.html" %}
 
+{% setvar "a string" as new_template_var %}
+
+{% if not view.right_template_name %}
+    {% setvar " w-50" as form_help_class %}
+{% endif %}
+
 {% if form.is_search_form %}
     <form id="bootleg_q_form">
-        <div class="input-group w-50">
+        <div class="input-group{{ form_help_class }}">
             {{ form.q }}
             {% render_search_append %}
         </div>
@@ -17,7 +23,7 @@
         </p>
         <div class="collapse {% if request.GET.dql %}show{% endif %}" id="dql_search">
             <form id="bootleg_dql_form">
-                <div class="input-group w-50 mt-3">
+                <div class="input-group{{ form_help_class }} mt-3">
                     {{ dql_form.dql }}
                     {% render_search_append %}
                 </div>
@@ -27,9 +33,9 @@
 {% else %}
     {% if forms or form %}
         {% if bootleg_settings.WRAP_FORMS %}
-            <div class="w-50 bg-light border rounded p-4">
+            <div class="{{ form_help_class }} bg-light border rounded p-4">
         {% else %}
-            <div class="w-50">
+            <div class="{{ form_help_class }}">
         {% endif %}
     {% endif %}
 {% endif %}

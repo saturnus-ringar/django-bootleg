@@ -65,10 +65,9 @@ class BaseModel(models.Model):
     objects = Manager()
 
     def save(self, **kwargs):
-        print("RUNNING!")
         if bootleg_settings.LOG_MODEL_SAVES:
             self.save_logger.info("Saving model: [%s] - [%s] - [%s]" % (self._meta.verbose_name, self.id, str(self)))
-
+        super().save(**kwargs)
 
     ##############################
     # basic thingies
