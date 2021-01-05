@@ -82,14 +82,15 @@ class ModelSearcher:
 
     def cleanup_queries(self):
         non_allowed_strings = getattr(settings, "NON_ALLOWED_QUERY_STRINGS", None)
-        for non_allowed_string in non_allowed_strings:
-            # set the queries to something that will never be found: uuid.uuid4()
-            if self.query and non_allowed_string.lower() in self.query.lower():
-                self.query = str(uuid.uuid4())
-            elif self.dql_query and non_allowed_string.lower() in self.dql_query:
-                self.dql_query = self.dql_query.lower().replace(non_allowed_string.lower(), str(uuid.uuid4()))
-            elif self.forced_query and non_allowed_string.lower in self.forced_query:
-                self.forced_query = str(uuid.uuid4())
+        if non_allowed_strings:
+            for non_allowed_string in non_allowed_strings:
+                # set the queries to something that will never be found: uuid.uuid4()
+                if self.query and non_allowed_string.lower() in self.query.lower():
+                    self.query = str(uuid.uuid4())
+                elif self.dql_query and non_allowed_string.lower() in self.dql_query:
+                    self.dql_query = self.dql_query.lower().replace(non_allowed_string.lower(), str(uuid.uuid4()))
+                elif self.forced_query and non_allowed_string.lower in self.forced_query:
+                    self.forced_query = str(uuid.uuid4())
 
     def get_queryset(self):
         prefetch_related = self.model.get_prefetch_related()
