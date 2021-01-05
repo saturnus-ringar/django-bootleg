@@ -3,7 +3,10 @@ import inspect
 from io import StringIO
 
 from django.core.handlers.wsgi import WSGIRequest
-from django.utils.functional import classproperty
+try:
+    from django.utils.functional import classproperty
+except ImportError:
+    from django.utils.decorators import classproperty
 
 
 class Singleton:
