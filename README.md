@@ -120,6 +120,17 @@ except Exception as e:
     raise e
 ```
 
+## Django admin
+
+Add the apps you want to register (they will be read only) a la:
+
+```python
+AUTO_ADMIN_APPS = ["app_name"]
+
+```
+
+To register your models, use register_admin_model() to register the models manually. This is needed to first ungregister the model from admin since they have been registering in bootleg with AUTO_ADMIN_APPS.
+
 ### Include javascript in your template (if you're not extending bootleg/base.html) - jquery is required
 ```python
 {% compress js %}
