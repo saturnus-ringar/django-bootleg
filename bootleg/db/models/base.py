@@ -24,6 +24,7 @@ from bootleg.utils import strings
 from bootleg.utils.lists import add_unique
 from bootleg.utils.models import get_foreign_key_field
 from bootleg.utils.utils import get_meta_class_value, meta_class_value_is_true
+from bootleg.conf import bootleg_settings
 
 
 ##########################################
@@ -56,10 +57,18 @@ class LoggedExceptionManager(models.Manager):
 
 class BaseModel(models.Model):
 
+    save_logger = logging.get_logger("bootleg/model_saves")
+
     dql_objects = DjangoQLQuerySet.as_manager()
     # adding a default manager here - if I don't I get "type object '<Class>' has no attribute 'objects'"
     # when I added the dql_objects-manager
     objects = Manager()
+
+    def save(self, **kwargs):
+        print("RUNNING!")
+        if bootleg_settings.LOG_MODEL_SAVES:
+            self.save_logger.info("Saving model: [%s] - [%s] - [%s]" % (self._meta.verbose_name, self.id, str(self)))
+
 
     ##############################
     # basic thingies

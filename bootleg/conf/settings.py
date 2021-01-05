@@ -84,6 +84,8 @@ class Settings(Singleton):
         self.add_setting("LOG_SQL", False)
         self.add_setting("LOG_SQL", False)
         self.add_setting("LOG_LEVEL", "INFO")
+        print("SETTING!!")
+        self.add_setting("LOG_MODEL_SAVES", False)
         self.add_setting("DJANGO_LOG_LEVEL", get_debug_settings_value("ERROR", "INFO"))
 
         ####################################################
