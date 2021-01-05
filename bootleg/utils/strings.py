@@ -18,6 +18,12 @@ class TooManyStringsPartsException(Exception):
     pass
 
 
+def shuffle_string(string):
+    string = list(string)
+    random.shuffle(string)
+    return ''.join(string)
+
+
 # https://stackoverflow.com/a/17681902
 def get_email_address(string):
     # this one fails on at least these email addresses:
