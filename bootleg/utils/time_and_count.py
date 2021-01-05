@@ -16,6 +16,9 @@ class TimeAndCount:
     logger = None
 
     def init_tac(self, total_count, logger=None, print_every_th=10, start_count=None, identifier=None):
+        if total_count:
+            raise ValueError("Total count is now allowed to be None/0")
+
         self.print_every_th = print_every_th
         self.start_count = start_count
         self.identifier = identifier
