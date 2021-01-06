@@ -166,6 +166,7 @@ class Settings(Singleton):
         self.add_setting("PROJECT_ABBR", None)
         self.add_setting("AUTOCOMPLETE_LIMIT", 50)
         self.add_setting("AUTO_ADMIN_APPS", [])
+        self.add_setting("EXTRA_MENU_ITEMS", [])
         self.add_setting("DB_BACKEND", connection.vendor)
 
     def add_setting(self, attribute, default=None, required=False):

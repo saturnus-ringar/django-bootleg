@@ -78,6 +78,14 @@ def get_models_dropdown(request, create=False):
     return mark_safe(html)
 
 
+def display_menu_item(request, item):
+    if "public" in item and item["public"] is False:
+        if request.user and request.user.is_staff:
+            return True
+        return False
+    return True
+
+
 def get_main_navigation(request):
     # the models are dicts here, for template usage
     if request.editable_models:
@@ -90,6 +98,10 @@ def get_main_navigation(request):
                 if display_model_in_menu(model, request):
                     html += get_nav_item(model["class"].get_list_url(), model["meta"].verbose_name_plural)
         html += get_models_dropdown(request, create=True)
+        # add custom items, if any
+        for item in bootleg_settings.EXTRA_MENU_ITEMS:
+            if display_menu_item(request, item):
+                html += get_nav_item(item["url"], item["text"])
         html += '</ul>'
     html += get_right_navigation(request)
     return mark_safe(html)
