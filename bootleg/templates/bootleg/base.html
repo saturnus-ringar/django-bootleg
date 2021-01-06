@@ -42,9 +42,9 @@
 {% block content %}
     {% debug_bl "-> bootleg/base.html" %}
     {% if view.right_template_name %}
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-7">
+                <div class="col-6">
     {% endif %}
     {% if view.page_text %}
         {{ view.page_text }}
@@ -60,7 +60,7 @@
     {% endif %}
     {% if view.right_template_name %}
             </div>
-            <div class="col-5">
+            <div class="col-6">
                 {% include view.right_template_name %}
             </div>
         </div>
