@@ -23,7 +23,6 @@ def get_default_admin_class(model):
     from bootleg.admin import ReadOnlyModelAdmin
     properties = {}
     if hasattr(model._meta, "visible_fields"):
-        print(model.get_django_admin_fields())
         properties = {
             "list_display": model.get_django_admin_fields(),
             "search_fields": model.get_search_field_names(),
