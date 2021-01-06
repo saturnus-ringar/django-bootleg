@@ -15,21 +15,25 @@ window.onload = function() {
 $.ajaxSetup({
     error : function(x,e) {
         if(x.status == 0) {
-            alert(Text.unknownError);
+            addMainError(Text.unknownError);
         } else if(x.status == 404) {
-            alert(Text.urlNotFound);
+            addMainError(Text.urlNotFound);
         } else if(x.status == 500) {
-            alert(Text.internalServerError);
+            addMainError(Text.internalServerError);
         } else if(e == 'parsererror') {
-            alert(Text.jsonParseError);
+            addMainError(Text.jsonParseError);
         } else if(e == 'timeout') {
-            alert(Text.requestTimeout);
+            addMainError(Text.requestTimeout);
         } else if(x.status != 400) {
-            alert(Text.unknownError);
+            addMainError(Text.unknownError);
         }
     }
 });
 
+function addMainError(error) {
+    $("#main_error").removeClass("hidden");
+    $("#main_error div").text(error);
+}
 
 $(document).ready(function() {
     initSelect2s();

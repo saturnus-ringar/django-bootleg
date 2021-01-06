@@ -29,11 +29,14 @@ def get_button(text, id=None):
 
 
 @register.simple_tag
-def get_alert(type, text):
+def get_alert(type, text, dismissable=False):
     type = translate_django_type(type)
+    dismiss_class = ""
+    if dismissable:
+        dismiss_class = " alert-dismissible "
     if type not in ALERT_TYPES:
         raise ValueError("The type: %s is not a valid alert type" % type)
-    return mark_safe('<div class="alert alert-%s mt-2" role="alert">%s</div>' % (type, text))
+    return mark_safe('<div class="alert alert-%s mt-2%s" role="alert">%s</div>' % (type, dismiss_class, text))
 
 
 @register.simple_tag

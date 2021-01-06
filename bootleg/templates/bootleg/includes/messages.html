@@ -1,4 +1,7 @@
 {% load bootstrap_tags %}
+<div id="main_error" class="hidden mb-4 mt-4">
+    {% get_alert "danger" "" True %}
+</div>
 {% if messages %}
     <div class="mb-4 mt-4">
         {% for message in messages %}
