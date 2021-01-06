@@ -32,8 +32,10 @@ $.ajaxSetup({
 });
 
 function addMainError(error, reference) {
-    $("#main_error").removeClass("hidden");
-    $("#main_error div").text(error + " - " + Text.reference + ": " + reference);
+    if ($("#main_error").is(":hidden")) {
+        $("#main_error").removeClass("hidden");
+        $("#main_error div strong").text(error + " - " + Text.reference + ": " + reference);
+    }
 }
 
 $(document).ready(function() {

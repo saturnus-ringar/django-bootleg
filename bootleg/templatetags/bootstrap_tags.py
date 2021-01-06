@@ -33,10 +33,17 @@ def get_alert(type, text, dismissable=False):
     type = translate_django_type(type)
     dismiss_class = ""
     if dismissable:
-        dismiss_class = " alert-dismissible "
+        dismiss_class = " alert-dismissible"
     if type not in ALERT_TYPES:
         raise ValueError("The type: %s is not a valid alert type" % type)
-    return mark_safe('<div class="alert alert-%s mt-2%s" role="alert">%s</div>' % (type, dismiss_class, text))
+    html = '<div class="alert alert-%s mt-2%s" role="alert"><strong>%s</strong>\n' % (type, dismiss_class, text)
+    if dismissable:
+        html += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n'
+        html += '<span aria-hidden="true">&times;</span>\n'
+        html += '</button>\n'
+    html += '</div>\n'
+    print(html)
+    return mark_safe(html)
 
 
 @register.simple_tag
