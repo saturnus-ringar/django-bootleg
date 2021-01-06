@@ -1,3 +1,10 @@
+- kunna lägga till custom-länkar i menyn
+
+- Django-admin ska inte vara längst ner i profil-dropdownen
+
+- alerta inte för javascript error om det redan finns en alert
+    ... referens (base64-encodad URL) för felet
+
 - det här triggar "Clear search filter":
     http://localhost:8000/***/?sort=average_time_per_entry
 
