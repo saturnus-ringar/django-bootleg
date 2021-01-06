@@ -109,6 +109,19 @@ class BaseModel(models.Model):
         return cls.is_valid_foreign_field(field_name)
 
     @classmethod
+    def get_django_admin_fields(cls):
+        fields = cls.get_visible_fields()
+        if fields:
+            cleaned_fields = []
+            field_names = cls.get_all_field_names()
+            for field in fields:
+                if field in field_names:
+                   cleaned_fields.append(field)
+            fields = cleaned_fields
+
+        return fields
+
+    @classmethod
     def get_visible_fields(cls):
         fields = cls.get_meta_list("visible_fields")
         if fields == "__all__":
