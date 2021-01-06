@@ -14,25 +14,26 @@ window.onload = function() {
 
 $.ajaxSetup({
     error : function(x,e) {
+        var reference = btoa($(this)[0].url);
         if(x.status == 0) {
-            addMainError(Text.unknownError);
+            addMainError(Text.unknownError, reference);
         } else if(x.status == 404) {
-            addMainError(Text.urlNotFound);
+            addMainError(Text.urlNotFound, reference);
         } else if(x.status == 500) {
-            addMainError(Text.internalServerError);
+            addMainError(Text.internalServerError, reference);
         } else if(e == 'parsererror') {
-            addMainError(Text.jsonParseError);
+            addMainError(Text.jsonParseError, reference);
         } else if(e == 'timeout') {
-            addMainError(Text.requestTimeout);
+            addMainError(Text.requestTimeout, reference);
         } else if(x.status != 400) {
-            addMainError(Text.unknownError);
+            addMainError(Text.unknownError, reference);
         }
     }
 });
 
-function addMainError(error) {
+function addMainError(error, reference) {
     $("#main_error").removeClass("hidden");
-    $("#main_error div").text(error);
+    $("#main_error div").text(error + " - " + Text.reference + ": " + reference);
 }
 
 $(document).ready(function() {
