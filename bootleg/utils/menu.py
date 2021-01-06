@@ -49,9 +49,9 @@ def get_right_dropdown(request):
         html += '<ul class="nav navbar-nav navbar-right">\n'
         html += get_dropdown_head("profile_dropdown", request.user.username, "float-right")
         html += get_dropdown_item(reverse("bootleg:change_password"), _("Change password"))
-        html += get_dropdown_item(reverse("bootleg:logout"), _("Log out"))
         if request.user.is_superuser:
             html += get_dropdown_item(reverse("admin:index"), _("Django-admin"))
+        html += get_dropdown_item(reverse("bootleg:logout"), _("Log out"))
         html += get_dropdown_foot()
     return mark_safe(html)
 
