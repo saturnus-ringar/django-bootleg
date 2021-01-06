@@ -1,12 +1,11 @@
 import uuid
 
-from django.db.models import Q
-from djangoql.exceptions import DjangoQLError
-from djangoql.queryset import apply_search
 from django.conf import settings
+from django.db.models import Q
+from djangoql.queryset import apply_search
+
 from bootleg.utils.env import use_elastic_search, is_postgres
 from bootleg.utils.models import SearchResults, get_order_by, filter_autocomplete_fields
-
 
 if is_postgres():
     # to...fix
