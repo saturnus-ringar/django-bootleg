@@ -26,18 +26,16 @@ class TimeAndCount:
         if logger:
             self.logger = logger
 
-    def update_tac(self, number=1):
+    def update_tac(self, number=1, message=None):
         self.tac_number_run += number
-        if not self.tac_total_count:
-            return
-        percent_done = round((self.tac_number_run / self.tac_total_count) * 100, 1)
-        elapsed_time = time.time() - self.tac_start_time
-        average_time = elapsed_time / self.tac_number_run
-        expected_time_left = int(round((self.tac_total_count - self.tac_number_run) * average_time, 0))
         if self.tac_number_run % self.print_every_th == 0:
-            self.print_tac_message(percent_done, expected_time_left, elapsed_time, average_time)
+            percent_done = round((self.tac_number_run / self.tac_total_count) * 100, 1)
+            elapsed_time = time.time() - self.tac_start_time
+            average_time = elapsed_time / self.tac_number_run
+            expected_time_left = int(round((self.tac_total_count - self.tac_number_run) * average_time, 0))
+            self.print_tac_message(percent_done, expected_time_left, elapsed_time, average_time, message=message)
 
-    def print_tac_message(self, percent_done, expected_time_left, elapsed_time, average_time):
+    def print_tac_message(self, percent_done, expected_time_left, elapsed_time, average_time, message=None):
         delta_running_time = datetime.timedelta(seconds=elapsed_time)
         msg = _("Done: ")
         msg += intcomma(self.tac_number_run) + "/" + intcomma(self.tac_total_count)
@@ -49,11 +47,14 @@ class TimeAndCount:
                                                                                    minimum_unit="minutes", format="%0.0f")
         msg += " - " + _("Running time") + ": " + humanize.precisedelta(delta_running_time, minimum_unit="minutes",
                                                                         format="%0.0f")
-        msg += " - " + _("Average time per entry") + ": " + str(round(average_time, 5)) + "s"
+        msg += " - " + _("Avg. time/row") + ": " + str(round(average_time, 5)) + "s"
+        msg += " - " + _("Rows/h") + ": " + intcomma(int(100 / average_time * 60 * 60))
         msg += " - " + _("Memory usage") + ": " + get_humanized_memory_usage()
 
         if self.identifier:
-            msg += " Running: %s" % self.identifier
+            msg += " - Running: %s" % self.identifier
+        if message:
+            msg += " - " + message
 
         if self.logger:
             self.logger.info(msg)
