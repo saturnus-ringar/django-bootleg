@@ -42,7 +42,6 @@ def get_alert(type, text, dismissable=False):
         html += '<span aria-hidden="true">&times;</span>\n'
         html += '</button>\n'
     html += '</div>\n'
-    print(html)
     return mark_safe(html)
 
 
