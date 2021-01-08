@@ -43,6 +43,8 @@ class TimeAndCount:
             if lines == 0:
                 lines = self.tac_number_run
             average_time = elapsed_time / lines
+            dx("elapsed time: %s" % elapsed_time)
+            dx("lines: %s" % lines)
             expected_time_left = int(round((self.tac_total_count - self.tac_number_run) * average_time, 0))
             self.print_tac_message(percent_done, expected_time_left, elapsed_time, average_time, message=message)
 
@@ -79,7 +81,7 @@ class TimeAndCount:
         msg += " - " + _("Running time") + ": " + humanize.precisedelta(delta_running_time, minimum_unit="minutes",
                                                                         format="%0.0f")
         msg += " - " + _("Avg. time/row") + ": " + str(round(average_time, 5)) + "s"
-        msg += " - " + _("Rows/h") + ": " + intcomma(int(100 / average_time * 60))
+        msg += " - " + _("Rows/h") + ": " + intcomma(int((1 / average_time) * 60 * 60))
         msg += " - " + _("Memory usage") + ": " + get_humanized_memory_usage()
 
         if self.identifier:
