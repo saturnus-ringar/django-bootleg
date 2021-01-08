@@ -1,3 +1,8 @@
+- dismissable varning på ajax-fel
+
+- krasch:
+    http://localhost:8000/django-admin/core/file/
+
 - kunna lägga till custom-länkar i menyn
 
 - Django-admin ska inte vara längst ner i profil-dropdownen

@@ -8,9 +8,12 @@ from django.utils.translation import ugettext as _
 METHOD_GET = "GET"
 
 
-def get_default_form_helper(submit_text, inline=False, method="POST"):
+def get_default_form_helper(submit_text, inline=False, method="POST", css_class=None):
+    clazz = "btn-primary"
+    if css_class:
+        clazz = css_class
     helper = FormHelper()
-    helper.add_input(Submit('submit', submit_text, css_class="loading-button"))
+    helper.add_input(Submit('submit', submit_text, css_class="loading-button %s" % clazz))
     helper.form_id = "bootleg_form"
     helper.form_method = method
     if inline:

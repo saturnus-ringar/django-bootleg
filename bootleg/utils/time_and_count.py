@@ -39,7 +39,10 @@ class TimeAndCount:
         if self.should_process_tac():
             percent_done = round((self.tac_number_run / self.tac_total_count) * 100, 1)
             elapsed_time = time.time() - self.tac_start_time
-            average_time = elapsed_time / (self.tac_number_run - self.get_count_reduce())
+            lines = self.tac_number_run - self.get_count_reduce()
+            if lines == 0:
+                lines = self.tac_number_run
+            average_time = elapsed_time / lines
             expected_time_left = int(round((self.tac_total_count - self.tac_number_run) * average_time, 0))
             self.print_tac_message(percent_done, expected_time_left, elapsed_time, average_time, message=message)
 

@@ -431,9 +431,12 @@ class BaseModel(models.Model):
         else:
             return mark_safe("<a href='%s' target='_blank'>%s</a>" % (self.get_admin_url(), self.get_admin_url()))
 
-    def get_button_link(self, url, text):
-        return mark_safe('<a href="%s"><button class ="btn btn-primary btn-sm">%s</button></a>'
-                         % (url, text))
+    def get_button_link(self, url, text, css_class=None):
+        clazz = "btn-primary"
+        if css_class:
+            clazz = css_class
+        return mark_safe('<a href="%s"><button class ="btn %s btn-sm">%s</button></a>'
+                         % (url, clazz, text))
 
     def get_detail_link(self):
         return self.get_button_link(self.get_detail_url(), _("View"))
