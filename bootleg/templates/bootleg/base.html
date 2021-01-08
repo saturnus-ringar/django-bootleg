@@ -31,13 +31,14 @@
 {% include bootleg_settings.NAVIGATION_TEMPLATE %}
 
 <main role="main" id="main" class="{{ bootleg_settings.CONTAINER_CSS_CLASS }}">
-{% include "bootleg/includes/messages.html" %}
 <h1>
 {% block h1 %}
     {% get_first_with_value heading view.heading page_title view.page_title %}
 {% endblock %}
 </h1>
 {% endif %}
+
+{% include "bootleg/includes/messages.html" %}
 
 {% block content %}
     {% debug_bl "-> bootleg/base.html" %}
