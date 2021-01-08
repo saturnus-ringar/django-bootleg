@@ -57,3 +57,13 @@ class ErrorTestView(StaffRequiredTemplateView):
 
 class DjangoQLHelpView(BaseTemplateView):
     template_name = "bootleg/djangoql_help.html"
+
+
+class ErrorView(BaseTemplateView):
+    page_title = _("Error")
+    template_name = "bootleg/black_hole.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.error = request.GET.get("message")
+        messages.error(request, self.error)
+        return super().dispatch(request, *args, **kwargs)

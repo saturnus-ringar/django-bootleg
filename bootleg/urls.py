@@ -14,7 +14,7 @@ from bootleg.views.auth_views import CustomLoginView, LogoutView, change_passwor
 from bootleg.views.generic_model_views import GenericListView, GenericModelCreateView, GenericModelUpdateView, \
     GenericModelCloneView, GenericModelDetailView, GenericModelDeleteView
 from bootleg.views.json_views import JSONAutocompleteView, JSONFieldAutocompleteView
-from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView, DjangoQLHelpView
+from bootleg.views.views import DevNullView, CrashView, ErrorTestView, CreatedView, DjangoQLHelpView, ErrorView
 from bootleg.views.ajax_views import JavascriptErrorView
 
 # setup, indeed
@@ -86,6 +86,11 @@ urlpatterns = [
     path("deploy/info/", DeployInfoView.as_view(), name="deploy_info"),
     path("system/info/", SystemInfoView.as_view(), name="system_info"),
     path("system/debug/", DebugView.as_view(), name="debug"),
+
+    #######################################
+    # errors
+    #######################################
+    path("error/", ErrorView.as_view(), name="general_error"),
 
     #######################################
     # error page test
