@@ -45,6 +45,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
+                    {% if view.extra_template %}
+                        {% include view.extra_template %}
+                    {% endif %}
     {% endif %}
     {% if view.page_text %}
         {{ view.page_text }}
