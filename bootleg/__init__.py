@@ -1,4 +1,4 @@
-__version__ = "1.93o"
+__version__ = "1.94o"
 default_app_config = "bootleg.apps.BootlegConfig"
 
 
