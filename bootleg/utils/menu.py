@@ -97,7 +97,8 @@ def get_main_navigation(request):
         for item in bootleg_settings.EXTRA_MENU_ITEMS:
             if display_menu_item(request, item):
                 html += get_nav_item(item["url"], item["text"])
-ad        if bootleg_settings.EDITABLE_IN_DROPDOWN:
+
+        if bootleg_settings.EDITABLE_IN_DROPDOWN:
             html += get_models_dropdown(request, create=False)
         else:
             # not in dropdowns
