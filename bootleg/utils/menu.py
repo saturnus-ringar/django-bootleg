@@ -87,10 +87,17 @@ def display_menu_item(request, item):
 
 
 def get_main_navigation(request):
+    if request.GET.get("skip_menu", None):
+        return ""
+
     # the models are dicts here, for template usage
     if request.editable_models:
         html = '<ul class="nav navbar-nav mr-auto float-left">\n'
-        if bootleg_settings.EDITABLE_IN_DROPDOWN:
+        # add custom items, if any
+        for item in bootleg_settings.EXTRA_MENU_ITEMS:
+            if display_menu_item(request, item):
+                html += get_nav_item(item["url"], item["text"])
+ad        if bootleg_settings.EDITABLE_IN_DROPDOWN:
             html += get_models_dropdown(request, create=False)
         else:
             # not in dropdowns
@@ -98,10 +105,6 @@ def get_main_navigation(request):
                 if display_model_in_menu(model, request):
                     html += get_nav_item(model["class"].get_list_url(), model["meta"].verbose_name_plural)
         html += get_models_dropdown(request, create=True)
-        # add custom items, if any
-        for item in bootleg_settings.EXTRA_MENU_ITEMS:
-            if display_menu_item(request, item):
-                html += get_nav_item(item["url"], item["text"])
         html += '</ul>'
     html += get_right_navigation(request)
     return mark_safe(html)
