@@ -317,10 +317,10 @@ And add the model to the PROFILE_MODEL-setting:
 ```python
 # settings.py
 
-**SETTINGS_TO_PRINT = {
+SETTINGS_TO_PRINT = {
     "CUSTOM_SETTING": CUSTOM_SETTING,
     "CUSTOM_SETTING_ONCE_AGAIN": "This will be printed"
-}**
+}
 ```
 
 ## Bash aliases (somewhat questionable? I like it.)
