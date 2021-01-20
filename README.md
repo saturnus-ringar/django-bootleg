@@ -309,7 +309,7 @@ And add the model to the PROFILE_MODEL-setting:
 
 ```python
 # settings.py
-PROFILE_MODEL = "core.UserProfile"
+**PROFILE_MODEL** = "core.UserProfile"
 ```
 
 ## Add custom settings that will be printed at startup
@@ -317,10 +317,10 @@ PROFILE_MODEL = "core.UserProfile"
 ```python
 # settings.py
 
-SETTINGS_TO_PRINT = {
+**SETTINGS_TO_PRINT = {
     "CUSTOM_SETTING": CUSTOM_SETTING,
     "CUSTOM_SETTING_ONCE_AGAIN": "This will be printed"
-}
+}**
 ```
 
 ## Bash aliases (somewhat questionable? I like it.)
