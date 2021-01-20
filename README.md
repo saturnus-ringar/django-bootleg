@@ -164,20 +164,7 @@ STATIC_ROOT - will default to "/static/" if it's not added to the settings
 </nav>
 ```
 
-## Reversing URLs
-Get the URL to the System info page
-
-```python
-{% url "bootleg:system_info" %}
-
 ```
-Get the URL to the Deployment page
-
-```python
-{% url "bootleg:deploy_info" %}
-
-```
-
 ## Templates/Template settings
 
 BASE_TEMPLATE - default **None**
@@ -265,7 +252,6 @@ FAVICON_FILE = default **'bootleg/img/favicon.ico'**
 BRANDING_LOGO = default **None**
 > Used in Django admin - Example: 'website/img/logo.png'
 
-
 WRAP_FORMS = default **True**
 > Will wrap the forms with bg-light
 
@@ -336,7 +322,7 @@ SETTINGS_TO_PRINT = {
 }
 ```
 
-## Bash aliases
+## Bash aliases (somewhat questionable? I like it.)
 bootleg generates an <project_name>aliases.sh-file in the users home directory. Source that file in your .bashrc to use the aliases. The alias file is only created when manage.py is run. So in case you want to update/create the alias files, just run any manage.py command.
 
 Use the **PROJECT_ABBR**-setting to prefix the aliases and, for development, set your local user account to **MAIN_USER** to generate the alias files.
