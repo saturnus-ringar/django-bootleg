@@ -164,9 +164,10 @@ STATIC_ROOT - will default to "/static/" if it's not added to the settings
 </nav>
 ```
 
-```
+
 ## Templates/Template settings
 
+```
 BASE_TEMPLATE - default **None**
 > Example: 'website/base.html'
 
