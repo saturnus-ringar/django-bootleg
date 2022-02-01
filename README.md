@@ -331,7 +331,7 @@ PROJECT_ABBR - default **None**
 ```bash
 # .bashrc
 
-source /home/nbcab/aliases_<project_name>.sh
+source /home/<project_name>/aliases_<project_name>.sh
 
 ```
 
