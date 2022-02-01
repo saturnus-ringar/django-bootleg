@@ -1,11 +1,10 @@
+## Somwhat Under Construction
+
 # django-bootleg
 Django additions, tools and ...stuff...
 
-## Under Construction
-
 ## Features
 ... #todo ...
-
 
 ## Installation
 ```sh
