@@ -1,4 +1,4 @@
-## Somwhat Under Construction
+## Somewhat Under Construction
 
 # django-bootleg
 Django additions, tools and ...stuff...
