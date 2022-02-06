@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 install_requires = [
     "automodinit == 0.16",
     "colorama == 0.4",
-    "django >= 3.0.11",
+    "django == 3.1.14",
     "django-annoying == 0.10.6",
     "django_compressor == 2.4",
     "django-crispy-forms == 1.9",
@@ -16,7 +16,7 @@ install_requires = [
     "django-jsonview == 2.0.0",
     "django-tables2 > 2.2",
     "django-user-agents == 0.4.0",
-    "elasticsearch-dsl == 7.4.0",
+    "elasticsearch-dsl == 7.3.0",
     "djangoql == 0.14.2",
     "GitPython == 3.1",
     "giturlparse == 0.9.2",
