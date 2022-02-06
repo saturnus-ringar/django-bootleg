@@ -1,4 +1,4 @@
-## Somwhat Under Construction
+## Somewhat Under Construction
 
 # django-bootleg
 Django additions, tools and ...stuff...
@@ -8,7 +8,7 @@ Django additions, tools and ...stuff...
 
 ## Installation
 ```sh
-$ pip install git+https://saturnus-ringar-bot:5yXMrbdefJfB5Rgu@github.com/saturnus-ringar/django-bootleg.git
+$ pip install git+https://github.com/saturnus-ringar/django-bootleg.git
 ```
 
 ## Configure
@@ -31,7 +31,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'django_extensions',
     'django_user_agents',
-    'django_tables2','
+    'django_tables2',
     'django_elasticsearch_dsl',
     # bootleg
     'bootleg',
