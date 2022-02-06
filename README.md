@@ -31,7 +31,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'django_extensions',
     'django_user_agents',
-    'django_tables2','
+    'django_tables2',
     'django_elasticsearch_dsl',
     # bootleg
     'bootleg',
