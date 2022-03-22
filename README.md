@@ -1,10 +1,10 @@
-# ...Under Construction...
+# -> Under Construction <-
 
 # django-bootleg
-Django additions, tools and ...stuff...
+A project to simplify the creation of basic Django projects. May be released as a package. One of these days.
 
 ## Features
-... #todo ...
+...TODO
 
 ## Installation
 ```sh
@@ -322,7 +322,7 @@ SETTINGS_TO_PRINT = {
 }
 ```
 
-## Bash aliases (somewhat questionable? I like it.)
+## Bash aliases
 bootleg generates an <project_name>aliases.sh-file in the users home directory. Source that file in your .bashrc to use the aliases. The alias file is only created when manage.py is run. So in case you want to update/create the alias files, just run any manage.py command.
 
 Use the **PROJECT_ABBR**-setting to prefix the aliases and, for development, set your local user account to **MAIN_USER** to generate the alias files.
